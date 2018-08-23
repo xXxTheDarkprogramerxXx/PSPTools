@@ -1,0 +1,5 @@
+c:\users\3deechelon\documents\visual studio 2015\Projects\PSP_PBP_Tools\PSP_Tools\bin\Debug\PSP_Tools.dll
+c:\users\3deechelon\documents\visual studio 2015\Projects\PSP_PBP_Tools\PSP_Tools\bin\Debug\PSP_Tools.pdb
+c:\users\3deechelon\documents\visual studio 2015\Projects\PSP_PBP_Tools\PSP_Tools\obj\Debug\PSP_Tools.csprojResolveAssemblyReference.cache
+c:\users\3deechelon\documents\visual studio 2015\Projects\PSP_PBP_Tools\PSP_Tools\obj\Debug\PSP_Tools.dll
+c:\users\3deechelon\documents\visual studio 2015\Projects\PSP_PBP_Tools\PSP_Tools\obj\Debug\PSP_Tools.pdb
