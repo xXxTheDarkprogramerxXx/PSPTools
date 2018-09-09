@@ -466,7 +466,7 @@ namespace PSP_Tools
 
                 //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
                 //ORIGINAL LINE: uint *index_buf = null;
-                public static byte[] index_buf = null ;
+                public static char[] index_buf = null ;
                 //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
                 //ORIGINAL LINE: uint *crc_buf = null;
                 public static byte[] crc_buf = null;
@@ -562,24 +562,20 @@ namespace PSP_Tools
 
                     // allocate index block
                     index_size = (ciso_total_block + 1) * sizeof(uint);
-                    index_buf = new byte[20];
-                    block_buf1 = new byte[BitConverter.GetBytes(ciso.block_size).Length];
-                    block_buf2 = new byte[(BitConverter.GetBytes(ciso.block_size * 2)).Length];
-                    //malloc does not exist in c# //orginal line code 
                     //index_buf  = malloc(index_size);
-                    Array.Copy(BitConverter.GetBytes(index_size),index_buf, BitConverter.GetBytes(index_size).Length);
+                    index_buf = new char[index_size];
 
                     //block_buf1 = malloc(ciso.block_size);
-                    Array.Copy(BitConverter.GetBytes(ciso.block_size), block_buf1, BitConverter.GetBytes(ciso.block_size).Length);
+                    block_buf1 = new byte[ciso.block_size];
 
                     //block_buf2 = malloc(ciso.block_size*2);
-                    Array.Copy((BitConverter.GetBytes(ciso.block_size * 2)), block_buf2, (BitConverter.GetBytes(ciso.block_size * 2)).Length);
+                    block_buf2 = new byte[(ciso.block_size * 2)];
 
-                    //c# doesn't have memset need to resolve this 
+                    //c# doesn't have memset no need to resolve this as we know the address is clean
                     // memset(index_buf, 0, index_size);
 
                     // read index block
-                    if (new BinaryReader(fin).Read(index_buf, 1, index_size) != index_size)
+                    if (new BinaryReader(fin).Read(index_buf, 0, index_size) !=index_size)
                     {
                         Console.Write("file read error\n");
                         return 1;
@@ -593,7 +589,11 @@ namespace PSP_Tools
                     Console.Write("index align     {0:D}\n", 1 << ciso.align);
 
                     // init zlib
-                    z.deflateInit(0);//decompress
+                    //z.deflateInit(0);//decompress
+                    //z.zalloc = Z_NULL;
+                    //z.zfree = Z_NULL;
+                    //z.opaque = Z_NULL;
+                    //z.free();
 
 
                     // decompress data
@@ -607,10 +607,13 @@ namespace PSP_Tools
                             percent_cnt = percent_period;
                             Console.Write("decompress {0:D}%\r", block / percent_period);
                         }
+                        if (z.inflateInit(-15) != zlibConst.Z_OK)
+                        {
+                            //printf("deflateInit : %s\n", (z.msg) ? z.msg : "???");
+                            return 1;
+                        }
 
-                        
 
-                        // check index
                         index = index_buf[block];
                         plain = Convert.ToInt32(index & 0x80000000);
                         index &= 0x7fffffff;
@@ -635,7 +638,8 @@ namespace PSP_Tools
 
                         if (plain != 0)
                         {
-                            //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                            //No memcpy in c# 
+                            //memcpy(block_buf1,block_buf2,read_size);
                             Array.Copy(block_buf1, block_buf2, Convert.ToInt32(read_size));
                             cmp_size = Convert.ToInt32(read_size);
                         }
@@ -644,11 +648,11 @@ namespace PSP_Tools
                             z.next_out = block_buf1;
                             z.avail_out = Convert.ToInt32(ciso.block_size);
                             z.next_in = block_buf2;
-                            status = z.inflate(zlibConst.Z_FULL_FLUSH);//inflate(&z, Z_FULL_FLUSH);
-                            if (status != zlibConst.Z_OK)
+                            status = z.inflate(zlibConst.Z_FULL_FLUSH); //inflate(&z, Z_FULL_FLUSH);
+                            if (status != zlibConst.Z_STREAM_END)
                             {
                                 //if (status != Z_OK)
-                                //Console.Write("block {0:D}:inflate : {1}[{2:D}]\n", block, (z.msg) ? z.msg : "error", status);
+                                Console.Write("block {0:D}:inflate : {1}[{2:D}]\n", block, z.msg, status);
                                 return 1;
                             }
                             cmp_size = Convert.ToInt32(ciso.block_size - z.avail_out);
@@ -801,6 +805,8 @@ namespace PSP_Tools
                     {
                         result = decomp_ciso();
                     }
+                    fin.Close();
+                    fout.Close();
                 }
             }
 

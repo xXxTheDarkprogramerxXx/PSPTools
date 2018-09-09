@@ -29,7 +29,7 @@ namespace PSP_PBP_Tools
             if (thedialog.ShowDialog() == DialogResult.OK)
             {
 
-                PSP_Tools.UMD.CISO.GlobalMembers.Decompress_CISO(thedialog.FileName.Replace(".cso", ".iso"), thedialog.FileName);
+                PSP_Tools.UMD.CISO.GlobalMembers.Decompress_CISO(thedialog.FileName.Replace(".cso", "Test.iso"), thedialog.FileName);
                 
 
             }
