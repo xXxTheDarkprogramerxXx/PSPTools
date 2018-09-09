@@ -34,6 +34,7 @@ namespace PSP_PBP_Tools
 
                 try
                 {
+                    pbp = new PSP_Tools.Pbp();
                     pbp.LoadPbp(thedialog.FileName);
 
                     byte[] paramsfo = pbp.ReadFileFromPBP(PSP_Tools.Pbp.DataType.ParamSfo);
@@ -135,6 +136,18 @@ namespace PSP_PBP_Tools
         {
 
             MessageBox.Show("Extraction Completed");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            if (System.Windows.Forms.DialogResult.OK == saveFileDialog1.ShowDialog())
+            {
+                
+                pbp.WritePBPFiles(saveFileDialog1.SelectedPath, pspdata: "EBOOT.BIN", psrdata: "DATA.BIN",make_eboot_boot:false);
+
+                MessageBox.Show("Extraction Completed");
+            }
         }
     }
 }

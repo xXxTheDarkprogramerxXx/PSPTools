@@ -16,7 +16,18 @@ namespace PSP_PBP_Tools
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            ////to go to PBP Tools
+            //Application.Run(new Form1());
+
+            ////to go to GIM tools
+            //Application.Run(new GIM());
+
+            ////to go to UMD tools
+            //Application.Run(new UMDSign());
+
+            ////to go to UMD CSO ISO Tool
+            Application.Run(new CSO_ISO_Reader());
         }
     }
 }

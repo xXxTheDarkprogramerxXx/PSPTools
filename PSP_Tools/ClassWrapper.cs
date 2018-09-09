@@ -1,6 +1,32 @@
-﻿using System;
+﻿/* Copyright (c) 2015 - 2018 TheDarkporgramer
+*
+* This was originally done by Leecherman https://sites.google.com/site/theleecherman (I have no idea who you are but you do some great work !)
+* All modifications have been TheDarkporgramer (sfo ext ext ) https://github.com/xXxTheDarkprogramerxXx
+* 
+* This(software Is provided) 'as-is', without any express or implied
+* warranty. In no event will the authors be held liable for any damages arising from the use of this software.
+*
+* Permission is granted to anyone to use this software for any purpose,
+* including commercial applications*, and to alter it and redistribute it
+* freely, subject to the following restrictions:
+*
+* 1. The origin of this software must not be misrepresented; you must not
+*   claim that you wrote the original software. If you use this software
+*   in a product, an acknowledge in the product documentation is required.
+*
+* 2. Altered source versions must be plainly marked as such, and must not
+*    be misrepresented as being the original software.
+*
+* 3. This notice may not be removed or altered from any source distribution.
+*
+* *Contact must be made to discuses permission and terms.
+*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -78,6 +104,8 @@ namespace PSP_Tools
 
         public void LoadPbp(Stream PbpStrm, long Pos)
         {
+            this.PbpFiles.Clear();
+
             PbpStrm.Seek(Pos, SeekOrigin.Begin);
             this.PbpStream = PbpStrm;
             byte[] array = new byte[4];
@@ -235,6 +263,94 @@ namespace PSP_Tools
             }
         }
 
+
+        public void WritePBPFiles(string SaveDir,string pspdata = "PSP.DATA", string psrdata = "psar.data",bool make_eboot_boot = false)
+        {
+
+            if (!Directory.Exists(SaveDir))
+            {
+                Directory.CreateDirectory(SaveDir);
+            }
+
+            if(!Directory.Exists(SaveDir +"\\PSP_GAME"))
+            {
+                Directory.CreateDirectory(SaveDir + "\\PSP_GAME");
+            }
+
+            if (!Directory.Exists(SaveDir + "\\PSP_GAME\\"))
+            {
+                Directory.CreateDirectory(SaveDir + "\\PSP_GAME");
+            }
+
+            if(!Directory.Exists(SaveDir + "\\PSP_GAME\\SYSDIR\\"))
+            {
+                Directory.CreateDirectory(SaveDir  + "\\PSP_GAME\\SYSDIR\\");
+            }
+
+            byte[] array = this.ReadFileFromPBP(DataType.ParamSfo);
+            if (array != null &&array.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\" + this.Names[(int)DataType.ParamSfo].ToUpper(), array);
+            }
+
+
+            byte[] arraypspdaya = this.ReadFileFromPBP(DataType.PspData);
+            if (arraypspdaya != null &&arraypspdaya.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\SYSDIR\\"+ pspdata.ToUpper(), arraypspdaya);
+                if(make_eboot_boot == true)
+                {
+                    System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\SYSDIR\\BOOT.BIN", arraypspdaya);
+                }
+            }
+
+            
+
+            /*	ParamSfo,
+			Icon0Png,
+			Icon1Pmf,
+			Pic0Png,
+			Pic1Png,
+			Snd0At3,
+			PspData,
+			PsarData*/
+            byte[] Icon0Png = this.ReadFileFromPBP(DataType.Icon0Png);
+            if (Icon0Png != null &&Icon0Png.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\" + this.Names[(int)DataType.Icon0Png].ToUpper(), Icon0Png);
+            }
+
+            byte[] Icon1Pmf = this.ReadFileFromPBP(DataType.Icon1Pmf);
+            if (Icon1Pmf != null &&Icon1Pmf.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\" + this.Names[(int)DataType.Icon1Pmf].ToUpper(), Icon0Png);
+            }
+
+            byte[] Pic0Png = this.ReadFileFromPBP(DataType.Pic0Png);
+            if (Pic0Png != null &&Pic0Png.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\" + this.Names[(int)DataType.Pic0Png].ToUpper(), Pic0Png);
+            }
+
+            byte[] Pic1Png = this.ReadFileFromPBP(DataType.Pic1Png);
+            if (Pic1Png != null &&Pic1Png.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\" + this.Names[(int)DataType.Pic1Png].ToUpper(), Pic1Png);
+            }
+
+            byte[] Snd0At3 = this.ReadFileFromPBP(DataType.Snd0At3);
+            if (Snd0At3 != null &&Snd0At3.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\" + this.Names[(int)DataType.Snd0At3].ToUpper(), Snd0At3);
+            }
+
+            byte[] PsarData = this.ReadFileFromPBP(DataType.PsarData);
+            if (PsarData != null &&PsarData.Length != 0)
+            {
+                System.IO.File.WriteAllBytes(SaveDir + "\\PSP_GAME\\SYSDIR\\" + psrdata.ToUpper(), PsarData);
+            }
+        }
+
         public byte[] ReadFileFromPBP(Pbp.DataType dataType)
         {
             byte[] result;
@@ -252,6 +368,7 @@ namespace PSP_Tools
             {
                 result = null;
             }
+
             return result;
         }
 
@@ -677,4 +794,1216 @@ namespace PSP_Tools
                 .ToArray();
         }
     }
+
+    #region << Gim >>
+
+    public interface IPixelOrderIterator
+    {
+        int X { get; }
+        int Y { get; }
+        void Next();
+    }
+
+    public class TiledPixelOrderIterator : IPixelOrderIterator
+    {
+        int Width;
+        int Height;
+
+        int CurrentTileX;
+        int CurrentTileY;
+        int CounterInTile;
+
+        int TileWidth;
+        int TileHeight;
+
+        public TiledPixelOrderIterator(int width, int height, int tileWidth, int tileHeight)
+        {
+            Width = width;
+            Height = height;
+            CurrentTileX = 0;
+            CurrentTileY = 0;
+            CounterInTile = 0;
+            TileWidth = tileWidth;
+            TileHeight = tileHeight;
+        }
+
+        public int X { get { return CurrentTileX + (CounterInTile % TileWidth); } }
+        public int Y { get { return CurrentTileY + (CounterInTile / TileWidth); } }
+
+        public void Next()
+        {
+            ++CounterInTile;
+
+            if (CounterInTile == TileWidth * TileHeight)
+            {
+                CounterInTile = 0;
+                CurrentTileX += TileWidth;
+                if (CurrentTileX >= Width)
+                {
+                    CurrentTileX = 0;
+                    CurrentTileY += TileHeight;
+                }
+            }
+        }
+    }
+
+    public class LinearPixelOrderIterator : IPixelOrderIterator
+    {
+        int Width;
+        int Height;
+        int Counter;
+
+        public LinearPixelOrderIterator(int width, int height)
+        {
+            Width = width;
+            Height = height;
+            Counter = 0;
+        }
+
+        public int X { get { return Counter % Width; } }
+        public int Y { get { return Counter / Width; } }
+
+        public void Next()
+        {
+            ++Counter;
+        }
+    }
+
+    class Util
+    {
+        public static void CopyByteArrayPart(IList<byte> from, int locationFrom, IList<byte> to, int locationTo, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                to[locationTo + i] = from[locationFrom + i];
+            }
+        }
+    }
+
+
+    class FileInfoSection : ISection
+    {
+        public ushort Type;
+        public ushort Unknown;
+        public uint PartSizeDuplicate;
+        public uint PartSize;
+        public uint Unknown2;
+
+        public byte[] FileInfo;
+
+        public FileInfoSection(byte[] File, int Offset)
+        {
+            Type = BitConverter.ToUInt16(File, Offset);
+            Unknown = BitConverter.ToUInt16(File, Offset + 0x02);
+            PartSizeDuplicate = BitConverter.ToUInt32(File, Offset + 0x04);
+            PartSize = BitConverter.ToUInt32(File, Offset + 0x08);
+            Unknown2 = BitConverter.ToUInt32(File, Offset + 0x0C);
+
+            uint size = PartSize - 0x10;
+            FileInfo = new byte[size];
+            Util.CopyByteArrayPart(File, Offset + 0x10, FileInfo, 0, (int)size);
+        }
+
+        public uint GetPartSize()
+        {
+            return PartSize;
+        }
+
+
+        public void Recalculate(int NewFilesize)
+        {
+            PartSize = (uint)FileInfo.Length + 0x10;
+            PartSizeDuplicate = PartSize;
+        }
+
+
+        public byte[] Serialize()
+        {
+            List<byte> serialized = new List<byte>((int)PartSize);
+            serialized.AddRange(BitConverter.GetBytes(Type));
+            serialized.AddRange(BitConverter.GetBytes(Unknown));
+            serialized.AddRange(BitConverter.GetBytes(PartSizeDuplicate));
+            serialized.AddRange(BitConverter.GetBytes(PartSize));
+            serialized.AddRange(BitConverter.GetBytes(Unknown2));
+            serialized.AddRange(FileInfo);
+            return serialized.ToArray();
+        }
+    }
+
+    class Splitter
+    {
+        public static int Split(List<string> args)
+        {
+            string Filename = args[0];
+            GIM[] gims = new GIM[3];
+            gims[0] = new GIM(Filename); ;
+            gims[1] = new GIM(Filename); ;
+            gims[2] = new GIM(Filename); ;
+            System.IO.File.WriteAllBytes(
+                System.IO.Path.GetDirectoryName(Filename) + System.IO.Path.DirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(Filename) + "_resave" + System.IO.Path.GetExtension(Filename),
+                gims[0].Serialize());
+
+            for (int i = 0; i < gims.Length; ++i)
+            {
+                GIM gim = gims[i];
+                gim.ReduceToOneImage(i);
+                System.IO.File.WriteAllBytes(
+                    System.IO.Path.GetDirectoryName(Filename) + System.IO.Path.DirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(Filename) + i.ToString() + System.IO.Path.GetExtension(Filename),
+                    gim.Serialize());
+            }
+
+            return 0;
+        }
+    }
+
+    class Program
+    {
+        public static int Homogenize(List<string> args)
+        {
+            if (args.Count == 0)
+            {
+                Console.WriteLine("HomogenizePalette in.gim [out.gim]");
+                Console.WriteLine("Overwrites in.gim when no out.gim is provided.");
+            }
+
+            string infilename = args[0];
+            string outfilename = args.Count > 1 ? args[1] : args[0];
+
+            GIM gim = new GIM(infilename);
+            gim.HomogenizePalette();
+            System.IO.File.WriteAllBytes(outfilename, gim.Serialize());
+
+
+            return 0;
+        }
+    }
+
+    public class GimToPng
+    {
+        public static int Execute(List<string> args)
+        {
+            if (args.Count == 0)
+            {
+                Console.WriteLine("Usage: GimToPng file.gim");
+                return -1;
+            }
+
+            string filename = args[0];
+            List<string> convertedFilenames = ConvertGimFileToPngFiles(filename);
+            return (convertedFilenames != null && convertedFilenames.Count > 0) ? 0 : -1;
+        }
+
+        public static List<string> ConvertGimFileToPngFiles(string filename)
+        {
+            GIM gim = new GIM(filename);
+            int filenum = 0;
+            List<string> names = new List<string>();
+            foreach (Bitmap bmp in gim.ConvertToBitmaps())
+            {
+                string newname = filename + "." + filenum + ".png";
+                bmp.Save(newname);
+                names.Add(newname);
+            }
+            return names;
+        }
+    }
+
+    class EndOfImageSection : ISection
+    {
+        public ushort Type;
+        public ushort Unknown;
+        public uint EndOfImageAddress;
+        public uint PartSize;
+        public uint Unknown2;
+
+        public EndOfImageSection(byte[] File, int Offset)
+        {
+            Type = BitConverter.ToUInt16(File, Offset);
+            Unknown = BitConverter.ToUInt16(File, Offset + 0x02);
+            EndOfImageAddress = BitConverter.ToUInt32(File, Offset + 0x04);
+            PartSize = BitConverter.ToUInt32(File, Offset + 0x08);
+            Unknown2 = BitConverter.ToUInt32(File, Offset + 0x0C);
+        }
+
+
+        public uint GetPartSize()
+        {
+            return PartSize;
+        }
+
+
+        public void Recalculate(int NewFilesize)
+        {
+            EndOfImageAddress = (uint)NewFilesize;
+        }
+
+
+        public byte[] Serialize()
+        {
+            List<byte> serialized = new List<byte>((int)PartSize);
+            serialized.AddRange(BitConverter.GetBytes(Type));
+            serialized.AddRange(BitConverter.GetBytes(Unknown));
+            serialized.AddRange(BitConverter.GetBytes(EndOfImageAddress));
+            serialized.AddRange(BitConverter.GetBytes(PartSize));
+            serialized.AddRange(BitConverter.GetBytes(Unknown2));
+            return serialized.ToArray();
+        }
+    }
+
+
+    class EndOfFileSection : ISection
+    {
+
+        public ushort Type;
+        public ushort Unknown;
+        public uint EndOfFileAddress;
+        public uint PartSize;
+        public uint Unknown2;
+
+        public EndOfFileSection(byte[] File, int Offset)
+        {
+            Type = BitConverter.ToUInt16(File, Offset);
+            Unknown = BitConverter.ToUInt16(File, Offset + 0x02);
+            EndOfFileAddress = BitConverter.ToUInt32(File, Offset + 0x04);
+            PartSize = BitConverter.ToUInt32(File, Offset + 0x08);
+            Unknown2 = BitConverter.ToUInt32(File, Offset + 0x0C);
+        }
+
+
+        public uint GetPartSize()
+        {
+            return PartSize;
+        }
+
+
+        public void Recalculate(int NewFilesize)
+        {
+            EndOfFileAddress = (uint)NewFilesize;
+        }
+
+
+        public byte[] Serialize()
+        {
+            List<byte> serialized = new List<byte>((int)PartSize);
+            serialized.AddRange(BitConverter.GetBytes(Type));
+            serialized.AddRange(BitConverter.GetBytes(Unknown));
+            serialized.AddRange(BitConverter.GetBytes(EndOfFileAddress));
+            serialized.AddRange(BitConverter.GetBytes(PartSize));
+            serialized.AddRange(BitConverter.GetBytes(Unknown2));
+            return serialized.ToArray();
+        }
+    }
+
+    class HeaderSection : ISection
+    {
+        public byte[] Header;
+        public HeaderSection(byte[] File, int Offset)
+        {
+            Header = new byte[0x10];
+
+            Util.CopyByteArrayPart(File, Offset, Header, 0, 0x10);
+        }
+
+        public uint GetPartSize()
+        {
+            return 0x10;
+        }
+
+        public void Recalculate(int NewFilesize)
+        {
+            return;
+        }
+
+
+        public byte[] Serialize()
+        {
+            return Header;
+        }
+    }
+
+    class PaletteSection : ISection
+    {
+        public int Offset;
+
+        public ushort Type;
+        public ushort Unknown;
+        public uint PartSizeDuplicate;
+        public uint PartSize;
+        public uint Unknown2;
+
+        public ushort DataOffset;
+        public ushort Unknown3;
+        public ImageFormat Format;
+        public ushort Unknown4;
+        public ushort ColorDepth;
+        public ushort Unknown5;
+        public ushort Unknown6;
+        public ushort Unknown7;
+
+        public ushort Unknown8;
+        public ushort Unknown9;
+        public ushort Unknown10;
+        public ushort Unknown11;
+        public uint Unknown12;
+        public uint Unknown13;
+
+        public uint PartSizeMinus0x10;
+        public uint Unknown14;
+        public ushort Unknown15;
+        public ushort LayerCount;
+        public ushort Unknown17;
+        public ushort FrameCount;
+
+        public uint[] PaletteOffsets;
+        public byte[][] PalettesRawBytes;
+        public List<List<uint>> Palettes;
+
+
+        public uint PaletteCount;
+
+        public PaletteSection(byte[] File, int Offset)
+        {
+            this.Offset = Offset;
+
+
+            Type = BitConverter.ToUInt16(File, Offset);
+            Unknown = BitConverter.ToUInt16(File, Offset + 0x02);
+            PartSizeDuplicate = BitConverter.ToUInt32(File, Offset + 0x04);
+            PartSize = BitConverter.ToUInt32(File, Offset + 0x08);
+            Unknown2 = BitConverter.ToUInt32(File, Offset + 0x0C);
+
+            DataOffset = BitConverter.ToUInt16(File, Offset + 0x10);
+            Unknown3 = BitConverter.ToUInt16(File, Offset + 0x12);
+            Format = (ImageFormat)BitConverter.ToUInt16(File, Offset + 0x14);
+            Unknown4 = BitConverter.ToUInt16(File, Offset + 0x16);
+            ColorDepth = BitConverter.ToUInt16(File, Offset + 0x18);
+            Unknown5 = BitConverter.ToUInt16(File, Offset + 0x1A);
+            Unknown6 = BitConverter.ToUInt16(File, Offset + 0x1C);
+            Unknown7 = BitConverter.ToUInt16(File, Offset + 0x1E);
+
+            Unknown8 = BitConverter.ToUInt16(File, Offset + 0x20);
+            Unknown9 = BitConverter.ToUInt16(File, Offset + 0x22);
+            Unknown10 = BitConverter.ToUInt16(File, Offset + 0x24);
+            Unknown11 = BitConverter.ToUInt16(File, Offset + 0x26);
+            Unknown12 = BitConverter.ToUInt32(File, Offset + 0x28);
+            Unknown13 = BitConverter.ToUInt32(File, Offset + 0x2C);
+
+            PartSizeMinus0x10 = BitConverter.ToUInt32(File, Offset + 0x30);
+            Unknown14 = BitConverter.ToUInt32(File, Offset + 0x34);
+            Unknown15 = BitConverter.ToUInt16(File, Offset + 0x38);
+            LayerCount = BitConverter.ToUInt16(File, Offset + 0x3A);
+            Unknown17 = BitConverter.ToUInt16(File, Offset + 0x3C);
+            FrameCount = BitConverter.ToUInt16(File, Offset + 0x3E);
+
+            PaletteCount = Math.Max(LayerCount, FrameCount);
+            PaletteOffsets = new uint[PaletteCount];
+            for (int i = 0; i < PaletteCount; ++i)
+            {
+                PaletteOffsets[i] = BitConverter.ToUInt32(File, Offset + 0x40 + i * 0x04);
+            }
+
+
+            PalettesRawBytes = new byte[PaletteCount][];
+            for (int i = 0; i < PaletteOffsets.Length; ++i)
+            {
+                uint poffs = PaletteOffsets[i];
+                int size = ColorDepth * GetBytePerColor();
+                PalettesRawBytes[i] = new byte[size];
+
+                Util.CopyByteArrayPart(File, Offset + (int)poffs + 0x10, PalettesRawBytes[i], 0, size);
+            }
+
+
+            Palettes = new List<List<uint>>();
+            foreach (byte[] pal in PalettesRawBytes)
+            {
+                int BytePerColor = GetBytePerColor();
+                List<uint> IndividualPalette = new List<uint>();
+                for (int i = 0; i < pal.Length; i += BytePerColor)
+                {
+                    uint color = 0;
+                    if (BytePerColor == 4)
+                    {
+                        color = BitConverter.ToUInt32(pal, i);
+                    }
+                    else if (BytePerColor == 2)
+                    {
+                        color = BitConverter.ToUInt16(pal, i);
+                    }
+                    IndividualPalette.Add(color);
+                }
+                Palettes.Add(IndividualPalette);
+            }
+
+
+            return;
+        }
+
+        public int GetBytePerColor()
+        {
+            if (Format == ImageFormat.RGBA4444)
+            {
+                return 2;
+            }
+            return 4;
+        }
+
+
+        public uint GetPartSize()
+        {
+            return PartSize;
+        }
+        public void Recalculate(int NewFilesize)
+        {
+            if (PaletteOffsets.Length != PalettesRawBytes.Length)
+            {
+                PaletteOffsets = new uint[PalettesRawBytes.Length];
+            }
+            uint totalLength = 0;
+            for (int i = 0; i < PalettesRawBytes.Length; ++i)
+            {
+                PaletteOffsets[i] = totalLength + 0x40;
+                totalLength += (uint)PalettesRawBytes[i].Length;
+            }
+
+            PartSize = totalLength + 0x50;
+            PartSizeDuplicate = totalLength + 0x50;
+            PartSizeMinus0x10 = totalLength + 0x40;
+            LayerCount = 1;
+            FrameCount = 1;
+        }
+
+
+        public byte[] Serialize()
+        {
+            List<byte> serialized = new List<byte>((int)PartSize);
+            serialized.AddRange(BitConverter.GetBytes(Type));
+            serialized.AddRange(BitConverter.GetBytes(Unknown));
+            serialized.AddRange(BitConverter.GetBytes(PartSizeDuplicate));
+            serialized.AddRange(BitConverter.GetBytes(PartSize));
+            serialized.AddRange(BitConverter.GetBytes(Unknown2));
+
+            serialized.AddRange(BitConverter.GetBytes(DataOffset));
+            serialized.AddRange(BitConverter.GetBytes(Unknown3));
+            serialized.AddRange(BitConverter.GetBytes((ushort)Format));
+            serialized.AddRange(BitConverter.GetBytes(Unknown4));
+            serialized.AddRange(BitConverter.GetBytes(ColorDepth));
+            serialized.AddRange(BitConverter.GetBytes(Unknown5));
+            serialized.AddRange(BitConverter.GetBytes(Unknown6));
+            serialized.AddRange(BitConverter.GetBytes(Unknown7));
+
+            serialized.AddRange(BitConverter.GetBytes(Unknown8));
+            serialized.AddRange(BitConverter.GetBytes(Unknown9));
+            serialized.AddRange(BitConverter.GetBytes(Unknown10));
+            serialized.AddRange(BitConverter.GetBytes(Unknown11));
+            serialized.AddRange(BitConverter.GetBytes(Unknown12));
+            serialized.AddRange(BitConverter.GetBytes(Unknown13));
+
+            serialized.AddRange(BitConverter.GetBytes(PartSizeMinus0x10));
+            serialized.AddRange(BitConverter.GetBytes(Unknown14));
+            serialized.AddRange(BitConverter.GetBytes(Unknown15));
+            serialized.AddRange(BitConverter.GetBytes(LayerCount));
+            serialized.AddRange(BitConverter.GetBytes(Unknown17));
+            serialized.AddRange(BitConverter.GetBytes(FrameCount));
+
+            for (int i = 0; i < PaletteOffsets.Length; ++i)
+            {
+                serialized.AddRange(BitConverter.GetBytes(PaletteOffsets[i]));
+            }
+            while (serialized.Count % 16 != 0)
+            {
+                serialized.Add(0x00);
+            }
+            int BytePerColor = GetBytePerColor();
+            foreach (List<uint> pal in Palettes)
+            {
+                foreach (uint col in pal)
+                {
+                    if (BytePerColor == 4)
+                    {
+                        serialized.AddRange(BitConverter.GetBytes(col));
+                    }
+                    else if (BytePerColor == 2)
+                    {
+                        serialized.AddRange(BitConverter.GetBytes((ushort)col));
+                    }
+                }
+            }
+            return serialized.ToArray();
+        }
+    }
+
+    enum ImageFormat : short
+    {
+        RGBA5650 = 0,
+        RGBA5551 = 1,
+        RGBA4444 = 2,
+        RGBA8888 = 3,
+        Index4 = 4,
+        Index8 = 5,
+        Index16 = 6,
+        Index32 = 7,
+    }
+
+    enum PixelOrder : short
+    {
+        Normal = 0,
+        Faster = 1
+    }
+
+    class ImageSection : ISection
+    {
+        public int Offset;
+
+        public ushort Type;
+        public ushort Unknown;
+        public uint PartSizeDuplicate;
+        public uint PartSize;
+        public uint Unknown2;
+
+        public ushort DataOffset;
+        public ushort Unknown3;
+        public ImageFormat Format;
+        public PixelOrder PxOrder;
+        public ushort Width;
+        public ushort Height;
+        public ushort ColorDepth;
+        public ushort Unknown7;
+
+        public ushort Unknown8;
+        public ushort Unknown9;
+        public ushort Unknown10;
+        public ushort Unknown11;
+        public uint Unknown12;
+        public uint Unknown13;
+
+        public uint PartSizeMinus0x10;
+        public uint Unknown14;
+        public ushort Unknown15;
+        public ushort LayerCount;
+        public ushort Unknown17;
+        public ushort FrameCount;
+
+        public uint[] ImageOffsets;
+        public byte[][] ImagesRawBytes;
+        public List<List<uint>> Images;
+
+
+        public uint ImageCount;
+
+        public ImageSection(byte[] File, int Offset)
+        {
+            this.Offset = Offset;
+
+
+            Type = BitConverter.ToUInt16(File, Offset);
+            Unknown = BitConverter.ToUInt16(File, Offset + 0x02);
+            PartSizeDuplicate = BitConverter.ToUInt32(File, Offset + 0x04);
+            PartSize = BitConverter.ToUInt32(File, Offset + 0x08);
+            Unknown2 = BitConverter.ToUInt32(File, Offset + 0x0C);
+
+            DataOffset = BitConverter.ToUInt16(File, Offset + 0x10);
+            Unknown3 = BitConverter.ToUInt16(File, Offset + 0x12);
+            Format = (ImageFormat)BitConverter.ToUInt16(File, Offset + 0x14);
+            PxOrder = (PixelOrder)BitConverter.ToUInt16(File, Offset + 0x16);
+            Width = BitConverter.ToUInt16(File, Offset + 0x18);
+            Height = BitConverter.ToUInt16(File, Offset + 0x1A);
+            ColorDepth = BitConverter.ToUInt16(File, Offset + 0x1C);
+            Unknown7 = BitConverter.ToUInt16(File, Offset + 0x1E);
+
+            Unknown8 = BitConverter.ToUInt16(File, Offset + 0x20);
+            Unknown9 = BitConverter.ToUInt16(File, Offset + 0x22);
+            Unknown10 = BitConverter.ToUInt16(File, Offset + 0x24);
+            Unknown11 = BitConverter.ToUInt16(File, Offset + 0x26);
+            Unknown12 = BitConverter.ToUInt32(File, Offset + 0x28);
+            Unknown13 = BitConverter.ToUInt32(File, Offset + 0x2C);
+
+            PartSizeMinus0x10 = BitConverter.ToUInt32(File, Offset + 0x30);
+            Unknown14 = BitConverter.ToUInt32(File, Offset + 0x34);
+            Unknown15 = BitConverter.ToUInt16(File, Offset + 0x38);
+            LayerCount = BitConverter.ToUInt16(File, Offset + 0x3A);
+            Unknown17 = BitConverter.ToUInt16(File, Offset + 0x3C);
+            FrameCount = BitConverter.ToUInt16(File, Offset + 0x3E);
+
+            ImageCount = Math.Max(LayerCount, FrameCount);
+            ImageOffsets = new uint[ImageCount];
+            for (int i = 0; i < ImageCount; ++i)
+            {
+                ImageOffsets[i] = BitConverter.ToUInt32(File, Offset + 0x40 + i * 0x04);
+            }
+
+
+            ImagesRawBytes = new byte[ImageCount][];
+            for (int i = 0; i < ImageOffsets.Length; ++i)
+            {
+                uint poffs = ImageOffsets[i];
+                uint nextpoffs;
+                if (i == ImageOffsets.Length - 1)
+                {
+                    nextpoffs = PartSizeMinus0x10;
+                }
+                else
+                {
+                    nextpoffs = ImageOffsets[i + 1];
+                }
+                uint size = nextpoffs - poffs;
+                ImagesRawBytes[i] = new byte[size];
+
+                Util.CopyByteArrayPart(File, Offset + (int)poffs + 0x10, ImagesRawBytes[i], 0, (int)size);
+            }
+
+
+
+            Images = new List<List<uint>>();
+            foreach (byte[] img in ImagesRawBytes)
+            {
+                int BitPerPixel = GetBitPerPixel();
+                List<uint> IndividualImage = new List<uint>();
+                for (int cnt = 0; cnt < img.Length * 8; cnt += BitPerPixel)
+                {
+                    uint color = 0;
+                    int i = cnt / 8;
+                    switch (BitPerPixel)
+                    {
+                        case 4:
+                            if (cnt % 8 != 0)
+                            {
+                                color = (img[i] & 0xF0u) >> 4;
+                            }
+                            else
+                            {
+                                color = (img[i] & 0x0Fu);
+                            }
+                            break;
+                        case 8:
+                            color = img[i];
+                            break;
+                        case 16:
+                            color = BitConverter.ToUInt16(img, i);
+                            break;
+                        case 32:
+                            color = BitConverter.ToUInt32(img, i);
+                            break;
+                    }
+                    IndividualImage.Add(color);
+                }
+                Images.Add(IndividualImage);
+            }
+
+
+            return;
+        }
+
+        public int GetBitPerPixel()
+        {
+            switch (Format)
+            {
+                case ImageFormat.Index4:
+                    return 4;
+                case ImageFormat.Index8:
+                    return 8;
+                case ImageFormat.Index16:
+                case ImageFormat.RGBA4444:
+                case ImageFormat.RGBA5551:
+                case ImageFormat.RGBA5650:
+                    return 16;
+                case ImageFormat.Index32:
+                case ImageFormat.RGBA8888:
+                    return 32;
+            }
+            return 0;
+        }
+
+        public uint GetPartSize()
+        {
+            return PartSize;
+        }
+
+
+        public void Recalculate(int NewFilesize)
+        {
+            if (ImageOffsets.Length != ImagesRawBytes.Length)
+            {
+                ImageOffsets = new uint[ImagesRawBytes.Length];
+            }
+
+            uint totalLength = 0;
+            for (int i = 0; i < ImagesRawBytes.Length; ++i)
+            {
+                ImageOffsets[i] = totalLength + 0x40;
+                totalLength += (uint)ImagesRawBytes[i].Length;
+            }
+
+            PartSize = totalLength + 0x50;
+            PartSizeDuplicate = totalLength + 0x50;
+            PartSizeMinus0x10 = totalLength + 0x40;
+            LayerCount = 1;
+            FrameCount = 1;
+
+        }
+
+        private static Color ColorFromRGBA5650(uint color)
+        {
+            int r = (int)(((color & 0x0000001F)) << 3);
+            int g = (int)(((color & 0x000007E0) >> 5) << 2);
+            int b = (int)(((color & 0x0000F800) >> 11) << 3);
+            return Color.FromArgb(0, r, g, b);
+        }
+        private static Color ColorFromRGBA5551(uint color)
+        {
+            int r = (int)(((color & 0x0000001F)) << 3);
+            int g = (int)(((color & 0x000003E0) >> 5) << 3);
+            int b = (int)(((color & 0x00007C00) >> 10) << 3);
+            int a = (int)(((color & 0x00008000) >> 15) << 7);
+            return Color.FromArgb(a, r, g, b);
+        }
+        private static Color ColorFromRGBA4444(uint color)
+        {
+            int r = (int)(((color & 0x0000000F)) << 4);
+            int g = (int)(((color & 0x000000F0) >> 4) << 4);
+            int b = (int)(((color & 0x00000F00) >> 8) << 4);
+            int a = (int)(((color & 0x0000F000) >> 12) << 4);
+            return Color.FromArgb(a, r, g, b);
+        }
+        private static Color ColorFromRGBA8888(uint color)
+        {
+            int r = (int)((color & 0x000000FF));
+            int g = (int)((color & 0x0000FF00) >> 8);
+            int b = (int)((color & 0x00FF0000) >> 16);
+            int a = (int)((color & 0xFF000000) >> 24);
+            return Color.FromArgb(a, r, g, b);
+        }
+
+        public List<Bitmap> ConvertToBitmaps(PaletteSection psec)
+        {
+            List<Bitmap> bitmaps = new List<Bitmap>();
+            for (int i = 0; i < Images.Count; ++i)
+            {
+                int w = (ushort)(Width >> i);
+                int h = (ushort)(Height >> i);
+
+                Bitmap bmp = new Bitmap(w, h);
+
+                IPixelOrderIterator pixelPosition;
+                switch (PxOrder)
+                {
+                    case PixelOrder.Normal:
+                        pixelPosition = new LinearPixelOrderIterator(w, h);
+                        break;
+                    case PixelOrder.Faster:
+                        pixelPosition = new GimPixelOrderFasterIterator(w, h, GetBitPerPixel());
+                        break;
+                    default:
+                        throw new Exception("Unexpected pixel order: " + PxOrder);
+                }
+
+                for (int idx = 0; idx < Images[i].Count; ++idx)
+                {
+                    uint rawcolor = Images[i][idx];
+                    Color color;
+
+                    switch (Format)
+                    {
+                        case ImageFormat.RGBA5650:
+                            color = ColorFromRGBA5650(rawcolor);
+                            break;
+                        case ImageFormat.RGBA5551:
+                            color = ColorFromRGBA5551(rawcolor);
+                            break;
+                        case ImageFormat.RGBA4444:
+                            color = ColorFromRGBA4444(rawcolor);
+                            break;
+                        case ImageFormat.RGBA8888:
+                            color = ColorFromRGBA8888(rawcolor);
+                            break;
+                        case ImageFormat.Index4:
+                        case ImageFormat.Index8:
+                        case ImageFormat.Index16:
+                        case ImageFormat.Index32:
+                            switch (psec.Format)
+                            {
+                                case ImageFormat.RGBA5650:
+                                    color = ColorFromRGBA5650(psec.Palettes[i][(int)rawcolor]);
+                                    break;
+                                case ImageFormat.RGBA5551:
+                                    color = ColorFromRGBA5551(psec.Palettes[i][(int)rawcolor]);
+                                    break;
+                                case ImageFormat.RGBA4444:
+                                    color = ColorFromRGBA4444(psec.Palettes[i][(int)rawcolor]);
+                                    break;
+                                case ImageFormat.RGBA8888:
+                                    color = ColorFromRGBA8888(psec.Palettes[i][(int)rawcolor]);
+                                    break;
+                                default:
+                                    throw new Exception("Unexpected palette color type: " + psec.Format);
+                            }
+                            break;
+                        default:
+                            throw new Exception("Unexpected image color type: " + psec.Format);
+                    }
+
+                    if (pixelPosition.X < w && pixelPosition.Y < h)
+                    {
+                        bmp.SetPixel(pixelPosition.X, pixelPosition.Y, color);
+                    }
+                    pixelPosition.Next();
+                }
+                bitmaps.Add(bmp);
+            }
+            return bitmaps;
+        }
+
+        public byte[] Serialize()
+        {
+            List<byte> serialized = new List<byte>((int)PartSize);
+            serialized.AddRange(BitConverter.GetBytes(Type));
+            serialized.AddRange(BitConverter.GetBytes(Unknown));
+            serialized.AddRange(BitConverter.GetBytes(PartSizeDuplicate));
+            serialized.AddRange(BitConverter.GetBytes(PartSize));
+            serialized.AddRange(BitConverter.GetBytes(Unknown2));
+
+            serialized.AddRange(BitConverter.GetBytes(DataOffset));
+            serialized.AddRange(BitConverter.GetBytes(Unknown3));
+            serialized.AddRange(BitConverter.GetBytes((ushort)Format));
+            serialized.AddRange(BitConverter.GetBytes((ushort)PxOrder));
+            serialized.AddRange(BitConverter.GetBytes(Width));
+            serialized.AddRange(BitConverter.GetBytes(Height));
+            serialized.AddRange(BitConverter.GetBytes(ColorDepth));
+            serialized.AddRange(BitConverter.GetBytes(Unknown7));
+
+            serialized.AddRange(BitConverter.GetBytes(Unknown8));
+            serialized.AddRange(BitConverter.GetBytes(Unknown9));
+            serialized.AddRange(BitConverter.GetBytes(Unknown10));
+            serialized.AddRange(BitConverter.GetBytes(Unknown11));
+            serialized.AddRange(BitConverter.GetBytes(Unknown12));
+            serialized.AddRange(BitConverter.GetBytes(Unknown13));
+
+            serialized.AddRange(BitConverter.GetBytes(PartSizeMinus0x10));
+            serialized.AddRange(BitConverter.GetBytes(Unknown14));
+            serialized.AddRange(BitConverter.GetBytes(Unknown15));
+            serialized.AddRange(BitConverter.GetBytes(LayerCount));
+            serialized.AddRange(BitConverter.GetBytes(Unknown17));
+            serialized.AddRange(BitConverter.GetBytes(FrameCount));
+
+            for (int i = 0; i < ImageOffsets.Length; ++i)
+            {
+                serialized.AddRange(BitConverter.GetBytes(ImageOffsets[i]));
+            }
+            while (serialized.Count % 16 != 0)
+            {
+                serialized.Add(0x00);
+            }
+
+            int BitPerPixel = GetBitPerPixel();
+            foreach (List<uint> img in Images)
+            {
+                for (int i = 0; i < img.Count; ++i)
+                {
+                    uint col = img[i];
+                    switch (BitPerPixel)
+                    {
+                        case 4:
+                            col = (img[i + 1] << 4) | (img[i]);
+                            serialized.Add((byte)col);
+                            ++i;
+                            break;
+                        case 8:
+                            serialized.Add((byte)col);
+                            break;
+                        case 16:
+                            serialized.AddRange(BitConverter.GetBytes((ushort)col));
+                            break;
+                        case 32:
+                            serialized.AddRange(BitConverter.GetBytes(col));
+                            break;
+                    }
+                }
+            }
+
+            return serialized.ToArray();
+        }
+
+        public void ConvertToTruecolor(int imageNumber, List<uint> Palette)
+        {
+            for (int i = 0; i < Images[imageNumber].Count; ++i)
+            {
+                uint index = Images[imageNumber][i];
+                Images[imageNumber][i] = Palette[(int)index];
+            }
+        }
+
+        public void CovertToPaletted(int imageNumber, uint[] NewPalette)
+        {
+            Dictionary<uint, uint> PaletteDict = new Dictionary<uint, uint>(NewPalette.Length);
+            for (uint i = 0; i < NewPalette.Length; ++i)
+            {
+                try
+                {
+                    PaletteDict.Add(NewPalette[i], i);
+                }
+                catch (System.ArgumentException)
+                {
+                    // if we reach a duplicate we *should* be at the end of our colors
+                    break;
+                }
+            }
+
+            for (int i = 0; i < Images[imageNumber].Count; ++i)
+            {
+                uint color = Images[imageNumber][i];
+                uint index = PaletteDict[color];
+                Images[imageNumber][i] = index;
+            }
+        }
+
+        public void DiscardUnusedColorsPaletted(int imageNumber, PaletteSection paletteSection, int paletteNumber)
+        {
+            List<uint> pal = paletteSection.Palettes[paletteNumber];
+            List<uint> img = Images[imageNumber];
+
+            bool[] usedPaletteEntries = new bool[pal.Count];
+            for (int i = 0; i < usedPaletteEntries.Length; ++i)
+            {
+                usedPaletteEntries[i] = false; // initialize array to false
+            }
+            for (int i = 0; i < img.Count; ++i)
+            {
+                usedPaletteEntries[img[i]] = true; // all used palette entries get set to true
+            }
+
+            // remap old palette entries to new ones by essentially skipping over all unused colors
+            uint[] remapTable = new uint[pal.Count];
+            uint counter = 0;
+            for (int i = 0; i < usedPaletteEntries.Length; ++i)
+            {
+                if (usedPaletteEntries[i])
+                {
+                    remapTable[i] = counter;
+                    counter++;
+                }
+                else
+                {
+                    remapTable[i] = 0xFFFFFFFFu; // just making sure these aren't used
+                }
+            }
+
+            // remap the image
+            for (int i = 0; i < img.Count; ++i)
+            {
+                img[i] = remapTable[img[i]];
+            }
+
+            // generate the new palette
+            List<uint> newPal = new List<uint>((int)counter);
+            for (int i = 0; i < usedPaletteEntries.Length; ++i)
+            {
+                if (usedPaletteEntries[i])
+                {
+                    newPal.Add(pal[i]);
+                }
+            }
+
+            paletteSection.Palettes[paletteNumber] = newPal;
+        }
+    }
+
+    class GimPixelOrderFasterIterator : TiledPixelOrderIterator
+    {
+        public GimPixelOrderFasterIterator(int width, int height, int bpp) : base(width, height, 0x80 / bpp, 0x08) { }
+    }
+
+    interface ISection
+    {
+        uint GetPartSize();
+        void Recalculate(int NewFilesize);
+        byte[] Serialize();
+    }
+    public class GIM
+    {
+
+        byte[] File;
+        List<ISection> Sections;
+
+        public GIM(byte[] File)
+        {
+            Initialize(File);
+        }
+
+        public GIM(string Filename)
+        {
+            Initialize(System.IO.File.ReadAllBytes(Filename));
+        }
+
+        public void Initialize(byte[] File)
+        {
+            this.File = File;
+            uint location = 0x10;
+
+            Sections = new List<ISection>();
+            Sections.Add(new HeaderSection(File, 0));
+            while (location < File.Length)
+            {
+                ushort CurrentType = BitConverter.ToUInt16(File, (int)location);
+                ISection section;
+                switch (CurrentType)
+                {
+                    case 0x02:
+                        section = new EndOfFileSection(File, (int)location);
+                        break;
+                    case 0x03:
+                        section = new EndOfImageSection(File, (int)location);
+                        break;
+                    case 0x04:
+                        section = new ImageSection(File, (int)location);
+                        break;
+                    case 0x05:
+                        section = new PaletteSection(File, (int)location);
+                        break;
+                    case 0xFF:
+                        section = new FileInfoSection(File, (int)location);
+                        break;
+                    default:
+                        throw new Exception("Invalid Section Type");
+                }
+
+                Sections.Add(section);
+                location += section.GetPartSize();
+            }
+        }
+
+        public uint GetTotalFilesize()
+        {
+            uint totalFilesize = 0;
+            foreach (var section in Sections)
+            {
+                totalFilesize += section.GetPartSize();
+            }
+            return totalFilesize;
+        }
+
+        public void ReduceToOneImage(int imageNumber)
+        {
+            foreach (var section in Sections)
+            {
+                if (section.GetType() == typeof(ImageSection))
+                {
+                    ImageSection isec = (ImageSection)section;
+                    byte[] img = isec.ImagesRawBytes[imageNumber];
+                    isec.ImagesRawBytes = new byte[1][];
+                    isec.ImagesRawBytes[0] = img;
+                    isec.Width = (ushort)(isec.Width >> imageNumber);
+                    isec.Height = (ushort)(isec.Height >> imageNumber);
+                }
+                if (section.GetType() == typeof(PaletteSection))
+                {
+                    PaletteSection psec = (PaletteSection)section;
+                    byte[] pal = psec.PalettesRawBytes[imageNumber];
+                    psec.PalettesRawBytes = new byte[1][];
+                    psec.PalettesRawBytes[0] = pal;
+                }
+            }
+
+            uint fileinfosection = 0;
+            foreach (var section in Sections)
+            {
+                section.Recalculate(0);
+                if (section.GetType() == typeof(FileInfoSection))
+                {
+                    fileinfosection = section.GetPartSize();
+                }
+            }
+            uint Filesize = GetTotalFilesize();
+            foreach (var section in Sections)
+            {
+                if (section.GetType() == typeof(EndOfFileSection))
+                {
+                    section.Recalculate((int)Filesize - 0x10);
+                }
+                if (section.GetType() == typeof(EndOfImageSection))
+                {
+                    section.Recalculate((int)Filesize - 0x20 - (int)fileinfosection);
+                }
+            }
+        }
+
+        public List<System.Drawing.Bitmap> ConvertToBitmaps()
+        {
+            ImageSection isec = null;
+            PaletteSection psec = null;
+            foreach (var section in Sections)
+            {
+                if (section.GetType() == typeof(ImageSection))
+                {
+                    isec = (ImageSection)section;
+                }
+                if (section.GetType() == typeof(PaletteSection))
+                {
+                    psec = (PaletteSection)section;
+                }
+            }
+
+            return isec.ConvertToBitmaps(psec);
+        }
+
+        public void HomogenizePalette()
+        {
+            ImageSection isec = null;
+            PaletteSection psec = null;
+            foreach (var section in Sections)
+            {
+                if (section.GetType() == typeof(ImageSection))
+                {
+                    isec = (ImageSection)section;
+                }
+                if (section.GetType() == typeof(PaletteSection))
+                {
+                    psec = (PaletteSection)section;
+                }
+            }
+
+            for (int i = 0; i < isec.ImageCount; ++i)
+            {
+                isec.DiscardUnusedColorsPaletted(i, psec, i);
+            }
+
+            List<uint> PaletteList = new List<uint>();
+            foreach (List<uint> pal in psec.Palettes)
+            {
+                PaletteList.AddRange(pal);
+            }
+            List<uint> NewPalette = PaletteList.Distinct().ToList();
+
+            int maxColors = 1 << isec.ColorDepth;
+            if (NewPalette.Count > maxColors)
+            {
+                string err = "ERROR: Combined Palette over the amount of allowed colors. (" + NewPalette.Count + " > " + maxColors + ")";
+                Console.WriteLine(err);
+                throw new Exception(err);
+            }
+            while (NewPalette.Count < maxColors)
+            {
+                NewPalette.Add(0);
+            }
+
+            for (int i = 0; i < isec.ImageCount; ++i)
+            {
+                isec.ConvertToTruecolor(i, psec.Palettes[i]);
+                isec.CovertToPaletted(i, NewPalette.ToArray());
+                psec.Palettes[i] = NewPalette.ToList();
+            }
+        }
+
+
+        public byte[] Serialize()
+        {
+            List<byte> newfile = new List<byte>(File.Length);
+            foreach (var section in Sections)
+            {
+                newfile.AddRange(section.Serialize());
+            }
+            return newfile.ToArray();
+        }
+    }
+
+    #endregion << Gim >>
 }
