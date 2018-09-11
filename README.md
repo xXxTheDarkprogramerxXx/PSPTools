@@ -16,6 +16,9 @@ Thanks to @AdmiralCurtiss
 https://github.com/AdmiralCurtiss/
 
 
+==UPDATE 0.02 ==
+
+Added ISO Creation Tool with temp fake sign feuture for UMD's
 
 ==In Development==
 
