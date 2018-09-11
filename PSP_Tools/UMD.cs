@@ -19,20 +19,79 @@ namespace PSP_Tools
     {
         public class ISO
         {
+
+            public enum ISOStatus
+            {
+                Busy = 99,
+                Completed = 1,
+                Failed = 3,
+                None = 0
+            }
+
+            public ISO()
+            {
+                iso_creator = new IsoCreator.IsoCreator();
+                iso_creator.Progress += new BER.CDCat.Export.ProgressDelegate(creator_Progress);
+                iso_creator.Finish += new BER.CDCat.Export.FinishDelegate(creator_Finished);
+                iso_creator.Abort += new BER.CDCat.Export.AbortDelegate(creator_Abort);
+            }
+
+            void creator_Abort(object sender, BER.CDCat.Export.AbortEventArgs e)
+            {
+                //MessageBox.Show(e.Message, "Abort", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                Console.WriteLine("The ISO creating process has been stopped.");
+            }
+
+            void creator_Finished(object sender, BER.CDCat.Export.FinishEventArgs e)
+            {
+                Status = ISOStatus.Completed;
+                Console.WriteLine(e.Message);
+            }
+
+            void creator_Progress(object sender, BER.CDCat.Export.ProgressEventArgs e)
+            {
+                Status = ISOStatus.Busy;
+                if (e.Action != null)
+                {
+
+                    Console.WriteLine(e.Action);
+
+                }
+
+                if (e.Maximum != -1)
+                {
+                    Console.WriteLine(e.Maximum);
+                }
+
+                try
+                {
+                    int value = (e.Current <= e.Maximum) ? e.Current : e.Maximum;
+                    Console.WriteLine(string.Format(@"Percentage :{0} / {1} ", value, e.Maximum));
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+
+
             private static Thread iso_thread = null;
             private static IsoCreator.IsoCreator iso_creator = null;
+
+            public ISOStatus Status = ISOStatus.None;
+
 
             /// <summary>
             /// Represents ISO Volume Name
             /// </summary>
-            public static string PSPTitle { get; set; }
+            public string PSPTitle { get; set; }
 
             /// <summary>
             /// Creates an ISO from a specific path
             /// </summary>
             /// <param name="FolderPath">Path to be converted to an ISO</param>
             /// <param name="SaveISOPath">Path to where ISO needs to be saved</param>
-            public static void CreateISO(string FolderPath, string SaveISOPath)
+            public void CreateISO(string FolderPath, string SaveISOPath,bool FakeSign = false)
             {
                 try
                 {
@@ -40,24 +99,139 @@ namespace PSP_Tools
                     {
                         if (PSPTitle == string.Empty)
                         {
-                            throw new Exception("Please set PSP Title first");
+                            //load from PSFO
+                            PSP_Tools.PARAM_SFO psfo = new PARAM_SFO(FolderPath + @"\PSP_GAME\PARAM.SFO");
+                            PSPTitle = psfo.Title;
+                            //throw new Exception("Please set PSP Title first");
                         }
                         if (!Directory.Exists(FolderPath))
                         {
                             throw new Exception("Folder path is not valid");
                         }
+                        ValidateFolderStructure(FolderPath,FakeSign);
                         iso_thread = new Thread(new ParameterizedThreadStart(iso_creator.Folder2Iso));
                         iso_thread.Start(new IsoCreator.IsoCreator.IsoCreatorFolderArgs(FolderPath, SaveISOPath, PSPTitle));
+                        Status = ISOStatus.Busy;
                     }
                     else
                     {
                         iso_thread.Abort();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
+                    Status = ISOStatus.Failed;
                     throw new Exception("Error while creating ISO", ex);
                 }
+            }
+
+            /*
+             * UCES-00044|7BD493FA3A73B67A|0001|G.............|
+             * 55 43 45 53 2D 30 30 30 34 34 | 37 42 44 34 39 33 46 41 33 41 37 33 42 36 37 41 | 30 30 30 31 | 47 00 00 00 00 00 00 00 00 00 00 00 00 00 |
+             */
+             /// <summary>
+             /// Class For UMD_DATA
+             /// </summary>
+            public class UMD_DATA
+            {
+                
+                public byte[] DISCID = new byte[10]; // +00 : 'U','C','E','S','-','0','0','0','4','4'
+                private byte Splitter = 0x7C; // Splitter |
+                public byte[] signkey = new byte[10]; // sign key hashed disc id ?
+                private byte Splitter1 = 0x7C; // Splitter |
+                public byte[] version = new byte[4]; //Version info ?
+                private byte Splitter2 = 0x7C; // Splitter |
+                public byte[] bottominfo = new byte[14]; // region info gyme type ?
+                private byte FinalSplitter = 0x7C; // Splitter |
+
+                /// <summary>
+                /// Write UMD Data To File Location
+                /// </summary>
+                /// <param name="file"></param>
+                public void WriteAllToFile(string file)
+                {
+                    byte[] filebytes = new byte[48];
+                    int newlenght = 0;
+                    var array = filebytes.ToArray();
+
+                    Array.Copy(DISCID, 0, filebytes, 0, DISCID.Length);
+                    newlenght = DISCID.Length;
+
+                    filebytes[newlenght] = Splitter;
+                    newlenght++;
+
+                    Array.Copy(signkey, 0, filebytes, newlenght, signkey.Length);
+                    newlenght += signkey.Length;
+
+                    filebytes[newlenght] = Splitter;
+                    newlenght++;
+
+                    Array.Copy(version, 0, filebytes, newlenght, version.Length);
+                    newlenght += version.Length;
+
+                    filebytes[newlenght] = Splitter;
+                    newlenght++;
+
+                    //bottominfo
+                    Array.Copy(bottominfo, 0, filebytes, newlenght, bottominfo.Length);
+                    newlenght += bottominfo.Length;
+
+                    filebytes[newlenght] = Splitter;
+                    newlenght++;
+
+                    File.WriteAllBytes(file, filebytes);
+                }
+            }
+            
+
+            public void ValidateFolderStructure(string FolderPath,bool FakeSign)
+            {
+
+                PSP_Tools.PARAM_SFO psfo = new PARAM_SFO();
+
+                if(!Directory.Exists(FolderPath + @"\PSP_GAME"))
+                {
+                    Console.WriteLine("PSP_GAME not found at folder path Please change the folder directory ");
+                    throw new Exception("PSP_GAME not found at folder path Please change the folder directory ");
+                }
+                if(!File.Exists(FolderPath + @"\PSP_GAME\PARAM.SFO"))
+                {
+                    Console.WriteLine("PARAM.SFO not found at folder path !");
+                    throw new Exception("PARAM.SFO not found at folder path !");
+                }
+
+                psfo = new PARAM_SFO(FolderPath + @"\PSP_GAME\PARAM.SFO");
+
+                if (!File.Exists(FolderPath + @"\UMD_DATA.BIN"))
+                {
+                    Console.WriteLine("UMD_DATA.BIN not found pre creating for fake sign");
+                    if (FakeSign == true)
+                    {
+                        UMD_DATA umddat = new UMD_DATA();
+                        string discid = psfo.DISC_ID;
+                        var builder = new StringBuilder();
+                        int count = 0;
+                        bool Appedned = false;
+                        foreach (var c in discid)
+                        {
+                            builder.Append(c);
+                            if ((++count % 4) == 0 && Appedned == false)
+                            {
+                                builder.Append('-');
+                                Appedned = true;
+                            }
+                        }
+                        discid = builder.ToString();
+                        umddat.DISCID = Encoding.UTF8.GetBytes(discid);
+                        umddat.signkey = new byte[] { 0x37, 0x42, 0x44, 0x34, 0x39, 0x33, 0x46, 0x41, 0x33, 0x41, 0x37, 0x33, 0x42, 0x36, 0x37, 0x41 };//temp sign
+                        umddat.version = new byte[] { 0x30, 0x30, 0x30, 0x31 };//0 0 0 1
+                        umddat.bottominfo = new byte[] { 0x47, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };//ive looked at a few games and they all work and are G............. so someone can change this if need be 
+
+
+                        umddat.WriteAllToFile(FolderPath + @"\UMD_DATA.BIN");
+                    }
+                }
+
             }
         }
 
@@ -93,23 +267,28 @@ namespace PSP_Tools
                         break;
                     }
 
-                    flen = buf[i + 32];
+                    flen = BitConverter.ToInt32(buf, i + 32);
 
                     //TODO : Create Memset function
 
                     //memset can be used but not for this use array.copy
                     // Array.Copy(fname_buf,)
 
-                    UMD_Util.ForMemset(fname_buf, 0, 256);
+                    //MD_Util.ForMemset(fname_buf, 0, 256);
+
+                    Array.Clear(fname_buf, 0, 256);
 
                     var temp = buf[71];
 
-                    UMD_Util.ForMemset(fname_buf, buf[i + 33], flen);
+                    //UMD_Util.ForMemset(fname_buf, buf[i + 33], flen);
 
-                    Array.Copy(fname_buf, buf, i + 33);
+                    //Array.Copy(buf, i + 33, fname_buf, i + 33, flen);
+
+                    Array.Copy( buf, fname_buf, i + 33);
 
                     Console.Write("file name '{0}'\n", fname_buf);
-
+                    var tmp = Encoding.ASCII.GetString(fname_buf);
+                    Console.Write("file name '{0}'\n", tmp);
                     ptr = StringFunctions.StrChr(Encoding.ASCII.GetString(fname_buf), ';');
                     if (ptr != null)
                     {
@@ -314,7 +493,7 @@ namespace PSP_Tools
 
                     // root entent
                     i = 156 + 2;
-                    root_lba = pvd_buf[i + 0] + (pvd_buf[i + 1] << 8) + (pvd_buf[i + 2] << 16) + (pvd_buf[i + 3] << 24);
+                    root_lba = BitConverter.ToInt32(pvd_buf,i + 0) + (BitConverter.ToInt32(pvd_buf,i + 1) << 8) + (BitConverter.ToInt32(pvd_buf,i + 2) << 16) + (BitConverter.ToInt32(pvd_buf,i + 3) << 24);
                     Console.Write("ROOT DIRECTRY LBA {0:X8}\n", root_lba);
 
                     // read root directry
@@ -403,6 +582,7 @@ namespace PSP_Tools
                 }
             }
         }
+
         public class CISO
         {
             /*
@@ -466,7 +646,7 @@ namespace PSP_Tools
 
                 //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
                 //ORIGINAL LINE: uint *index_buf = null;
-                public static char[] index_buf = null ;
+                public static byte[] index_buf  ;
                 //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
                 //ORIGINAL LINE: uint *crc_buf = null;
                 public static byte[] crc_buf = null;
@@ -558,13 +738,24 @@ namespace PSP_Tools
                         throw new Exception("CISO File Format Error");
                     }
                     // 
-                    ciso_total_block = Convert.ToInt32(ciso.total_bytes / ciso.block_size);
+                    ciso_total_block = (int)(ciso.total_bytes / ciso.block_size);
 
                     // allocate index block
-                    index_size = (ciso_total_block + 1) * sizeof(uint);
-                    //index_buf  = malloc(index_size);
-                    index_buf = new char[index_size];
+                    index_size = (ciso_total_block + 1) * 4; 
 
+                    //index_buf  = malloc(index_size);
+                    index_buf = new byte[index_size];
+
+                    IntPtr memory = Marshal.AllocCoTaskMem(index_size); //malloc
+                    unsafe
+                    {
+
+                        var somepointer = memory.ToPointer();
+                        var someother = memory.ToInt64();
+                        var someint = memory.ToInt32();
+
+                    }
+                    //index_buf = memory.ToPointer()[0];
                     //block_buf1 = malloc(ciso.block_size);
                     block_buf1 = new byte[ciso.block_size];
 
@@ -614,8 +805,12 @@ namespace PSP_Tools
                         }
 
 
-                        index = index_buf[block];
-                        plain = Convert.ToInt32(index & 0x80000000);
+                        //index needs to be index = 373768 how i dont know yet
+
+                        //lets try writing this to a byte array
+
+                        index = (uint)BitConverter.ToInt32(index_buf, (block * 4));
+                        plain = (int)(index & 0x80000000);
                         index &= 0x7fffffff;
                         read_pos = index << (ciso.align);
                         if (plain != 0)
@@ -624,13 +819,13 @@ namespace PSP_Tools
                         }
                         else
                         {
-                            index2 = Convert.ToUInt32(index_buf[block + 1] & 0x7fffffff);
+                            index2 = (uint)((uint)BitConverter.ToInt32(index_buf, (block * 4 + 4)) & 0x7fffffff);
                             read_size = (index2 - index) << (ciso.align);
                         }
-                        fin.Seek(Convert.ToInt64(read_pos), SeekOrigin.Begin);
+                        fin.Seek((long)(read_pos), SeekOrigin.Begin);
 
-                        z.avail_in = fin.Read(block_buf2, 1, Convert.ToInt32(read_size));
-                        if (z.avail_in != Convert.ToInt32(read_size))
+                        z.avail_in = fin.Read(block_buf2, 0, (int)(read_size));
+                        if (z.avail_in != (int)(read_size))
                         {
                             Console.Write("block={0:D} : read error\n", block);
                             return 1;
@@ -640,20 +835,22 @@ namespace PSP_Tools
                         {
                             //No memcpy in c# 
                             //memcpy(block_buf1,block_buf2,read_size);
-                            Array.Copy(block_buf1, block_buf2, Convert.ToInt32(read_size));
-                            cmp_size = Convert.ToInt32(read_size);
+                            Array.Copy( block_buf2, block_buf1, (int)(read_size));
+                            cmp_size = (int)(read_size);
                         }
                         else
                         {
                             z.next_out = block_buf1;
-                            z.avail_out = Convert.ToInt32(ciso.block_size);
+                            z.avail_out = (int)(ciso.block_size);
                             z.next_in = block_buf2;
                             status = z.inflate(zlibConst.Z_FULL_FLUSH); //inflate(&z, Z_FULL_FLUSH);
                             if (status != zlibConst.Z_STREAM_END)
                             {
-                                //if (status != Z_OK)
-                                Console.Write("block {0:D}:inflate : {1}[{2:D}]\n", block, z.msg, status);
-                                return 1;
+                                if (status != zlibConst.Z_OK)
+                                {
+                                    Console.Write("block {0:D}:inflate : {1}[{2:D}]\n", block, z.msg, status);
+                                    return 1;
+                                }
                             }
                             cmp_size = Convert.ToInt32(ciso.block_size - z.avail_out);
                             if (cmp_size != ciso.block_size)
@@ -663,7 +860,7 @@ namespace PSP_Tools
                             }
                         }
                         // write decompressed block
-                        fout.Write(block_buf1, 1, cmp_size);
+                        fout.Write(block_buf1, 0, cmp_size);
                         
 
                         // term zlib
