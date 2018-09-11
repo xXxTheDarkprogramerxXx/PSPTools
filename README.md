@@ -11,8 +11,14 @@ Now Supports PARAM.SFO Editing
 
 ==Update 0.01 ==
 
-Now Supports Gim Data Reading 
+Now Supports Gim Data Reading
+Thanks to @AdmiralCurtiss
+https://github.com/AdmiralCurtiss/
 
+
+==UPDATE 0.02 ==
+
+Added ISO Creation Tool with temp fake sign feuture for UMD's
 
 ==In Development==
 
