@@ -29,9 +29,37 @@ namespace PSP_PBP_Tools
             if (thedialog.ShowDialog() == DialogResult.OK)
             {
 
-                PSP_Tools.UMD.CISO.GlobalMembers.Decompress_CISO(thedialog.FileName.Replace(".cso", "Test.iso"), thedialog.FileName);
-                
+                ////This is not currently working so we will use this untill its fixed or i have time to fix it
+                //.UMD.CISO.GlobalMembers.Decompress_CISO(thedialog.FileName.Replace(".cso", "Test.iso"), thedialog.FileName);
 
+
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+                saveFileDialog1.InitialDirectory = Application.StartupPath;
+
+                saveFileDialog1.Title = "Save ISO File";
+
+                saveFileDialog1.CheckFileExists = false;
+
+                saveFileDialog1.CheckPathExists = true;
+
+                saveFileDialog1.DefaultExt = "iso";
+
+                saveFileDialog1.Filter = "ISO Files (*.ISO)|*.ISO|All files (*.*)|*.*";
+
+                saveFileDialog1.FilterIndex = 2;
+
+                saveFileDialog1.RestoreDirectory = true;
+
+
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    ////temporary decompressor
+                    PSP_Tools.UMD.CISO.DecryptCSO(thedialog.FileName,saveFileDialog1.FileName);
+
+                    MessageBox.Show("Decryption Completed");
+                }
             }
         }
     }

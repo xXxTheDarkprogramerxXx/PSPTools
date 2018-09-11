@@ -9,3 +9,5 @@ C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools
 C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.dll
 C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.pdb
 C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\zlib.net.dll
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.Properties.Resources.resources
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.csproj.GenerateResource.Cache

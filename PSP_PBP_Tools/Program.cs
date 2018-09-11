@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System;//
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,10 +24,10 @@ namespace PSP_PBP_Tools
             //Application.Run(new GIM());
 
             ////to go to UMD tools
-            Application.Run(new UMDSign());
+            //Application.Run(new UMDSign());
 
             ////to go to UMD CSO ISO Tool
-            //Application.Run(new CSO_ISO_Reader());
+            Application.Run(new CSO_ISO_Reader());
 
             //to go to ISO UMD Tool
             //Application.Run(new UMDCreator());

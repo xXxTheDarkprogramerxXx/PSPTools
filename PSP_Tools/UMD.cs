@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -1007,6 +1008,42 @@ namespace PSP_Tools
                 }
             }
 
+
+            public static void DecryptCSO(string CSOPath,string ISOFile)
+            {
+                byte[] cisotool = Properties.Resources.ciso;
+                byte[] zlib = Properties.Resources.zlib;
+                File.WriteAllBytes(System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("PSP_Tools.dll","") + "ciso.exe", cisotool);
+                File.WriteAllBytes(System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("PSP_Tools.dll", "") + "zlib.dll", zlib);
+                ProcessStartInfo start = new ProcessStartInfo();
+                start.FileName = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("PSP_Tools.dll", "") + "ciso.exe";
+                start.Arguments = " 0 \"" + CSOPath + "\" \"" + ISOFile + "\"";
+                start.UseShellExecute = false;
+                start.RedirectStandardOutput = true;
+                start.CreateNoWindow = true;
+                using (Process process = Process.Start(start))
+                {
+                    //process.ErrorDataReceived += Process_ErrorDataReceived;
+                    using (StreamReader reader = process.StandardOutput)
+                    {
+                        string result = reader.ReadToEnd();
+                        if (result.Contains("[Error]"))
+                        {
+                            //System.Windows.Forms.MessageBox.Show(result);
+                            Console.WriteLine(result);
+                        }
+
+                        Thread.Sleep(100);
+
+                        File.Delete(System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("PSP_Tools.dll", "") + "ciso.exe");
+                        File.Delete(System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("PSP_Tools.dll", "") + "zlib.dll");
+                        return;
+                    }
+                }
+
+
+
+            }
         }
     }
 
