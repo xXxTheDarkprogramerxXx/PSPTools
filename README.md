@@ -11,7 +11,10 @@ Now Supports PARAM.SFO Editing
 
 ==Update 0.01 ==
 
-Now Supports Gim Data Reading 
+Now Supports Gim Data Reading
+Thanks to @AdmiralCurtiss
+https://github.com/AdmiralCurtiss/
+
 
 
 ==In Development==
