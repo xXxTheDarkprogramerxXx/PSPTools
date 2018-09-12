@@ -1009,7 +1009,7 @@ namespace PSP_Tools
             }
 
 
-            public static void DecryptCSO(string CSOPath,string ISOFile)
+            public static void DecompressCSO(string CSOPath,string ISOFile)
             {
                 byte[] cisotool = Properties.Resources.ciso;
                 byte[] zlib = Properties.Resources.zlib;

@@ -56,7 +56,7 @@ namespace PSP_PBP_Tools
                 if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     ////temporary decompressor
-                    PSP_Tools.UMD.CISO.DecryptCSO(thedialog.FileName,saveFileDialog1.FileName);
+                    PSP_Tools.UMD.CISO.DecompressCSO(thedialog.FileName,saveFileDialog1.FileName);
 
                     MessageBox.Show("Decryption Completed");
                 }
