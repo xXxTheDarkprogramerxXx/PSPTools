@@ -75,6 +75,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="PS4.cs" />
+    <Compile Include="PSP.cs" />
     <Compile Include="UMD.cs" />
   </ItemGroup>
   <ItemGroup>
