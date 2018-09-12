@@ -25,3 +25,13 @@ Added ISO Creation Tool with temp fake sign feuture for UMD's
 CISO Support (Create and Decompression of CISO to ISO)
 
 UMD Signing (Sign a umd image)
+
+# Special Thanks
+
+@AdmiralCurtiss  https://github.com/AdmiralCurtiss 
+
+@pink1 https://github.com/pink1stools
+
+@cfwprophet https://github.com/cfwprpht 
+
+@leecherman https://sites.google.com/site/theleecherman 
