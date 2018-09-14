@@ -20,9 +20,12 @@ https://github.com/AdmiralCurtiss/
 
 Added ISO Creation Tool with temp fake sign feuture for UMD's
 
+==UPDATE 0.03==
+CISO Support thanks to Booster
+
 ==In Development==
 
-CISO Support (Create and Decompression of CISO to ISO)
+CISO Support (Create and Decompression of CISO to ISO)(c# version)
 
 UMD Signing (Sign a umd image)
 
