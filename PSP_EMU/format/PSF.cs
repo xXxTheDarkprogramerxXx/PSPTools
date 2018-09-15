@@ -165,7 +165,7 @@ namespace pspsharp.format
 			ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
 			write(byteBuffer);
 
-			// Write the file and truncate it to the correct length
+			// Write the file and truncate it to the correct Length
 			output.write(buffer);
 			output.Length = buffer.Length;
 		}
@@ -202,7 +202,7 @@ namespace pspsharp.format
 			foreach (PSFKeyValuePair pair in pairList)
 			{
 				f.position(keyTableOffset + pair.keyOffset);
-				//System.err.println("PSF write key   fp=" + f.position() + " datalen=" + (pair.key.length() + 1) + " top=" + (f.position() + pair.key.length() + 1));
+				//System.err.println("PSF write key   fp=" + f.position() + " datalen=" + (pair.key.Length() + 1) + " top=" + (f.position() + pair.key.Length() + 1));
 				writeStringZ(f, pair.key);
 
 				f.position(valueTableOffset + pair.valueOffset);
@@ -300,10 +300,10 @@ namespace pspsharp.format
 		{
 			sbyte[] b = (data.GetBytes(Constants.charset));
 
-			//if (b.length != data.length())
-			//    System.out.println("put string '" + data + "' size mismatch. UTF-8=" + b.length + " regular=" + (data.length() + 1));
+			//if (b.Length != data.Length())
+			//    System.out.println("put string '" + data + "' size mismatch. UTF-8=" + b.Length + " regular=" + (data.Length() + 1));
 
-			//PSFKeyValuePair pair = new PSFKeyValuePair(key, PSF_DATA_TYPE_STRING, data.length() + 1, rawlen, data);
+			//PSFKeyValuePair pair = new PSFKeyValuePair(key, PSF_DATA_TYPE_STRING, data.Length() + 1, rawlen, data);
 			PSFKeyValuePair pair = new PSFKeyValuePair(key, PSF_DATA_TYPE_STRING, b.Length + 1, rawlen, data);
 			pairList.AddLast(pair);
 
@@ -315,7 +315,7 @@ namespace pspsharp.format
 		public virtual void put(string key, string data)
 		{
 			sbyte[] b = (data.GetBytes(Constants.charset));
-			//int rawlen = data.length() + 1;
+			//int rawlen = data.Length() + 1;
 			int rawlen = b.Length + 1;
 
 			put(key, data, (rawlen + 3) & ~3);

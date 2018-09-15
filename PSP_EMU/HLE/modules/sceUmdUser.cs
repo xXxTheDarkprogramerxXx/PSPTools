@@ -45,11 +45,11 @@ namespace pspsharp.HLE.modules
 	using Scheduler = pspsharp.scheduler.Scheduler;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceUmdUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUmdUser");
+		//public static Logger log = Modules.getLogger("sceUmdUser");
 		private bool umdAllowReplace;
 
 		public override void start()
@@ -267,9 +267,9 @@ namespace pspsharp.HLE.modules
 					int wantedUmdStat = waitingThread.wait.wantedUmdStat;
 					if (waitingThread.waitType == JPCSP_WAIT_UMD && checkDriveStat(wantedUmdStat))
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("sceUmdUser - checkWaitingThreads waking " + waitingThread.uid.ToString("x") + " thread:'" + waitingThread.name + "'");
+							Console.WriteLine("sceUmdUser - checkWaitingThreads waking " + waitingThread.uid.ToString("x") + " thread:'" + waitingThread.name + "'");
 						}
 //JAVA TO C# CONVERTER TODO TASK: .NET enumerators are read-only:
 						lit.remove();
@@ -481,13 +481,13 @@ namespace pspsharp.HLE.modules
 				SceKernelThreadInfo waitingThread = lit.Current;
 				if (!waitingThread.Waiting || waitingThread.waitType != JPCSP_WAIT_UMD)
 				{
-					log.warn(string.Format("sceUmdCancelWaitDriveStat thread {0} not waiting on umd", waitingThread));
+					Console.WriteLine(string.Format("sceUmdCancelWaitDriveStat thread {0} not waiting on umd", waitingThread));
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUmdCancelWaitDriveStat waking thread {0}", waitingThread));
+						Console.WriteLine(string.Format("sceUmdCancelWaitDriveStat waking thread {0}", waitingThread));
 					}
 					lit.remove();
 					// Return WAIT_CANCELLED.
@@ -503,9 +503,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x6B4A146C, version : 150)]
 		public virtual int sceUmdGetDriveStat()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUmdGetDriveStat returning 0x{0:X}", UmdStat));
+				Console.WriteLine(string.Format("sceUmdGetDriveStat returning 0x{0:X}", UmdStat));
 			}
 
 			return UmdStat;

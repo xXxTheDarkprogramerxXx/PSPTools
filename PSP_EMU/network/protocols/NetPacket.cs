@@ -28,7 +28,7 @@ namespace pspsharp.network.protocols
 
 	public class NetPacket : BytesPacket
 	{
-		public NetPacket(int length) : base(length)
+		public NetPacket(int Length) : base(Length)
 		{
 			setBigEndian();
 		}
@@ -38,12 +38,12 @@ namespace pspsharp.network.protocols
 			setBigEndian();
 		}
 
-		public NetPacket(sbyte[] buffer, int length) : base(buffer, length)
+		public NetPacket(sbyte[] buffer, int Length) : base(buffer, Length)
 		{
 			setBigEndian();
 		}
 
-		public NetPacket(sbyte[] buffer, int offset, int length) : base(buffer, offset, length)
+		public NetPacket(sbyte[] buffer, int offset, int Length) : base(buffer, offset, Length)
 		{
 			setBigEndian();
 		}
@@ -56,12 +56,12 @@ namespace pspsharp.network.protocols
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public pspsharp.HLE.kernel.types.pspNetMacAddress readMacAddress(int length) throws java.io.EOFException
-		public virtual pspNetMacAddress readMacAddress(int length)
+//ORIGINAL LINE: public pspsharp.HLE.kernel.types.pspNetMacAddress readMacAddress(int Length) throws java.io.EOFException
+		public virtual pspNetMacAddress readMacAddress(int Length)
 		{
 			pspNetMacAddress macAddress = new pspNetMacAddress();
-			readBytes(macAddress.macAddress, 0, System.Math.Min(length, MAC_ADDRESS_LENGTH));
-			skip8(length - MAC_ADDRESS_LENGTH);
+			readBytes(macAddress.macAddress, 0, System.Math.Min(Length, MAC_ADDRESS_LENGTH));
+			skip8(Length - MAC_ADDRESS_LENGTH);
 			return macAddress;
 		}
 
@@ -73,10 +73,10 @@ namespace pspsharp.network.protocols
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public byte[] readIpAddress(int length) throws java.io.EOFException
-		public virtual sbyte[] readIpAddress(int length)
+//ORIGINAL LINE: public byte[] readIpAddress(int Length) throws java.io.EOFException
+		public virtual sbyte[] readIpAddress(int Length)
 		{
-			return readBytes(new sbyte[length]);
+			return readBytes(new sbyte[Length]);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -118,11 +118,11 @@ namespace pspsharp.network.protocols
 				{
 					foreach (string part in parts)
 					{
-						int length = part.Length;
-						if (length > 0)
+						int Length = part.Length;
+						if (Length > 0)
 						{
-							write8(length);
-							for (int i = 0; i < length; i++)
+							write8(Length);
+							for (int i = 0; i < Length; i++)
 							{
 								writeAsciiChar(part[i]);
 							}
@@ -142,11 +142,11 @@ namespace pspsharp.network.protocols
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void writeMacAddress(pspsharp.HLE.kernel.types.pspNetMacAddress macAddress, int length) throws java.io.EOFException
-		public virtual void writeMacAddress(pspNetMacAddress macAddress, int length)
+//ORIGINAL LINE: public void writeMacAddress(pspsharp.HLE.kernel.types.pspNetMacAddress macAddress, int Length) throws java.io.EOFException
+		public virtual void writeMacAddress(pspNetMacAddress macAddress, int Length)
 		{
-			writeBytes(macAddress.macAddress, 0, System.Math.Min(length, MAC_ADDRESS_LENGTH));
-			skip8(length - MAC_ADDRESS_LENGTH);
+			writeBytes(macAddress.macAddress, 0, System.Math.Min(Length, MAC_ADDRESS_LENGTH));
+			skip8(Length - MAC_ADDRESS_LENGTH);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -157,10 +157,10 @@ namespace pspsharp.network.protocols
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void writeIpAddress(byte[] ip, int length) throws java.io.EOFException
-		public virtual void writeIpAddress(sbyte[] ip, int length)
+//ORIGINAL LINE: public void writeIpAddress(byte[] ip, int Length) throws java.io.EOFException
+		public virtual void writeIpAddress(sbyte[] ip, int Length)
 		{
-			writeBytes(ip, 0, length);
+			writeBytes(ip, 0, Length);
 		}
 
 		public static string getIpAddressString(sbyte[] ip)

@@ -49,11 +49,11 @@ namespace pspsharp.HLE.VFS
 			length_Renamed = buffer.Length;
 		}
 
-		public ByteArrayVirtualFile(sbyte[] buffer, int offset, int length)
+		public ByteArrayVirtualFile(sbyte[] buffer, int offset, int Length)
 		{
 			this.buffer = buffer;
 			this.offset = offset;
-			this.length_Renamed = length;
+			this.length_Renamed = Length;
 		}
 
 		public virtual int ioClose()
@@ -101,7 +101,7 @@ namespace pspsharp.HLE.VFS
 			return IO_ERROR;
 		}
 
-		public virtual long length()
+		public virtual long Length()
 		{
 			return length_Renamed;
 		}

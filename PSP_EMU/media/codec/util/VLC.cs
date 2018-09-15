@@ -25,7 +25,7 @@ namespace pspsharp.media.codec.util
 
 	using Atrac3plusDecoder = pspsharp.media.codec.atrac3plus.Atrac3plusDecoder;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class VLC
 	{
@@ -69,13 +69,13 @@ namespace pspsharp.media.codec.util
 				}
 				if (buf[j].bits > 3 * nbBits || buf[j].bits > 32)
 				{
-					log.error(string.Format("Too long VLC ({0:D}) in initVLC", buf[j].bits));
+					Console.WriteLine(string.Format("Too long VLC ({0:D}) in initVLC", buf[j].bits));
 					return -1;
 				}
 				buf[j].code = codes[i];
 				if (buf[j].code >= (1 << buf[j].bits))
 				{
-					log.error(string.Format("Invalid code in initVLC"));
+					Console.WriteLine(string.Format("Invalid code in initVLC"));
 					return -1;
 				}
 				buf[j].code <<= 32 - buf[j].bits;
@@ -90,7 +90,7 @@ namespace pspsharp.media.codec.util
 				j++;
 			}
 
-			Arrays.sort(buf, 0, j);
+			Array.Sort(buf, 0, j);
 
 			for (int i = 0; i < nbCodes; i++)
 			{
@@ -149,7 +149,7 @@ namespace pspsharp.media.codec.util
 						int bits = table[tableIndex + j][1];
 						if (bits != 0 && bits != n)
 						{
-							log.error(string.Format("incorrect codes"));
+							Console.WriteLine(string.Format("incorrect codes"));
 							return -1;
 						}
 						table[tableIndex + j][1] = n; //bits

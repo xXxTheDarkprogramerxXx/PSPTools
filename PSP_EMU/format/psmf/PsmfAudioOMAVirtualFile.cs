@@ -19,7 +19,7 @@ namespace pspsharp.format.psmf
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.VFS.AbstractVirtualFileSystem.IO_ERROR;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using TPointer = pspsharp.HLE.TPointer;
 	using AbstractProxyVirtualFile = pspsharp.HLE.VFS.AbstractProxyVirtualFile;
@@ -43,15 +43,15 @@ namespace pspsharp.format.psmf
 
 		private bool readHeader()
 		{
-			int length = vFile.ioRead(header, 0, header.Length);
-			if (length < header.Length)
+			int Length = vFile.ioRead(header, 0, header.Length);
+			if (Length < header.Length)
 			{
 				return false;
 			}
 
 			if (header[0] != (sbyte) 0x0F || header[1] != unchecked((sbyte) 0xD0))
 			{
-				log.warn(string.Format("Invalid header 0x{0:X2} 0x{1:X2}", header[0] & 0xFF, header[1] & 0xFF));
+				Console.WriteLine(string.Format("Invalid header 0x{0:X2} 0x{1:X2}", header[0] & 0xFF, header[1] & 0xFF));
 				return false;
 			}
 
@@ -81,17 +81,17 @@ namespace pspsharp.format.psmf
 					}
 				}
 
-				int length = vFile.ioRead(outputBuffer, outputOffset, System.Math.Min(outputLength, remainingFrameLength));
-				if (length < 0)
+				int Length = vFile.ioRead(outputBuffer, outputOffset, System.Math.Min(outputLength, remainingFrameLength));
+				if (Length < 0)
 				{
 					error = true;
 					break;
 				}
 
-				readLength += length;
-				outputOffset += length;
-				outputLength -= length;
-				remainingFrameLength -= length;
+				readLength += Length;
+				outputOffset += Length;
+				outputLength -= Length;
+				remainingFrameLength -= Length;
 			}
 
 			if (error && readLength == 0)

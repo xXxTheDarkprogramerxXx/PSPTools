@@ -163,17 +163,17 @@ namespace pspsharp.GUI
 			return pesLength;
 		}
 
-		private void addVideoData(System.IO.Stream @is, int length)
+		private void addVideoData(System.IO.Stream @is, int Length)
 		{
-			if (videoDataOffset + length > videoData.Length)
+			if (videoDataOffset + Length > videoData.Length)
 			{
 				// Extend the inputBuffer
-				int[] newVideoData = new int[videoDataOffset + length];
+				int[] newVideoData = new int[videoDataOffset + Length];
 				Array.Copy(videoData, 0, newVideoData, 0, videoDataOffset);
 				videoData = newVideoData;
 			}
 
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				videoData[videoDataOffset++] = read8(@is);
 			}
@@ -191,7 +191,7 @@ namespace pspsharp.GUI
 			}
 			catch (IOException e)
 			{
-				log.error("readPsmfHeader", e);
+				Console.WriteLine("readPsmfHeader", e);
 				return false;
 			}
 
@@ -265,16 +265,16 @@ namespace pspsharp.GUI
 			}
 		}
 
-		private void consumeVideoData(int length)
+		private void consumeVideoData(int Length)
 		{
-			if (length >= videoDataOffset)
+			if (Length >= videoDataOffset)
 			{
 				videoDataOffset = 0;
 			}
 			else
 			{
-				Array.Copy(videoData, length, videoData, 0, videoDataOffset - length);
-				videoDataOffset -= length;
+				Array.Copy(videoData, Length, videoData, 0, videoDataOffset - Length);
+				videoDataOffset -= Length;
 			}
 		}
 

@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.Allegrex.compiler
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -26,7 +26,7 @@ namespace pspsharp.Allegrex.compiler
 	/// </summary>
 	public class CompilerClassLoader : ClassLoader
 	{
-		public static Logger log = Logger.getLogger("loader");
+		//public static Logger log = Logger.getLogger("loader");
 		private ICompiler compiler;
 
 		public CompilerClassLoader(ICompiler compiler)

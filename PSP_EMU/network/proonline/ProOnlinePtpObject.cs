@@ -84,9 +84,9 @@ namespace pspsharp.network.proonline
 						// Return the ID of the new PTP Object
 						setReturnValue(thread, ptpObject.Id);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("accept completed, creating new Ptp object {0}", ptpObject));
+							Console.WriteLine(string.Format("accept completed, creating new Ptp object {0}", ptpObject));
 						}
 
 						acceptCompleted = true;
@@ -99,7 +99,7 @@ namespace pspsharp.network.proonline
 			}
 			catch (IOException e)
 			{
-				log.error("pollAccept", e);
+				Console.WriteLine("pollAccept", e);
 			}
 
 			return acceptCompleted;

@@ -26,11 +26,11 @@ namespace pspsharp.HLE.modules
 	using SceKernelSemaInfo = pspsharp.HLE.kernel.types.SceKernelSemaInfo;
 	using Screen = pspsharp.hardware.Screen;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceSuspendForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSuspendForUser");
+		//public static Logger log = Modules.getLogger("sceSuspendForUser");
 		public const int KERNEL_POWER_TICK_SUSPEND_AND_DISPLAY = 0;
 		public const int KERNEL_POWER_TICK_SUSPEND = 1;
 		public const int KERNEL_POWER_TICK_DISPLAY = 6;
@@ -74,7 +74,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (type != 0)
 			{
-				log.warn(string.Format("hleKernelVolatileMemLock bad param type={0:D}", type));
+				Console.WriteLine(string.Format("hleKernelVolatileMemLock bad param type={0:D}", type));
 				return ERROR_INVALID_MODE;
 			}
 
@@ -157,7 +157,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (type != 0)
 			{
-				log.warn(string.Format("sceKernelVolatileMemUnlock bad param type={0:D}", type));
+				Console.WriteLine(string.Format("sceKernelVolatileMemUnlock bad param type={0:D}", type));
 				return ERROR_INVALID_MODE;
 			}
 

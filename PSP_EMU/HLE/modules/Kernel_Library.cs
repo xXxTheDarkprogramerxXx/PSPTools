@@ -21,11 +21,11 @@ namespace pspsharp.HLE.modules
 	using Managers = pspsharp.HLE.kernel.Managers;
 	using SceKernelTls = pspsharp.HLE.kernel.types.SceKernelTls;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class Kernel_Library : HLEModule
 	{
-		public static Logger log = Modules.getLogger("Kernel_Library");
+		//public static Logger log = Modules.getLogger("Kernel_Library");
 
 		private readonly int flagInterruptsEnabled = 1;
 		private readonly int flagInterruptsDisabled = 0;
@@ -64,7 +64,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("hleKernelCpuResumeIntr unknown flag value 0x{0:X}", flagInterrupts));
+				Console.WriteLine(string.Format("hleKernelCpuResumeIntr unknown flag value 0x{0:X}", flagInterrupts));
 			}
 		}
 
@@ -152,13 +152,13 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLELogging(level="trace") @HLEFunction(nid = 0x1839852A, version = 150) public int sceKernelMemcpy(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dst, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer src, int length)
+//ORIGINAL LINE: @HLELogging(level="trace") @HLEFunction(nid = 0x1839852A, version = 150) public int sceKernelMemcpy(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dst, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer src, int Length)
 		[HLELogging(level:"trace"), HLEFunction(nid : 0x1839852A, version : 150)]
-		public virtual int sceKernelMemcpy(TPointer dst, TPointer src, int length)
+		public virtual int sceKernelMemcpy(TPointer dst, TPointer src, int Length)
 		{
 			if (dst.Address != src.Address)
 			{
-				dst.Memory.memcpyWithVideoCheck(dst.Address, src.Address, length);
+				dst.Memory.memcpyWithVideoCheck(dst.Address, src.Address, Length);
 			}
 
 			return dst.Address;
@@ -182,9 +182,9 @@ namespace pspsharp.HLE.modules
 			}
 
 			int addr = tls.TlsAddress;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernel_FA835CDE returning 0x{0:X8}", addr));
+				Console.WriteLine(string.Format("sceKernel_FA835CDE returning 0x{0:X8}", addr));
 			}
 
 			return addr;

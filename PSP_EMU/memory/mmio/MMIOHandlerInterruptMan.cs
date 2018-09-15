@@ -35,7 +35,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.hasBit;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using IntrManager = pspsharp.HLE.kernel.managers.IntrManager;
@@ -150,9 +150,9 @@ namespace pspsharp.memory.mmio
 			{
 				if (interruptTriggered[i] && interruptEnabled[i])
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("doTriggerException on {0}", this));
+						Console.WriteLine(string.Format("doTriggerException on {0}", this));
 					}
 					return true;
 				}

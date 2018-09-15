@@ -208,10 +208,10 @@ namespace pspsharp.crypto
 			return seed;
 		}
 
-		private void cryptMember(SD_Ctx2 ctx, sbyte[] data, int data_offset, int length)
+		private void cryptMember(SD_Ctx2 ctx, sbyte[] data, int data_offset, int Length)
 		{
 			int finalSeed;
-			sbyte[] dataBuf = new sbyte[length + 0x14];
+			sbyte[] dataBuf = new sbyte[Length + 0x14];
 			sbyte[] keyBuf1 = new sbyte[0x10];
 			sbyte[] keyBuf2 = new sbyte[0x10];
 			sbyte[] hashBuf = new sbyte[0x10];
@@ -280,7 +280,7 @@ namespace pspsharp.crypto
 			// Copy the first 0xC bytes of the obtained key and replicate them
 			// across a new list buffer. As a terminator, add the ctx1.seed parameter's
 			// 4 bytes (endian swapped) to achieve a full numbered list.
-			for (int i = 0x14; i < (length + 0x14); i += 0x10)
+			for (int i = 0x14; i < (Length + 0x14); i += 0x10)
 			{
 				Array.Copy(keyBuf2, 0, dataBuf, i, 0xC);
 				dataBuf[i + 0xC] = unchecked((sbyte)(ctx.unk & 0xFF));
@@ -291,10 +291,10 @@ namespace pspsharp.crypto
 			}
 
 			// Copy the generated hash to hashBuf.
-			Array.Copy(dataBuf, length + 0x04, hashBuf, 0, 0x10);
+			Array.Copy(dataBuf, Length + 0x04, hashBuf, 0, 0x10);
 
 			// Decrypt the hash with KIRK CMD7.
-			ScrambleSD(dataBuf, length, finalSeed, 5, KIRK.PSP_KIRK_CMD_DECRYPT);
+			ScrambleSD(dataBuf, Length, finalSeed, 5, KIRK.PSP_KIRK_CMD_DECRYPT);
 
 			// XOR the first 16-bytes of data with the saved key to generate a new hash.
 			dataBuf = xorKey(dataBuf, 0, keyBuf1, 0, 0x10);
@@ -303,7 +303,7 @@ namespace pspsharp.crypto
 			Array.Copy(hashBuf, 0, keyBuf1, 0, 0x10);
 
 			// Finally, XOR the full list with the given data.
-			xorKey(data, data_offset, dataBuf, 0, length);
+			xorKey(data, data_offset, dataBuf, 0, Length);
 		}
 
 		/*
@@ -325,19 +325,19 @@ namespace pspsharp.crypto
 			return 0;
 		}
 
-		public virtual int hleSdRemoveValue(SD_Ctx1 ctx, sbyte[] data, int length)
+		public virtual int hleSdRemoveValue(SD_Ctx1 ctx, sbyte[] data, int Length)
 		{
-			if (ctx.padSize > 0x10 || (length < 0))
+			if (ctx.padSize > 0x10 || (Length < 0))
 			{
-				// Invalid key or length.
+				// Invalid key or Length.
 				return -1;
 			}
-			else if (((ctx.padSize + length) <= 0x10))
+			else if (((ctx.padSize + Length) <= 0x10))
 			{
 				// The key hasn't been set yet.
 				// Extract the hash from the data and set it as the key.
-				Array.Copy(data, 0, ctx.pad, ctx.padSize, length);
-				ctx.padSize += length;
+				Array.Copy(data, 0, ctx.pad, ctx.padSize, Length);
+				ctx.padSize += Length;
 				return 0;
 			}
 			else
@@ -351,19 +351,19 @@ namespace pspsharp.crypto
 				// Copy the previous pad key to the buffer.
 				Array.Copy(ctx.pad, 0, scrambleBuf, 0x14, ctx.padSize);
 
-				// Calculate new key length.
-				int kLen = ((ctx.padSize + length) & 0x0F);
+				// Calculate new key Length.
+				int kLen = ((ctx.padSize + Length) & 0x0F);
 				if (kLen == 0)
 				{
 					kLen = 0x10;
 				}
 
-				// Calculate new data length.
+				// Calculate new data Length.
 				int nLen = ctx.padSize;
 				ctx.padSize = kLen;
 
 				// Copy data's footer to make a new key.
-				int remaining = length - kLen;
+				int remaining = Length - kLen;
 				Array.Copy(data, remaining, ctx.pad, 0, kLen);
 
 				// Process the encryption in 0x800 blocks.
@@ -377,7 +377,7 @@ namespace pspsharp.crypto
 						scrambleBuf = xorKey(scrambleBuf, 0x14, ctx.key, 0, 0x10);
 						ScrambleSD(scrambleBuf, blockSize, seed, 0x4, KIRK.PSP_KIRK_CMD_ENCRYPT);
 						Array.Copy(scrambleBuf, blockSize + 0x4, ctx.key, 0, 0x10);
-						// Reset length.
+						// Reset Length.
 						nLen = 0;
 					}
 					// Keep copying data.
@@ -401,7 +401,7 @@ namespace pspsharp.crypto
 		{
 			if (ctx.padSize > 0x10)
 			{
-				// Invalid key length.
+				// Invalid key Length.
 				return -1;
 			}
 
@@ -671,32 +671,32 @@ namespace pspsharp.crypto
 			}
 		}
 
-		public virtual int hleSdSetMember(SD_Ctx2 ctx, sbyte[] data, int length)
+		public virtual int hleSdSetMember(SD_Ctx2 ctx, sbyte[] data, int Length)
 		{
-			if (length == 0)
+			if (Length == 0)
 			{
 				return 0;
 			}
-			if ((length & 0xF) != 0)
+			if ((Length & 0xF) != 0)
 			{
 				return -1;
 			}
 
 			// Parse the data in 0x800 blocks first.
 			int index = 0;
-			if (length >= 0x800)
+			if (Length >= 0x800)
 			{
-				for (index = 0; length >= 0x800; index += 0x800)
+				for (index = 0; Length >= 0x800; index += 0x800)
 				{
 					cryptMember(ctx, data, index, 0x800);
-					length -= 0x800;
+					Length -= 0x800;
 				}
 			}
 
 			// Finally parse the rest of the data.
-			if (length >= 0x10)
+			if (Length >= 0x10)
 			{
-				cryptMember(ctx, data, index, length);
+				cryptMember(ctx, data, index, Length);
 			}
 
 			return 0;

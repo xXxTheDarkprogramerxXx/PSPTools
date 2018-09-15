@@ -19,7 +19,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.alignDown;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Instruction = pspsharp.Allegrex.Common.Instruction;
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
@@ -322,7 +322,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			IMemoryReader memoryReader = MemoryReader.getMemoryReader(srcAddr - srcAddr3, 4);
 			if (memoryReader == null)
 			{
-				Compiler.log.warn("getStrlen: null MemoryReader");
+				Compiler.Console.WriteLine("getStrlen: null MemoryReader");
 				return 0;
 			}
 
@@ -404,7 +404,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			IMemoryReader memoryReader = MemoryReader.getMemoryReader(srcAddr - srcAddr3, 4);
 			if (memoryReader == null)
 			{
-				Compiler.log.warn("getStrlen: null MemoryReader");
+				Compiler.Console.WriteLine("getStrlen: null MemoryReader");
 				return 0;
 			}
 
@@ -488,10 +488,10 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			insn.interpret(RuntimeContext.processor, opcode);
 		}
 
-		protected internal static void invalidateCache(int address, int length)
+		protected internal static void invalidateCache(int address, int Length)
 		{
 			address = Memory.normalize(address);
-			int endAddress = address + length;
+			int endAddress = address + Length;
 			const int invalidateSize = 64;
 			address = alignDown(address, invalidateSize - 1);
 

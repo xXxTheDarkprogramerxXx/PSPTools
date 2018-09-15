@@ -39,7 +39,7 @@ namespace pspsharp.log
 
 	using Category = org.apache.log4j.Category;
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using Priority = org.apache.log4j.Priority;
 
 	/// <summary>
@@ -83,7 +83,7 @@ namespace pspsharp.log
 
 		/// <summary>
 		/// The number of valid bytes in the buffer. This value is always in the
-		/// range <tt>0</tt> through <tt>buf.length</tt>; elements <tt>buf[0]</tt>
+		/// range <tt>0</tt> through <tt>buf.Length</tt>; elements <tt>buf[0]</tt>
 		/// through <tt>buf[count-1]</tt> contain valid byte data.
 		/// </summary>
 		protected internal int count;

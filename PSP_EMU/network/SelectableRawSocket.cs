@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.network
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using sceNetInet = pspsharp.HLE.modules.sceNetInet;
 
@@ -31,9 +31,9 @@ namespace pspsharp.network
 			get
 			{
 				int result = __select(__socket, true, 0, 0);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("SelectableRawSocket.isSelectedForRead: {0:D}", result));
+					Console.WriteLine(string.Format("SelectableRawSocket.isSelectedForRead: {0:D}", result));
 				}
 				return result >= 0;
 			}
@@ -44,9 +44,9 @@ namespace pspsharp.network
 			get
 			{
 				int result = __select(__socket, false, 0, 0);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("SelectableRawSocket.isSelectedForWrite: {0:D}", result));
+					Console.WriteLine(string.Format("SelectableRawSocket.isSelectedForWrite: {0:D}", result));
 				}
 				return result >= 0;
 			}

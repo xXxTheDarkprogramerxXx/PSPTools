@@ -39,11 +39,11 @@ namespace pspsharp.HLE.modules
 	using NetworkAdapterFactory = pspsharp.network.NetworkAdapterFactory;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNet : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNet");
+		//public static Logger log = Modules.getLogger("sceNet");
 		private INetworkAdapter networkAdapter;
 		protected internal int netMemSize;
 		private static readonly int[] look_ctype_table = new int[] {0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x08, 0x08, 0x08, 0x08, 0x08, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x18, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x41, 0x41, 0x41, 0x41, 0x41, 0x41, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x10, 0x10, 0x10, 0x10, 0x20};
@@ -130,7 +130,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.error(string.Format("Cannot parse hex digit '{0}'", c));
+				Console.WriteLine(string.Format("Cannot parse hex digit '{0}'", c));
 				return 0;
 			}
 		}
@@ -218,7 +218,7 @@ namespace pspsharp.HLE.modules
 				// Real message content:
 				content.setValue8(0, (sbyte) 1);
 				content.setValue8(1, (sbyte) 1);
-				content.setValue16(2, (short) endianSwap16(contentLength - 4)); // endian-swapped value, length of following data
+				content.setValue16(2, (short) endianSwap16(contentLength - 4)); // endian-swapped value, Length of following data
 				content.setValue8(4, (sbyte) 0); // Dummy data
 				content.setValue8(5, (sbyte) 0);
 				content.setValue8(6, (sbyte) 0);
@@ -353,9 +353,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xD8722983, version : 150)]
 		public virtual int sceNetStrlen(TPointer srcAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetStrlen '{0}'", srcAddr.StringZ));
+				Console.WriteLine(string.Format("sceNetStrlen '{0}'", srcAddr.StringZ));
 			}
 			return Modules.SysclibForKernelModule.strlen(srcAddr);
 		}
@@ -427,9 +427,9 @@ namespace pspsharp.HLE.modules
 		{
 			int ctype = look_ctype_table[c & 0xFF];
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetLook_ctype_table c='{0}' = 0x{1:X2}", (char) c, ctype));
+				Console.WriteLine(string.Format("sceNetLook_ctype_table c='{0}' = 0x{1:X2}", (char) c, ctype));
 			}
 
 			return ctype;
@@ -514,9 +514,9 @@ namespace pspsharp.HLE.modules
 
 			string s1 = src1Addr.getStringNZ(size);
 			string s2 = src2Addr.getStringNZ(size);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetStrncasecmp s1='{0}', s2='{1}'", s1, s2));
+				Console.WriteLine(string.Format("sceNetStrncasecmp s1='{0}', s2='{1}'", s1, s2));
 			}
 
 			return string.Compare(s1, s2, StringComparison.OrdinalIgnoreCase);
@@ -588,13 +588,13 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x384EFE14, version = 150) public int sceNet_lib_384EFE14(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer in1Addr, int in1Size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer in2Addr, int in2Size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x384EFE14, version = 150) public int sceNet_lib_384EFE14(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer in1Addr, int in1Size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer in2Addr, int in2Size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outAddr)
 		[HLEFunction(nid : 0x384EFE14, version : 150)]
 		public virtual int sceNet_lib_384EFE14(TPointer in1Addr, int in1Size, TPointer in2Addr, int in2Size, TPointer outAddr)
 		{
 			if (in2Size > 64)
 			{
-				log.warn(string.Format("sceNet_lib_384EFE14 not implemented for size=0x{0:X}", in2Size));
+				Console.WriteLine(string.Format("sceNet_lib_384EFE14 not implemented for size=0x{0:X}", in2Size));
 			}
 
 			MessageDigest md;
@@ -604,7 +604,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (NoSuchAlgorithmException e)
 			{
-				log.error("sceNet_lib_384EFE14", e);
+				Console.WriteLine("sceNet_lib_384EFE14", e);
 				return -1;
 			}
 
@@ -655,9 +655,9 @@ namespace pspsharp.HLE.modules
 			string formattedString = Modules.SysMemUserForUserModule.hleKernelSprintf(cpu, format, formatParameters);
 			Utilities.writeStringZ(buffer.Memory, buffer.Address, formattedString);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetVsprintf returning '{0}'", formattedString));
+				Console.WriteLine(string.Format("sceNetVsprintf returning '{0}'", formattedString));
 			}
 
 			return formattedString.Length;
@@ -671,7 +671,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA93A93E9, version = 150) public int _sce_pspnet_callout_stop(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=36, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA93A93E9, version = 150) public int _sce_pspnet_callout_stop(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=36, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0xA93A93E9, version : 150)]
 		public virtual int _sce_pspnet_callout_stop(TPointer unknown)
 		{
@@ -887,7 +887,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD60225A3, version = 150) public int sceNet_lib_D60225A3(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer macAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD60225A3, version = 150) public int sceNet_lib_D60225A3(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer macAddr)
 		[HLEFunction(nid : 0xD60225A3, version : 150)]
 		public virtual int sceNet_lib_D60225A3(TPointer macAddr)
 		{

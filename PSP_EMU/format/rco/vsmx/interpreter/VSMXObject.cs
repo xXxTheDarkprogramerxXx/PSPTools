@@ -180,7 +180,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 			{
 				if (hasPropertyValue("toString"))
 				{
-					log.warn(string.Format("getStringValue on VSMXObject should be calling existing toString: {0}", getPropertyValue("toString")));
+					Console.WriteLine(string.Format("getStringValue on VSMXObject should be calling existing toString: {0}", getPropertyValue("toString")));
 				}
 				return base.StringValue;
 			}
@@ -189,7 +189,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		protected internal virtual void ToString(StringBuilder s)
 		{
 			string[] keys = properties.Keys.toArray(new string[0]);
-			Arrays.sort(keys);
+			Array.Sort(keys);
 			foreach (string key in keys)
 			{
 				VSMXBaseObject value = properties[key];

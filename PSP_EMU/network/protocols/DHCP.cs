@@ -98,7 +98,7 @@ namespace pspsharp.network.protocols
 		public class DHCPOption
 		{
 			internal int tag;
-			internal int length;
+			internal int Length;
 			internal sbyte[] data;
 
 			public DHCPOption()
@@ -114,14 +114,14 @@ namespace pspsharp.network.protocols
 			public DHCPOption(int tag, sbyte data)
 			{
 				this.tag = tag;
-				this.length = 1;
+				this.Length = 1;
 				this.data = new sbyte[] {data};
 			}
 
 			public DHCPOption(int tag, int data)
 			{
 				this.tag = tag;
-				this.length = 4;
+				this.Length = 4;
 				this.data = new sbyte[4];
 				this.data[0] = (sbyte)(data >> 24);
 				this.data[1] = (sbyte)(data >> 16);
@@ -132,7 +132,7 @@ namespace pspsharp.network.protocols
 			public DHCPOption(int tag, sbyte[] data)
 			{
 				this.tag = tag;
-				this.length = data == null ? 0 : data.Length;
+				this.Length = data == null ? 0 : data.Length;
 				this.data = data;
 			}
 
@@ -143,8 +143,8 @@ namespace pspsharp.network.protocols
 				tag = packet.read8();
 				if (!ZeroLengthTag)
 				{
-					length = packet.read8();
-					data = packet.readBytes(length);
+					Length = packet.read8();
+					data = packet.readBytes(Length);
 				}
 			}
 
@@ -152,7 +152,7 @@ namespace pspsharp.network.protocols
 			{
 				get
 				{
-					// PAD and END tags have no length.
+					// PAD and END tags have no Length.
 					return tag == DHCP_OPTION_PAD || tag == DHCP_OPTION_END;
 				}
 			}
@@ -164,7 +164,7 @@ namespace pspsharp.network.protocols
 					return 1;
 				}
 
-				return 2 + length;
+				return 2 + Length;
 			}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -174,8 +174,8 @@ namespace pspsharp.network.protocols
 				packet.write8(tag);
 				if (!ZeroLengthTag)
 				{
-					packet.write8(length);
-					packet.writeBytes(data, 0, length);
+					packet.write8(Length);
+					packet.writeBytes(data, 0, Length);
 				}
 
 				return packet;
@@ -187,7 +187,7 @@ namespace pspsharp.network.protocols
 				{
 					int value = 0;
     
-					switch (length)
+					switch (Length)
 					{
 						case 1:
 							value = data[0] & 0xFF;
@@ -231,7 +231,7 @@ namespace pspsharp.network.protocols
 					return TagName;
 				}
 
-				return string.Format("{0}, length=0x{1:X}, data={2}", TagName, length, Utilities.getMemoryDump(data, 0, length));
+				return string.Format("{0}, Length=0x{1:X}, data={2}", TagName, Length, Utilities.getMemoryDump(data, 0, Length));
 			}
 		}
 
@@ -362,16 +362,16 @@ namespace pspsharp.network.protocols
 			{
 				return false;
 			}
-			if (!Arrays.Equals(ipv4.sourceIPAddress, nullIPAddress))
+			if (!Array.Equals(ipv4.sourceIPAddress, nullIPAddress))
 			{
 				return false;
 			}
-			if (!Arrays.Equals(ipv4.destinationIPAddress, broadcastIPAddress))
+			if (!Array.Equals(ipv4.destinationIPAddress, broadcastIPAddress))
 			{
 				return false;
 			}
 			DHCPOption option = getOptionByTag(DHCP_OPTION_MESSAGE_TYPE);
-			if (option == null || option.length != 1)
+			if (option == null || option.Length != 1)
 			{
 				return false;
 			}
@@ -399,11 +399,11 @@ namespace pspsharp.network.protocols
 			// Verify that the requested IP address is matching
 			// the one specified in the options.
 			DHCPOption requestedIpAddressOption = getOptionByTag(DHCP_OPTION_REQUESTED_IP_ADDRESS);
-			if (requestedIpAddressOption == null || requestedIpAddressOption.length != 4)
+			if (requestedIpAddressOption == null || requestedIpAddressOption.Length != 4)
 			{
 				return false;
 			}
-			if (!Arrays.Equals(requestedIpAddress, requestedIpAddressOption.data))
+			if (!Array.Equals(requestedIpAddress, requestedIpAddressOption.data))
 			{
 				return false;
 			}

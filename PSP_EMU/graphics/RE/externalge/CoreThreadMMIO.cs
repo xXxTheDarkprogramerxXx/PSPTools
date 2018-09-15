@@ -40,7 +40,7 @@ namespace pspsharp.graphics.RE.externalge
 //	import static pspsharp.graphics.RE.externalge.NativeUtils.updateMemoryUnsafeAddr;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using MMIOHandlerGe = pspsharp.memory.mmio.MMIOHandlerGe;
 
@@ -105,18 +105,18 @@ namespace pspsharp.graphics.RE.externalge
 				{
 					updateMemoryUnsafeAddr();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("CoreThreadMMIO processing 0x{0:X8}", NativeUtils.CoreMadr));
+						Console.WriteLine(string.Format("CoreThreadMMIO processing 0x{0:X8}", NativeUtils.CoreMadr));
 					}
 
 					while (coreInterpret())
 					{
 						updateMemoryUnsafeAddr();
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("CoreThreadMMIO looping at 0x{0:X8}", NativeUtils.CoreMadr));
+							Console.WriteLine(string.Format("CoreThreadMMIO looping at 0x{0:X8}", NativeUtils.CoreMadr));
 						}
 
 						if (numberRendererThread > 0 && RendererIndexCount > 0)
@@ -170,7 +170,7 @@ namespace pspsharp.graphics.RE.externalge
 				catch (InterruptedException e)
 				{
 					// Ignore exception and retry again
-					log.debug(string.Format("CoreThreadMMIO waitForSync {0}", e));
+					Console.WriteLine(string.Format("CoreThreadMMIO waitForSync {0}", e));
 				}
 			}
 

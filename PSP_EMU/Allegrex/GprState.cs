@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.Allegrex
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IState = pspsharp.state.IState;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -291,7 +291,7 @@ namespace pspsharp.Allegrex
 					return _ra;
 			}
 
-			Emulator.log.error(string.Format("Unknown register {0:D}", reg));
+			Emulator.Console.WriteLine(string.Format("Unknown register {0:D}", reg));
 			return 0;
 		}
 
@@ -396,7 +396,7 @@ namespace pspsharp.Allegrex
 					return;
 			}
 
-			Emulator.log.error(string.Format("Unknown register {0:D}, value=0x{1:X8}", reg, value));
+			Emulator.Console.WriteLine(string.Format("Unknown register {0:D}, value=0x{1:X8}", reg, value));
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -425,7 +425,7 @@ namespace pspsharp.Allegrex
 
 		public virtual void doUNK(string reason)
 		{
-			Emulator.log.error("Interpreter : " + reason);
+			Emulator.Console.WriteLine("Interpreter : " + reason);
 		}
 
 		public static int extractBits(int x, int pos, int len)

@@ -21,11 +21,11 @@ namespace pspsharp.HLE.modules
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using SoundChannel = pspsharp.sound.SoundChannel;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceVaudio : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceVaudio");
+		//public static Logger log = Modules.getLogger("sceVaudio");
 
 		public override void start()
 		{
@@ -62,9 +62,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (sampleCount < 256 || sampleCount > 2048)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Invalid sampleCount 0x{0:X}", sampleCount));
+					Console.WriteLine(string.Format("Invalid sampleCount 0x{0:X}", sampleCount));
 				}
 				throw new SceKernelErrorException(SceKernelErrors.ERROR_INVALID_SIZE);
 			}
@@ -178,7 +178,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x8986295E, version = 150, checkInsideInterrupt = true) public int sceVaudioOutputBlocking(int vol, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf)
+//ORIGINAL LINE: @HLEFunction(nid = 0x8986295E, version = 150, checkInsideInterrupt = true) public int sceVaudioOutputBlocking(int vol, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf)
 		[HLEFunction(nid : 0x8986295E, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceVaudioOutputBlocking(int vol, TPointer buf)
 		{
@@ -187,26 +187,26 @@ namespace pspsharp.HLE.modules
 			SoundChannel pspVaudioChannel = Modules.sceAudioModule.FreeSRCChannel;
 			if (!pspVaudioChannel.OutputBlocking)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceVaudioOutputBlocking[not blocking] {0}", pspVaudioChannel));
+					Console.WriteLine(string.Format("sceVaudioOutputBlocking[not blocking] {0}", pspVaudioChannel));
 				}
 				if ((vol & PSP_VAUDIO_VOLUME_BASE) != PSP_VAUDIO_VOLUME_BASE)
 				{
 					changeChannelVolume(pspVaudioChannel, vol, vol);
 				}
 				result = doAudioOutput(pspVaudioChannel, buf.Address);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceVaudioOutputBlocking[not blocking] returning {0:D} ({1})", result, pspVaudioChannel));
+					Console.WriteLine(string.Format("sceVaudioOutputBlocking[not blocking] returning {0:D} ({1})", result, pspVaudioChannel));
 				}
 				Modules.ThreadManForUserModule.hleRescheduleCurrentThread();
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceVaudioOutputBlocking[blocking] {0}", pspVaudioChannel));
+					Console.WriteLine(string.Format("sceVaudioOutputBlocking[blocking] {0}", pspVaudioChannel));
 				}
 				blockThreadOutput(pspVaudioChannel, buf.Address, vol, vol);
 			}

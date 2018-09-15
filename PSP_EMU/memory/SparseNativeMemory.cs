@@ -126,14 +126,14 @@ namespace pspsharp.memory
 			Modules.sceDisplayModule.write32(address);
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
 			address &= addressMask;
-			while (length > 0)
+			while (Length > 0)
 			{
-				int pageLength = System.Math.Min(pageSize - (address & pageMask), length);
+				int pageLength = System.Math.Min(pageSize - (address & pageMask), Length);
 				NativeMemoryUtils.memset(memory[address >> pageShift], address & pageMask, data, pageLength);
-				length -= pageLength;
+				Length -= pageLength;
 				address += pageLength;
 			}
 		}
@@ -146,10 +146,10 @@ namespace pspsharp.memory
 			}
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
 			address &= addressMask;
-			ByteBuffer buffer = NativeMemoryUtils.getBuffer(memory[address >> pageShift], address & pageMask, length);
+			ByteBuffer buffer = NativeMemoryUtils.getBuffer(memory[address >> pageShift], address & pageMask, Length);
 
 			// Set the correct byte order
 			if (NativeMemoryUtils.LittleEndian)
@@ -164,26 +164,26 @@ namespace pspsharp.memory
 			return buffer;
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
 			address &= addressMask;
-			length = System.Math.Min(length, source.capacity());
+			Length = System.Math.Min(Length, source.capacity());
 			if (source.Direct)
 			{
-				NativeMemoryUtils.copyBufferToMemory(memory[address >> pageShift], address & pageMask, source, source.position(), length);
+				NativeMemoryUtils.copyBufferToMemory(memory[address >> pageShift], address & pageMask, source, source.position(), Length);
 			}
 			else
 			{
-				for (; length > 0; address++, length--)
+				for (; Length > 0; address++, Length--)
 				{
 					NativeMemoryUtils.write8(memory[address >> pageShift], address & pageMask, source.get());
 				}
 			}
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
@@ -192,15 +192,15 @@ namespace pspsharp.memory
 			source &= addressMask;
 			Modules.sceDisplayModule.write(destination);
 
-			if (!checkOverlap || source >= destination || !areOverlapping(destination, source, length))
+			if (!checkOverlap || source >= destination || !areOverlapping(destination, source, Length))
 			{
-				while (length > 0)
+				while (Length > 0)
 				{
-					int pageLengthDestination = System.Math.Min(pageSize - (destination & pageMask), length);
-					int pageLengthSource = System.Math.Min(pageSize - (source & pageMask), length);
+					int pageLengthDestination = System.Math.Min(pageSize - (destination & pageMask), Length);
+					int pageLengthSource = System.Math.Min(pageSize - (source & pageMask), Length);
 					int pageLength = System.Math.Min(pageLengthDestination, pageLengthSource);
 					NativeMemoryUtils.memcpy(memory[destination >> pageShift], destination & pageMask, memory[source >> pageShift], source & pageMask, pageLength);
-					length -= pageLength;
+					Length -= pageLength;
 					destination += pageLength;
 					source += pageLength;
 				}
@@ -209,7 +209,7 @@ namespace pspsharp.memory
 			{
 				// Source and destination are overlapping and source < destination,
 				// copy from the tail.
-				for (int i = length - 1; i >= 0; i--)
+				for (int i = Length - 1; i >= 0; i--)
 				{
 					int b = read8(source + i);
 					write8(destination + i, (sbyte) b);

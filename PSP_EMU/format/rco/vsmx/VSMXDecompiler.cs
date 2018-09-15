@@ -20,7 +20,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.vsmx
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class VSMXDecompiler
 	{
@@ -548,7 +548,7 @@ namespace pspsharp.format.rco.vsmx
 					decompileOp(s);
 					break;
 				default:
-					log.warn(string.Format("Line #{0:D}: decompileOp({1}) unimplemented", i, VSMXCode.VsmxDecOps[opcode]));
+					Console.WriteLine(string.Format("Line #{0:D}: decompileOp({1}) unimplemented", i, VSMXCode.VsmxDecOps[opcode]));
 					break;
 			}
 		}
@@ -701,7 +701,7 @@ namespace pspsharp.format.rco.vsmx
 				case VSMXCode.VID_DEBUG_LINE:
 					break;
 				default:
-					log.warn(string.Format("Line #{0:D}: decompileStmt({1}) unimplemented", i, VSMXCode.VsmxDecOps[opcode]));
+					Console.WriteLine(string.Format("Line #{0:D}: decompileStmt({1}) unimplemented", i, VSMXCode.VsmxDecOps[opcode]));
 					break;
 			}
 

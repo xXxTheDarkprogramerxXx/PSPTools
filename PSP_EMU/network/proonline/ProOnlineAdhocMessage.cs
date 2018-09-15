@@ -30,17 +30,17 @@ namespace pspsharp.network.proonline
 	{
 		private ProOnlineNetworkAdapter proOnline;
 
-		public ProOnlineAdhocMessage(ProOnlineNetworkAdapter networkAdapter, sbyte[] message, int length) : base(message, length)
+		public ProOnlineAdhocMessage(ProOnlineNetworkAdapter networkAdapter, sbyte[] message, int Length) : base(message, Length)
 		{
 			this.proOnline = networkAdapter;
 		}
 
-		public ProOnlineAdhocMessage(ProOnlineNetworkAdapter networkAdapter, int address, int length) : base(address, length)
+		public ProOnlineAdhocMessage(ProOnlineNetworkAdapter networkAdapter, int address, int Length) : base(address, Length)
 		{
 			this.proOnline = networkAdapter;
 		}
 
-		public ProOnlineAdhocMessage(ProOnlineNetworkAdapter networkAdapter, int address, int length, sbyte[] toMacAddress) : base(address, length, toMacAddress)
+		public ProOnlineAdhocMessage(ProOnlineNetworkAdapter networkAdapter, int address, int Length, sbyte[] toMacAddress) : base(address, Length, toMacAddress)
 		{
 			this.proOnline = networkAdapter;
 		}
@@ -57,12 +57,12 @@ namespace pspsharp.network.proonline
 			}
 		}
 
-		public override void setMessage(sbyte[] message, int length)
+		public override void setMessage(sbyte[] message, int Length)
 		{
-			if (length >= 0)
+			if (Length >= 0)
 			{
 				offset = 0;
-				data = new sbyte[length];
+				data = new sbyte[Length];
 				copyFromBytes(message, data);
 			}
 		}

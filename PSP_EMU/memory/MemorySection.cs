@@ -20,15 +20,15 @@ namespace pspsharp.memory
 	public class MemorySection
 	{
 		private int baseAddress;
-		private int length;
+		private int Length;
 		private bool read;
 		private bool write;
 		private bool execute;
 
-		public MemorySection(int baseAddress, int length, bool read, bool write, bool execute)
+		public MemorySection(int baseAddress, int Length, bool read, bool write, bool execute)
 		{
 			this.baseAddress = baseAddress & Memory.addressMask;
-			this.length = length;
+			this.Length = Length;
 			this.read = read;
 			this.write = write;
 			this.execute = execute;
@@ -46,7 +46,7 @@ namespace pspsharp.memory
 		{
 			get
 			{
-				return baseAddress + length - 1;
+				return baseAddress + Length - 1;
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace pspsharp.memory
 		{
 			get
 			{
-				return length;
+				return Length;
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace pspsharp.memory
 
 		public override string ToString()
 		{
-			return string.Format("MemorySection[0x{0:X8}-0x{1:X8}(length=0x{2:X}) {3}{4}{5}]", BaseAddress, EndAddress, Length, canRead() ? "R" : "", canWrite() ? "W" : "", canExecute() ? "X" : "");
+			return string.Format("MemorySection[0x{0:X8}-0x{1:X8}(Length=0x{2:X}) {3}{4}{5}]", BaseAddress, EndAddress, Length, canRead() ? "R" : "", canWrite() ? "W" : "", canExecute() ? "X" : "");
 		}
 	}
 

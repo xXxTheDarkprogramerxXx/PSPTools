@@ -73,7 +73,7 @@ namespace pspsharp.HLE.modules
 	using DurationStatistics = pspsharp.util.DurationStatistics;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using LWJGLException = org.lwjgl.LWJGLException;
 	using AWTGLCanvas = org.lwjgl.opengl.AWTGLCanvas;
 	using ContextAttribs = org.lwjgl.opengl.ContextAttribs;
@@ -83,7 +83,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceDisplay : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDisplay");
+		//public static Logger log = Modules.getLogger("sceDisplay");
 
 		internal class AWTGLCanvas_sceDisplay : AWTGLCanvas
 		{
@@ -178,7 +178,7 @@ namespace pspsharp.HLE.modules
 					if (outerInstance.saveGEToTexture && !outerInstance.re.FramebufferObjectAvailable)
 					{
 						outerInstance.saveGEToTexture = false;
-						log.warn("Saving GE to Textures has been automatically disabled: FBO is not supported by this OpenGL version");
+						Console.WriteLine("Saving GE to Textures has been automatically disabled: FBO is not supported by this OpenGL version");
 					}
 					outerInstance.isStarted = true;
 				}
@@ -222,9 +222,9 @@ namespace pspsharp.HLE.modules
 
 				if (ExternalGE.Active)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceDisplay.paintGL - ExternalGE - rendering the FB 0x{0:X8}", currentFb.TopAddr));
+						Console.WriteLine(string.Format("sceDisplay.paintGL - ExternalGE - rendering the FB 0x{0:X8}", currentFb.TopAddr));
 					}
 
 					outerInstance.reDisplay.startDisplay();
@@ -253,9 +253,9 @@ namespace pspsharp.HLE.modules
 					}
 					outerInstance.reDisplay.endDisplay();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceDisplay.paintGL - ExternalGE - end display");
+						Console.WriteLine("sceDisplay.paintGL - ExternalGE - end display");
 					}
 				}
 				else if (outerInstance.UsingSoftwareRenderer)
@@ -270,27 +270,27 @@ namespace pspsharp.HLE.modules
 						outerInstance.re.endDisplay();
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceDisplay.paintGL - software - rendering the FB 0x{0:X8}", currentFb.TopAddr));
+						Console.WriteLine(string.Format("sceDisplay.paintGL - software - rendering the FB 0x{0:X8}", currentFb.TopAddr));
 					}
 
 					outerInstance.reDisplay.startDisplay();
 					outerInstance.drawFrameBufferFromMemory(currentFb);
 					outerInstance.reDisplay.endDisplay();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceDisplay.paintGL - software - end display");
+						Console.WriteLine("sceDisplay.paintGL - software - end display");
 					}
 				}
 				else if (outerInstance.OnlyGEGraphics)
 				{
 					// Hardware rendering where only the currently rendered GE list is displayed,
 					// not the frame buffer from memory.
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceDisplay.paintGL - start display - only GE");
+						Console.WriteLine("sceDisplay.paintGL - start display - only GE");
 					}
 					outerInstance.re.startDisplay();
 
@@ -298,9 +298,9 @@ namespace pspsharp.HLE.modules
 					doSwapBuffers = videoEngine.update();
 
 					outerInstance.re.endDisplay();
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceDisplay.paintGL - end display - only GE");
+						Console.WriteLine("sceDisplay.paintGL - end display - only GE");
 					}
 				}
 				else
@@ -309,9 +309,9 @@ namespace pspsharp.HLE.modules
 					// 1) GE list is rendered to the screen
 					// 2) the result of the rendering is stored into the GE frame buffer
 					// 3) the active FB frame buffer is reloaded from memory to the screen for final display
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceDisplay.paintGL - start display");
+						Console.WriteLine("sceDisplay.paintGL - start display");
 					}
 					outerInstance.re.startDisplay();
 
@@ -319,9 +319,9 @@ namespace pspsharp.HLE.modules
 					if (videoEngine.update())
 					{
 						// Save the GE only if it actually drew something
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceDisplay.paintGL - saving the GE to memory 0x{0:X8}", outerInstance.ge.TopAddr));
+							Console.WriteLine(string.Format("sceDisplay.paintGL - saving the GE to memory 0x{0:X8}", outerInstance.ge.TopAddr));
 						}
 
 						if (outerInstance.saveGEToTexture && !videoEngine.isVideoTexture(outerInstance.ge.TopAddr))
@@ -347,9 +347,9 @@ namespace pspsharp.HLE.modules
 					}
 
 					// Render the FB
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceDisplay.paintGL - rendering the FB 0x{0:X8}", currentFb.TopAddr));
+						Console.WriteLine(string.Format("sceDisplay.paintGL - rendering the FB 0x{0:X8}", currentFb.TopAddr));
 					}
 					if (outerInstance.saveGEToTexture && !videoEngine.isVideoTexture(outerInstance.fb.TopAddr))
 					{
@@ -363,9 +363,9 @@ namespace pspsharp.HLE.modules
 
 					outerInstance.re.endDisplay();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceDisplay.paintGL - end display");
+						Console.WriteLine("sceDisplay.paintGL - end display");
 					}
 				}
 
@@ -1099,9 +1099,9 @@ namespace pspsharp.HLE.modules
 				ExternalGE.ScreenScale = viewportResizeFilterScaleFactorInt;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setViewportResizeScaleFactor resize={0:F}, size({1:D}x{2:D}), canvas({3:D}x{4:D}), location({5:D},{6:D})", viewportResizeFilterScaleFactor, size.width, size.height, canvasWidth, canvasHeight, canvas.Location.x, canvas.Location.y));
+				Console.WriteLine(string.Format("setViewportResizeScaleFactor resize={0:F}, size({1:D}x{2:D}), canvas({3:D}x{4:D}), location({5:D},{6:D})", viewportResizeFilterScaleFactor, size.width, size.height, canvasWidth, canvasHeight, canvas.Location.x, canvas.Location.y));
 			}
 		}
 
@@ -1200,24 +1200,24 @@ namespace pspsharp.HLE.modules
 			statisticsCopyMemoryToGe = new DurationStatistics("Copy Memory to GE");
 
 			// Log debug information...
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				try
 				{
 					DisplayMode[] availableDisplayModes = Display.AvailableDisplayModes;
 					for (int i = 0; availableDisplayModes != null && i < availableDisplayModes.Length; i++)
 					{
-						log.debug(string.Format("Available Display Mode #{0:D} = {1}", i, availableDisplayModes[i]));
+						Console.WriteLine(string.Format("Available Display Mode #{0:D} = {1}", i, availableDisplayModes[i]));
 					}
-					log.debug(string.Format("Desktop Display Mode = {0}", Display.DesktopDisplayMode));
-					log.debug(string.Format("Current Display Mode = {0}", Display.DisplayMode));
+					Console.WriteLine(string.Format("Desktop Display Mode = {0}", Display.DesktopDisplayMode));
+					Console.WriteLine(string.Format("Current Display Mode = {0}", Display.DisplayMode));
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("initGL called = %b, OpenGL Version = %s", initGLcalled, openGLversion));
-					log.debug(string.Format("initGL called = %b, OpenGL Version = %s", initGLcalled, openGLversion));
+//ORIGINAL LINE: Console.WriteLine(String.format("initGL called = %b, OpenGL Version = %s", initGLcalled, openGLversion));
+					Console.WriteLine(string.Format("initGL called = %b, OpenGL Version = %s", initGLcalled, openGLversion));
 				}
 				catch (LWJGLException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 			}
 
@@ -1426,13 +1426,13 @@ namespace pspsharp.HLE.modules
 		{
 			if (width <= 0 || height <= 0)
 			{
-				log.warn(string.Format("hleDisplaySetGeMode width={0:D}, height={1:D} bad params", width, height));
+				Console.WriteLine(string.Format("hleDisplaySetGeMode width={0:D}, height={1:D} bad params", width, height));
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleDisplaySetGeMode width={0:D}, height={1:D}", width, height));
+					Console.WriteLine(string.Format("hleDisplaySetGeMode width={0:D}, height={1:D}", width, height));
 				}
 				ge.setDimension(width, height);
 			}
@@ -1445,11 +1445,11 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleDisplaySetGeBuf(int topaddr, int bufferwidth, int pixelformat, bool copyGEToMemory, bool forceLoadGEToScreen, int width, int height)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleDisplaySetGeBuf topaddr=0x%08X, bufferwidth=%d, pixelformat=%d, copyGE=%b, with=%d, height=%d", topaddr, bufferwidth, pixelformat, copyGEToMemory, width, height));
-				log.debug(string.Format("hleDisplaySetGeBuf topaddr=0x%08X, bufferwidth=%d, pixelformat=%d, copyGE=%b, with=%d, height=%d", topaddr, bufferwidth, pixelformat, copyGEToMemory, width, height));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleDisplaySetGeBuf topaddr=0x%08X, bufferwidth=%d, pixelformat=%d, copyGE=%b, with=%d, height=%d", topaddr, bufferwidth, pixelformat, copyGEToMemory, width, height));
+				Console.WriteLine(string.Format("hleDisplaySetGeBuf topaddr=0x%08X, bufferwidth=%d, pixelformat=%d, copyGE=%b, with=%d, height=%d", topaddr, bufferwidth, pixelformat, copyGEToMemory, width, height));
 			}
 
 			// Do not copy the GE to memory or reload it if we are using the software
@@ -1484,14 +1484,14 @@ namespace pspsharp.HLE.modules
 				// First time is usually initializing GE, so we can ignore it
 				if (setGeBufCalledAtLeastOnce)
 				{
-					log.warn(string.Format("hleDisplaySetGeBuf topaddr=0x{0:X8}, bufferwidth={1:D}, pixelformat={2:D} bad params", topaddr, bufferwidth, pixelformat));
+					Console.WriteLine(string.Format("hleDisplaySetGeBuf topaddr=0x{0:X8}, bufferwidth={1:D}, pixelformat={2:D} bad params", topaddr, bufferwidth, pixelformat));
 					gotBadGeBufParams = true;
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleDisplaySetGeBuf topaddr=0x{0:X8}, bufferwidth={1:D}, pixelformat={2:D} bad params", topaddr, bufferwidth, pixelformat));
+						Console.WriteLine(string.Format("hleDisplaySetGeBuf topaddr=0x{0:X8}, bufferwidth={1:D}, pixelformat={2:D} bad params", topaddr, bufferwidth, pixelformat));
 					}
 					setGeBufCalledAtLeastOnce = true;
 				}
@@ -1613,14 +1613,14 @@ namespace pspsharp.HLE.modules
 						softwareRenderingDisplayThread.Daemon = true;
 						softwareRenderingDisplayThread.Name = "GUI";
 						softwareRenderingDisplayThread.Start();
-						log.debug("Starting Software Rendering Display Thread");
+						Console.WriteLine("Starting Software Rendering Display Thread");
 					}
 				}
 				else
 				{
 					if (softwareRenderingDisplayThread != null)
 					{
-						log.debug("Stopping Software Rendering Display Thread");
+						Console.WriteLine("Stopping Software Rendering Display Thread");
 						softwareRenderingDisplayThread.exit();
 						softwareRenderingDisplayThread = null;
 					}
@@ -1686,7 +1686,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("Error saving screenshot", e);
+				Console.WriteLine("Error saving screenshot", e);
 			}
 		}
 
@@ -1889,7 +1889,7 @@ namespace pspsharp.HLE.modules
 				else
 				{
 					// TODO Implement getCurrentDisplayAsBufferedImage for the software renderer
-					log.warn("sceDisplay.getCurrentDisplayAsBufferedImage not yet implemented for the software renderer");
+					Console.WriteLine("sceDisplay.getCurrentDisplayAsBufferedImage not yet implemented for the software renderer");
 				}
 			}
 			else
@@ -2051,7 +2051,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (ge.PixelFormat >= stencilPixelMasks.Length)
 			{
-				log.warn(string.Format("copyGeToMemory: unimplemented pixelformat {0:D} for Stencil buffer copy", ge.PixelFormat));
+				Console.WriteLine(string.Format("copyGeToMemory: unimplemented pixelformat {0:D} for Stencil buffer copy", ge.PixelFormat));
 				return;
 			}
 			if (stencilValueMasks[ge.PixelFormat] == 0)
@@ -2064,9 +2064,9 @@ namespace pspsharp.HLE.modules
 			VideoEngine videoEngine = VideoEngine.Instance;
 			int stencilWidth = System.Math.Min(ge.Width, ge.BufferWidth);
 			int stencilHeight = System.Math.Min(ge.Height, videoEngine.MaxSpriteHeight);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Copy stencil to GE: pixelFormat={0:D}, {1:D}x{2:D}, maxSprite={3:D}x{4:D}", ge.PixelFormat, stencilWidth, stencilHeight, videoEngine.MaxSpriteWidth, videoEngine.MaxSpriteHeight));
+				Console.WriteLine(string.Format("Copy stencil to GE: pixelFormat={0:D}, {1:D}x{2:D}, maxSprite={3:D}x{4:D}", ge.PixelFormat, stencilWidth, stencilHeight, videoEngine.MaxSpriteWidth, videoEngine.MaxSpriteHeight));
 			}
 
 			int stencilBufferSize = stencilWidth * stencilHeight;
@@ -2130,9 +2130,9 @@ namespace pspsharp.HLE.modules
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("copyGeToMemory starting with geTopAddress=0x{0:X8}", geTopAddress));
+				Console.WriteLine(string.Format("copyGeToMemory starting with geTopAddress=0x{0:X8}", geTopAddress));
 			}
 
 			doneCopyGeToMemory = false;
@@ -2148,9 +2148,9 @@ namespace pspsharp.HLE.modules
 			}
 			doneCopyGeToMemory = false;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("copyGeToMemory done with geTopAddress=0x{0:X8}", geTopAddress));
+				Console.WriteLine(string.Format("copyGeToMemory done with geTopAddress=0x{0:X8}", geTopAddress));
 			}
 		}
 
@@ -2230,11 +2230,11 @@ namespace pspsharp.HLE.modules
 		///  </param>
 		private void drawFrameBuffer(FrameBufferSettings fb, bool keepOriginalSize, bool invert, int bufferwidth, int pixelformat, int width, int height)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("drawFrameBuffer fb=%s, keepOriginalSize=%b, invert=%b, bufferWidth=%d, pixelFormat=%d, width=%d, height=%d, %s", fb, keepOriginalSize, invert, bufferwidth, pixelformat, width, height, displayScreen));
-				log.debug(string.Format("drawFrameBuffer fb=%s, keepOriginalSize=%b, invert=%b, bufferWidth=%d, pixelFormat=%d, width=%d, height=%d, %s", fb, keepOriginalSize, invert, bufferwidth, pixelformat, width, height, displayScreen));
+//ORIGINAL LINE: Console.WriteLine(String.format("drawFrameBuffer fb=%s, keepOriginalSize=%b, invert=%b, bufferWidth=%d, pixelFormat=%d, width=%d, height=%d, %s", fb, keepOriginalSize, invert, bufferwidth, pixelformat, width, height, displayScreen));
+				Console.WriteLine(string.Format("drawFrameBuffer fb=%s, keepOriginalSize=%b, invert=%b, bufferWidth=%d, pixelFormat=%d, width=%d, height=%d, %s", fb, keepOriginalSize, invert, bufferwidth, pixelformat, width, height, displayScreen));
 			}
 
 			reDisplay.startDirectRendering(true, false, true, true, !invert, width, height);
@@ -2259,9 +2259,9 @@ namespace pspsharp.HLE.modules
 				//     (576/1024, 326/1024),
 				// while texS==480/512 and texT==272/512
 				scale = (float) getResizedHeight(height) / (float) getResizedHeightPow2(makePow2(height));
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("drawFrameBuffer scale = {0:F} / {1:F} = {2:F}", scale, texT, scale / texT));
+					Console.WriteLine(string.Format("drawFrameBuffer scale = {0:F} / {1:F} = {2:F}", scale, texT, scale / texT));
 				}
 				scale /= texT;
 			}
@@ -2779,7 +2779,7 @@ namespace pspsharp.HLE.modules
 
 		private int hleDisplaySetFrameBufError(int topaddr, int bufferwidth, int pixelformat, int syncType, int error, string errorString)
 		{
-			log.warn(string.Format("sceDisplaySetFrameBuf topaddr=0x{0:X8}, bufferwidth={1:D}, pixelformat={2:D}, syncType={3:D} {4}: returning 0x{5:X8}", topaddr, bufferwidth, pixelformat, syncType, errorString, error));
+			Console.WriteLine(string.Format("sceDisplaySetFrameBuf topaddr=0x{0:X8}, bufferwidth={1:D}, pixelformat={2:D}, syncType={3:D} {4}: returning 0x{5:X8}", topaddr, bufferwidth, pixelformat, syncType, errorString, error));
 			gotBadFbBufParams = true;
 			return error;
 		}
@@ -2933,9 +2933,9 @@ namespace pspsharp.HLE.modules
 			bufferwidthAddr.setValue(fb.BufferWidth);
 			pixelformatAddr.setValue(fb.PixelFormat);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceDisplayGetFrameBuf returning topaddr=0x{0:X8}, bufferwidth=0x{1:X}, pixelformat=0x{2:X}", fb.TopAddr, fb.BufferWidth, fb.PixelFormat));
+				Console.WriteLine(string.Format("sceDisplayGetFrameBuf returning topaddr=0x{0:X8}, bufferwidth=0x{1:X}, pixelformat=0x{2:X}", fb.TopAddr, fb.BufferWidth, fb.PixelFormat));
 			}
 			return 0;
 		}
@@ -2977,9 +2977,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x9C6EAAD7, version : 150)]
 		public virtual int sceDisplayGetVcount()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceDisplayGetVcount returning {0:D}", vcount));
+				Console.WriteLine(string.Format("sceDisplayGetVcount returning {0:D}", vcount));
 			}
 			// 60 units per second
 			return vcount;
@@ -2990,11 +2990,11 @@ namespace pspsharp.HLE.modules
 		{
 			bool isVblank = this.Vblank;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("sceDisplayIsVblank returns %b", isVblank));
-				log.debug(string.Format("sceDisplayIsVblank returns %b", isVblank));
+//ORIGINAL LINE: Console.WriteLine(String.format("sceDisplayIsVblank returns %b", isVblank));
+				Console.WriteLine(string.Format("sceDisplayIsVblank returns %b", isVblank));
 			}
 
 			return isVblank;
@@ -3037,9 +3037,9 @@ namespace pspsharp.HLE.modules
 		{
 			int currentHcount = CurrentHcount;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceDisplayGetCurrentHcount returning {0:D}", currentHcount));
+				Console.WriteLine(string.Format("sceDisplayGetCurrentHcount returning {0:D}", currentHcount));
 			}
 
 			return currentHcount;
@@ -3053,9 +3053,9 @@ namespace pspsharp.HLE.modules
 			int currentHcount = CurrentHcount;
 			int accumulatedHcount = currentHcount + (int)(vcount * hCountPerVblank);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceDisplayGetAccumulatedHcount returning {0:D} (currentHcount={1:D})", accumulatedHcount, currentHcount));
+				Console.WriteLine(string.Format("sceDisplayGetAccumulatedHcount returning {0:D} (currentHcount={1:D})", accumulatedHcount, currentHcount));
 			}
 
 			return accumulatedHcount;

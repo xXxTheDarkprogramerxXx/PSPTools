@@ -130,7 +130,7 @@ namespace pspsharp.graphics.textures
 		/// based on the pixel buffer and the clut table.
 		/// </summary>
 		/// <param name="addr">                pixel buffer </param>
-		/// <param name="bufferLengthInBytes"> texture buffer length in bytes </param>
+		/// <param name="bufferLengthInBytes"> texture buffer Length in bytes </param>
 		/// <param name="lineWidthInBytes">    texture buffer line width in bytes </param>
 		/// <param name="clutAddr">            clut table address </param>
 		/// <param name="clutNumBlocks">       clut number of blocks </param>

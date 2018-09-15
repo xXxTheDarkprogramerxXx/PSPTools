@@ -145,10 +145,10 @@ namespace pspsharp.GUI
 			}
 		}
 
-		private static void write(Memory mem, int addr, sbyte[] data, int offset, int length)
+		private static void write(Memory mem, int addr, sbyte[] data, int offset, int Length)
 		{
-			length = System.Math.Min(length, data.Length - offset);
-			for (int i = 0; i < length; i++)
+			Length = System.Math.Min(Length, data.Length - offset);
+			for (int i = 0; i < Length; i++)
 			{
 				mem.write8(addr + i, data[offset + i]);
 			}

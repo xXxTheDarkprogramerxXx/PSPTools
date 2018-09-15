@@ -86,7 +86,7 @@ namespace pspsharp.log
 			}
 			catch (Exception e)
 			{
-				Emulator.log.error("Exception occured: " + e.Message, e);
+				Emulator.Console.WriteLine("Exception occured: " + e.Message, e);
 			}
 			return (img);
 		}
@@ -149,7 +149,7 @@ namespace pspsharp.log
 				{
 					sw.write(s);
 				}
-				for (int i = 0; i < sw.Buffer.length(); i++)
+				for (int i = 0; i < sw.Buffer.Length(); i++)
 				{
 					if (sw.Buffer.charAt(i) == '\t')
 					{
@@ -157,7 +157,7 @@ namespace pspsharp.log
 					}
 				}
 				trace = sw.ToString();
-				sw.Buffer.delete(0, sw.Buffer.length());
+				sw.Buffer.delete(0, sw.Buffer.Length());
 			}
 			try
 			{

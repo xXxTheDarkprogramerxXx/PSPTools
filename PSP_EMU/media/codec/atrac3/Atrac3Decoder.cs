@@ -25,7 +25,7 @@ namespace pspsharp.media.codec.atrac3
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static Math.sin;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.sqrt;
+//	import static Math.Sqrt;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.media.codec.atrac3.Atrac3Data.clc_length_tab;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
@@ -47,7 +47,7 @@ namespace pspsharp.media.codec.atrac3
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.signExtend;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Atrac = pspsharp.media.codec.atrac3plus.Atrac;
 	using BitReader = pspsharp.media.codec.util.BitReader;
@@ -60,7 +60,7 @@ namespace pspsharp.media.codec.atrac3
 	 */
 	public class Atrac3Decoder : ICodec
 	{
-		public static Logger log = Logger.getLogger("atrac3");
+		//public static Logger log = Logger.getLogger("atrac3");
 		public const int AT3_ERROR = -2;
 		public const int JOINT_STEREO = 0x12;
 		public const int STEREO = 0x2;
@@ -312,7 +312,7 @@ namespace pspsharp.media.codec.atrac3
 		/// Mantissa decoding
 		/// </summary>
 		/// <param name="selector">     which table the output values are coded with </param>
-		/// <param name="codingFlag">   constant length coding or variable length coding </param>
+		/// <param name="codingFlag">   constant Length coding or variable Length coding </param>
 		/// <param name="mantissas">    mantissa output table </param>
 		/// <param name="numCodes">     number of values to get </param>
 		private void readQuantSpectralCoeffs(int selector, int codingFlag, int[] mantissas, int numCodes)
@@ -324,7 +324,7 @@ namespace pspsharp.media.codec.atrac3
 
 			if (codingFlag != 0)
 			{
-				// constant length coding (CLC)
+				// constant Length coding (CLC)
 				int numBits = clc_length_tab[selector];
 
 				if (selector > 1)
@@ -347,7 +347,7 @@ namespace pspsharp.media.codec.atrac3
 			}
 			else
 			{
-				// variable length coding (VLC)
+				// variable Length coding (VLC)
 				if (selector != 1)
 				{
 					for (int i = 0; i < numCodes; i++)
@@ -429,12 +429,12 @@ namespace pspsharp.media.codec.atrac3
 				else
 				{
 					// this subband was not coded, so zero the entire subband
-					Arrays.fill(output, first, first + subbandSize, 0f);
+					Arrays.Fill(output, first, first + subbandSize, 0f);
 				}
 			}
 
 			// clear the subbands that were not coded
-			Arrays.fill(output, subband_tab[i], SAMPLES_PER_FRAME, 0f);
+			Arrays.Fill(output, subband_tab[i], SAMPLES_PER_FRAME, 0f);
 
 			return numSubbands;
 		}
@@ -537,7 +537,7 @@ namespace pspsharp.media.codec.atrac3
 			else
 			{
 				ch[0] = (index & 7) / 7f;
-				ch[1] = (float) sqrt(2f - ch[0] * ch[0]);
+				ch[1] = (float) Sqrt(2f - ch[0] * ch[0]);
 				if (flag != 0)
 				{
 					float tmp = ch[0];
@@ -598,7 +598,7 @@ namespace pspsharp.media.codec.atrac3
 			{
 				if (br.read(2) != 3)
 				{
-					log.error(string.Format("JS mono Sound Unit id != 3"));
+					Console.WriteLine(string.Format("JS mono Sound Unit id != 3"));
 					return AT3_ERROR;
 				}
 			}
@@ -606,7 +606,7 @@ namespace pspsharp.media.codec.atrac3
 			{
 				if (br.read(6) != 0x28)
 				{
-					log.error(string.Format("Sound Unit id != 0x28"));
+					Console.WriteLine(string.Format("Sound Unit id != 0x28"));
 					return AT3_ERROR;
 				}
 			}
@@ -650,7 +650,7 @@ namespace pspsharp.media.codec.atrac3
 				}
 				else
 				{
-					Arrays.fill(snd.imdctBuf, 0, 512, 0f);
+					Arrays.Fill(snd.imdctBuf, 0, 512, 0f);
 				}
 
 				// gain compensation and overlapping
@@ -756,9 +756,9 @@ namespace pspsharp.media.codec.atrac3
 
 			writeOutput(ctx.samples, outputAddr, SAMPLES_PER_FRAME, ctx.channels, ctx.outputChannels);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Bytes read 0x{0:X}", ctx.br.BytesRead));
+				Console.WriteLine(string.Format("Bytes read 0x{0:X}", ctx.br.BytesRead));
 			}
 
 			return ctx.br.BytesRead;

@@ -27,7 +27,7 @@ namespace pspsharp.network.protocols
 		// Frame:
 		//     destination address: 6 octets
 		//     source address: 6 octets
-		//     length/type: 2 octets
+		//     Length/type: 2 octets
 		//     client data: 46 to 1500 octets
 		public pspNetMacAddress dstMac;
 		public pspNetMacAddress srcMac;
@@ -85,7 +85,7 @@ namespace pspsharp.network.protocols
 
 		public override string ToString()
 		{
-			return string.Format("dstMac={0}, srcMac={1}, type/length=0x{2:X4}", dstMac, srcMac, type);
+			return string.Format("dstMac={0}, srcMac={1}, type/Length=0x{2:X4}", dstMac, srcMac, type);
 		}
 	}
 

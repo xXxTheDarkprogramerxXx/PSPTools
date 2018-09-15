@@ -20,7 +20,7 @@ namespace pspsharp.memory.mmio.audio
 //	import static pspsharp.HLE.modules.sceAudio.PSP_AUDIO_VOLUME_MAX;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using AL10 = org.lwjgl.openal.AL10;
 
 	using SoundBufferManager = pspsharp.sound.SoundBufferManager;
@@ -30,7 +30,7 @@ namespace pspsharp.memory.mmio.audio
 
 	public class AudioLine : IState
 	{
-		public static Logger log = MMIOHandlerAudio.log;
+		//public static Logger log = MMIOHandlerAudio.log;
 		private const int STATE_VERSION = 0;
 		private SoundBufferManager soundBufferManager;
 		private int alSource;
@@ -62,9 +62,9 @@ namespace pspsharp.memory.mmio.audio
 			set
 			{
 				this.frequency = value;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AudioLine frequency=0x{0:X}", value));
+					Console.WriteLine(string.Format("AudioLine frequency=0x{0:X}", value));
 				}
 			}
 		}
@@ -74,22 +74,22 @@ namespace pspsharp.memory.mmio.audio
 			set
 			{
 				float gain = value / (float) PSP_AUDIO_VOLUME_MAX;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AudioLine volume=0x{0:X}, gain={1:F}", value, gain));
+					Console.WriteLine(string.Format("AudioLine volume=0x{0:X}, gain={1:F}", value, gain));
 				}
 				AL10.alSourcef(alSource, AL10.AL_GAIN, gain);
 			}
 		}
 
-		public virtual void writeAudioData(int[] data, int offset, int length)
+		public virtual void writeAudioData(int[] data, int offset, int Length)
 		{
-			int audioBytesLength = length * 4;
+			int audioBytesLength = Length * 4;
 			ByteBuffer directBuffer = soundBufferManager.getDirectBuffer(audioBytesLength);
 			directBuffer.order(ByteOrder.LITTLE_ENDIAN);
 			directBuffer.clear();
 			directBuffer.limit(audioBytesLength);
-			directBuffer.asIntBuffer().put(data, offset, length);
+			directBuffer.asIntBuffer().put(data, offset, Length);
 			directBuffer.rewind();
 
 			int alBuffer = soundBufferManager.Buffer;

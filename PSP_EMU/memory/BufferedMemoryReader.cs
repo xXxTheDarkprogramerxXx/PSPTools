@@ -32,9 +32,9 @@ namespace pspsharp.memory
 			init(address);
 		}
 
-		public BufferedMemoryReader(int address, int length)
+		public BufferedMemoryReader(int address, int Length)
 		{
-			memoryReader = MemoryReader.getMemoryReader(address, length, 4);
+			memoryReader = MemoryReader.getMemoryReader(address, Length, 4);
 			init(address);
 		}
 

@@ -25,7 +25,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.graphics.RE.externalge.NativeUtils.INTR_STAT_END;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using sceGe_user = pspsharp.HLE.modules.sceGe_user;
@@ -535,9 +535,9 @@ namespace pspsharp.memory.mmio
 				value = ExternalGE.getCmd(cmd);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("readGeCmd({0})=0x{1:X8}", GeCommands.Instance.getCommandString(cmd), value));
+				Console.WriteLine(string.Format("readGeCmd({0})=0x{1:X8}", GeCommands.Instance.getCommandString(cmd), value));
 			}
 
 			return value;
@@ -570,9 +570,9 @@ namespace pspsharp.memory.mmio
 
 			int value = (int)((uint)Float.floatToRawIntBits(matrix[matrixIndex]) >> 8);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("readMatrix(matrixType={0:D}, matrixIndex={1:D})=0x{2:X}({3:F})", matrixType, matrixIndex, value, matrix[matrixIndex]));
+				Console.WriteLine(string.Format("readMatrix(matrixType={0:D}, matrixIndex={1:D})=0x{2:X}({3:F})", matrixType, matrixIndex, value, matrix[matrixIndex]));
 			}
 
 			return value;

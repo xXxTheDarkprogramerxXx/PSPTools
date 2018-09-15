@@ -98,7 +98,7 @@ namespace pspsharp.network.protocols
 			// - destination IP address (4 bytes)
 			// - 0 (1 byte)
 			// - protocol (1 byte)
-			// - TCP length (2 bytes)
+			// - TCP Length (2 bytes)
 			checksumPacket.writeBytes(ipv4.sourceIPAddress);
 			checksumPacket.writeBytes(ipv4.destinationIPAddress);
 			checksumPacket.write8(0);

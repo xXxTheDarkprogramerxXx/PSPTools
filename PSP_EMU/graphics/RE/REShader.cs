@@ -141,7 +141,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (!base.canNativeClut(0, -1, false))
 				{
-					log.warn("Disabling Native Color Lookup Tables (CLUT)");
+					Console.WriteLine("Disabling Native Color Lookup Tables (CLUT)");
 					useNativeClut = false;
 				}
 				else
@@ -272,7 +272,7 @@ namespace pspsharp.graphics.RE
 				Matcher matcher = Pattern.compile("(\\d+)\\.(\\d+).*").matcher(shadingLanguageVersion);
 				if (!matcher.matches())
 				{
-					log.error(string.Format("Cannot parse Shading Language Version '{0}'", shadingLanguageVersion));
+					Console.WriteLine(string.Format("Cannot parse Shading Language Version '{0}'", shadingLanguageVersion));
 					return availableVersion;
 				}
     
@@ -285,7 +285,7 @@ namespace pspsharp.graphics.RE
 				}
 				catch (System.FormatException)
 				{
-					log.error(string.Format("Cannot parse Shading Language Version '{0}'", shadingLanguageVersion));
+					Console.WriteLine(string.Format("Cannot parse Shading Language Version '{0}'", shadingLanguageVersion));
 				}
     
 				return availableVersion;
@@ -335,9 +335,9 @@ namespace pspsharp.graphics.RE
 			shaderStaticDefines = staticDefines.ToString();
 			shaderDummyDynamicDefines = ShaderProgram.DummyDynamicDefines;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Using shader version {0:D}, available shading language version {1:D}", shaderVersion, AvailableShadingLanguageVersion));
+				Console.WriteLine(string.Format("Using shader version {0:D}, available shading language version {1:D}", shaderVersion, AvailableShadingLanguageVersion));
 			}
 		}
 
@@ -379,7 +379,7 @@ namespace pspsharp.graphics.RE
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 				return false;
 			}
 
@@ -524,7 +524,7 @@ namespace pspsharp.graphics.RE
 
 			re.useProgram(program);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				int shaderAttribWeights1 = re.getAttribLocation(program, attributeNameWeights1);
 				int shaderAttribWeights2 = re.getAttribLocation(program, attributeNameWeights2);
@@ -532,7 +532,7 @@ namespace pspsharp.graphics.RE
 				int shaderAttribNormal = re.getAttribLocation(program, attributeNameNormal);
 				int shaderAttribColor = re.getAttribLocation(program, attributeNameColor);
 				int shaderAttribTexture = re.getAttribLocation(program, attributeNameTexture);
-				log.debug(string.Format("Program {0:D} attribute locations: weights1={1:D}, weights2={2:D}, position={3:D}, normal={4:D}, color={5:D}, texture={6:D}", program, shaderAttribWeights1, shaderAttribWeights2, shaderAttribPosition, shaderAttribNormal, shaderAttribColor, shaderAttribTexture));
+				Console.WriteLine(string.Format("Program {0:D} attribute locations: weights1={1:D}, weights2={2:D}, position={3:D}, normal={4:D}, color={5:D}, texture={6:D}", program, shaderAttribWeights1, shaderAttribWeights2, shaderAttribPosition, shaderAttribNormal, shaderAttribColor, shaderAttribTexture));
 			}
 
 			foreach (Uniforms uniform in Uniforms.values())
@@ -580,7 +580,7 @@ namespace pspsharp.graphics.RE
 			REShader reTestShader = new REShader(re);
 			if (!reTestShader.ValidShader)
 			{
-				log.warn("Shaders do not run correctly on your computer. They have been automatically disabled.");
+				Console.WriteLine("Shaders do not run correctly on your computer. They have been automatically disabled.");
 				return false;
 			}
 
@@ -593,7 +593,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isError)
 				{
-					log.error("Shader error log: " + infoLogs);
+					Console.WriteLine("Shader error log: " + infoLogs);
 				}
 				else
 				{
@@ -609,7 +609,7 @@ namespace pspsharp.graphics.RE
 
 					if (infoLog.Length > 0)
 					{
-						log.warn("Shader log: " + infoLog);
+						Console.WriteLine("Shader log: " + infoLog);
 					}
 				}
 			}
@@ -1050,13 +1050,13 @@ namespace pspsharp.graphics.RE
 					if (shaderProgram.ProgramId == -1)
 					{
 						shaderProgram = createShader(hasGeometryShader, shaderProgram);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("Created shader " + shaderProgram);
+							Console.WriteLine("Created shader " + shaderProgram);
 						}
 						if (shaderProgram == null)
 						{
-							log.error("Cannot create shader");
+							Console.WriteLine("Cannot create shader");
 							return;
 						}
 					}

@@ -24,7 +24,7 @@ namespace pspsharp.graphics.RE.software
 //	import static pspsharp.graphics.RE.software.PixelColor.getColorBGR;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using Modules = pspsharp.HLE.Modules;
@@ -517,7 +517,7 @@ namespace pspsharp.graphics.RE.software
 			if (log.InfoEnabled && DurationStatistics.collectStatistics)
 			{
 				LongLongKey[] filterKeys = filtersStatistics.Keys.toArray(new LongLongKey[filtersStatistics.Count]);
-				Arrays.sort(filterKeys, new FilterComparator());
+				Array.Sort(filterKeys, new FilterComparator());
 				foreach (LongLongKey filterKey in filterKeys)
 				{
 					int? count = filtersStatistics[filterKey];

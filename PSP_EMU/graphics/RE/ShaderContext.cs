@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.graphics.RE
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	/// <summary>

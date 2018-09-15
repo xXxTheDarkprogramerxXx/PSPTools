@@ -50,7 +50,7 @@ namespace pspsharp.format
 			m_imp_end = readUWord(f);
 
 			// Convert the array of bytes used for the module name to a Java String
-			// Calculate the length of the printable portion of the string, otherwise
+			// Calculate the Length of the printable portion of the string, otherwise
 			// any extra trailing characters may be printed as garbage.
 			int len = 0;
 			while (len < 28 && m_name[len] != 0)

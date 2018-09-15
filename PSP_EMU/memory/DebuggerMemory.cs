@@ -116,7 +116,7 @@ namespace pspsharp.memory
 				}
 				else
 				{
-					log.error(string.Format("Unknown token '{0}'", value));
+					Console.WriteLine(string.Format("Unknown token '{0}'", value));
 				}
 			}
 		}
@@ -451,8 +451,8 @@ namespace pspsharp.memory
 			}
 			else
 			{
-				int length = width / 8;
-				message.Append(string.Format("read 0x{0:X8}-0x{1:X8} (length={2:D})", address, address + length, length));
+				int Length = width / 8;
+				message.Append(string.Format("read 0x{0:X8}-0x{1:X8} (Length={2:D})", address, address + Length, Length));
 			}
 
 			return message.ToString();
@@ -533,20 +533,20 @@ namespace pspsharp.memory
 			return mem.allocate();
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
 			// Perform copyToMemory using write8 to check memory access
-			for (int i = 0; i < length && source.hasRemaining(); i++)
+			for (int i = 0; i < Length && source.hasRemaining(); i++)
 			{
 				sbyte value = source.get();
 				write8(address + i, value);
 			}
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
-			memoryRead(address, length * 8, false);
-			return mem.getBuffer(address, length);
+			memoryRead(address, Length * 8, false);
+			return mem.getBuffer(address, Length);
 		}
 
 		public override Buffer MainMemoryByteBuffer
@@ -557,7 +557,7 @@ namespace pspsharp.memory
 			}
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
 			destination = normalizeAddress(destination);
 			source = normalizeAddress(source);
@@ -572,10 +572,10 @@ namespace pspsharp.memory
 			//                 [---destination---]
 			//      => Copy from the tail
 			//
-			if (!checkOverlap || source >= destination || !areOverlapping(destination, source, length))
+			if (!checkOverlap || source >= destination || !areOverlapping(destination, source, Length))
 			{
 				// Perform memcpy using read8/write8 to check memory access
-				for (int i = 0; i < length; i++)
+				for (int i = 0; i < Length; i++)
 				{
 					write8(destination + i, (sbyte) read8(source + i));
 				}
@@ -583,17 +583,17 @@ namespace pspsharp.memory
 			else
 			{
 				// Perform memcpy using read8/write8 to check memory access
-				for (int i = length - 1; i >= 0; i--)
+				for (int i = Length - 1; i >= 0; i--)
 				{
 					write8(destination + i, (sbyte) read8(source + i));
 				}
 			}
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
 			// Perform memset using write8 to check memory access
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				write8(address + i, data);
 			}

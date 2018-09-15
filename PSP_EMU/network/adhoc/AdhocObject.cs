@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.network.adhoc
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using SceUidManager = pspsharp.HLE.kernel.managers.SceUidManager;
@@ -146,7 +146,7 @@ namespace pspsharp.network.adhoc
 				}
 				catch (IOException e)
 				{
-					log.error("Error while closing Adhoc socket", e);
+					Console.WriteLine("Error while closing Adhoc socket", e);
 				}
 				socket = null;
 			}
@@ -192,9 +192,9 @@ namespace pspsharp.network.adhoc
 			{
 				socket.send(socketAddress[i], adhocMessage);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Successfully sent {0:D} bytes to {1}, port {2:D}({3:D}): {4}", adhocMessage.DataLength, socketAddress[i], destPort, realPort, adhocMessage));
+					Console.WriteLine(string.Format("Successfully sent {0:D} bytes to {1}, port {2:D}({3:D}): {4}", adhocMessage.DataLength, socketAddress[i], destPort, realPort, adhocMessage));
 				}
 			}
 		}

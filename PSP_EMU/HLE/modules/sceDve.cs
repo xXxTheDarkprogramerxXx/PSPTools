@@ -17,11 +17,11 @@
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceDve : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDve");
+		//public static Logger log = Modules.getLogger("sceDve");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xDEB2F80C, version = 150) public int sceDve_driver_DEB2F80C(int u)

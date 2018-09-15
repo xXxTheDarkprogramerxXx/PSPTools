@@ -45,7 +45,7 @@ namespace pspsharp.network.proonline
 	using Settings = pspsharp.settings.Settings;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -150,7 +150,7 @@ namespace pspsharp.network.proonline
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("Unable to set the broadcast address", e);
+				Console.WriteLine("Unable to set the broadcast address", e);
 			}
 
 			try
@@ -159,7 +159,7 @@ namespace pspsharp.network.proonline
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("Unable to set the loopback address", e);
+				Console.WriteLine("Unable to set the loopback address", e);
 			}
 
 			try
@@ -168,7 +168,7 @@ namespace pspsharp.network.proonline
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("Unable to set the local address", e);
+				Console.WriteLine("Unable to set the local address", e);
 			}
 
 			upnp = new UPnP();
@@ -190,9 +190,9 @@ namespace pspsharp.network.proonline
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Message not sent to meta server because not connected: {0}", packet));
+					Console.WriteLine(string.Format("Message not sent to meta server because not connected: {0}", packet));
 				}
 			}
 		}
@@ -238,9 +238,9 @@ namespace pspsharp.network.proonline
 
 		public override void sceNetAdhocctlInit()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlInit");
+				Console.WriteLine("sceNetAdhocctlInit");
 			}
 
 			// Wait for a previous instance of the Friend Finder thread to terminate
@@ -264,9 +264,9 @@ namespace pspsharp.network.proonline
 
 		public override void sceNetAdhocctlConnect()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlConnect redirecting to sceNetAdhocctlCreate");
+				Console.WriteLine("sceNetAdhocctlConnect redirecting to sceNetAdhocctlCreate");
 			}
 
 			sceNetAdhocctlCreate();
@@ -274,9 +274,9 @@ namespace pspsharp.network.proonline
 
 		public override void sceNetAdhocctlCreate()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlCreate");
+				Console.WriteLine("sceNetAdhocctlCreate");
 			}
 
 			try
@@ -286,15 +286,15 @@ namespace pspsharp.network.proonline
 			}
 			catch (IOException e)
 			{
-				log.error("sceNetAdhocctlCreate", e);
+				Console.WriteLine("sceNetAdhocctlCreate", e);
 			}
 		}
 
 		public override void sceNetAdhocctlJoin()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlJoin redirecting to sceNetAdhocctlCreate");
+				Console.WriteLine("sceNetAdhocctlJoin redirecting to sceNetAdhocctlCreate");
 			}
 
 			sceNetAdhocctlCreate();
@@ -302,9 +302,9 @@ namespace pspsharp.network.proonline
 
 		public override void sceNetAdhocctlDisconnect()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlDisconnect");
+				Console.WriteLine("sceNetAdhocctlDisconnect");
 			}
 
 			try
@@ -316,15 +316,15 @@ namespace pspsharp.network.proonline
 			}
 			catch (IOException e)
 			{
-				log.error("sceNetAdhocctlDisconnect", e);
+				Console.WriteLine("sceNetAdhocctlDisconnect", e);
 			}
 		}
 
 		public override void sceNetAdhocctlTerm()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlTerm");
+				Console.WriteLine("sceNetAdhocctlTerm");
 			}
 
 			exit_Renamed = true;
@@ -333,9 +333,9 @@ namespace pspsharp.network.proonline
 
 		public override void sceNetAdhocctlScan()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceNetAdhocctlScan");
+				Console.WriteLine("sceNetAdhocctlScan");
 			}
 
 			try
@@ -344,24 +344,24 @@ namespace pspsharp.network.proonline
 			}
 			catch (IOException e)
 			{
-				log.error("sceNetAdhocctlScan", e);
+				Console.WriteLine("sceNetAdhocctlScan", e);
 			}
 		}
 
 		public virtual void sceNetPortOpen(string protocol, int port)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetPortOpen {0}, port={1:D}", protocol, port));
+				Console.WriteLine(string.Format("sceNetPortOpen {0}, port={1:D}", protocol, port));
 			}
 			portManager.addPort(port, protocol);
 		}
 
 		public virtual void sceNetPortClose(string protocol, int port)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetPortClose {0}, port={1:D}", protocol, port));
+				Console.WriteLine(string.Format("sceNetPortClose {0}, port={1:D}", protocol, port));
 			}
 			portManager.removePort(port, protocol);
 		}
@@ -380,11 +380,11 @@ namespace pspsharp.network.proonline
 			}
 			catch (UnknownHostException e)
 			{
-				log.error(string.Format("Could not connect to meta server {0}:{1:D}", metaServer, metaPort), e);
+				Console.WriteLine(string.Format("Could not connect to meta server {0}:{1:D}", metaServer, metaPort), e);
 			}
 			catch (IOException e)
 			{
-				log.error(string.Format("Could not connect to meta server {0}:{1:D}", metaServer, metaPort), e);
+				Console.WriteLine(string.Format("Could not connect to meta server {0}:{1:D}", metaServer, metaPort), e);
 			}
 		}
 
@@ -410,7 +410,7 @@ namespace pspsharp.network.proonline
 				}
 				catch (IOException e)
 				{
-					log.error("friendFinder", e);
+					Console.WriteLine("friendFinder", e);
 				}
 				metaSocket = null;
 			}
@@ -422,9 +422,9 @@ namespace pspsharp.network.proonline
 			sbyte[] buffer = new sbyte[1024];
 			int offset = 0;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("Starting friendFinder");
+				Console.WriteLine("Starting friendFinder");
 			}
 
 			friendFinderActive = true;
@@ -440,12 +440,12 @@ namespace pspsharp.network.proonline
 
 				try
 				{
-					int length = metaSocket.InputStream.read(buffer, offset, buffer.Length - offset);
-					if (length > 0)
+					int Length = metaSocket.InputStream.read(buffer, offset, buffer.Length - offset);
+					if (Length > 0)
 					{
-						offset += length;
+						offset += Length;
 					}
-					else if (length < 0)
+					else if (Length < 0)
 					{
 						// The connection has been closed by the server, try to reconnect...
 						closeConnectionToMetaServer();
@@ -458,7 +458,7 @@ namespace pspsharp.network.proonline
 				}
 				catch (IOException e)
 				{
-					log.error("friendFinder", e);
+					Console.WriteLine("friendFinder", e);
 				}
 
 				if (offset > 0)
@@ -477,9 +477,9 @@ namespace pspsharp.network.proonline
 					}
 					else if (offset >= packet.Length)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Incoming server packet {0}", packet));
+							Console.WriteLine(string.Format("Incoming server packet {0}", packet));
 						}
 						packet.process();
 						consumed = packet.Length;
@@ -493,9 +493,9 @@ namespace pspsharp.network.proonline
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("Exiting friendFinder");
+				Console.WriteLine("Exiting friendFinder");
 			}
 
 			// Be clean, send a disconnect message to the server
@@ -523,9 +523,9 @@ namespace pspsharp.network.proonline
 		{
 			lock (this)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Adding friend nickName='{0}', mac={1}, ip={2}", nickName, mac, convertIpToString(ip)));
+					Console.WriteLine(string.Format("Adding friend nickName='{0}', mac={1}, ip={2}", nickName, mac, convertIpToString(ip)));
 				}
         
 				Modules.sceNetAdhocctlModule.hleNetAdhocctlAddPeer(nickName, mac);
@@ -559,9 +559,9 @@ namespace pspsharp.network.proonline
 		{
 			lock (this)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Deleting friend ip={0}", convertIpToString(ip)));
+					Console.WriteLine(string.Format("Deleting friend ip={0}", convertIpToString(ip)));
 				}
         
 				foreach (MacIp macIp in macIps)
@@ -753,35 +753,35 @@ namespace pspsharp.network.proonline
 			return new ProOnlinePtpObject(this);
 		}
 
-		public override AdhocMessage createAdhocPdpMessage(int address, int length, sbyte[] destMacAddress)
+		public override AdhocMessage createAdhocPdpMessage(int address, int Length, sbyte[] destMacAddress)
 		{
-			return new ProOnlineAdhocMessage(this, address, length, destMacAddress);
+			return new ProOnlineAdhocMessage(this, address, Length, destMacAddress);
 		}
 
-		public override AdhocMessage createAdhocPdpMessage(sbyte[] message, int length)
+		public override AdhocMessage createAdhocPdpMessage(sbyte[] message, int Length)
 		{
-			return new ProOnlineAdhocMessage(this, message, length);
+			return new ProOnlineAdhocMessage(this, message, Length);
 		}
 
-		public override AdhocMessage createAdhocPtpMessage(int address, int length)
+		public override AdhocMessage createAdhocPtpMessage(int address, int Length)
 		{
-			return new ProOnlineAdhocMessage(this, address, length);
+			return new ProOnlineAdhocMessage(this, address, Length);
 		}
 
-		public override AdhocMessage createAdhocPtpMessage(sbyte[] message, int length)
+		public override AdhocMessage createAdhocPtpMessage(sbyte[] message, int Length)
 		{
-			return new ProOnlineAdhocMessage(this, message, length);
+			return new ProOnlineAdhocMessage(this, message, Length);
 		}
 
 		public override AdhocMessage createAdhocGameModeMessage(sceNetAdhoc.GameModeArea gameModeArea)
 		{
-			log.error("Adhoc GameMode not supported by ProOnline");
+			Console.WriteLine("Adhoc GameMode not supported by ProOnline");
 			return null;
 		}
 
-		public override AdhocMessage createAdhocGameModeMessage(sbyte[] message, int length)
+		public override AdhocMessage createAdhocGameModeMessage(sbyte[] message, int Length)
 		{
-			log.error("Adhoc GameMode not supported by ProOnline");
+			Console.WriteLine("Adhoc GameMode not supported by ProOnline");
 			return null;
 		}
 
@@ -800,9 +800,9 @@ namespace pspsharp.network.proonline
 			return MatchingPacketFactory.createPacket(this, matchingObject, @event, data, dataLength, macAddress);
 		}
 
-		public override AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int length)
+		public override AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int Length)
 		{
-			return MatchingPacketFactory.createPacket(this, matchingObject, message, length);
+			return MatchingPacketFactory.createPacket(this, matchingObject, message, Length);
 		}
 
 		public virtual bool isForMe(AdhocMessage adhocMessage, int port, InetAddress address)
@@ -810,9 +810,9 @@ namespace pspsharp.network.proonline
 			sbyte[] fromMacAddress = getMacAddress(address);
 			if (fromMacAddress == null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("not for me: port={0:D}, address={1}, message={2}", port, address, adhocMessage));
+					Console.WriteLine(string.Format("not for me: port={0:D}, address={1}, message={2}", port, address, adhocMessage));
 				}
 				// Unknown source IP address, ignore the message
 				return false;
@@ -827,9 +827,9 @@ namespace pspsharp.network.proonline
 
 		public override void sendChatMessage(string message)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Sending chat message '{0}'", message));
+				Console.WriteLine(string.Format("Sending chat message '{0}'", message));
 			}
 
 			try
@@ -838,15 +838,15 @@ namespace pspsharp.network.proonline
 			}
 			catch (IOException e)
 			{
-				log.warn("Error while sending chat message", e);
+				Console.WriteLine("Error while sending chat message", e);
 			}
 		}
 
 		public virtual void displayChatMessage(string nickName, string message)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Displaying chat message from '{0}': '{1}'", nickName, message));
+				Console.WriteLine(string.Format("Displaying chat message from '{0}': '{1}'", nickName, message));
 			}
 
 			chatGUI.addChatMessage(nickName, message);

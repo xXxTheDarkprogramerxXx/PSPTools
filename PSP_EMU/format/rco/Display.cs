@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using VSMXBaseObject = pspsharp.format.rco.vsmx.interpreter.VSMXBaseObject;
 	using VSMXNativeObject = pspsharp.format.rco.vsmx.interpreter.VSMXNativeObject;
@@ -169,9 +169,9 @@ namespace pspsharp.format.rco
 				if (this.focus != value)
 				{
 					this.focus = value;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Display.setFocus {0}", value));
+						Console.WriteLine(string.Format("Display.setFocus {0}", value));
 					}
 					repaint();
 				}

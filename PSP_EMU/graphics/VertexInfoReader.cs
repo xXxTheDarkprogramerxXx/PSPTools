@@ -30,7 +30,7 @@ namespace pspsharp.graphics
 //	import static pspsharp.graphics.RE.IRenderingEngine_Fields.RE_UNSIGNED_SHORT;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using BufferedMemoryReader = pspsharp.memory.BufferedMemoryReader;
 	using ImageReader = pspsharp.memory.ImageReader;
@@ -373,32 +373,32 @@ namespace pspsharp.graphics
 			// Don't need to read the vertex data if all elements are native
 			if (AllNative)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Not reading Vertex, all native at 0x{0:X8}", address));
+					Console.WriteLine(string.Format("Not reading Vertex, all native at 0x{0:X8}", address));
 				}
 				return null;
 			}
 
 			// Display debug information on non-native elements
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Reading {0:D} Vertex at 0x{1:X8}", numberOfVertex, address + firstVertex * vertexInfo.vertexSize));
+				Console.WriteLine(string.Format("Reading {0:D} Vertex at 0x{1:X8}", numberOfVertex, address + firstVertex * vertexInfo.vertexSize));
 				if (!textureNative)
 				{
-					log.debug("Texture non-native " + vertexInfo.ToString());
+					Console.WriteLine("Texture non-native " + vertexInfo.ToString());
 				}
 				if (!colorNative)
 				{
-					log.debug("Color non-native " + vertexInfo.ToString());
+					Console.WriteLine("Color non-native " + vertexInfo.ToString());
 				}
 				if (!normalNative)
 				{
-					log.debug("Normal non-native " + vertexInfo.ToString());
+					Console.WriteLine("Normal non-native " + vertexInfo.ToString());
 				}
 				if (!positionNative)
 				{
-					log.debug("Position non-native " + vertexInfo.ToString());
+					Console.WriteLine("Position non-native " + vertexInfo.ToString());
 				}
 			}
 

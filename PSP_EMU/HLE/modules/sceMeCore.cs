@@ -21,14 +21,14 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.Allegrex.Common._a1;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Common = pspsharp.Allegrex.Common;
 	using CpuState = pspsharp.Allegrex.CpuState;
 
 	public class sceMeCore : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMeCore");
+		//public static Logger log = Modules.getLogger("sceMeCore");
 
 		private string logParameters(CpuState cpu, int firstParameter, int numberParameters)
 		{
@@ -62,19 +62,19 @@ namespace pspsharp.HLE.modules
 			switch (cmd)
 			{
 				case 0x100: // Called by __sceSasCore
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceMeCore_driver_FA398D71 cmd=0x{0:X}(__sceSasCore), {1}", cmd, logParameters(cpu, _a1, 3)));
+						Console.WriteLine(string.Format("sceMeCore_driver_FA398D71 cmd=0x{0:X}(__sceSasCore), {1}", cmd, logParameters(cpu, _a1, 3)));
 					}
 					break;
 				case 0x101: // Called by __sceSasCoreWithMix
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceMeCore_driver_FA398D71 cmd=0x{0:X}(__sceSasCoreWithMix), {1}", cmd, logParameters(cpu, _a1, 5)));
+						Console.WriteLine(string.Format("sceMeCore_driver_FA398D71 cmd=0x{0:X}(__sceSasCoreWithMix), {1}", cmd, logParameters(cpu, _a1, 5)));
 					}
 					break;
 				default:
-					log.warn(string.Format("sceMeCore_driver_FA398D71 unknown cmd=0x{0:X}, {1}", cmd, logParameters(cpu, _a1, 7)));
+					Console.WriteLine(string.Format("sceMeCore_driver_FA398D71 unknown cmd=0x{0:X}, {1}", cmd, logParameters(cpu, _a1, 7)));
 				break;
 			}
 			return 0;

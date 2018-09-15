@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Model = pspsharp.hardware.Model;
 
 	public class sceSysreg : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSysreg");
+		//public static Logger log = Modules.getLogger("sceSysreg");
 		private long fuseId = 0x12345678ABCDEFL; // Dummy Fuse ID
 		private int fuseConfig = 0x2400; // Value retrieved from a real PSP
 
@@ -30,9 +30,9 @@ namespace pspsharp.HLE.modules
 		{
 			set
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("setFuseId 0x{0:X}", value));
+					Console.WriteLine(string.Format("setFuseId 0x{0:X}", value));
 				}
 				this.fuseId = value;
 			}
@@ -1321,7 +1321,7 @@ namespace pspsharp.HLE.modules
 					tachyon = 0x00500000;
 					break;
 				default:
-					log.warn(string.Format("sceSysregGetTachyonVersion unknown tachyon version for PSP Model {0}", Model.getModelName(Model.Model)));
+					Console.WriteLine(string.Format("sceSysregGetTachyonVersion unknown tachyon version for PSP Model {0}", Model.getModelName(Model.Model)));
 					break;
 			}
 			return tachyon;

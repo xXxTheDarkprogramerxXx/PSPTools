@@ -24,7 +24,7 @@ namespace pspsharp.HLE.modules
 //	import static pspsharp.HLE.Modules.sceChkregModule;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -43,7 +43,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceNand : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNand");
+		//public static Logger log = Modules.getLogger("sceNand");
 		private const int STATE_VERSION = 0;
 		private const bool emulateNand = true;
 		public const int pageSize = 0x200; // 512B per page
@@ -106,7 +106,7 @@ namespace pspsharp.HLE.modules
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				for (int ppn = 0; ppn < ppnToLbn.Length; ppn++)
 				{
@@ -124,7 +124,7 @@ namespace pspsharp.HLE.modules
 							}
 						}
 
-						log.debug(string.Format("Free blocks ppn=0x{0:X}-0x{1:X}", startFreePpn, endFreePpn));
+						Console.WriteLine(string.Format("Free blocks ppn=0x{0:X}-0x{1:X}", startFreePpn, endFreePpn));
 					}
 				}
 			}
@@ -237,7 +237,7 @@ namespace pspsharp.HLE.modules
 			{
 				File file = new File(fileName);
 				System.IO.Stream @is = new System.IO.FileStream(file, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-				bytes = new sbyte[(int) file.length()];
+				bytes = new sbyte[(int) file.Length()];
 				@is.Read(bytes, 0, bytes.Length);
 				@is.Close();
 			}
@@ -577,9 +577,9 @@ namespace pspsharp.HLE.modules
 		{
 			int lbn = ppnToLbn[ppn];
 			int sectorNumber = (lbn - lbnStart) * pagesPerBlock + (ppn % pagesPerBlock);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("readFile ppn=0x{0:X}, lbnStart=0x{1:X}, lbn=0x{2:X}, sectorNumber=0x{3:X}", ppn, lbnStart, lbn, sectorNumber));
+				Console.WriteLine(string.Format("readFile ppn=0x{0:X}, lbnStart=0x{1:X}, lbn=0x{2:X}, sectorNumber=0x{3:X}", ppn, lbnStart, lbn, sectorNumber));
 			}
 			readFile(buffer, vFile, sectorNumber);
 		}
@@ -615,9 +615,9 @@ namespace pspsharp.HLE.modules
 
 		private void readIdStoragePage(TPointer buffer, int page)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("readIdStoragePage page=0x{0:X}", page));
+				Console.WriteLine(string.Format("readIdStoragePage page=0x{0:X}", page));
 			}
 
 			switch (page)
@@ -1031,9 +1031,9 @@ namespace pspsharp.HLE.modules
 		{
 			int lbn = ppnToLbn[ppn];
 			int sectorNumber = (lbn - lbnStart) * pagesPerBlock + (ppn % pagesPerBlock);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("writeFile ppn=0x{0:X}, lbnStart=0x{1:X}, lbn=0x{2:X}, sectorNumber=0x{3:X}", ppn, lbnStart, lbn, sectorNumber));
+				Console.WriteLine(string.Format("writeFile ppn=0x{0:X}, lbnStart=0x{1:X}, lbn=0x{2:X}, sectorNumber=0x{3:X}", ppn, lbnStart, lbn, sectorNumber));
 			}
 			writeFile(buffer, vFile, sectorNumber);
 		}
@@ -1069,9 +1069,9 @@ namespace pspsharp.HLE.modules
 						{
 							if (ppnToLbn[j] == sceNandSpare.lbn)
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("hleNandWriteSparePages moving lbn=0x{0:X4} from ppn=0x{1:X} to ppn=0x{2:X}", sceNandSpare.lbn, j, ppn + i));
+									Console.WriteLine(string.Format("hleNandWriteSparePages moving lbn=0x{0:X4} from ppn=0x{1:X} to ppn=0x{2:X}", sceNandSpare.lbn, j, ppn + i));
 								}
 								ppnToLbn[j] = 0xFFFF;
 								break;
@@ -1084,7 +1084,7 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.error(string.Format("hleNandWriteSparePages moving lbn=0x{0:X4} to ppn=0x{1:X} not being free", sceNandSpare.lbn, ppn + i));
+							Console.WriteLine(string.Format("hleNandWriteSparePages moving lbn=0x{0:X4} to ppn=0x{1:X} not being free", sceNandSpare.lbn, ppn + i));
 						}
 					}
 				}
@@ -1118,7 +1118,7 @@ namespace pspsharp.HLE.modules
 					}
 					else
 					{
-						log.error(string.Format("hleNandWriteUserPages unimplemented write on ppn=0x{0:X}, lbn=0x{1:X}", ppn + i, ppnToLbn[ppn + i]));
+						Console.WriteLine(string.Format("hleNandWriteUserPages unimplemented write on ppn=0x{0:X}, lbn=0x{1:X}", ppn + i, ppnToLbn[ppn + i]));
 					}
 					user.add(pageSize);
 				}
@@ -1228,7 +1228,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8932166A, version = 150) public int sceNandWritePagesRawExtra(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8932166A, version = 150) public int sceNandWritePagesRawExtra(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0x8932166A, version : 150)]
 		public virtual int sceNandWritePagesRawExtra(int ppn, TPointer user, TPointer spare, int len)
 		{
@@ -1236,7 +1236,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5182C394, version = 150) public int sceNandReadExtraOnly(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5182C394, version = 150) public int sceNandReadExtraOnly(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0x5182C394, version : 150)]
 		public virtual int sceNandReadExtraOnly(int ppn, TPointer spare, int len)
 		{
@@ -1245,7 +1245,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x89BDCA08, version = 150) public int sceNandReadPages(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x89BDCA08, version = 150) public int sceNandReadPages(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0x89BDCA08, version : 150)]
 		public virtual int sceNandReadPages(int ppn, TPointer user, TPointer spare, int len)
 		{
@@ -1253,7 +1253,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE05AE88D, version = 150) public int sceNandReadPagesRawExtra(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE05AE88D, version = 150) public int sceNandReadPagesRawExtra(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0xE05AE88D, version : 150)]
 		public virtual int sceNandReadPagesRawExtra(int ppn, TPointer user, TPointer spare, int len)
 		{
@@ -1365,7 +1365,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x766756EF, version = 150) public int sceNandReadAccess(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len, int mode)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x766756EF, version = 150) public int sceNandReadAccess(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len, int mode)
 		[HLEFunction(nid : 0x766756EF, version : 150)]
 		public virtual int sceNandReadAccess(int ppn, TPointer user, TPointer spare, int len, int mode)
 		{
@@ -1373,7 +1373,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0ADC8686, version = 150) public int sceNandWriteAccess(int ppn, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len, int mode)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0ADC8686, version = 150) public int sceNandWriteAccess(int ppn, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len, int mode)
 		[HLEFunction(nid : 0x0ADC8686, version : 150)]
 		public virtual int sceNandWriteAccess(int ppn, TPointer user, TPointer spare, int len, int mode)
 		{
@@ -1381,7 +1381,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8AF0AB9F, version = 150) public int sceNandWritePages(int ppn, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8AF0AB9F, version = 150) public int sceNandWritePages(int ppn, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0x8AF0AB9F, version : 150)]
 		public virtual int sceNandWritePages(int ppn, TPointer user, TPointer spare, int len)
 		{
@@ -1389,7 +1389,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC478C1DE, version = 150) public int sceNandReadPagesRawAll(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC478C1DE, version = 150) public int sceNandReadPagesRawAll(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0xC478C1DE, version : 150)]
 		public virtual int sceNandReadPagesRawAll(int ppn, TPointer user, TPointer spare, int len)
 		{
@@ -1397,7 +1397,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5AC02755, version = 150) public int sceNandVerifyBlockWithRetry(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5AC02755, version = 150) public int sceNandVerifyBlockWithRetry(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer spare)
 		[HLEFunction(nid : 0x5AC02755, version : 150)]
 		public virtual int sceNandVerifyBlockWithRetry(int ppn, TPointer user, TPointer spare)
 		{
@@ -1429,7 +1429,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xBADD5D46, version = 150) public int sceNandWritePagesRawAll(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xBADD5D46, version = 150) public int sceNandWritePagesRawAll(int ppn, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=pageSize, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer user, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer spare, int len)
 		[HLEFunction(nid : 0xBADD5D46, version : 150)]
 		public virtual int sceNandWritePagesRawAll(int ppn, TPointer user, TPointer spare, int len)
 		{
@@ -1485,7 +1485,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEF55F193, version = 150) public int sceNandCalcEcc(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEF55F193, version = 150) public int sceNandCalcEcc(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0xEF55F193, version : 150)]
 		public virtual int sceNandCalcEcc(TPointer buffer)
 		{
@@ -1501,7 +1501,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x88CC9F72, version = 150) public int sceNandCorrectEcc(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int ecc)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x88CC9F72, version = 150) public int sceNandCorrectEcc(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int ecc)
 		[HLEFunction(nid : 0x88CC9F72, version : 150)]
 		public virtual int sceNandCorrectEcc(TPointer buffer, int ecc)
 		{

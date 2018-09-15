@@ -91,126 +91,126 @@ namespace pspsharp.mediaengine
 				switch (value)
 				{
 					case 0x02:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
 						}
 						break;
 					case 0x03:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
 						}
 						break;
 					case 0x04:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
 						}
 						break;
 					case 0x05:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}", value, status, unknown10));
-							log.debug(Utilities.getMemoryDump(Memory, unknown10, 0x1A4, 4, 16));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}", value, status, unknown10));
+							Console.WriteLine(Utilities.getMemoryDump(Memory, unknown10, 0x1A4, 4, 16));
 						}
 						break;
 					case 0x08:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
 						}
 						break;
 					case 0x18:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
 						}
 						break;
 					case 0x1D:
 						// Used at startup
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, power=0x{2:X}, unknown10=0x{3:X8}", value, status, power, unknown10));
-							log.debug(string.Format("unknown10: {0}", Utilities.getMemoryDump(Memory, unknown10, 0x2000, 4, 16)));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, power=0x{2:X}, unknown10=0x{3:X8}", value, status, power, unknown10));
+							Console.WriteLine(string.Format("unknown10: {0}", Utilities.getMemoryDump(Memory, unknown10, 0x2000, 4, 16)));
 						}
 						break;
 					case 0x20:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown14=0x{2:X}, unknown18=0x{3:X}, unknown1C=0x{4:X}, unknown2C=0x{5:X}", value, status, unknown14, unknown18, unknown1C, unknown2C));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown14=0x{2:X}, unknown18=0x{3:X}, unknown1C=0x{4:X}, unknown2C=0x{5:X}", value, status, unknown14, unknown18, unknown1C, unknown2C));
 						}
 						break;
 					case 0x21:
 						// Used during decodeSpectrum
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown14=0x{2:X}, unknown18=0x{3:X}, unknown1C=0x{4:X}", value, status, unknown14, unknown18, unknown1C));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown14=0x{2:X}, unknown18=0x{3:X}, unknown1C=0x{4:X}", value, status, unknown14, unknown18, unknown1C));
 						}
 						break;
 					case 0x28:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown14=0x{2:X}, unknown18=0x{3:X}", value, status, unknown14, unknown18));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown14=0x{2:X}, unknown18=0x{3:X}", value, status, unknown14, unknown18));
 						}
 						break;
 					case 0x40:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
-							log.debug(string.Format("unknown10: {0}", Utilities.getMemoryDump(Memory, unknown10, (unknown14 + 1) << 2), 4, 16));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
+							Console.WriteLine(string.Format("unknown10: {0}", Utilities.getMemoryDump(Memory, unknown10, (unknown14 + 1) << 2), 4, 16));
 						}
 						break;
 					case 0x42:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown1C=0x{5:X}", value, status, unknown10, unknown14, unknown18, unknown1C));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown1C=0x{5:X}", value, status, unknown10, unknown14, unknown18, unknown1C));
 						}
 						break;
 					case 0x45:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
 						}
 						break;
 					case 0x48:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
 						}
 						break;
 					case 0x4D:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}", value, status, unknown10, unknown14, unknown18));
 						}
 						break;
 					case 0x50:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					case 0x52:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					case 0x54:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					case 0x58:
 						if ((unknown14 & 0xFFFF0000) != 0)
 						{
-							log.error(string.Format("Unknown length 0x{0:X} in command 0x{1:X}, status=0x{2:X}, unknown10=0x{3:X8}, unknown14=0x{4:X}, unknown18=0x{5:X}, unknown20=0x{6:X}, unknown24=0x{7:X}, unknown28=0x{8:X}", unknown14, value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown Length 0x{0:X} in command 0x{1:X}, status=0x{2:X}, unknown10=0x{3:X8}, unknown14=0x{4:X}, unknown18=0x{5:X}, unknown20=0x{6:X}, unknown24=0x{7:X}, unknown28=0x{8:X}", unknown14, value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						else if (unknown18 != 0x9C00 || unknown20 != 0 || unknown24 != 0xFFFE || unknown28 != 0)
 						{
-							log.error(string.Format("Unknown parameters in command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown parameters in command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						else
 						{
@@ -221,15 +221,15 @@ namespace pspsharp.mediaengine
 							}
 							memoryWriter.flush();
 						}
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					case 0x5A:
 						if (unknown18 != 0x548 || unknown20 != 4 || unknown24 != 3 || unknown28 != 0x10800)
 						{
-							log.error(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						else if (unknown14 == 0x07FF0000)
 						{
@@ -253,27 +253,27 @@ namespace pspsharp.mediaengine
 						}
 						else
 						{
-							log.error(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					case 0x5B:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					case 0x5D:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
+							Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}, unknown10=0x{2:X8}, unknown14=0x{3:X}, unknown18=0x{4:X}, unknown20=0x{5:X}, unknown24=0x{6:X}, unknown28=0x{7:X}", value, status, unknown10, unknown14, unknown18, unknown20, unknown24, unknown28));
 						}
 						break;
 					default:
-						log.error(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
+						Console.WriteLine(string.Format("Unknown command 0x{0:X}, status=0x{1:X}", value, status));
 						break;
 				}
     

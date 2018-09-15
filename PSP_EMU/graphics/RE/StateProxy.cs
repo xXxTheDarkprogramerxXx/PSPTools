@@ -524,18 +524,18 @@ namespace pspsharp.graphics.RE
 			if (id >= 0 && id <= maxUniformId && count > 0)
 			{
 				float[] oldValues = uniformFloatArray[useProgram_Renamed][id];
-				int length = count * matrix4Size;
-				if (oldValues == null || oldValues.Length < length)
+				int Length = count * matrix4Size;
+				if (oldValues == null || oldValues.Length < Length)
 				{
 					base.setUniformMatrix4(id, count, values);
-					oldValues = new float[length];
-					Array.Copy(values, 0, oldValues, 0, length);
+					oldValues = new float[Length];
+					Array.Copy(values, 0, oldValues, 0, Length);
 					uniformFloatArray[useProgram_Renamed][id] = oldValues;
 				}
 				else
 				{
 					bool differ = false;
-					for (int i = 0; i < length; i++)
+					for (int i = 0; i < Length; i++)
 					{
 						if (oldValues[i] != values[i])
 						{
@@ -547,7 +547,7 @@ namespace pspsharp.graphics.RE
 					if (differ)
 					{
 						base.setUniformMatrix4(id, count, values);
-						Array.Copy(values, 0, oldValues, 0, length);
+						Array.Copy(values, 0, oldValues, 0, Length);
 					}
 				}
 			}
@@ -574,7 +574,7 @@ namespace pspsharp.graphics.RE
 			return values.Length;
 		}
 
-		protected internal virtual int matrixLastUpdated(int id, float[] values, int length)
+		protected internal virtual int matrixLastUpdated(int id, float[] values, int Length)
 		{
 			float[] oldValues = matrix[id];
 
@@ -583,7 +583,7 @@ namespace pspsharp.graphics.RE
 				values = identityMatrix;
 			}
 
-			for (int i = length - 1; i >= 0; i--)
+			for (int i = Length - 1; i >= 0; i--)
 			{
 				if (oldValues[i] != values[i])
 				{

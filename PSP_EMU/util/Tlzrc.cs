@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.util
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * Tlzrc decompression.
@@ -80,7 +80,7 @@ namespace pspsharp.util
 		{
 			if (rc.in_ptr == rc.in_len)
 			{
-				log.error("End of input!");
+				Console.WriteLine("End of input!");
 				return 0;
 			}
 
@@ -91,7 +91,7 @@ namespace pspsharp.util
 		{
 			if (rc.out_ptr == rc.out_len)
 			{
-				log.error("Output overflow!");
+				Console.WriteLine("Output overflow!");
 				return;
 			}
 
@@ -252,7 +252,7 @@ namespace pspsharp.util
 				{
 					// 1 -> a match
 
-					// Find bits of match length
+					// Find bits of match Length
 					int len_bits = 0;
 					for (int i = 0; i < 7; i++)
 					{
@@ -265,7 +265,7 @@ namespace pspsharp.util
 						len_bits++;
 					}
 
-					// Find match length
+					// Find match Length
 					int match_len;
 					if (len_bits == 0)
 					{
@@ -307,7 +307,7 @@ namespace pspsharp.util
 					// Copy match bytes
 					if (match_dist > rc.out_ptr || match_dist < 0)
 					{
-						log.error(string.Format("match_dist out of range! 0x{0:X8}", match_dist));
+						Console.WriteLine(string.Format("match_dist out of range! 0x{0:X8}", match_dist));
 						return -1;
 					}
 

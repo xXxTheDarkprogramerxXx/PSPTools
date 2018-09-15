@@ -21,7 +21,7 @@ namespace pspsharp.sound
 
 	using sceAudio = pspsharp.HLE.modules.sceAudio;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using AL10 = org.lwjgl.openal.AL10;
 
 	public class SoundBufferManager
@@ -74,9 +74,9 @@ namespace pspsharp.sound
 					break;
 				}
 				int alBuffer = AL10.alSourceUnqueueBuffers(alSource);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("free buffer {0:D}", alBuffer));
+					Console.WriteLine(string.Format("free buffer {0:D}", alBuffer));
 				}
 				freeBuffers.Push(alBuffer);
 			}

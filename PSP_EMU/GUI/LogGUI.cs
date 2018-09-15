@@ -61,7 +61,7 @@ namespace pspsharp.GUI
 			try
 			{
 				RandomAccessFile raf = new RandomAccessFile(LogSettingsPath, "r");
-				while (raf.FilePointer < raf.length())
+				while (raf.FilePointer < raf.Length())
 				{
 					settingsArea.append(raf.readLine() + LB);
 				}

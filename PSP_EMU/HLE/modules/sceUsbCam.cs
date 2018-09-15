@@ -24,7 +24,7 @@ namespace pspsharp.HLE.modules
 
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMediaReader = com.xuggle.mediatool.IMediaReader;
 	using MediaListenerAdapter = com.xuggle.mediatool.MediaListenerAdapter;
@@ -53,7 +53,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceUsbCam : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUsbCam");
+		//public static Logger log = Modules.getLogger("sceUsbCam");
 		private const bool dumpJpeg = false;
 
 		public const int PSP_USBCAM_PID = 0x282;
@@ -249,14 +249,14 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.error(string.Format("VideoListener.onVideoPicture: {0}", videoPicture), e);
+							Console.WriteLine(string.Format("VideoListener.onVideoPicture: {0}", videoPicture), e);
 						}
 					}
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("onVideoPicture event={0}, image={1}", @event, image));
+					Console.WriteLine(string.Format("onVideoPicture event={0}, image={1}", @event, image));
 				}
 				if (image != null)
 				{
@@ -346,7 +346,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error("dumping yuyv422 image", e);
+					Console.WriteLine("dumping yuyv422 image", e);
 				}
 			}
 
@@ -446,7 +446,7 @@ namespace pspsharp.HLE.modules
 			{
 				container.close();
 				format.delete();
-				log.error(string.Format("USB Cam: cannot open WebCam ('vfwcap' device)"));
+				Console.WriteLine(string.Format("USB Cam: cannot open WebCam ('vfwcap' device)"));
 				return false;
 			}
 			ret = container.open("0", IContainer.Type.READ, format);
@@ -454,7 +454,7 @@ namespace pspsharp.HLE.modules
 			{
 				container.close();
 				format.delete();
-				log.error(string.Format("USB Cam: cannot open WebCam ('0')"));
+				Console.WriteLine(string.Format("USB Cam: cannot open WebCam ('0')"));
 				return false;
 			}
 			IMediaReader reader = ToolFactory.makeReader(container);
@@ -489,7 +489,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error("setCurrentVideoImage", e);
+						Console.WriteLine("setCurrentVideoImage", e);
 					}
     
 					currentVideoFrameCount++;
@@ -535,15 +535,15 @@ namespace pspsharp.HLE.modules
 				return jpegBufferSize;
 			}
 
-			int length = System.Math.Min(currentVideoImageBytes.Length, jpegBufferSize);
-			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(jpegBuffer.Address, length, 1);
-			for (int i = 0; i < length; i++)
+			int Length = System.Math.Min(currentVideoImageBytes.Length, jpegBufferSize);
+			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(jpegBuffer.Address, Length, 1);
+			for (int i = 0; i < Length; i++)
 			{
 				memoryWriter.writeNext(currentVideoImageBytes[i] & 0xFF);
 			}
 			memoryWriter.flush();
 
-			return length;
+			return Length;
 		}
 
 		private void waitForNextVideoFrame()
@@ -591,7 +591,7 @@ namespace pspsharp.HLE.modules
 
 			if (!setupVideo())
 			{
-				log.warn(string.Format("Cannot find webcam"));
+				Console.WriteLine(string.Format("Cannot find webcam"));
 				return SceKernelErrors.ERROR_USBCAM_NOT_READY;
 			}
 
@@ -626,7 +626,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (!setupVideo())
 			{
-				log.warn(string.Format("Cannot find webcam"));
+				Console.WriteLine(string.Format("Cannot find webcam"));
 			}
 
 			return 0;
@@ -720,9 +720,9 @@ namespace pspsharp.HLE.modules
 
 			if (currentVideoFrameCount <= lastVideoFrameCount)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceUsbCamPollReadVideoFrameEnd not frame end ({0:D} - {1:D})", currentVideoFrameCount, lastVideoFrameCount));
+					Console.WriteLine(string.Format("sceUsbCamPollReadVideoFrameEnd not frame end ({0:D} - {1:D})", currentVideoFrameCount, lastVideoFrameCount));
 				}
 				return SceKernelErrors.ERROR_USBCAM_NO_VIDEO_FRAME_AVAILABLE;
 			}
@@ -895,7 +895,7 @@ namespace pspsharp.HLE.modules
 
 			if (!setupVideo())
 			{
-				log.warn(string.Format("Cannot find webcam"));
+				Console.WriteLine(string.Format("Cannot find webcam"));
 				return SceKernelErrors.ERROR_USBCAM_NOT_READY;
 			}
 

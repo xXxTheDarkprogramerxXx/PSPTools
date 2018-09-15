@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -60,35 +60,35 @@ namespace pspsharp.memory.mmio
 
 		public virtual int read8(int address)
 		{
-			log.error(string.Format("0x{0:X8} - Unimplemented read8(0x{1:X8})", Pc, address));
+			Console.WriteLine(string.Format("0x{0:X8} - Unimplemented read8(0x{1:X8})", Pc, address));
 			return 0;
 		}
 
 		public virtual int read16(int address)
 		{
-			log.error(string.Format("0x{0:X8} - Unimplemented read16(0x{1:X8})", Pc, address));
+			Console.WriteLine(string.Format("0x{0:X8} - Unimplemented read16(0x{1:X8})", Pc, address));
 			return 0;
 		}
 
 		public virtual int read32(int address)
 		{
-			log.error(string.Format("0x{0:X8} - Unimplemented read32(0x{1:X8})", Pc, address));
+			Console.WriteLine(string.Format("0x{0:X8} - Unimplemented read32(0x{1:X8})", Pc, address));
 			return 0;
 		}
 
 		public virtual void write8(int address, sbyte value)
 		{
-			log.error(string.Format("0x{0:X8} - Unimplemented write8(0x{1:X8}, 0x{2:X2})", Pc, address, value));
+			Console.WriteLine(string.Format("0x{0:X8} - Unimplemented write8(0x{1:X8}, 0x{2:X2})", Pc, address, value));
 		}
 
 		public virtual void write16(int address, short value)
 		{
-			log.error(string.Format("0x{0:X8} - Unimplemented write16(0x{1:X8}, 0x{2:X4})", Pc, address, value));
+			Console.WriteLine(string.Format("0x{0:X8} - Unimplemented write16(0x{1:X8}, 0x{2:X4})", Pc, address, value));
 		}
 
 		public virtual void write32(int address, int value)
 		{
-			log.error(string.Format("0x{0:X8} - Unimplemented write32(0x{1:X8}, 0x{2:X8})", Pc, address, value));
+			Console.WriteLine(string.Format("0x{0:X8} - Unimplemented write32(0x{1:X8}, 0x{2:X8})", Pc, address, value));
 		}
 
 		public virtual Logger Logger

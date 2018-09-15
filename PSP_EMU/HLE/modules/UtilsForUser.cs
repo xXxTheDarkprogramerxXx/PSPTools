@@ -27,13 +27,13 @@ namespace pspsharp.HLE.modules
 	using SystemTimeManager = pspsharp.HLE.kernel.managers.SystemTimeManager;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLELogging public class UtilsForUser extends pspsharp.HLE.HLEModule
 	public class UtilsForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("UtilsForUser");
+		//public static Logger log = Modules.getLogger("UtilsForUser");
 
 		private Dictionary<int, SceKernelUtilsMt19937Context> Mt19937List;
 		private SceKernelUtilsMd5Context md5Ctx;
@@ -125,7 +125,7 @@ namespace pspsharp.HLE.modules
 					catch (Exception e)
 					{
 						// Ignore...
-						log.warn(string.Format("SceKernelUtilsContext({0}).result", algorithm), e);
+						Console.WriteLine(string.Format("SceKernelUtilsContext({0}).result", algorithm), e);
 					}
 				}
 
@@ -149,7 +149,7 @@ namespace pspsharp.HLE.modules
 				catch (Exception e)
 				{
 					// Ignore...
-					log.warn(string.Format("SceKernelUtilsContext({0}).digest", algorithm), e);
+					Console.WriteLine(string.Format("SceKernelUtilsContext({0}).digest", algorithm), e);
 				}
 				if (hash != null)
 				{
@@ -221,14 +221,14 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xC8186A58, version = 150) public int sceKernelUtilsMd5Digest(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inAddr, int inSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outAddr)
+//ORIGINAL LINE: @HLEFunction(nid = 0xC8186A58, version = 150) public int sceKernelUtilsMd5Digest(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inAddr, int inSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outAddr)
 		[HLEFunction(nid : 0xC8186A58, version : 150)]
 		public virtual int sceKernelUtilsMd5Digest(TPointer inAddr, int inSize, TPointer outAddr)
 		{
 			int result = SceKernelUtilsMd5Context.digest(inAddr, inSize, outAddr);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelUtilsMd5Digest input:{0}, output:{1}", Utilities.getMemoryDump(inAddr.Address, inSize), Utilities.getMemoryDump(outAddr.Address, 16)));
+				Console.WriteLine(string.Format("sceKernelUtilsMd5Digest input:{0}, output:{1}", Utilities.getMemoryDump(inAddr.Address, inSize), Utilities.getMemoryDump(outAddr.Address, 16)));
 			}
 			return result;
 		}
@@ -253,7 +253,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x840259F1, version = 150) public int sceKernelUtilsSha1Digest(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inAddr, int inSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outAddr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x840259F1, version = 150) public int sceKernelUtilsSha1Digest(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inAddr, int inSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outAddr)
 		[HLEFunction(nid : 0x840259F1, version : 150)]
 		public virtual int sceKernelUtilsSha1Digest(TPointer inAddr, int inSize, TPointer outAddr)
 		{
@@ -295,7 +295,7 @@ namespace pspsharp.HLE.modules
 			SceKernelUtilsMt19937Context ctx = Mt19937List[ctxAddr.Address];
 			if (ctx == null)
 			{
-				log.warn(string.Format("sceKernelUtilsMt19937UInt uninitialised context {0}", ctxAddr));
+				Console.WriteLine(string.Format("sceKernelUtilsMt19937UInt uninitialised context {0}", ctxAddr));
 				return 0;
 			}
 
@@ -310,17 +310,17 @@ namespace pspsharp.HLE.modules
 			if (State.debugger != null)
 			{
 				gpi = State.debugger.GetGPI();
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelGetGPI returning 0x{0:X2}", gpi));
+					Console.WriteLine(string.Format("sceKernelGetGPI returning 0x{0:X2}", gpi));
 				}
 			}
 			else
 			{
 				gpi = 0;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("sceKernelGetGPI debugger not enabled");
+					Console.WriteLine("sceKernelGetGPI debugger not enabled");
 				}
 			}
 
@@ -336,9 +336,9 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("sceKernelSetGPO debugger not enabled");
+					Console.WriteLine("sceKernelSetGPO debugger not enabled");
 				}
 			}
 

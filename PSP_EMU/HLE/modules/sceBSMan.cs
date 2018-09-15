@@ -16,17 +16,17 @@
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceBSMan : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceBSMan");
+		//public static Logger log = Modules.getLogger("sceBSMan");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x46ACDAE3, version = 660) public int sceBSMan_46ACDAE3(@DebugMemory @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=11, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x46ACDAE3, version = 660) public int sceBSMan_46ACDAE3(@DebugMemory @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=11, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x46ACDAE3, version : 660)]
 		public virtual int sceBSMan_46ACDAE3(TPointer buffer)
 		{
@@ -34,7 +34,7 @@ namespace pspsharp.HLE.modules
 			buffer.setValue16(2, (short) 0); // 0 or 1
 
 			// The following bytes are only evaluated when the value at offset 0 is 126.
-			buffer.setValue16(4, (short) 5); // Only valid value is 5 (length of following structure?)
+			buffer.setValue16(4, (short) 5); // Only valid value is 5 (Length of following structure?)
 
 			int unknown678 = 0x080046; // Possible values: 0x080046, 0x001958
 			buffer.setValue8(6, unchecked((sbyte)((unknown678 >> 16) & 0xFF)));

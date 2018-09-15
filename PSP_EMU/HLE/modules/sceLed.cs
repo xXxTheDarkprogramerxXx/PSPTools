@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceLed : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceLed");
+		//public static Logger log = Modules.getLogger("sceLed");
 		public const int PSP_LED_TYPE_MS = 0; //* Memory-Stick LED.
 		public const int PSP_LED_TYPE_WLAN = 1; //* W-LAN LED.
 		public const int PSP_LED_TYPE_BT = 2; //* Bluetooth LED.
@@ -42,7 +42,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> SCE_ERROR_OK on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEA24BE03, version = 150) public int sceLedSetMode(int led, int mode, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer config)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEA24BE03, version = 150) public int sceLedSetMode(int led, int mode, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer config)
 		[HLEFunction(nid : 0xEA24BE03, version : 150)]
 		public virtual int sceLedSetMode(int led, int mode, TPointer config)
 		{

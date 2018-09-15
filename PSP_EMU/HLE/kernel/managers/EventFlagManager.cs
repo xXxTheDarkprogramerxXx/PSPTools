@@ -50,7 +50,7 @@ namespace pspsharp.HLE.kernel.managers
 	using ThreadWaitInfo = pspsharp.HLE.kernel.types.ThreadWaitInfo;
 	using ThreadManForUser = pspsharp.HLE.modules.ThreadManForUser;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class EventFlagManager
 	{
@@ -105,7 +105,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("EventFlag deleted while we were waiting for it! (timeout expired)");
+				Console.WriteLine("EventFlag deleted while we were waiting for it! (timeout expired)");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -121,7 +121,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("EventFlag deleted while we were waiting for it!");
+				Console.WriteLine("EventFlag deleted while we were waiting for it!");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -183,9 +183,9 @@ namespace pspsharp.HLE.kernel.managers
 				}
 				if (checkEventFlag(@event, thread.wait.EventFlag_bits, thread.wait.EventFlag_wait, thread.wait.EventFlag_outBits_addr))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("onEventFlagModified waking thread {0}", thread));
+						Console.WriteLine(string.Format("onEventFlagModified waking thread {0}", thread));
 					}
 					@event.threadWaitingList.removeWaitingThread(thread);
 					thread.cpuContext._v0 = 0;
@@ -224,7 +224,7 @@ namespace pspsharp.HLE.kernel.managers
 				outBitsAddr.setValue(@event.currentPattern);
 				if (log.DebugEnabled && outBitsAddr.NotNull)
 				{
-					log.debug(string.Format("checkEventFlag returning outBits=0x{0:X} at {1}", outBitsAddr.getValue(), outBitsAddr));
+					Console.WriteLine(string.Format("checkEventFlag returning outBits=0x{0:X} at {1}", outBitsAddr.getValue(), outBitsAddr));
 				}
 
 				if ((wait & PSP_EVENT_WAITCLEARALL) == PSP_EVENT_WAITCLEARALL)
@@ -246,7 +246,7 @@ namespace pspsharp.HLE.kernel.managers
 			{
 				if (uid != 0)
 				{
-					log.warn(string.Format("checkEventFlagID unknown uid=0x{0:X}", uid));
+					Console.WriteLine(string.Format("checkEventFlagID unknown uid=0x{0:X}", uid));
 				}
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_EVENT_FLAG);
 			}
@@ -268,7 +268,7 @@ namespace pspsharp.HLE.kernel.managers
 
 			if (@event.NumWaitThreads > 0)
 			{
-				log.warn(string.Format("sceKernelDeleteEventFlag numWaitThreads {0:D}", @event.NumWaitThreads));
+				Console.WriteLine(string.Format("sceKernelDeleteEventFlag numWaitThreads {0:D}", @event.NumWaitThreads));
 			}
 			onEventFlagDeleted(uid);
 
@@ -312,16 +312,16 @@ namespace pspsharp.HLE.kernel.managers
 			SceKernelEventFlagInfo @event = eventMap[uid];
 			if (@event.NumWaitThreads >= 1 && (@event.attr & PSP_EVENT_WAITMULTIPLE) != PSP_EVENT_WAITMULTIPLE)
 			{
-				log.warn("hleKernelWaitEventFlag already another thread waiting on it");
+				Console.WriteLine("hleKernelWaitEventFlag already another thread waiting on it");
 				return ERROR_KERNEL_EVENT_FLAG_NO_MULTI_PERM;
 			}
 
 			if (!checkEventFlag(@event, bits, wait, outBitsAddr))
 			{
 				// Failed, but it's ok, just wait a little
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelWaitEventFlag - {0} fast check failed", @event));
+					Console.WriteLine(string.Format("hleKernelWaitEventFlag - {0} fast check failed", @event));
 				}
 				ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 				SceKernelThreadInfo currentThread = threadMan.CurrentThread;
@@ -337,9 +337,9 @@ namespace pspsharp.HLE.kernel.managers
 			else
 			{
 				// Success, do not reschedule the current thread.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelWaitEventFlag - {0} fast check succeeded", @event));
+					Console.WriteLine(string.Format("hleKernelWaitEventFlag - {0} fast check succeeded", @event));
 				}
 			}
 
@@ -389,9 +389,9 @@ namespace pspsharp.HLE.kernel.managers
 		public virtual int sceKernelReferEventFlagStatus(int uid, TPointer addr)
 		{
 			SceKernelEventFlagInfo @event = eventMap[uid];
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelReferEventFlagStatus event={0}", @event));
+				Console.WriteLine(string.Format("sceKernelReferEventFlagStatus event={0}", @event));
 			}
 			@event.write(addr);
 

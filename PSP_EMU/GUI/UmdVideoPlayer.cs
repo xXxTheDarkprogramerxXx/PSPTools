@@ -68,7 +68,7 @@ namespace pspsharp.GUI
 
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using UmdIsoFile = pspsharp.filesystems.umdiso.UmdIsoFile;
 	using UmdIsoReader = pspsharp.filesystems.umdiso.UmdIsoReader;
@@ -510,9 +510,9 @@ namespace pspsharp.GUI
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("video size {0:D}x{1:D} resizeScaleFactor={2:D}", videoWidth, videoHeight, resizeScaleFactor));
+					Console.WriteLine(string.Format("video size {0:D}x{1:D} resizeScaleFactor={2:D}", videoWidth, videoHeight, resizeScaleFactor));
 				}
 				screenWidth = videoWidth * videoAspectRatioNum / videoAspectRatioDen * resizeScaleFactor;
 				screenHeigth = videoHeight * resizeScaleFactor;
@@ -536,9 +536,9 @@ namespace pspsharp.GUI
 				UmdIsoFile file = iso.getFile("UMD_VIDEO/PLAYLIST.UMD");
 				int umdvMagic = file.readInt();
 				int umdvVersion = file.readInt();
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Magic 0x{0:X8},  version 0x{1:X8}", umdvMagic, umdvVersion));
+					Console.WriteLine(string.Format("Magic 0x{0:X8},  version 0x{1:X8}", umdvMagic, umdvVersion));
 				}
 				int globalDataOffset = endianSwap32(file.readInt());
 				file.seek(globalDataOffset);
@@ -547,7 +547,7 @@ namespace pspsharp.GUI
 				file.skipBytes(2); // NULL.
 				if (umdvMagic != 0x56444D55)
 				{ // UMDV
-					log.warn("Accessing invalid PLAYLIST.UMD file!");
+					Console.WriteLine("Accessing invalid PLAYLIST.UMD file!");
 				}
 				else
 				{
@@ -587,7 +587,7 @@ namespace pspsharp.GUI
 					file.skipBytes(2); // NULL.
 					int streamLastTimestamp = endianSwap32(file.readInt());
 					file.skipBytes(2); // NULL.
-					int streamMarkerDataLength = endianSwap16(file.readShort()); // Stream's markers' data length.
+					int streamMarkerDataLength = endianSwap16(file.readShort()); // Stream's markers' data Length.
 					MpsStreamMarkerInfo[] streamMarkers;
 					if (streamMarkerDataLength > 0)
 					{
@@ -596,7 +596,7 @@ namespace pspsharp.GUI
 						for (int j = 0; j < streamMarkersNum; j++)
 						{
 							file.skipBytes(1); // 0x05.
-							int streamMarkerCharsNum = (int) file.readByte(); // Marker name length.
+							int streamMarkerCharsNum = (int) file.readByte(); // Marker name Length.
 							file.skipBytes(4); // NULL.
 							long streamMarkerTimestamp = endianSwap32(file.readInt()) & 0xFFFFFFFFL;
 							file.skipBytes(2); // NULL.
@@ -615,17 +615,17 @@ namespace pspsharp.GUI
 					}
 					// Map this stream.
 					MpsStreamInfo info = new MpsStreamInfo(this, streamName, streamWidth, streamHeight, streamFirstTimestamp, streamLastTimestamp, streamMarkers, i + 1);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Release date {0:D}-{1:D}-{2:D}, name '{3}', unknown=0x{4:X4}", releaseDateYear, releaseDateMonth, releaseDateDay, name, unknown));
-						log.debug(string.Format("StreamInfo #{0:D}: {1}", i, info));
+						Console.WriteLine(string.Format("Release date {0:D}-{1:D}-{2:D}, name '{3}', unknown=0x{4:X4}", releaseDateYear, releaseDateMonth, releaseDateDay, name, unknown));
+						Console.WriteLine(string.Format("StreamInfo #{0:D}: {1}", i, info));
 					}
 					mpsStreams.Add(info);
 				}
 			}
 			catch (Exception e)
 			{
-				log.error("parsePlaylistFile", e);
+				Console.WriteLine("parsePlaylistFile", e);
 			}
 		}
 
@@ -698,17 +698,17 @@ namespace pspsharp.GUI
 
 				if (!string.ReferenceEquals(resourceFileName, null))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Reading RCO file '{0}'", resourceFileName));
+						Console.WriteLine(string.Format("Reading RCO file '{0}'", resourceFileName));
 					}
 					UmdIsoFile file = iso.getFile("UMD_VIDEO/RESOURCE/" + resourceFileName);
-					sbyte[] buffer = new sbyte[(int) file.length()];
+					sbyte[] buffer = new sbyte[(int) file.Length()];
 					file.read(buffer);
 					RCO rco = new RCO(buffer);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("RCO: {0}", rco));
+						Console.WriteLine(string.Format("RCO: {0}", rco));
 					}
 
 					rcoState = rco.execute(this, resourceFileName.Replace(".RCO", ""));
@@ -719,7 +719,7 @@ namespace pspsharp.GUI
 			}
 			catch (IOException e)
 			{
-				log.error("parse RCO", e);
+				Console.WriteLine("parse RCO", e);
 			}
 
 		}
@@ -729,16 +729,16 @@ namespace pspsharp.GUI
 			try
 			{
 				UmdIsoFile file = iso.getFile(string.Format("UMD_VIDEO/RESOURCE/{0}.RCO", resourceName));
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Reading RCO file '{0}.RCO'", resourceName));
+					Console.WriteLine(string.Format("Reading RCO file '{0}.RCO'", resourceName));
 				}
-				sbyte[] buffer = new sbyte[(int) file.length()];
+				sbyte[] buffer = new sbyte[(int) file.Length()];
 				file.read(buffer);
 				RCO rco = new RCO(buffer);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("RCO: {0}", rco));
+					Console.WriteLine(string.Format("RCO: {0}", rco));
 				}
 
 				RCODisplay.changeResource();
@@ -749,7 +749,7 @@ namespace pspsharp.GUI
 			}
 			catch (IOException e)
 			{
-				log.error("changeResource", e);
+				Console.WriteLine("changeResource", e);
 			}
 		}
 
@@ -808,7 +808,7 @@ namespace pspsharp.GUI
 			}
 			catch (IOException e)
 			{
-				Emulator.log.error(e);
+				Emulator.Console.WriteLine(e);
 			}
 
 			if (isoFile != null)
@@ -850,9 +850,9 @@ namespace pspsharp.GUI
 
 		public virtual void resumeVideo()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Resume video"));
+				Console.WriteLine(string.Format("Resume video"));
 			}
 			videoPaused = false;
 			fastForwardSpeed = 0;
@@ -870,9 +870,9 @@ namespace pspsharp.GUI
 				fastForwardSpeed = System.Math.Min(fastForwardSpeeds.Length - 1, fastForwardSpeed + 1);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Fast forward {0:D}, fast rewind {1:D}", fastForwardSpeed, fastRewindSpeed));
+				Console.WriteLine(string.Format("Fast forward {0:D}, fast rewind {1:D}", fastForwardSpeed, fastRewindSpeed));
 			}
 		}
 
@@ -887,9 +887,9 @@ namespace pspsharp.GUI
 				fastRewindSpeed = System.Math.Min(fastRewindSpeeds.Length - 1, fastRewindSpeed + 1);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Fast forward {0:D}, fast rewind {1:D}", fastForwardSpeed, fastRewindSpeed));
+				Console.WriteLine(string.Format("Fast forward {0:D}, fast rewind {1:D}", fastForwardSpeed, fastRewindSpeed));
 			}
 		}
 
@@ -1083,21 +1083,21 @@ namespace pspsharp.GUI
 			return newArray;
 		}
 
-		private void addVideoData(int length, long position)
+		private void addVideoData(int Length, long position)
 		{
-			videoData = resize(videoData, videoDataOffset + length);
+			videoData = resize(videoData, videoDataOffset + Length);
 
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				videoData[videoDataOffset++] = read8();
 			}
 		}
 
-		private void addAudioData(int length)
+		private void addAudioData(int Length)
 		{
-			audioData = resize(audioData, audioDataOffset + length);
+			audioData = resize(audioData, audioDataOffset + Length);
 
-			while (length > 0)
+			while (Length > 0)
 			{
 				int currentFrameLength = audioFrameLength == 0 ? 0 : audioDataOffset % audioFrameLength;
 				if (currentFrameLength == 0)
@@ -1108,17 +1108,17 @@ namespace pspsharp.GUI
 					// - byte 2: 0x28
 					// - byte 3: (frameLength - 8) / 8
 					// - bytes 4-7: 0x00
-					while (frameHeaderLength < frameHeader.Length && length > 0)
+					while (frameHeaderLength < frameHeader.Length && Length > 0)
 					{
 						frameHeader[frameHeaderLength++] = read8();
-						length--;
+						Length--;
 					}
 					if (frameHeaderLength < frameHeader.Length)
 					{
 						// Frame header not yet complete
 						break;
 					}
-					if (length == 0)
+					if (Length == 0)
 					{
 						// Frame header is complete but no data is following the header.
 						// Retry when some data is available
@@ -1131,23 +1131,23 @@ namespace pspsharp.GUI
 					{
 						if (log.InfoEnabled)
 						{
-							log.warn(string.Format("Audio frame length 0x{0:X} with incorrect header (header: {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2})", audioFrameLength, frameHeader[0], frameHeader[1], frameHeader[2], frameHeader[3], frameHeader[4], frameHeader[5], frameHeader[6], frameHeader[7]));
+							Console.WriteLine(string.Format("Audio frame Length 0x{0:X} with incorrect header (header: {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2})", audioFrameLength, frameHeader[0], frameHeader[1], frameHeader[2], frameHeader[3], frameHeader[4], frameHeader[5], frameHeader[6], frameHeader[7]));
 						}
 					}
 					else if (log.TraceEnabled)
 					{
-						log.trace(string.Format("Audio frame length 0x{0:X} (header: {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2})", audioFrameLength, frameHeader[0], frameHeader[1], frameHeader[2], frameHeader[3], frameHeader[4], frameHeader[5], frameHeader[6], frameHeader[7]));
+						log.trace(string.Format("Audio frame Length 0x{0:X} (header: {1:X2} {2:X2} {3:X2} {4:X2} {5:X2} {6:X2} {7:X2} {8:X2})", audioFrameLength, frameHeader[0], frameHeader[1], frameHeader[2], frameHeader[3], frameHeader[4], frameHeader[5], frameHeader[6], frameHeader[7]));
 					}
 
 					frameHeaderLength = 0;
 				}
 				int lengthToNextFrame = audioFrameLength - currentFrameLength;
-				int readLength = Utilities.min(length, lengthToNextFrame);
+				int readLength = Utilities.min(Length, lengthToNextFrame);
 				for (int i = 0; i < readLength; i++)
 				{
 					audioData[audioDataOffset++] = read8();
 				}
-				length -= readLength;
+				Length -= readLength;
 			}
 		}
 
@@ -1235,31 +1235,31 @@ namespace pspsharp.GUI
 			return false;
 		}
 
-		private void consumeVideoData(int length)
+		private void consumeVideoData(int Length)
 		{
-			if (length >= videoDataOffset)
+			if (Length >= videoDataOffset)
 			{
 				videoDataOffset = 0;
 				lastParsePosition = 0;
 			}
 			else
 			{
-				Array.Copy(videoData, length, videoData, 0, videoDataOffset - length);
-				videoDataOffset -= length;
-				lastParsePosition -= length;
+				Array.Copy(videoData, Length, videoData, 0, videoDataOffset - Length);
+				videoDataOffset -= Length;
+				lastParsePosition -= Length;
 			}
 		}
 
-		private void consumeAudioData(int length)
+		private void consumeAudioData(int Length)
 		{
-			if (length >= audioDataOffset)
+			if (Length >= audioDataOffset)
 			{
 				audioDataOffset = 0;
 			}
 			else
 			{
-				Array.Copy(audioData, length, audioData, 0, audioDataOffset - length);
-				audioDataOffset -= length;
+				Array.Copy(audioData, Length, audioData, 0, audioDataOffset - Length);
+				audioDataOffset -= Length;
 			}
 		}
 

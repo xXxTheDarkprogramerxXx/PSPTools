@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceChkreg : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceChkreg");
+		//public static Logger log = Modules.getLogger("sceChkreg");
 		public const int PS_CODE_JAPAN = 3;
 		public const int PS_CODE_NORTH_AMERICA = 4;
 		public const int PS_CODE_EUROPE = 5;
@@ -51,7 +51,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x59F8491D, version = 150) public int sceChkregGetPsCode(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 psCode)
+//ORIGINAL LINE: @HLEFunction(nid = 0x59F8491D, version = 150) public int sceChkregGetPsCode(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 psCode)
 		[HLEFunction(nid : 0x59F8491D, version : 150)]
 		public virtual int sceChkregGetPsCode(TPointer8 psCode)
 		{

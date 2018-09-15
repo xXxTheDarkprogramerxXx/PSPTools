@@ -34,7 +34,7 @@ namespace pspsharp.network.pspsharp
 			}
 		}
 
-		public JpcspAdhocGameModeMessage(sbyte[] message, int length) : base(message, length)
+		public JpcspAdhocGameModeMessage(sbyte[] message, int Length) : base(message, Length)
 		{
 		}
 	}

@@ -23,7 +23,7 @@ namespace pspsharp.HLE.VFS.filters
 	/// </summary>
 	public interface IVirtualFileFilter : IVirtualFile
 	{
-		void filter(sbyte[] data, int offset, int length);
+		void filter(sbyte[] data, int offset, int Length);
 		IVirtualFile VirtualFile {set;}
 	}
 

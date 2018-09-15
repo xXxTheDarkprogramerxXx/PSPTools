@@ -30,7 +30,7 @@ namespace pspsharp.Allegrex.compiler
 
 		public virtual void addAddress(int rawAddress)
 		{
-			const int length = 4;
+			const int Length = 4;
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int address = rawAddress & pspsharp.Memory.addressMask;
 			int address = rawAddress & Memory.addressMask;
@@ -39,12 +39,12 @@ namespace pspsharp.Allegrex.compiler
 				// The most common case: the address is extending the top of the range
 				if (address == memoryRange.Address + memoryRange.Length)
 				{
-					memoryRange.extendTop(length);
+					memoryRange.extendTop(Length);
 					return;
 				}
-				if (address == memoryRange.Address - length)
+				if (address == memoryRange.Address - Length)
 				{
-					memoryRange.extendBottom(length);
+					memoryRange.extendBottom(Length);
 					return;
 				}
 				if (memoryRange.isOverlappingWithAddress(address))
@@ -54,7 +54,7 @@ namespace pspsharp.Allegrex.compiler
 				}
 			}
 
-			MemoryRange memoryRange = new MemoryRange(rawAddress, length);
+			MemoryRange memoryRange = new MemoryRange(rawAddress, Length);
 			ranges.Add(memoryRange);
 		}
 

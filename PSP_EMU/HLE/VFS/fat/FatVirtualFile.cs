@@ -49,7 +49,7 @@ namespace pspsharp.HLE.VFS.fat
 //	import static pspsharp.HLE.kernel.types.pspAbstractMemoryMappedStructure.charset16;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using ScePspDateTime = pspsharp.HLE.kernel.types.ScePspDateTime;
 	using IoFileMgrForUser = pspsharp.HLE.modules.IoFileMgrForUser;
@@ -62,7 +62,7 @@ namespace pspsharp.HLE.VFS.fat
 	// See format description: https://en.wikipedia.org/wiki/Design_of_the_FAT_file_system
 	public abstract class FatVirtualFile : IVirtualFile
 	{
-		public static Logger log = Logger.getLogger("fat");
+		//public static Logger log = Logger.getLogger("fat");
 		private const int STATE_VERSION = 0;
 		public const int sectorSize = 512;
 		protected internal const int firstClusterNumber = 2;
@@ -94,9 +94,9 @@ namespace pspsharp.HLE.VFS.fat
 			this.totalSectors = totalSectors;
 			fatSectors = getFatSectors(totalSectors, SectorsPerCluster);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("totalSectors=0x{0:X}, fatSectors=0x{1:X}", totalSectors, fatSectors));
+				Console.WriteLine(string.Format("totalSectors=0x{0:X}, fatSectors=0x{1:X}", totalSectors, fatSectors));
 			}
 
 			int usedSectors = reservedSectors + fatSectors * numberOfFats;
@@ -176,9 +176,9 @@ namespace pspsharp.HLE.VFS.fat
 			int extend = clusterNumber + 1 - fatClusterMap.Length;
 			if (extend > 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("extendClusterMap clusterNumber=0x{0:X}, extend=0x{1:X}", clusterNumber, extend));
+					Console.WriteLine(string.Format("extendClusterMap clusterNumber=0x{0:X}, extend=0x{1:X}", clusterNumber, extend));
 				}
 				fatClusterMap = Utilities.extendArray(fatClusterMap, extend);
 				fatFileInfoMap = FatUtils.extendArray(fatFileInfoMap, extend);
@@ -305,12 +305,12 @@ namespace pspsharp.HLE.VFS.fat
 
 			if (fileInfo == null)
 			{
-				log.warn(string.Format("readDataSector unknown sectorNumber=0x{0:X}, clusterNumber=0x{1:X}", sectorNumber, clusterNumber));
+				Console.WriteLine(string.Format("readDataSector unknown sectorNumber=0x{0:X}, clusterNumber=0x{1:X}", sectorNumber, clusterNumber));
 				return;
 			}
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("readDataSector clusterNumber=0x{0:X}(sector=0x{1:X}), fileInfo={2}", clusterNumber, sectorOffsetInCluster, fileInfo));
+				Console.WriteLine(string.Format("readDataSector clusterNumber=0x{0:X}(sector=0x{1:X}), fileInfo={2}", clusterNumber, sectorOffsetInCluster, fileInfo));
 			}
 
 			if (fileInfo.Directory)
@@ -325,8 +325,8 @@ namespace pspsharp.HLE.VFS.fat
 				int byteOffset = sectorOffsetInCluster * sectorSize;
 				if (byteOffset < directoryData.Length)
 				{
-					int length = System.Math.Min(directoryData.Length - byteOffset, sectorSize);
-					Array.Copy(directoryData, byteOffset, currentSector, 0, length);
+					int Length = System.Math.Min(directoryData.Length - byteOffset, sectorSize);
+					Array.Copy(directoryData, byteOffset, currentSector, 0, Length);
 				}
 			}
 			else
@@ -334,7 +334,7 @@ namespace pspsharp.HLE.VFS.fat
 				IVirtualFile vFile = fileInfo.getVirtualFile(vfs);
 				if (vFile == null)
 				{
-					log.warn(string.Format("readDataSector cannot read file '{0}'", fileInfo));
+					Console.WriteLine(string.Format("readDataSector cannot read file '{0}'", fileInfo));
 					return;
 				}
 
@@ -356,22 +356,22 @@ namespace pspsharp.HLE.VFS.fat
 				{
 					if (vFile.ioLseek(byteOffset) != byteOffset)
 					{
-						log.warn(string.Format("readDataSector cannot seek file '{0}' to 0x{1:X}", fileInfo, byteOffset));
+						Console.WriteLine(string.Format("readDataSector cannot seek file '{0}' to 0x{1:X}", fileInfo, byteOffset));
 						return;
 					}
 
-					int length = (int) System.Math.Min(fileInfo.FileSize - byteOffset, (long) sectorSize);
-					int readLength = vFile.ioRead(currentSector, 0, length);
-					if (log.DebugEnabled)
+					int Length = (int) System.Math.Min(fileInfo.FileSize - byteOffset, (long) sectorSize);
+					int readLength = vFile.ioRead(currentSector, 0, Length);
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("readDataSector readLength=0x{0:X}", readLength));
+						Console.WriteLine(string.Format("readDataSector readLength=0x{0:X}", readLength));
 					}
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("readDataSector trying to read at offset 0x{0:X} past end of file", byteOffset, fileInfo));
+						Console.WriteLine(string.Format("readDataSector trying to read at offset 0x{0:X} past end of file", byteOffset, fileInfo));
 					}
 				}
 			}
@@ -450,22 +450,22 @@ namespace pspsharp.HLE.VFS.fat
 
 		private void writeBootSector()
 		{
-			log.warn(string.Format("Writing to the MemoryStick boot sector!"));
+			Console.WriteLine(string.Format("Writing to the MemoryStick boot sector!"));
 			writeEmptySector();
 		}
 
 		private void writeFsInfoSector()
 		{
-			log.warn(string.Format("Writing to the MemoryStick FsInfo sector!"));
+			Console.WriteLine(string.Format("Writing to the MemoryStick FsInfo sector!"));
 			writeEmptySector();
 		}
 
 		protected internal virtual void writeFatSectorEntry(int clusterNumber, int value)
 		{
 			// One entry of the FAT has been updated
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("writeFatSectorEntry[0x{0:X}]=0x{1:X8}", clusterNumber, value));
+				Console.WriteLine(string.Format("writeFatSectorEntry[0x{0:X}]=0x{1:X8}", clusterNumber, value));
 			}
 
 			fatClusterMap[clusterNumber] = value;
@@ -478,9 +478,9 @@ namespace pspsharp.HLE.VFS.fat
 				{
 					if (pendingDeleteFiles[clusterNumber] == fileInfo)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Deleting the file '{0}'", fileInfo.FullFileName));
+							Console.WriteLine(string.Format("Deleting the file '{0}'", fileInfo.FullFileName));
 						}
 
 						// Close the file before deleting it
@@ -489,7 +489,7 @@ namespace pspsharp.HLE.VFS.fat
 						int result = vfs.ioRemove(fileInfo.FullFileName);
 						if (result < 0)
 						{
-							log.warn(string.Format("Cannot delete the file '{0}'", fileInfo.FullFileName));
+							Console.WriteLine(string.Format("Cannot delete the file '{0}'", fileInfo.FullFileName));
 						}
 						pendingDeleteFiles.Remove(clusterNumber);
 					}
@@ -515,9 +515,9 @@ namespace pspsharp.HLE.VFS.fat
 
 		private void deleteDirectoryEntry(FatFileInfo fileInfo, sbyte[] directoryData, int offset)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("deleteDirectoryEntry on {0}: {1}", fileInfo, Utilities.getMemoryDump(directoryData, offset, directoryTableEntrySize)));
+				Console.WriteLine(string.Format("deleteDirectoryEntry on {0}: {1}", fileInfo, Utilities.getMemoryDump(directoryData, offset, directoryTableEntrySize)));
 			}
 
 			if (!isLongFileNameDirectoryEntry(directoryData, offset))
@@ -527,7 +527,7 @@ namespace pspsharp.HLE.VFS.fat
 				FatFileInfo childFileInfo = fileInfo.getChildByFileName83(fileName83);
 				if (childFileInfo == null)
 				{
-					log.warn(string.Format("deleteDirectoryEntry cannot find child entry '{0}' in {1}", fileName83, fileInfo));
+					Console.WriteLine(string.Format("deleteDirectoryEntry cannot find child entry '{0}' in {1}", fileName83, fileInfo));
 				}
 				else
 				{
@@ -536,14 +536,14 @@ namespace pspsharp.HLE.VFS.fat
 			}
 		}
 
-		private void deleteDirectoryEntries(FatFileInfo fileInfo, sbyte[] directoryData, int offset, int length)
+		private void deleteDirectoryEntries(FatFileInfo fileInfo, sbyte[] directoryData, int offset, int Length)
 		{
-			if (directoryData == null || length <= 0 || offset >= directoryData.Length)
+			if (directoryData == null || Length <= 0 || offset >= directoryData.Length)
 			{
 				return;
 			}
 
-			for (int i = 0; i < length; i += directoryTableEntrySize)
+			for (int i = 0; i < Length; i += directoryTableEntrySize)
 			{
 				deleteDirectoryEntry(fileInfo, directoryData, offset + i);
 			}
@@ -656,9 +656,9 @@ namespace pspsharp.HLE.VFS.fat
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("createDirectoryEntry on {0}: {1}", fileInfo, Utilities.getMemoryDump(sector, offset, directoryTableEntrySize)));
+				Console.WriteLine(string.Format("createDirectoryEntry on {0}: {1}", fileInfo, Utilities.getMemoryDump(sector, offset, directoryTableEntrySize)));
 			}
 
 			if (isLongFileNameDirectoryEntry(sector, offset))
@@ -676,31 +676,31 @@ namespace pspsharp.HLE.VFS.fat
 				int time = readSectorInt16(sector, offset + 22);
 				time |= readSectorInt16(sector, offset + 24) << 16;
 				ScePspDateTime lastModified = ScePspDateTime.fromMSDOSTime(time);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("createDirectoryEntry fileName='%s', readOnly=%b, directory=%b, clusterNumber=0x%X, fileSize=0x%X", fileName, readOnly, directory, clusterNumber, fileSize));
-					log.debug(string.Format("createDirectoryEntry fileName='%s', readOnly=%b, directory=%b, clusterNumber=0x%X, fileSize=0x%X", fileName, readOnly, directory, clusterNumber, fileSize));
+//ORIGINAL LINE: Console.WriteLine(String.format("createDirectoryEntry fileName='%s', readOnly=%b, directory=%b, clusterNumber=0x%X, fileSize=0x%X", fileName, readOnly, directory, clusterNumber, fileSize));
+					Console.WriteLine(string.Format("createDirectoryEntry fileName='%s', readOnly=%b, directory=%b, clusterNumber=0x%X, fileSize=0x%X", fileName, readOnly, directory, clusterNumber, fileSize));
 				}
 
 				FatFileInfo pendingDeleteFile = pendingDeleteFiles.Remove(clusterNumber);
 				if (pendingDeleteFile != null)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Renaming directory entry {0} into '{1}'", pendingDeleteFile, fileName));
+						Console.WriteLine(string.Format("Renaming directory entry {0} into '{1}'", pendingDeleteFile, fileName));
 					}
 					if (readOnly != pendingDeleteFile.ReadOnly)
 					{
-						log.warn(string.Format("Cannot change read-only attribute of {0}", pendingDeleteFile));
+						Console.WriteLine(string.Format("Cannot change read-only attribute of {0}", pendingDeleteFile));
 					}
 					if (directory != pendingDeleteFile.Directory)
 					{
-						log.warn(string.Format("Cannot change directory attribute of {0}", pendingDeleteFile));
+						Console.WriteLine(string.Format("Cannot change directory attribute of {0}", pendingDeleteFile));
 					}
 					if (fileSize != pendingDeleteFile.FileSize)
 					{
-						log.warn(string.Format("Cannot change file size of {0}", pendingDeleteFile));
+						Console.WriteLine(string.Format("Cannot change file size of {0}", pendingDeleteFile));
 					}
 					string oldFullFileName = pendingDeleteFile.FullFileName;
 					pendingDeleteFile.FileName = fileName;
@@ -712,7 +712,7 @@ namespace pspsharp.HLE.VFS.fat
 					int result = vfs.ioRename(oldFullFileName, newFullFileName);
 					if (result < 0)
 					{
-						log.warn(string.Format("Cannot rename file '{0}' into '{1}'", oldFullFileName, newFullFileName));
+						Console.WriteLine(string.Format("Cannot rename file '{0}' into '{1}'", oldFullFileName, newFullFileName));
 					}
 					pendingDeleteFile.Directory = directory;
 					pendingDeleteFile.ReadOnly = readOnly;
@@ -743,16 +743,16 @@ namespace pspsharp.HLE.VFS.fat
 
 		private void checkPendingWriteSectors(FatFileInfo fileInfo)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("checkPendingWriteSectors for {0}", fileInfo));
+				Console.WriteLine(string.Format("checkPendingWriteSectors for {0}", fileInfo));
 			}
 
 			if (pendingWriteSectors.Count == 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("checkPendingWriteSectors - no pending sectors"));
+					Console.WriteLine(string.Format("checkPendingWriteSectors - no pending sectors"));
 				}
 				return;
 			}
@@ -763,11 +763,11 @@ namespace pspsharp.HLE.VFS.fat
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				foreach (int sectorNumber in pendingWriteSectors.Keys)
 				{
-					log.debug(string.Format("checkPendingWriteSectors pending sectorNumber=0x{0:X}", sectorNumber));
+					Console.WriteLine(string.Format("checkPendingWriteSectors pending sectorNumber=0x{0:X}", sectorNumber));
 				}
 			}
 
@@ -775,18 +775,18 @@ namespace pspsharp.HLE.VFS.fat
 			{
 				int clusterNumber = clusters[i];
 				int sectorNumber = getSectorNumberFromCluster(clusterNumber);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("checkPendingWriteSectors checking for clusterNumber=0x{0:X}, sectorNumber=0x{1:X}-0x{2:X}", clusterNumber, sectorNumber, sectorNumber + SectorsPerCluster - 1));
+					Console.WriteLine(string.Format("checkPendingWriteSectors checking for clusterNumber=0x{0:X}, sectorNumber=0x{1:X}-0x{2:X}", clusterNumber, sectorNumber, sectorNumber + SectorsPerCluster - 1));
 				}
 				for (int j = 0; j < SectorsPerCluster; j++, sectorNumber++)
 				{
 					sbyte[] pendingWriteSector = pendingWriteSectors.Remove(sectorNumber);
 					if (pendingWriteSector != null)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("checkPendingWriteSectors writing pending sectorNumber=0x{0:X} for {1}", sectorNumber, fileInfo));
+							Console.WriteLine(string.Format("checkPendingWriteSectors writing pending sectorNumber=0x{0:X} for {1}", sectorNumber, fileInfo));
 						}
 						writeFileSector(fileInfo, sectorNumber, pendingWriteSector);
 					}
@@ -817,20 +817,20 @@ namespace pspsharp.HLE.VFS.fat
 
 		private void updateDirectoryEntry(FatFileInfo fileInfo, sbyte[] directoryData, int directoryDataOffset, sbyte[] sector, int sectorOffset)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("updateDirectoryEntry on {0}: from {1}, to {2}", fileInfo, Utilities.getMemoryDump(directoryData, directoryDataOffset, directoryTableEntrySize), Utilities.getMemoryDump(sector, sectorOffset, directoryTableEntrySize)));
+				Console.WriteLine(string.Format("updateDirectoryEntry on {0}: from {1}, to {2}", fileInfo, Utilities.getMemoryDump(directoryData, directoryDataOffset, directoryTableEntrySize), Utilities.getMemoryDump(sector, sectorOffset, directoryTableEntrySize)));
 			}
 
 			bool oldLFN = isLongFileNameDirectoryEntry(directoryData, directoryDataOffset);
 			bool newLFN = isLongFileNameDirectoryEntry(sector, sectorOffset);
 			if (oldLFN != newLFN)
 			{
-				log.error(string.Format("updateDirectoryEntry changing LongFileName entries not implemented: {0} from {1}, to {2}", fileInfo, Utilities.getMemoryDump(directoryData, directoryDataOffset, directoryTableEntrySize), Utilities.getMemoryDump(sector, sectorOffset, directoryTableEntrySize)));
+				Console.WriteLine(string.Format("updateDirectoryEntry changing LongFileName entries not implemented: {0} from {1}, to {2}", fileInfo, Utilities.getMemoryDump(directoryData, directoryDataOffset, directoryTableEntrySize), Utilities.getMemoryDump(sector, sectorOffset, directoryTableEntrySize)));
 			}
 			else if (newLFN)
 			{
-				log.error(string.Format("updateDirectoryEntry updating LongFileName entries not implemented: {0} from {1}, to {2}", fileInfo, Utilities.getMemoryDump(directoryData, directoryDataOffset, directoryTableEntrySize), Utilities.getMemoryDump(sector, sectorOffset, directoryTableEntrySize)));
+				Console.WriteLine(string.Format("updateDirectoryEntry updating LongFileName entries not implemented: {0} from {1}, to {2}", fileInfo, Utilities.getMemoryDump(directoryData, directoryDataOffset, directoryTableEntrySize), Utilities.getMemoryDump(sector, sectorOffset, directoryTableEntrySize)));
 			}
 			else
 			{
@@ -840,9 +840,9 @@ namespace pspsharp.HLE.VFS.fat
 				int newClusterNumber = readSectorInt16(sector, sectorOffset + 20) << 16;
 				newClusterNumber |= readSectorInt16(sector, sectorOffset + 26);
 				long newFileSize = readSectorInt32(sector, sectorOffset + 28) & 0xFFFFFFFFL;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("updateDirectoryEntry oldClusterNumber=0x{0:X}, newClusterNumber=0x{1:X}, newFileSize=0x{2:X}", oldClusterNumber, newClusterNumber, newFileSize));
+					Console.WriteLine(string.Format("updateDirectoryEntry oldClusterNumber=0x{0:X}, newClusterNumber=0x{1:X}, newFileSize=0x{2:X}", oldClusterNumber, newClusterNumber, newFileSize));
 				}
 
 				string oldFileName83 = Utilities.readStringNZ(directoryData, directoryDataOffset + 0, 8 + 3);
@@ -851,13 +851,13 @@ namespace pspsharp.HLE.VFS.fat
 				if (!oldFileName83.Equals(newFileName83))
 				{
 					// TODO
-					log.warn(string.Format("updateDirectoryEntry unimplemented change of 8.3. file name: from '{0}' to '{1}'", oldFileName83, newFileName83));
+					Console.WriteLine(string.Format("updateDirectoryEntry unimplemented change of 8.3. file name: from '{0}' to '{1}'", oldFileName83, newFileName83));
 				}
 
 				FatFileInfo childFileInfo = fileInfo.getChildByFileName83(oldFileName83);
 				if (childFileInfo == null)
 				{
-					log.warn(string.Format("updateDirectoryEntry child '{0}' not found", oldFileName83));
+					Console.WriteLine(string.Format("updateDirectoryEntry child '{0}' not found", oldFileName83));
 				}
 				else
 				{
@@ -894,7 +894,7 @@ namespace pspsharp.HLE.VFS.fat
 			IVirtualFile vFile = fileInfo.getVirtualFile(vfs);
 			if (vFile == null)
 			{
-				log.warn(string.Format("writeFileSector cannot write file '{0}'", fileInfo));
+				Console.WriteLine(string.Format("writeFileSector cannot write file '{0}'", fileInfo));
 				return;
 			}
 
@@ -916,24 +916,24 @@ namespace pspsharp.HLE.VFS.fat
 			{
 				if (vFile.ioLseek(byteOffset) != byteOffset)
 				{
-					log.warn(string.Format("writeFileSector cannot seek file '{0}' to 0x{1:X}", fileInfo, byteOffset));
+					Console.WriteLine(string.Format("writeFileSector cannot seek file '{0}' to 0x{1:X}", fileInfo, byteOffset));
 					return;
 				}
 
-				int length = (int) System.Math.Min(fileInfo.FileSize - byteOffset, (long) sectorSize);
-				int writeLength = vFile.ioWrite(sector, 0, length);
-				if (log.DebugEnabled)
+				int Length = (int) System.Math.Min(fileInfo.FileSize - byteOffset, (long) sectorSize);
+				int writeLength = vFile.ioWrite(sector, 0, Length);
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("writeFileSector writeLength=0x{0:X}", writeLength));
+					Console.WriteLine(string.Format("writeFileSector writeLength=0x{0:X}", writeLength));
 				}
 			}
 		}
 
 		private void writeDataSector(int sectorNumber, int clusterNumber, int sectorOffsetInCluster, FatFileInfo fileInfo)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("writeDataSector clusterNumber=0x{0:X}(sector=0x{1:X}), fileInfo={2}", clusterNumber, sectorOffsetInCluster, fileInfo));
+				Console.WriteLine(string.Format("writeDataSector clusterNumber=0x{0:X}(sector=0x{1:X}), fileInfo={2}", clusterNumber, sectorOffsetInCluster, fileInfo));
 			}
 
 			if (fileInfo.Directory)
@@ -998,9 +998,9 @@ namespace pspsharp.HLE.VFS.fat
 			if (fileInfo == null)
 			{
 				pendingWriteSectors[sectorNumber] = currentSector.Clone();
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("writeDataSector pending sectorNumber=0x{0:X}, clusterNumber=0x{1:X}", sectorNumber, clusterNumber));
+					Console.WriteLine(string.Format("writeDataSector pending sectorNumber=0x{0:X}, clusterNumber=0x{1:X}", sectorNumber, clusterNumber));
 				}
 				return;
 			}
@@ -1027,9 +1027,9 @@ namespace pspsharp.HLE.VFS.fat
 
 		private void writeSector(int sectorNumber)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("writeSector 0x{0:X}", sectorNumber));
+				Console.WriteLine(string.Format("writeSector 0x{0:X}", sectorNumber));
 			}
 
 			if (sectorNumber == bootSectorNumber)
@@ -1073,14 +1073,14 @@ namespace pspsharp.HLE.VFS.fat
 				readSector(sectorNumber);
 				int sectorOffset = getSectorOffset(position);
 				int sectorLength = sectorSize - sectorOffset;
-				int length = System.Math.Min(sectorLength, outputLength);
+				int Length = System.Math.Min(sectorLength, outputLength);
 
-				outputPointer.setArray(outputOffset, currentSector, sectorOffset, length);
+				outputPointer.setArray(outputOffset, currentSector, sectorOffset, Length);
 
-				outputLength -= length;
-				outputOffset += length;
-				position += length;
-				readLength += length;
+				outputLength -= Length;
+				outputOffset += Length;
+				position += Length;
+				readLength += Length;
 			}
 
 			return readLength;
@@ -1095,14 +1095,14 @@ namespace pspsharp.HLE.VFS.fat
 				readSector(sectorNumber);
 				int sectorOffset = getSectorOffset(position);
 				int sectorLength = sectorSize - sectorOffset;
-				int length = System.Math.Min(sectorLength, outputLength);
+				int Length = System.Math.Min(sectorLength, outputLength);
 
-				Array.Copy(currentSector, sectorOffset, outputBuffer, outputOffset, length);
+				Array.Copy(currentSector, sectorOffset, outputBuffer, outputOffset, Length);
 
-				outputLength -= length;
-				outputOffset += length;
-				position += length;
-				readLength += length;
+				outputLength -= Length;
+				outputOffset += Length;
+				position += Length;
+				readLength += Length;
 			}
 
 			return readLength;
@@ -1116,24 +1116,24 @@ namespace pspsharp.HLE.VFS.fat
 			{
 				int sectorOffset = getSectorOffset(position);
 				int sectorLength = sectorSize - sectorOffset;
-				int length = System.Math.Min(sectorLength, inputLength);
+				int Length = System.Math.Min(sectorLength, inputLength);
 
-				if (length != sectorSize)
+				if (Length != sectorSize)
 				{
 					// Not writing a complete sector, read the current sector
 					int sectorNumber = getSectorNumber(position);
 					readSector(sectorNumber);
 				}
 
-				Array.Copy(inputPointer.getArray8(inputOffset, length), 0, currentSector, sectorOffset, length);
+				Array.Copy(inputPointer.getArray8(inputOffset, Length), 0, currentSector, sectorOffset, Length);
 
 				int sectorNumber = getSectorNumber(position);
 				writeSector(sectorNumber);
 
-				inputLength -= length;
-				inputOffset += length;
-				position += length;
-				writeLength += length;
+				inputLength -= Length;
+				inputOffset += Length;
+				position += Length;
+				writeLength += Length;
 			}
 
 			return writeLength;
@@ -1156,7 +1156,7 @@ namespace pspsharp.HLE.VFS.fat
 			return IO_ERROR;
 		}
 
-		public virtual long length()
+		public virtual long Length()
 		{
 			return IO_ERROR;
 		}

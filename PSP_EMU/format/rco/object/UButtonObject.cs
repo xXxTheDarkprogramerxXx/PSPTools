@@ -107,9 +107,9 @@ namespace pspsharp.format.rco.@object
 		{
 			set
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("UButtonObject.setTexture {0}", value));
+					Console.WriteLine(string.Format("UButtonObject.setTexture {0}", value));
 				}
 				if (value is ImageObject)
 				{

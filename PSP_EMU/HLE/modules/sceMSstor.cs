@@ -28,7 +28,7 @@ namespace pspsharp.HLE.modules
 //	import static pspsharp.HLE.modules.ThreadManForUser.installHLESyscall;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IVirtualFileSystem = pspsharp.HLE.VFS.IVirtualFileSystem;
 	using Fat32VirtualFile = pspsharp.HLE.VFS.fat.Fat32VirtualFile;
@@ -50,7 +50,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceMSstor : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMSstor");
+		//public static Logger log = Modules.getLogger("sceMSstor");
 		private const int STATE_VERSION = 0;
 		private sbyte[] dumpIoIoctl_0x02125803;
 		private long position;
@@ -210,7 +210,7 @@ namespace pspsharp.HLE.modules
 					outdata.setValue32(1);
 					break;
 				default:
-					log.warn(string.Format("hleMSstorControllerIoDevctl 0x{0:X8} unknown command on device '{1}'", cmd, devicename));
+					Console.WriteLine(string.Format("hleMSstorControllerIoDevctl 0x{0:X8} unknown command on device '{1}'", cmd, devicename));
 					break;
 			}
 			return 0;
@@ -239,7 +239,7 @@ namespace pspsharp.HLE.modules
 					break;
 				case 0x0210D816: // Format Memory Stick
 					// inlen == 0, outlen == 0
-					log.warn(string.Format("A FORMAT of the Memory Stick was requested, ignoring the request"));
+					Console.WriteLine(string.Format("A FORMAT of the Memory Stick was requested, ignoring the request"));
 					break;
 				case 0x02025806: // Check if the device is inserted
 					// 0 = Not inserted.
@@ -247,7 +247,7 @@ namespace pspsharp.HLE.modules
 					outdata.setValue32(1);
 					break;
 				default:
-					log.warn(string.Format("hleMSstorStorageIoDevctl 0x{0:X8} unknown command on device '{1}'", cmd, devicename));
+					Console.WriteLine(string.Format("hleMSstorStorageIoDevctl 0x{0:X8} unknown command on device '{1}'", cmd, devicename));
 					break;
 			}
 			return 0;
@@ -275,7 +275,7 @@ namespace pspsharp.HLE.modules
 					outdata.setValue32(0); // 0 or != 0
 					break;
 				default:
-					log.warn(string.Format("hleMSstorStorageIoIoctl 0x{0:X8} unknown command", cmd));
+					Console.WriteLine(string.Format("hleMSstorStorageIoIoctl 0x{0:X8} unknown command", cmd));
 					break;
 			}
 			return 0;
@@ -308,7 +308,7 @@ namespace pspsharp.HLE.modules
 					outdata.setValue32(0); // ???
 					break;
 				default:
-					log.warn(string.Format("hleMSstorPartitionIoDevctl 0x{0:X8} unknown command on device '{1}'", cmd, devicename));
+					Console.WriteLine(string.Format("hleMSstorPartitionIoDevctl 0x{0:X8} unknown command on device '{1}'", cmd, devicename));
 					break;
 			}
 			return 0;
@@ -342,7 +342,7 @@ namespace pspsharp.HLE.modules
 					outdata.setValue32(0); // 0 or != 0
 					break;
 				default:
-					log.warn(string.Format("hleMSstorPartitionIoIoctl 0x{0:X8} unknown command", cmd));
+					Console.WriteLine(string.Format("hleMSstorPartitionIoIoctl 0x{0:X8} unknown command", cmd));
 					break;
 			}
 			return 0;
@@ -377,7 +377,7 @@ namespace pspsharp.HLE.modules
 					position = offset;
 					break;
 				default:
-					log.warn(string.Format("hleMSstorPartitionIoLseek unimplemented whence=0x{0:X}", whence));
+					Console.WriteLine(string.Format("hleMSstorPartitionIoLseek unimplemented whence=0x{0:X}", whence));
 					break;
 			}
 
@@ -437,7 +437,7 @@ namespace pspsharp.HLE.modules
 			{
 				File file = new File(fileName);
 				System.IO.Stream @is = new System.IO.FileStream(file, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-				bytes = new sbyte[(int) file.length()];
+				bytes = new sbyte[(int) file.Length()];
 				@is.Read(bytes, 0, bytes.Length);
 				@is.Close();
 			}
@@ -511,9 +511,9 @@ namespace pspsharp.HLE.modules
 		{
 			IVirtualFileSystem vfs = new LocalVirtualFileSystem(Settings.Instance.getDirectoryMapping("ms0"), true);
 			vFile = new Fat32VirtualFile("ms0:", vfs);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("openFile vFile={0}", vFile));
+				Console.WriteLine(string.Format("openFile vFile={0}", vFile));
 			}
 		}
 
@@ -550,11 +550,11 @@ namespace pspsharp.HLE.modules
 			string partitionName = "msstor0p";
 			string partitionDescription = "MSstor partition #1";
 
-			int length = 0;
-			length += controllerDrv.@sizeof() + controllerFuncs.@sizeof() + controllerName.Length + 1 + controllerDescription.Length + 1;
-			length += storageDrv.@sizeof() + storageFuncs.@sizeof() + storageName.Length + 1 + storageDescription.Length + 1;
-			length += partitionDrv.@sizeof() + partitionFuncs.@sizeof() + partitionName.Length + 1 + partitionDescription.Length + 1;
-			SysMemInfo memInfo = Modules.SysMemUserForUserModule.malloc(SysMemUserForUser.KERNEL_PARTITION_ID, "sceMSstor-mscmhc", SysMemUserForUser.PSP_SMEM_Low, length, 0);
+			int Length = 0;
+			Length += controllerDrv.@sizeof() + controllerFuncs.@sizeof() + controllerName.Length + 1 + controllerDescription.Length + 1;
+			Length += storageDrv.@sizeof() + storageFuncs.@sizeof() + storageName.Length + 1 + storageDescription.Length + 1;
+			Length += partitionDrv.@sizeof() + partitionFuncs.@sizeof() + partitionName.Length + 1 + partitionDescription.Length + 1;
+			SysMemInfo memInfo = Modules.SysMemUserForUserModule.malloc(SysMemUserForUser.KERNEL_PARTITION_ID, "sceMSstor-mscmhc", SysMemUserForUser.PSP_SMEM_Low, Length, 0);
 
 			int controllerDrvAddr = memInfo.addr;
 			int controllerFuncsAddr = controllerDrvAddr + controllerDrv.@sizeof();

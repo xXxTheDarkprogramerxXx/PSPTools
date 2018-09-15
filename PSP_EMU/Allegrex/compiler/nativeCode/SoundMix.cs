@@ -56,13 +56,13 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			int leftChannelAddr = getRegisterValue(leftChannelAddrReg);
 			int rightChannelAddr = getRegisterValue(rightChannelAddrReg);
 			int stereoChannelAddr = getRegisterValue(stereoChannelAddrReg);
-			int length = getRegisterValue(lengthReg) * lengthStep;
+			int Length = getRegisterValue(lengthReg) * lengthStep;
 
-			IMemoryReader leftChannelReader = MemoryReader.getMemoryReader(leftChannelAddr, length, 2);
-			IMemoryReader rightChannelReader = MemoryReader.getMemoryReader(rightChannelAddr, length, 2);
-			IMemoryWriter stereoChannelWriter = MemoryWriter.getMemoryWriter(stereoChannelAddr, length << 1, 2);
+			IMemoryReader leftChannelReader = MemoryReader.getMemoryReader(leftChannelAddr, Length, 2);
+			IMemoryReader rightChannelReader = MemoryReader.getMemoryReader(rightChannelAddr, Length, 2);
+			IMemoryWriter stereoChannelWriter = MemoryWriter.getMemoryWriter(stereoChannelAddr, Length << 1, 2);
 
-			for (int i = 0; i < length; i += 2)
+			for (int i = 0; i < Length; i += 2)
 			{
 				int left = leftChannelReader.readNext();
 				int right = rightChannelReader.readNext();

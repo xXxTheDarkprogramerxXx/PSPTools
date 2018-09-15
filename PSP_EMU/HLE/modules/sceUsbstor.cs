@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceUsbstor : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUsbstor");
+		//public static Logger log = Modules.getLogger("sceUsbstor");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7B810720, version = 150) public int sceUsbstorMsSetWorkBuf(pspsharp.HLE.TPointer workBuffer, int workBufferSize)
@@ -51,7 +51,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x576E7F6F, version = 150) public int sceUsbstorMsSetProductInfo(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer productInfo)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x576E7F6F, version = 150) public int sceUsbstorMsSetProductInfo(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer productInfo)
 		[HLEFunction(nid : 0x576E7F6F, version : 150)]
 		public virtual int sceUsbstorMsSetProductInfo(TPointer productInfo)
 		{
@@ -117,7 +117,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x56AA41EA, version = 150) public int sceUsbstorMs_56AA41EA(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x56AA41EA, version = 150) public int sceUsbstorMs_56AA41EA(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0x56AA41EA, version : 150)]
 		public virtual int sceUsbstorMs_56AA41EA(TPointer unknown)
 		{
@@ -138,14 +138,14 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xABE9F2C7, version : 150)]
 		public virtual int sceUsbstorMsGetApInfo(TPointer apInfo)
 		{
-			int length = apInfo.getValue32();
-			apInfo.clear(4, length - 4);
+			int Length = apInfo.getValue32();
+			apInfo.clear(4, Length - 4);
 
 			return 0;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1F4AC19C, version = 150) public int sceUsbstormlnGetCommand(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1F4AC19C, version = 150) public int sceUsbstormlnGetCommand(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0x1F4AC19C, version : 150)]
 		public virtual int sceUsbstormlnGetCommand(TPointer unknown)
 		{
@@ -155,7 +155,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5821060D, version = 150) public int sceUsbstormlnNotifyResponse(int unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=3, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5821060D, version = 150) public int sceUsbstormlnNotifyResponse(int unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=3, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 unknown2)
 		[HLEFunction(nid : 0x5821060D, version : 150)]
 		public virtual int sceUsbstormlnNotifyResponse(int unknown1, TPointer8 unknown2)
 		{

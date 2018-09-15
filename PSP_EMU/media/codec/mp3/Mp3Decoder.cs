@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.media.codec.mp3
 {
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.pow;
+//	import static Math.Pow;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.media.codec.mp3.Mp3Data.MODE_EXT_I_STEREO;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
@@ -55,7 +55,7 @@ namespace pspsharp.media.codec.mp3
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.media.codec.mp3.Mp3Dsp.mdct_win;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using HuffTable = pspsharp.media.codec.mp3.Mp3Data.HuffTable;
 	using BitBuffer = pspsharp.media.codec.util.BitBuffer;
@@ -66,7 +66,7 @@ namespace pspsharp.media.codec.mp3
 
 	public class Mp3Decoder : ICodec
 	{
-		public static Logger log = Logger.getLogger("mp3");
+		//public static Logger log = Logger.getLogger("mp3");
 		public const int MP3_ERROR = -3;
 		private const int HEADER_SIZE = 4;
 		public const int BACKSTEP_SIZE = 512;
@@ -229,7 +229,7 @@ namespace pspsharp.media.codec.mp3
 				for (int j = 0; j < 2; j++)
 				{
 					int e = -(j + 1) * ((i + 1) >> 1);
-					double f = pow(2.0, e / 4.0);
+					double f = Pow(2.0, e / 4.0);
 					int k = i & 1;
 					is_table_lsf[j][k ^ 1][i] = (float) f;
 					is_table_lsf[j][k][i] = 1f;
@@ -306,7 +306,7 @@ namespace pspsharp.media.codec.mp3
 			// extract frequency
 			int sampleRateIndex = (header >> 10) & 3;
 			s.rawSampleRateIndex = sampleRateIndex;
-			if (sampleRateIndex >= mp3_freq_tab.length)
+			if (sampleRateIndex >= mp3_freq_tab.Length)
 			{
 				sampleRateIndex = 0;
 			}
@@ -378,9 +378,9 @@ namespace pspsharp.media.codec.mp3
 				return 1;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Mp3Header: {0}", s));
+				Console.WriteLine(string.Format("Mp3Header: {0}", s));
 			}
 
 			return 0;
@@ -388,13 +388,13 @@ namespace pspsharp.media.codec.mp3
 
 		private int decodeLayer1()
 		{
-			log.warn("Unimplemented MP3 Layer-1");
+			Console.WriteLine("Unimplemented MP3 Layer-1");
 			return 0;
 		}
 
 		private int decodeLayer2()
 		{
-			log.warn("Unimplemented MP3 Layer-2");
+			Console.WriteLine("Unimplemented MP3 Layer-2");
 			return 0;
 		}
 
@@ -445,7 +445,7 @@ namespace pspsharp.media.codec.mp3
 				{
 					if (ctx.header.sampleRateIndex == 8)
 					{
-						log.warn(string.Format("Unimplemented switch point in 8kHz"));
+						Console.WriteLine(string.Format("Unimplemented switch point in 8kHz"));
 					}
 					// if switched mode, we handle the 36 first samples as
 					// long blocks. For 8000Hz, we handle the 72 first
@@ -598,7 +598,7 @@ namespace pspsharp.media.codec.mp3
 
 				if (l == 0)
 				{
-					Arrays.fill(g.sbHybrid, sIndex, sIndex + 2 * j, 0f);
+					Arrays.Fill(g.sbHybrid, sIndex, sIndex + 2 * j, 0f);
 					sIndex += 2 * j;
 					continue;
 				}
@@ -706,9 +706,9 @@ namespace pspsharp.media.codec.mp3
 						// We must go back to the last valid position.
 						sIndex -= 4;
 						bb.skip(lastPos - pos);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Overread part23 by {0:D} bits", overread));
+							Console.WriteLine(string.Format("Overread part23 by {0:D} bits", overread));
 						}
 					}
 					break;
@@ -740,7 +740,7 @@ namespace pspsharp.media.codec.mp3
 				bb.skip(bitsLeft);
 			}
 
-			Arrays.fill(g.sbHybrid, sIndex, 576, 0f);
+			Arrays.Fill(g.sbHybrid, sIndex, 576, 0f);
 		}
 
 		private void computeStereo(Granule g0, Granule g1)
@@ -893,7 +893,7 @@ namespace pspsharp.media.codec.mp3
 			else if ((ctx.header.modeExt & MODE_EXT_MS_STEREO) != 0)
 			{
 				// ms stereo ONLY
-				// NOTE: the 1/sqrt(2) normalization factor is included in the global gain
+				// NOTE: the 1/Sqrt(2) normalization factor is included in the global gain
 				FloatDSP.butterflies(g0.sbHybrid, 0, g1.sbHybrid, 0, 576);
 			}
 		}
@@ -1165,13 +1165,13 @@ namespace pspsharp.media.codec.mp3
 					g.bigValues = br.read(9);
 					if (g.bigValues > 288)
 					{
-						log.error(string.Format("bigValues too big {0:D}", g.bigValues));
+						Console.WriteLine(string.Format("bigValues too big {0:D}", g.bigValues));
 						return MP3_ERROR;
 					}
 
 					g.globalGain = br.read(8);
 					// if MS stereo only is selected, we precompute the
-					// 1/sqrt(2) renormalization factor
+					// 1/Sqrt(2) renormalization factor
 					if ((s.modeExt & (MODE_EXT_MS_STEREO | MODE_EXT_I_STEREO)) == MODE_EXT_MS_STEREO)
 					{
 						g.globalGain -= 2;
@@ -1190,7 +1190,7 @@ namespace pspsharp.media.codec.mp3
 						g.blockType = br.read(2);
 						if (g.blockType == 0)
 						{
-							log.error(string.Format("invalid block type"));
+							Console.WriteLine(string.Format("invalid block type"));
 							return MP3_ERROR;
 						}
 						g.switchPoint = br.read1();
@@ -1511,7 +1511,7 @@ namespace pspsharp.media.codec.mp3
 			int header = br.read(32);
 			if (mpaCheckHeader(header) < 0)
 			{
-				log.error(string.Format("Header missing"));
+				Console.WriteLine(string.Format("Header missing"));
 				return MP3_ERROR;
 			}
 

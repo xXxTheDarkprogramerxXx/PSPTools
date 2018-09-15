@@ -55,10 +55,10 @@ namespace pspsharp.graphics.RE.software
 			float maxLength = edges[longEdge].LengthY;
 			for (int i = 1; i < edges.Length; i++)
 			{
-				float length = edges[i].LengthY;
-				if (length > maxLength)
+				float Length = edges[i].LengthY;
+				if (Length > maxLength)
 				{
-					maxLength = length;
+					maxLength = Length;
 					longEdge = i;
 				}
 			}

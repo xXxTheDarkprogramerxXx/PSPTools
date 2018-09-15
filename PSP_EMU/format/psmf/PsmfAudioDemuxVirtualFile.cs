@@ -19,7 +19,7 @@ namespace pspsharp.format.psmf
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.VFS.AbstractVirtualFileSystem.IO_ERROR;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using TPointer = pspsharp.HLE.TPointer;
 	using AbstractProxyVirtualFile = pspsharp.HLE.VFS.AbstractProxyVirtualFile;
@@ -105,13 +105,13 @@ namespace pspsharp.format.psmf
 			}
 		}
 
-		private int readPesHeader(PesHeader pesHeader, int length, int startCode)
+		private int readPesHeader(PesHeader pesHeader, int Length, int startCode)
 		{
 			int c = 0;
-			while (length > 0)
+			while (Length > 0)
 			{
 				c = read8();
-				length--;
+				Length--;
 				if (c != 0xFF)
 				{
 					break;
@@ -122,25 +122,25 @@ namespace pspsharp.format.psmf
 			{
 				read8();
 				c = read8();
-				length -= 2;
+				Length -= 2;
 			}
 			pesHeader.DtsPts = 0;
 			if ((c & 0xE0) == 0x20)
 			{
 				pesHeader.DtsPts = readPts(c);
-				length -= 4;
+				Length -= 4;
 				if ((c & 0x10) != 0)
 				{
 					pesHeader.Dts = readPts();
-					length -= 5;
+					Length -= 5;
 				}
 			}
 			else if ((c & 0xC0) == 0x80)
 			{
 				int flags = read8();
 				int headerLength = read8();
-				length -= 2;
-				length -= headerLength;
+				Length -= 2;
+				Length -= headerLength;
 				if ((flags & 0x80) != 0)
 				{
 					pesHeader.DtsPts = readPts();
@@ -188,34 +188,34 @@ namespace pspsharp.format.psmf
 			{
 				int channel = read8();
 				pesHeader.Channel = channel;
-				length--;
+				Length--;
 				if (channel >= 0x80 && channel <= 0xCF)
 				{
 					// Skip audio header
 					skip(3);
-					length -= 3;
+					Length -= 3;
 					if (channel >= 0xB0 && channel <= 0xBF)
 					{
 						skip(1);
-						length--;
+						Length--;
 					}
 				}
 				else
 				{
 					// PSP audio has additional 3 bytes in header
 					skip(3);
-					length -= 3;
+					Length -= 3;
 				}
 			}
 
-			return length;
+			return Length;
 		}
 
 		private bool EOF
 		{
 			get
 			{
-				return vFile.Position >= vFile.length();
+				return vFile.Position >= vFile.Length();
 			}
 		}
 
@@ -273,9 +273,9 @@ namespace pspsharp.format.psmf
 				{
 					startCode = (startCode << 8) | read8();
 				}
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("StartCode 0x{0:X8}, offset {1:X8}, skipped {2:D}", startCode, vFile.Position, vFile.Position - startIndex - 4));
+					Console.WriteLine(string.Format("StartCode 0x{0:X8}, offset {1:X8}, skipped {2:D}", startCode, vFile.Position, vFile.Position - startIndex - 4));
 				}
 
 				switch (startCode)
@@ -293,22 +293,22 @@ namespace pspsharp.format.psmf
 					case PADDING_STREAM:
 					case PRIVATE_STREAM_2:
 					{
-						int length = read16();
-						skip(length);
+						int Length = read16();
+						skip(Length);
 						break;
 					}
 					case PRIVATE_STREAM_1:
 					{
 						// Audio stream
-						int length = read16();
+						int Length = read16();
 						PesHeader pesHeader = new PesHeader(audioChannel);
-						length = readPesHeader(pesHeader, length, startCode);
+						Length = readPesHeader(pesHeader, Length, startCode);
 						if (pesHeader.Channel == audioChannel || audioChannel < 0)
 						{
 							int packetLength = 0;
-							while (packetLength < length && readLength < outputLength)
+							while (packetLength < Length && readLength < outputLength)
 							{
-								int maxReadLength = System.Math.Min(length - packetLength, outputLength - readLength);
+								int maxReadLength = System.Math.Min(Length - packetLength, outputLength - readLength);
 								int l;
 								if (outputBuffer != null)
 								{
@@ -336,11 +336,11 @@ namespace pspsharp.format.psmf
 									break;
 								}
 							}
-							remainingPacketLength = length - packetLength;
+							remainingPacketLength = Length - packetLength;
 						}
 						else
 						{
-							skip(length);
+							skip(Length);
 						}
 						break;
 					}
@@ -362,13 +362,13 @@ namespace pspsharp.format.psmf
 		case 0x1EF:
 		{
 						// Video Stream, skipped
-						int length = read16();
-						skip(length);
+						int Length = read16();
+						skip(Length);
 						break;
 		}
 					default:
 					{
-						log.warn(string.Format("Unknown StartCode 0x{0:X8}, offset {1:X8}", startCode, vFile.Position));
+						Console.WriteLine(string.Format("Unknown StartCode 0x{0:X8}, offset {1:X8}", startCode, vFile.Position));
 					}
 				break;
 				}
@@ -398,8 +398,8 @@ namespace pspsharp.format.psmf
 			position = 0;
 			while (Position < offset)
 			{
-				int length = doRead(null, null, 0, offset < int.MaxValue ? (int) offset : int.MaxValue);
-				if (length < 0)
+				int Length = doRead(null, null, 0, offset < int.MaxValue ? (int) offset : int.MaxValue);
+				if (Length < 0)
 				{
 					return IO_ERROR;
 				}
@@ -408,9 +408,9 @@ namespace pspsharp.format.psmf
 			return Position;
 		}
 
-		public override long length()
+		public override long Length()
 		{
-			return base.length() - startPosition - mpegOffset;
+			return base.Length() - startPosition - mpegOffset;
 		}
 
 		public override long Position

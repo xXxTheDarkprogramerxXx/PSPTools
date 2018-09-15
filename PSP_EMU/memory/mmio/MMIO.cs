@@ -25,7 +25,7 @@ namespace pspsharp.memory.mmio
 //	import static pspsharp.MemoryMap.START_IO_0;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using CY27040 = pspsharp.memory.mmio.cy27040.CY27040;
 	using MMIOHandlerUart3 = pspsharp.memory.mmio.uart.MMIOHandlerUart3;
@@ -51,7 +51,7 @@ namespace pspsharp.memory.mmio
 		public override bool allocate()
 		{
 			Array.Copy(Memory.validMemoryPage, 0, validMemoryPage, 0, validMemoryPage.Length);
-			Arrays.fill(validMemoryPage, (int)((uint)START_IO_0 >> MEMORY_PAGE_SHIFT), ((int)((uint)MemoryMap.END_EXCEPTIO_VEC >> MEMORY_PAGE_SHIFT)) + 1, true);
+			Arrays.Fill(validMemoryPage, (int)((uint)START_IO_0 >> MEMORY_PAGE_SHIFT), ((int)((uint)MemoryMap.END_EXCEPTIO_VEC >> MEMORY_PAGE_SHIFT)) + 1, true);
 
 			return true;
 		}
@@ -104,17 +104,17 @@ namespace pspsharp.memory.mmio
 			addHandler(MMIOHandlerNandPage.BASE_ADDRESS2, 0x90C, MMIOHandlerNandPage.Instance);
 		}
 
-		protected internal virtual void addHandler(int baseAddress, int length, IMMIOHandler handler)
+		protected internal virtual void addHandler(int baseAddress, int Length, IMMIOHandler handler)
 		{
-			addHandler(baseAddress, length, null, handler);
+			addHandler(baseAddress, Length, null, handler);
 		}
 
-		private void addHandler(int baseAddress, int length, int[] additionalOffsets, IMMIOHandler handler)
+		private void addHandler(int baseAddress, int Length, int[] additionalOffsets, IMMIOHandler handler)
 		{
 			// The handlers will be kept sorted based on their baseAddress
 			sortedHandlers[baseAddress] = handler;
 
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				handlers[baseAddress + i] = handler;
 			}
@@ -128,19 +128,19 @@ namespace pspsharp.memory.mmio
 			}
 		}
 
-		protected internal virtual void addHandlerRW(int baseAddress, int length)
+		protected internal virtual void addHandlerRW(int baseAddress, int Length)
 		{
-			addHandlerRW(baseAddress, length, null);
+			addHandlerRW(baseAddress, Length, null);
 		}
 
-		protected internal virtual void addHandlerRW(int baseAddress, int length, Logger log)
+		protected internal virtual void addHandlerRW(int baseAddress, int Length, Logger log)
 		{
-			MMIOHandlerReadWrite handler = new MMIOHandlerReadWrite(baseAddress, length);
+			MMIOHandlerReadWrite handler = new MMIOHandlerReadWrite(baseAddress, Length);
 			if (log != null)
 			{
 				handler.Logger = log;
 			}
-			addHandler(baseAddress, length, handler);
+			addHandler(baseAddress, Length, handler);
 		}
 
 		protected internal virtual IMMIOHandler getHandler(int address)
@@ -247,9 +247,9 @@ namespace pspsharp.memory.mmio
 			}
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
-			mem.memset(address, data, length);
+			mem.memset(address, data, Length);
 		}
 
 		public override Buffer MainMemoryByteBuffer
@@ -260,21 +260,21 @@ namespace pspsharp.memory.mmio
 			}
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
-			return mem.getBuffer(address, length);
+			return mem.getBuffer(address, Length);
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
-			mem.copyToMemory(address, source, length);
+			mem.copyToMemory(address, source, Length);
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
-			if (((destination | source | length) & 0x3) == 0 && !checkOverlap)
+			if (((destination | source | Length) & 0x3) == 0 && !checkOverlap)
 			{
-				for (int i = 0; i < length; i += 4)
+				for (int i = 0; i < Length; i += 4)
 				{
 					write32(destination + i, read32(source + i));
 				}
@@ -283,11 +283,11 @@ namespace pspsharp.memory.mmio
 			{
 				if (checkOverlap)
 				{
-					mem.memmove(destination, source, length);
+					mem.memmove(destination, source, Length);
 				}
 				else
 				{
-					mem.memcpy(destination, source, length);
+					mem.memcpy(destination, source, Length);
 				}
 			}
 		}
@@ -302,9 +302,9 @@ namespace pspsharp.memory.mmio
 			{
 				IMMIOHandler handler = sortedHandlers[baseAddress];
 				handler.read(stream);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Read State for {0} at 0x{1:X8}", handler, baseAddress));
+					Console.WriteLine(string.Format("Read State for {0} at 0x{1:X8}", handler, baseAddress));
 				}
 			}
 			CY27040.Instance.read(stream);
@@ -320,9 +320,9 @@ namespace pspsharp.memory.mmio
 			foreach (int? baseAddress in sortedHandlers.Keys)
 			{
 				IMMIOHandler handler = sortedHandlers[baseAddress];
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Writing State for {0} at 0x{1:X8}", handler, baseAddress));
+					Console.WriteLine(string.Format("Writing State for {0} at 0x{1:X8}", handler, baseAddress));
 				}
 				handler.write(stream);
 			}

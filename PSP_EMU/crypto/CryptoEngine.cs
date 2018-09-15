@@ -16,14 +16,14 @@
  */
 namespace pspsharp.crypto
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using AbstractBoolSettingsListener = pspsharp.settings.AbstractBoolSettingsListener;
 	using Settings = pspsharp.settings.Settings;
 
 	public class CryptoEngine
 	{
-		public static Logger log = Logger.getLogger("crypto");
+		//public static Logger log = Logger.getLogger("crypto");
 		private const string name = "CryptEngine";
 		private static bool isCryptoEngineInit;
 		private static bool cryptoSavedata;

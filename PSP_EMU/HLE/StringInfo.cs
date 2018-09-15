@@ -18,12 +18,12 @@ namespace pspsharp.HLE
 {
 
 	/// <summary>
-	/// Annotation for a PspString type, that indicates the maximum length of the string. 
+	/// Annotation for a PspString type, that indicates the maximum Length of the string. 
 	/// </summary>
 	public class StringInfo : System.Attribute
 	{
 		/// <summary>
-		/// Maximum length that the will be read from the memory address. 
+		/// Maximum Length that the will be read from the memory address. 
 		/// </summary>
 		public int maxLength;
 

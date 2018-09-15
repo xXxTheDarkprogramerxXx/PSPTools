@@ -275,7 +275,7 @@ namespace pspsharp.HLE.kernel.types
 				catch (InterruptedException e)
 				{
 					// Ignore exception and retry again
-					sceGe_user.log.debug(string.Format("PspGeList waitForSync {0}", e));
+					sceGe_user.Console.WriteLine(string.Format("PspGeList waitForSync {0}", e));
 				}
 			}
 

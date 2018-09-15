@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 	using Managers = pspsharp.HLE.kernel.Managers;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceDNAS : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDNAS");
+		//public static Logger log = Modules.getLogger("sceDNAS");
 		private int eventFlagUid;
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:

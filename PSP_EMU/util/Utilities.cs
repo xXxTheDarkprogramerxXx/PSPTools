@@ -138,10 +138,10 @@ namespace pspsharp.util
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public static void skipUnknown(ByteBuffer buf, int length) throws java.io.IOException
-		public static void skipUnknown(ByteBuffer buf, int length)
+//ORIGINAL LINE: public static void skipUnknown(ByteBuffer buf, int Length) throws java.io.IOException
+		public static void skipUnknown(ByteBuffer buf, int Length)
 		{
-			buf.position(buf.position() + length);
+			buf.position(buf.position() + Length);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -180,13 +180,13 @@ namespace pspsharp.util
 		}
 
 		/// <summary>
-		/// Read a string from memory. The string ends when the maximal length is
+		/// Read a string from memory. The string ends when the maximal Length is
 		/// reached or a '\0' byte is found. The memory bytes are interpreted as
 		/// UTF-8 bytes to form the string.
 		/// </summary>
 		/// <param name="mem"> the memory </param>
 		/// <param name="address"> the address of the first byte of the string </param>
-		/// <param name="n"> the maximal string length </param>
+		/// <param name="n"> the maximal string Length </param>
 		/// <returns> the string converted to UTF-8 </returns>
 		public static string readStringNZ(Memory mem, int address, int n)
 		{
@@ -202,10 +202,10 @@ namespace pspsharp.util
 
 			// Allocate a byte array to store the bytes of the string.
 			// At first, allocate maximum 10000 bytes in case we don't know
-			// the maximal string length. The array will be extended if required.
+			// the maximal string Length. The array will be extended if required.
 			sbyte[] bytes = new sbyte[System.Math.Min(n, 10000)];
 
-			int length = 0;
+			int Length = 0;
 			IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, n, 1);
 			for (; n > 0; n--)
 			{
@@ -215,18 +215,18 @@ namespace pspsharp.util
 					break;
 				}
 
-				if (length >= bytes.Length)
+				if (Length >= bytes.Length)
 				{
 					// Extend the bytes array
 					bytes = extendArray(bytes, 10000);
 				}
 
-				bytes[length] = (sbyte) b;
-				length++;
+				bytes[Length] = (sbyte) b;
+				Length++;
 			}
 
 			// Convert the bytes to UTF-8
-			return StringHelper.NewString(bytes, 0, length, Constants.charset);
+			return StringHelper.NewString(bytes, 0, Length, Constants.charset);
 		}
 
 		public static string readStringZ(Memory mem, int address)
@@ -303,22 +303,22 @@ namespace pspsharp.util
 			if (!string.ReferenceEquals(s, null))
 			{
 				sbyte[] bytes = s.GetBytes(Constants.charset);
-				int length = System.Math.Min(n, bytes.Length);
-				Array.Copy(bytes, 0, buffer, offset, length);
-				if (length < n)
+				int Length = System.Math.Min(n, bytes.Length);
+				Array.Copy(bytes, 0, buffer, offset, Length);
+				if (Length < n)
 				{
-					Arrays.fill(buffer, offset + length, offset + n, (sbyte) 0);
+					Arrays.Fill(buffer, offset + Length, offset + n, (sbyte) 0);
 				}
 			}
 			else
 			{
-				Arrays.fill(buffer, offset, offset + n, (sbyte) 0);
+				Arrays.Fill(buffer, offset, offset + n, (sbyte) 0);
 			}
 		}
 
 		public static void writeStringZ(Memory mem, int address, string s)
 		{
-			// add 1 to the length to write the final '\0'
+			// add 1 to the Length to write the final '\0'
 			writeStringNZ(mem, address, s.Length + 1, s);
 		}
 
@@ -652,16 +652,16 @@ namespace pspsharp.util
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public static void readFully(pspsharp.filesystems.SeekableDataInput input, int address, int length) throws java.io.IOException
-		public static void readFully(SeekableDataInput input, int address, int length)
+//ORIGINAL LINE: public static void readFully(pspsharp.filesystems.SeekableDataInput input, int address, int Length) throws java.io.IOException
+		public static void readFully(SeekableDataInput input, int address, int Length)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int blockSize = 16 * pspsharp.filesystems.umdiso.UmdIsoFile.sectorLength;
 			int blockSize = 16 * UmdIsoFile.sectorLength; // 32Kb
 			sbyte[] buffer = null;
-			while (length > 0)
+			while (Length > 0)
 			{
-				int size = System.Math.Min(length, blockSize);
+				int size = System.Math.Min(Length, blockSize);
 				if (buffer == null || size != buffer.Length)
 				{
 					buffer = new sbyte[size];
@@ -669,24 +669,24 @@ namespace pspsharp.util
 				input.readFully(buffer);
 				Memory.Instance.copyToMemory(address, ByteBuffer.wrap(buffer), size);
 				address += size;
-				length -= size;
+				Length -= size;
 			}
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public static void write(pspsharp.filesystems.SeekableRandomFile output, int address, int length) throws java.io.IOException
-		public static void write(SeekableRandomFile output, int address, int length)
+//ORIGINAL LINE: public static void write(pspsharp.filesystems.SeekableRandomFile output, int address, int Length) throws java.io.IOException
+		public static void write(SeekableRandomFile output, int address, int Length)
 		{
-			Buffer buffer = Memory.Instance.getBuffer(address, length);
+			Buffer buffer = Memory.Instance.getBuffer(address, Length);
 			if (buffer is ByteBuffer)
 			{
 				output.Channel.write((ByteBuffer) buffer);
 			}
-			else if (length > 0)
+			else if (Length > 0)
 			{
-				sbyte[] bytes = new sbyte[length];
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 1);
-				for (int i = 0; i < length; i++)
+				sbyte[] bytes = new sbyte[Length];
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 1);
+				for (int i = 0; i < Length; i++)
 				{
 					bytes[i] = (sbyte) memoryReader.readNext();
 				}
@@ -744,7 +744,7 @@ namespace pspsharp.util
 			else
 			{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-				Modules.log.error("Utilities.putBuffer: Unsupported Buffer type " + source.GetType().FullName);
+				Modules.Console.WriteLine("Utilities.putBuffer: Unsupported Buffer type " + source.GetType().FullName);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_UNIMPLEMENTED);
 			}
 
@@ -819,7 +819,7 @@ namespace pspsharp.util
 			else
 			{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-				Emulator.log.error("Utilities.putBuffer: Unsupported Buffer type " + source.GetType().FullName);
+				Emulator.Console.WriteLine("Utilities.putBuffer: Unsupported Buffer type " + source.GetType().FullName);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_UNIMPLEMENTED);
 			}
 
@@ -904,22 +904,22 @@ namespace pspsharp.util
 			dump.Append("<");
 		}
 
-		private static string getMemoryDump(int address, int length, int step, int bytesPerLine, IMemoryReader memoryReader, IMemoryReader charReader)
+		private static string getMemoryDump(int address, int Length, int step, int bytesPerLine, IMemoryReader memoryReader, IMemoryReader charReader)
 		{
-			if (length <= 0 || bytesPerLine <= 0 || step <= 0)
+			if (Length <= 0 || bytesPerLine <= 0 || step <= 0)
 			{
 				return "";
 			}
 
 			StringBuilder dump = new StringBuilder();
 
-			if (length < bytesPerLine)
+			if (Length < bytesPerLine)
 			{
-				bytesPerLine = length;
+				bytesPerLine = Length;
 			}
 
 			string format = string.Format(" %0{0:D}X", step * 2);
-			for (int i = 0; i < length; i += step)
+			for (int i = 0; i < Length; i += step)
 			{
 				if ((i % bytesPerLine) < step)
 				{
@@ -933,13 +933,13 @@ namespace pspsharp.util
 				}
 
 				int value = memoryReader.readNext();
-				if (length - i >= step)
+				if (Length - i >= step)
 				{
 					dump.Append(string.format(format, value));
 				}
 				else
 				{
-					switch (length - i)
+					switch (Length - i)
 					{
 						case 3:
 							dump.Append(string.Format(" {0:X6}", value & 0x00FFFFFF));
@@ -954,7 +954,7 @@ namespace pspsharp.util
 				}
 			}
 
-			int lengthLastLine = length % bytesPerLine;
+			int lengthLastLine = Length % bytesPerLine;
 			if (lengthLastLine > 0)
 			{
 				for (int i = lengthLastLine; i < bytesPerLine; i++)
@@ -976,21 +976,21 @@ namespace pspsharp.util
 		}
 
 		// Optimize the most common case
-		private static string getMemoryDump(int[] memoryInt, int address, int length)
+		private static string getMemoryDump(int[] memoryInt, int address, int Length)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return "";
 			}
 
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int numberLines = length >> 4;
-			int numberLines = length >> 4;
+//ORIGINAL LINE: final int numberLines = Length >> 4;
+			int numberLines = Length >> 4;
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final char[] chars = new char[numberLines * lineTemplate.length];
+//ORIGINAL LINE: final char[] chars = new char[numberLines * lineTemplate.Length];
 			char[] chars = new char[numberLines * lineTemplate.Length];
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int lineOffset = lineSeparator.length() + 2;
+//ORIGINAL LINE: final int lineOffset = lineSeparator.Length() + 2;
 			int lineOffset = lineSeparator.Length + 2;
 
 			for (int i = 0, j = 0, a = (address & Memory.addressMask) >> 2; i < numberLines; i++, j += lineTemplate.Length, address += 16)
@@ -1117,38 +1117,38 @@ namespace pspsharp.util
 			return new string(chars);
 		}
 
-		public static string getMemoryDump(int address, int length)
+		public static string getMemoryDump(int address, int Length)
 		{
-			if (RuntimeContext.hasMemoryInt() && (length & 0xF) == 0 && (address & 0x3) == 0 && Memory.isAddressGood(address))
+			if (RuntimeContext.hasMemoryInt() && (Length & 0xF) == 0 && (address & 0x3) == 0 && Memory.isAddressGood(address))
 			{
 				// The most common case has been optimized
-				return getMemoryDump(RuntimeContext.MemoryInt, address, length);
+				return getMemoryDump(RuntimeContext.MemoryInt, address, Length);
 			}
 
 			// Convenience function using default step and bytesPerLine
-			return getMemoryDump(address, length, 1, 16);
+			return getMemoryDump(address, Length, 1, 16);
 		}
 
-		public static string getMemoryDump(Memory mem, int address, int length)
+		public static string getMemoryDump(Memory mem, int address, int Length)
 		{
 			// Convenience function using default step and bytesPerLine
-			return getMemoryDump(mem, address, length, 1, 16);
+			return getMemoryDump(mem, address, Length, 1, 16);
 		}
 
-		public static string getMemoryDump(Memory mem, int address, int length, int step, int bytesPerLine)
+		public static string getMemoryDump(Memory mem, int address, int Length, int step, int bytesPerLine)
 		{
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(mem, address, length, step);
-			IMemoryReader charReader = MemoryReader.getMemoryReader(mem, address, length, 1);
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(mem, address, Length, step);
+			IMemoryReader charReader = MemoryReader.getMemoryReader(mem, address, Length, 1);
 
-			return getMemoryDump(address, length, step, bytesPerLine, memoryReader, charReader);
+			return getMemoryDump(address, Length, step, bytesPerLine, memoryReader, charReader);
 		}
 
-		public static string getMemoryDump(TPointer address, int length)
+		public static string getMemoryDump(TPointer address, int Length)
 		{
-			return getMemoryDump(address.Memory, address.Address, length);
+			return getMemoryDump(address.Memory, address.Address, Length);
 		}
 
-		public static string getMemoryDump(int address, int length, int step, int bytesPerLine)
+		public static string getMemoryDump(int address, int Length, int step, int bytesPerLine)
 		{
 			Memory mem = Memory.Instance;
 			if (!Memory.isAddressGood(address))
@@ -1160,10 +1160,10 @@ namespace pspsharp.util
 				mem = RuntimeContextLLE.MMIO;
 			}
 
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(mem, address, length, step);
-			IMemoryReader charReader = MemoryReader.getMemoryReader(mem, address, length, 1);
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(mem, address, Length, step);
+			IMemoryReader charReader = MemoryReader.getMemoryReader(mem, address, Length, 1);
 
-			return getMemoryDump(address, length, step, bytesPerLine, memoryReader, charReader);
+			return getMemoryDump(address, Length, step, bytesPerLine, memoryReader, charReader);
 		}
 
 		public static string getMemoryDump(sbyte[] bytes)
@@ -1171,23 +1171,23 @@ namespace pspsharp.util
 			return getMemoryDump(bytes, 0, bytes == null ? 0 : bytes.Length);
 		}
 
-		public static string getMemoryDump(sbyte[] bytes, int offset, int length)
+		public static string getMemoryDump(sbyte[] bytes, int offset, int Length)
 		{
 			// Convenience function using default step and bytesPerLine
-			return getMemoryDump(bytes, offset, length, 1, 16);
+			return getMemoryDump(bytes, offset, Length, 1, 16);
 		}
 
-		public static string getMemoryDump(sbyte[] bytes, int offset, int length, int step, int bytesPerLine)
+		public static string getMemoryDump(sbyte[] bytes, int offset, int Length, int step, int bytesPerLine)
 		{
-			if (bytes == null || length <= 0 || bytesPerLine <= 0 || step <= 0)
+			if (bytes == null || Length <= 0 || bytesPerLine <= 0 || step <= 0)
 			{
 				return "";
 			}
 
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(0, bytes, offset, length, step);
-			IMemoryReader charReader = MemoryReader.getMemoryReader(0, bytes, offset, length, step);
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(0, bytes, offset, Length, step);
+			IMemoryReader charReader = MemoryReader.getMemoryReader(0, bytes, offset, Length, step);
 
-			return getMemoryDump(0, length, step, bytesPerLine, memoryReader, charReader);
+			return getMemoryDump(0, Length, step, bytesPerLine, memoryReader, charReader);
 		}
 
 		public static int alignUp(int value, int alignment)
@@ -1590,12 +1590,12 @@ namespace pspsharp.util
 
 		public static float invertedLength3(float[] a)
 		{
-			float length = length3(a);
-			if (length == 0.0f)
+			float Length = length3(a);
+			if (Length == 0.0f)
 			{
 				return 0.0f;
 			}
-			return 1.0f / length;
+			return 1.0f / Length;
 		}
 
 		public static void normalize3(float[] result, float[] a)
@@ -1606,7 +1606,7 @@ namespace pspsharp.util
 			result[2] = a[2] * invertedLength;
 		}
 
-		public static float pow(float a, float b)
+		public static float Pow(float a, float b)
 		{
 			return (float) System.Math.Pow(a, b);
 		}
@@ -1744,30 +1744,30 @@ namespace pspsharp.util
 			return pixelToTexel(value) & valueMask;
 		}
 
-		public static void readBytes(int address, int length, sbyte[] bytes, int offset)
+		public static void readBytes(int address, int Length, sbyte[] bytes, int offset)
 		{
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 1);
-			for (int i = 0; i < length; i++)
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 1);
+			for (int i = 0; i < Length; i++)
 			{
 				bytes[offset + i] = (sbyte) memoryReader.readNext();
 			}
 		}
 
-		public static void writeBytes(int address, int length, sbyte[] bytes, int offset)
+		public static void writeBytes(int address, int Length, sbyte[] bytes, int offset)
 		{
-			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, length, 1);
-			for (int i = 0; i < length; i++)
+			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, Length, 1);
+			for (int i = 0; i < Length; i++)
 			{
 				memoryWriter.writeNext(bytes[i + offset] & 0xFF);
 			}
 			memoryWriter.flush();
 		}
 
-		public static void readInt32(int address, int length, int[] a, int offset)
+		public static void readInt32(int address, int Length, int[] a, int offset)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int length4 = length >> 2;
-			int length4 = length >> 2;
+//ORIGINAL LINE: final int length4 = Length >> 2;
+			int length4 = Length >> 2;
 			// Optimize the most common case
 			if (RuntimeContext.hasMemoryInt())
 			{
@@ -1775,7 +1775,7 @@ namespace pspsharp.util
 			}
 			else
 			{
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 4);
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 4);
 				for (int i = 0; i < length4; i++)
 				{
 					a[offset + i] = memoryReader.readNext();
@@ -1783,11 +1783,11 @@ namespace pspsharp.util
 			}
 		}
 
-		public static void writeInt32(int address, int length, int[] a, int offset)
+		public static void writeInt32(int address, int Length, int[] a, int offset)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int length4 = length >> 2;
-			int length4 = length >> 2;
+//ORIGINAL LINE: final int length4 = Length >> 2;
+			int length4 = Length >> 2;
 			// Optimize the most common case
 			if (RuntimeContext.hasMemoryInt())
 			{
@@ -1795,7 +1795,7 @@ namespace pspsharp.util
 			}
 			else
 			{
-				IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, length, 4);
+				IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, Length, 4);
 				for (int i = 0; i < length4; i++)
 				{
 					memoryWriter.writeNext(a[offset + i]);
@@ -1804,10 +1804,10 @@ namespace pspsharp.util
 			}
 		}
 
-		public static int[] readInt32(int address, int length)
+		public static int[] readInt32(int address, int Length)
 		{
-			int[] a = new int[length >> 2];
-			readInt32(address, length, a, 0);
+			int[] a = new int[Length >> 2];
+			readInt32(address, Length, a, 0);
 
 			return a;
 		}
@@ -1857,47 +1857,47 @@ namespace pspsharp.util
 			return extendArray(array, extend, 0, extend.Length);
 		}
 
-		public static sbyte[] extendArray(sbyte[] array, sbyte[] extend, int offset, int length)
+		public static sbyte[] extendArray(sbyte[] array, sbyte[] extend, int offset, int Length)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return array;
 			}
 
 			if (array == null)
 			{
-				array = new sbyte[length];
-				Array.Copy(extend, offset, array, 0, length);
+				array = new sbyte[Length];
+				Array.Copy(extend, offset, array, 0, Length);
 				return array;
 			}
 
-			sbyte[] newArray = new sbyte[array.Length + length];
+			sbyte[] newArray = new sbyte[array.Length + Length];
 			Array.Copy(array, 0, newArray, 0, array.Length);
-			Array.Copy(extend, offset, newArray, array.Length, length);
+			Array.Copy(extend, offset, newArray, array.Length, Length);
 
 			return newArray;
 		}
 
-		public static sbyte[] copyToArrayAndExtend(sbyte[] destination, int destinationOffset, sbyte[] source, int sourceOffset, int length)
+		public static sbyte[] copyToArrayAndExtend(sbyte[] destination, int destinationOffset, sbyte[] source, int sourceOffset, int Length)
 		{
-			if (source == null || length <= 0)
+			if (source == null || Length <= 0)
 			{
 				return destination;
 			}
 
 			if (destination == null)
 			{
-				destination = new sbyte[destinationOffset + length];
-				Array.Copy(source, sourceOffset, destination, destinationOffset, length);
+				destination = new sbyte[destinationOffset + Length];
+				Array.Copy(source, sourceOffset, destination, destinationOffset, Length);
 				return destination;
 			}
 
-			if (destinationOffset + length > destination.Length)
+			if (destinationOffset + Length > destination.Length)
 			{
-				destination = extendArray(destination, destinationOffset + length - destination.Length);
+				destination = extendArray(destination, destinationOffset + Length - destination.Length);
 			}
 
-			Array.Copy(source, sourceOffset, destination, destinationOffset, length);
+			Array.Copy(source, sourceOffset, destination, destinationOffset, Length);
 
 			return destination;
 		}
@@ -1989,38 +1989,38 @@ namespace pspsharp.util
 			sbyte[] buffer;
 			try
 			{
-				buffer = new sbyte[(int)(vFile.length() - vFile.Position)];
+				buffer = new sbyte[(int)(vFile.Length() - vFile.Position)];
 			}
 			catch (System.OutOfMemoryException e)
 			{
-				Emulator.log.error("Error while reading a complete vFile", e);
+				Emulator.Console.WriteLine("Error while reading a complete vFile", e);
 				return null;
 			}
 
-			int length = 0;
-			while (length < buffer.Length)
+			int Length = 0;
+			while (Length < buffer.Length)
 			{
-				int readLength = vFile.ioRead(buffer, length, buffer.Length - length);
+				int readLength = vFile.ioRead(buffer, Length, buffer.Length - Length);
 				if (readLength < 0)
 				{
 					break;
 				}
-				length += readLength;
+				Length += readLength;
 			}
 
-			if (length < buffer.Length)
+			if (Length < buffer.Length)
 			{
 				sbyte[] resizedBuffer;
 				try
 				{
-					resizedBuffer = new sbyte[length];
+					resizedBuffer = new sbyte[Length];
 				}
 				catch (System.OutOfMemoryException e)
 				{
-					Emulator.log.error("Error while reading a complete vFile", e);
+					Emulator.Console.WriteLine("Error while reading a complete vFile", e);
 					return null;
 				}
-				Array.Copy(buffer, 0, resizedBuffer, 0, length);
+				Array.Copy(buffer, 0, resizedBuffer, 0, Length);
 				buffer = resizedBuffer;
 			}
 
@@ -2091,20 +2091,20 @@ namespace pspsharp.util
 		{
 			for (int i = 0; i < a.Length; i++)
 			{
-				Arrays.fill(a[i], value);
+				Arrays.Fill(a[i], value);
 			}
 		}
 
 		public static void fill(float[] a, float value)
 		{
-			Arrays.fill(a, value);
+			Arrays.Fill(a, value);
 		}
 
 		public static void fill(float[][] a, float value)
 		{
 			for (int i = 0; i < a.Length; i++)
 			{
-				Arrays.fill(a[i], value);
+				Arrays.Fill(a[i], value);
 			}
 		}
 
@@ -2151,11 +2151,11 @@ namespace pspsharp.util
 			}
 			catch (NoSuchAlgorithmException e)
 			{
-				Emulator.log.error(e);
+				Emulator.Console.WriteLine(e);
 			}
 			catch (KeyManagementException e)
 			{
-				Emulator.log.error(e);
+				Emulator.Console.WriteLine(e);
 			}
 		}
 
@@ -2239,9 +2239,9 @@ namespace pspsharp.util
 			return newArray;
 		}
 
-		public static bool Equals(sbyte[] array1, int offset1, sbyte[] array2, int offset2, int length)
+		public static bool Equals(sbyte[] array1, int offset1, sbyte[] array2, int offset2, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				if (array1[offset1 + i] != array2[offset2 + i])
 				{
@@ -2263,7 +2263,7 @@ namespace pspsharp.util
 			int checkValue = mem.read32(module.baseAddress + offset);
 			if ((checkValue & mask) != (oldValue & mask))
 			{
-				Emulator.log.error(string.Format("Patching of module '{0}' failed at offset 0x{1:X}, 0x{2:X8} found instead of 0x{3:X8}", module.modname, offset, checkValue, oldValue));
+				Emulator.Console.WriteLine(string.Format("Patching of module '{0}' failed at offset 0x{1:X}, 0x{2:X8} found instead of 0x{3:X8}", module.modname, offset, checkValue, oldValue));
 			}
 			else
 			{
@@ -2277,7 +2277,7 @@ namespace pspsharp.util
 			int checkChar = mem.read8(address);
 			if (checkChar != oldChar)
 			{
-				Emulator.log.error(string.Format("Patching of module '{0}' failed at offset 0x{1:X}, 0x{2:X2} found instead of 0x{3:X2}: {4}", module.modname, offset, checkChar, oldChar, Utilities.getMemoryDump(address - 0x100, 0x200)));
+				Emulator.Console.WriteLine(string.Format("Patching of module '{0}' failed at offset 0x{1:X}, 0x{2:X2} found instead of 0x{3:X2}: {4}", module.modname, offset, checkChar, oldChar, Utilities.getMemoryDump(address - 0x100, 0x200)));
 			}
 			else
 			{
@@ -2363,7 +2363,7 @@ namespace pspsharp.util
 //ORIGINAL LINE: public static ByteBuffer readAsByteBuffer(java.io.RandomAccessFile raf) throws java.io.IOException
 		public static ByteBuffer readAsByteBuffer(RandomAccessFile raf)
 		{
-			sbyte[] bytes = new sbyte[(int) raf.length()];
+			sbyte[] bytes = new sbyte[(int) raf.Length()];
 			int offset = 0;
 			// Read large files by chunks.
 			while (offset < bytes.Length)

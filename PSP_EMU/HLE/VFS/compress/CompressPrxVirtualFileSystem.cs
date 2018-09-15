@@ -383,44 +383,44 @@ namespace pspsharp.HLE.VFS.compress
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: private static void writeString(java.io.OutputStream os, String value, int length) throws java.io.IOException
-		private static void writeString(System.IO.Stream os, string value, int length)
+//ORIGINAL LINE: private static void writeString(java.io.OutputStream os, String value, int Length) throws java.io.IOException
+		private static void writeString(System.IO.Stream os, string value, int Length)
 		{
 			if (!string.ReferenceEquals(value, null))
 			{
-				int n = System.Math.Min(value.Length, length);
+				int n = System.Math.Min(value.Length, Length);
 				for (int i = 0; i < n; i++)
 				{
 					char c = value[i];
 					write8(os, c);
 				}
-				length -= n;
+				Length -= n;
 			}
 
-			while (length > 0)
+			while (Length > 0)
 			{
-				length--;
+				Length--;
 				write8(os, 0);
 			}
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: private static void writeBytes(java.io.OutputStream os, byte[] bytes, int length) throws java.io.IOException
-		private static void writeBytes(System.IO.Stream os, sbyte[] bytes, int length)
+//ORIGINAL LINE: private static void writeBytes(java.io.OutputStream os, byte[] bytes, int Length) throws java.io.IOException
+		private static void writeBytes(System.IO.Stream os, sbyte[] bytes, int Length)
 		{
 			if (bytes != null)
 			{
-				int n = System.Math.Min(bytes.Length, length);
+				int n = System.Math.Min(bytes.Length, Length);
 				for (int i = 0; i < n; i++)
 				{
 					write8(os, bytes[i]);
 				}
-				length -= n;
+				Length -= n;
 			}
 
-			while (length > 0)
+			while (Length > 0)
 			{
-				length--;
+				Length--;
 				write8(os, 0);
 			}
 		}

@@ -35,7 +35,7 @@ namespace pspsharp.graphics.RE.externalge
 	using PspGeList = pspsharp.HLE.kernel.types.PspGeList;
 	using sceGe_user = pspsharp.HLE.modules.sceGe_user;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -94,7 +94,7 @@ namespace pspsharp.graphics.RE.externalge
 				{
 					if (!Emulator.pause && log.DebugEnabled)
 					{
-						log.debug(string.Format("CoreThread no current list available... waiting"));
+						Console.WriteLine(string.Format("CoreThread no current list available... waiting"));
 					}
 
 					waitForSync(100);
@@ -107,19 +107,19 @@ namespace pspsharp.graphics.RE.externalge
 					NativeUtils.CoreMadr = list.Pc;
 					NativeUtils.updateMemoryUnsafeAddr();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("CoreThread processing {0}", list));
+						Console.WriteLine(string.Format("CoreThread processing {0}", list));
 					}
 
 					while (NativeUtils.coreInterpret())
 					{
 						NativeUtils.updateMemoryUnsafeAddr();
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
 							list.Pc = NativeUtils.CoreMadr;
-							log.debug(string.Format("CoreThread looping {0}", list));
+							Console.WriteLine(string.Format("CoreThread looping {0}", list));
 						}
 
 						if (ExternalGE.numberRendererThread > 0 && NativeUtils.RendererIndexCount > 0)
@@ -187,7 +187,7 @@ namespace pspsharp.graphics.RE.externalge
 				catch (InterruptedException e)
 				{
 					// Ignore exception and retry again
-					log.debug(string.Format("CoreThread waitForSync {0}", e));
+					Console.WriteLine(string.Format("CoreThread waitForSync {0}", e));
 				}
 			}
 
@@ -201,9 +201,9 @@ namespace pspsharp.graphics.RE.externalge
 
 		private void executeCommandFINISH(PspGeList list)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("FINISH {0}", list));
+				Console.WriteLine(string.Format("FINISH {0}", list));
 			}
 
 			list.clearRestart();
@@ -219,9 +219,9 @@ namespace pspsharp.graphics.RE.externalge
 			int args = NativeUtils.getCoreCmdArray(GeCommands.SIGNAL) & 0x00FFFFFF;
 			int behavior = (args >> 16) & 0xFF;
 			int signal = args & 0xFFFF;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("SIGNAL (behavior={0:D}, signal=0x{1:X})", behavior, signal));
+				Console.WriteLine(string.Format("SIGNAL (behavior={0:D}, signal=0x{1:X})", behavior, signal));
 			}
 
 			switch (behavior)
@@ -238,9 +238,9 @@ namespace pspsharp.graphics.RE.externalge
 							list.readNextInstruction();
 						}
 					}
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("PSP_GE_SIGNAL_SYNC ignored PC: 0x{0:X8}", list.Pc));
+						Console.WriteLine(string.Format("PSP_GE_SIGNAL_SYNC ignored PC: 0x{0:X8}", list.Pc));
 					}
 					break;
 				}
@@ -253,9 +253,9 @@ namespace pspsharp.graphics.RE.externalge
 					int oldPc = list.Pc;
 					list.callAbsolute(addr);
 					int newPc = list.Pc;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("PSP_GE_SIGNAL_CALL old PC: 0x{0:X8}, new PC: 0x{1:X8}", oldPc, newPc));
+						Console.WriteLine(string.Format("PSP_GE_SIGNAL_CALL old PC: 0x{0:X8}, new PC: 0x{1:X8}", oldPc, newPc));
 					}
 					break;
 				}
@@ -265,9 +265,9 @@ namespace pspsharp.graphics.RE.externalge
 					int oldPc = list.Pc;
 					list.ret();
 					int newPc = list.Pc;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("PSP_GE_SIGNAL_RETURN old PC: 0x{0:X8}, new PC: 0x{1:X8}", oldPc, newPc));
+						Console.WriteLine(string.Format("PSP_GE_SIGNAL_RETURN old PC: 0x{0:X8}, new PC: 0x{1:X8}", oldPc, newPc));
 					}
 					break;
 				}
@@ -328,7 +328,7 @@ namespace pspsharp.graphics.RE.externalge
 				{
 					if (log.InfoEnabled)
 					{
-						log.warn(string.Format("SIGNAL (behavior={0:D}, signal=0x{1:X}) unknown behavior at 0x{2:X8}", behavior, signal, list.Pc - 4));
+						Console.WriteLine(string.Format("SIGNAL (behavior={0:D}, signal=0x{1:X}) unknown behavior at 0x{2:X8}", behavior, signal, list.Pc - 4));
 					}
 				}
 			break;

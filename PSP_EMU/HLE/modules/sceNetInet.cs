@@ -28,7 +28,7 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RawSocket = com.savarese.rocksaw.net.RawSocket;
 
@@ -54,7 +54,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceNetInet : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetInet");
+		//public static Logger log = Modules.getLogger("sceNetInet");
 
 		public const int AF_INET = 2; // Address familiy internet
 
@@ -184,26 +184,26 @@ namespace pspsharp.HLE.modules
 						InetAddress[] inetAddresses = (InetAddress[]) InetAddress.getAllByName(doProxyServer.serverName);
 						outerInstance.doProxyInetAddresses = Utilities.merge(outerInstance.doProxyInetAddresses, inetAddresses);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
 							if (inetAddresses == null)
 							{
-								log.debug(string.Format("doProxyInetAddress {0}: IP address cannot be resolved", doProxyServer.serverName));
+								Console.WriteLine(string.Format("doProxyInetAddress {0}: IP address cannot be resolved", doProxyServer.serverName));
 							}
 							else
 							{
 								foreach (InetAddress inetAddress in inetAddresses)
 								{
-									log.debug(string.Format("doProxyInetAddress {0}: {1}", doProxyServer.serverName, inetAddress));
+									Console.WriteLine(string.Format("doProxyInetAddress {0}: {1}", doProxyServer.serverName, inetAddress));
 								}
 							}
 						}
 					}
 					catch (UnknownHostException e)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNetInet cannot resolve '{0}': {1}", doProxyServer, e.ToString()));
+							Console.WriteLine(string.Format("sceNetInet cannot resolve '{0}': {1}", doProxyServer, e.ToString()));
 						}
 					}
 				}
@@ -268,7 +268,7 @@ namespace pspsharp.HLE.modules
 						}
 						catch (Exception e)
 						{
-							log.error(string.Format("Error resolving the broadcast address '{0}' from the Settings file", addressNames[i]), e);
+							Console.WriteLine(string.Format("Error resolving the broadcast address '{0}' from the Settings file", addressNames[i]), e);
 						}
 					}
 
@@ -296,11 +296,11 @@ namespace pspsharp.HLE.modules
 					broadcastAddresses[0] = InetAddress.getByAddress(internetAddressToBytes(localBroadcastAddressInt));
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 					for (int i = 0; i < broadcastAddresses.Length; i++)
 					{
-						log.debug(string.Format("Using the following broadcast address#{0:D}: {1}", i + 1, broadcastAddresses[i].HostAddress));
+						Console.WriteLine(string.Format("Using the following broadcast address#{0:D}: {1}", i + 1, broadcastAddresses[i].HostAddress));
 					}
 				}
 			}
@@ -588,11 +588,11 @@ namespace pspsharp.HLE.modules
 					blocking = Blocking;
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("isBlocking(0x%X)=%b", flags, blocking));
-					log.debug(string.Format("isBlocking(0x%X)=%b", flags, blocking));
+//ORIGINAL LINE: Console.WriteLine(String.format("isBlocking(0x%X)=%b", flags, blocking));
+					Console.WriteLine(string.Format("isBlocking(0x%X)=%b", flags, blocking));
 				}
 
 				return blocking;
@@ -747,11 +747,11 @@ namespace pspsharp.HLE.modules
 			}
 
 
-			protected internal virtual sbyte[] getByteArray(int address, int length)
+			protected internal virtual sbyte[] getByteArray(int address, int Length)
 			{
-				sbyte[] bytes = new sbyte[length];
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 1);
-				for (int i = 0; i < length; i++)
+				sbyte[] bytes = new sbyte[Length];
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 1);
+				for (int i = 0; i < Length; i++)
 				{
 					bytes[i] = (sbyte) memoryReader.readNext();
 				}
@@ -759,9 +759,9 @@ namespace pspsharp.HLE.modules
 				return bytes;
 			}
 
-			protected internal virtual ByteBuffer getByteBuffer(int address, int length)
+			protected internal virtual ByteBuffer getByteBuffer(int address, int Length)
 			{
-				return ByteBuffer.wrap(getByteArray(address, length));
+				return ByteBuffer.wrap(getByteArray(address, Length));
 			}
 
 			public override string ToString()
@@ -786,9 +786,9 @@ namespace pspsharp.HLE.modules
 			{
 				get
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("receiveTimeout={0:D}", receiveTimeout));
+						Console.WriteLine(string.Format("receiveTimeout={0:D}", receiveTimeout));
 					}
 					return receiveTimeout;
 				}
@@ -1001,12 +1001,12 @@ namespace pspsharp.HLE.modules
 				return 0;
 			}
 
-			protected internal virtual void storeBytes(int address, int length, sbyte[] bytes)
+			protected internal virtual void storeBytes(int address, int Length, sbyte[] bytes)
 			{
-				if (length > 0)
+				if (Length > 0)
 				{
-					IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, length, 1);
-					for (int i = 0; i < length; i++)
+					IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, Length, 1);
+					for (int i = 0; i < Length; i++)
 					{
 						memoryWriter.writeNext(bytes[i]);
 					}
@@ -1023,7 +1023,7 @@ namespace pspsharp.HLE.modules
 			{
 				if ((flags & ~MSG_DONTWAIT) != 0)
 				{
-					log.warn(string.Format("sceNetInetRecv unsupported flag 0x{0:X} on socket", flags));
+					Console.WriteLine(string.Format("sceNetInetRecv unsupported flag 0x{0:X} on socket", flags));
 				}
 				return recv(buffer, bufferLength, flags, null);
 			}
@@ -1032,17 +1032,17 @@ namespace pspsharp.HLE.modules
 			{
 				if (blockingState.Timeout)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetRecv socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.receivedLength));
+						Console.WriteLine(string.Format("sceNetInetRecv socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.receivedLength));
 					}
 					setErrno(EAGAIN, blockingState);
 					outerInstance.unblockThread(blockingState, blockingState.receivedLength);
 				}
 				else
 				{
-					int length = recv(blockingState.buffer + blockingState.receivedLength, blockingState.bufferLength - blockingState.receivedLength, blockingState.flags, blockingState);
-					if (length >= 0)
+					int Length = recv(blockingState.buffer + blockingState.receivedLength, blockingState.bufferLength - blockingState.receivedLength, blockingState.flags, blockingState);
+					if (Length >= 0)
 					{
 						outerInstance.unblockThread(blockingState, blockingState.receivedLength);
 					}
@@ -1053,7 +1053,7 @@ namespace pspsharp.HLE.modules
 			{
 				if ((flags & ~MSG_DONTWAIT) != 0)
 				{
-					log.warn(string.Format("sceNetInetSend unsupported flag 0x{0:X} on socket", flags));
+					Console.WriteLine(string.Format("sceNetInetSend unsupported flag 0x{0:X} on socket", flags));
 				}
 				return send(buffer, bufferLength, flags, null);
 			}
@@ -1062,17 +1062,17 @@ namespace pspsharp.HLE.modules
 			{
 				if (blockingState.Timeout)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetSend socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.sentLength));
+						Console.WriteLine(string.Format("sceNetInetSend socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.sentLength));
 					}
 					setErrno(EAGAIN, blockingState);
 					outerInstance.unblockThread(blockingState, blockingState.sentLength);
 				}
 				else
 				{
-					int length = send(blockingState.buffer + blockingState.sentLength, blockingState.bufferLength - blockingState.sentLength, blockingState.flags, blockingState);
-					if (length > 0)
+					int Length = send(blockingState.buffer + blockingState.sentLength, blockingState.bufferLength - blockingState.sentLength, blockingState.flags, blockingState);
+					if (Length > 0)
 					{
 						outerInstance.unblockThread(blockingState, blockingState.sentLength);
 					}
@@ -1083,7 +1083,7 @@ namespace pspsharp.HLE.modules
 			{
 				if ((flags & ~MSG_DONTWAIT) != 0)
 				{
-					log.warn(string.Format("sceNetInetSendto unsupported flag 0x{0:X} on socket", flags));
+					Console.WriteLine(string.Format("sceNetInetSendto unsupported flag 0x{0:X} on socket", flags));
 				}
 				return sendto(buffer, bufferLength, flags, toAddr, null);
 			}
@@ -1092,17 +1092,17 @@ namespace pspsharp.HLE.modules
 			{
 				if (blockingState.Timeout)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetSendto socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.sentLength));
+						Console.WriteLine(string.Format("sceNetInetSendto socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.sentLength));
 					}
 					setErrno(EAGAIN, blockingState);
 					outerInstance.unblockThread(blockingState, blockingState.sentLength);
 				}
 				else
 				{
-					int length = sendto(blockingState.buffer + blockingState.sentLength, blockingState.bufferLength - blockingState.sentLength, blockingState.flags, blockingState.toAddr, blockingState);
-					if (length > 0)
+					int Length = sendto(blockingState.buffer + blockingState.sentLength, blockingState.bufferLength - blockingState.sentLength, blockingState.flags, blockingState.toAddr, blockingState);
+					if (Length > 0)
 					{
 						outerInstance.unblockThread(blockingState, blockingState.sentLength);
 					}
@@ -1113,7 +1113,7 @@ namespace pspsharp.HLE.modules
 			{
 				if ((flags & ~MSG_DONTWAIT) != 0)
 				{
-					log.warn(string.Format("sceNetInetRecvfrom unsupported flag 0x{0:X} on socket", flags));
+					Console.WriteLine(string.Format("sceNetInetRecvfrom unsupported flag 0x{0:X} on socket", flags));
 				}
 				return recvfrom(buffer, bufferLength, flags, fromAddr, null);
 			}
@@ -1122,17 +1122,17 @@ namespace pspsharp.HLE.modules
 			{
 				if (blockingState.Timeout)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetRecvfrom socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.receivedLength));
+						Console.WriteLine(string.Format("sceNetInetRecvfrom socket=0x{0:X} returning {1:D} (timeout)", Uid, blockingState.receivedLength));
 					}
 					setErrno(EAGAIN, blockingState);
 					outerInstance.unblockThread(blockingState, blockingState.receivedLength);
 				}
 				else
 				{
-					int length = recvfrom(blockingState.buffer + blockingState.receivedLength, blockingState.bufferLength - blockingState.receivedLength, blockingState.flags, blockingState.fromAddr, blockingState);
-					if (length >= 0)
+					int Length = recvfrom(blockingState.buffer + blockingState.receivedLength, blockingState.bufferLength - blockingState.receivedLength, blockingState.flags, blockingState.fromAddr, blockingState);
+					if (Length >= 0)
 					{
 						outerInstance.unblockThread(blockingState, blockingState.receivedLength);
 					}
@@ -1287,7 +1287,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						SocketError = e;
 						return false;
 					}
@@ -1300,7 +1300,7 @@ namespace pspsharp.HLE.modules
 			{
 				if (isServerSocket)
 				{
-					log.error(string.Format("connect not supported on server socket stream addr={0}, {1}", addr.ToString(), ToString()));
+					Console.WriteLine(string.Format("connect not supported on server socket stream addr={0}, {1}", addr.ToString(), ToString()));
 					return -1;
 				}
 
@@ -1349,7 +1349,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
@@ -1376,7 +1376,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -1397,27 +1397,27 @@ namespace pspsharp.HLE.modules
 					}
 
 					sbyte[] bytes = new sbyte[bufferLength];
-					int length = socketChannel.read(ByteBuffer.wrap(bytes));
-					storeBytes(buffer, length, bytes);
+					int Length = socketChannel.read(ByteBuffer.wrap(bytes));
+					storeBytes(buffer, Length, bytes);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetRecv socket=0x{0:X} received 0x{1:X} bytes", Uid, length));
-						if (log.TraceEnabled && length > 0)
+						Console.WriteLine(string.Format("sceNetInetRecv socket=0x{0:X} received 0x{1:X} bytes", Uid, Length));
+						if (log.TraceEnabled && Length > 0)
 						{
-							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, length)));
+							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, Length)));
 						}
 					}
 
 					// end of stream
-					if (length < 0)
+					if (Length < 0)
 					{
 						clearError(blockingState);
 						return 0;
 					}
 
 					// Nothing received on a non-blocking stream, return EAGAIN in errno
-					if (length == 0 && !isBlocking(flags))
+					if (Length == 0 && !isBlocking(flags))
 					{
 						if (bufferLength == 0)
 						{
@@ -1430,7 +1430,7 @@ namespace pspsharp.HLE.modules
 
 					if (blockingState != null)
 					{
-						blockingState.receivedLength += length;
+						blockingState.receivedLength += Length;
 					}
 
 					// With a blocking stream, at least the low water mark has to be read
@@ -1438,12 +1438,12 @@ namespace pspsharp.HLE.modules
 					{
 						if (blockingState == null)
 						{
-							blockingState = new BlockingReceiveState(this, buffer, bufferLength, flags, length);
+							blockingState = new BlockingReceiveState(this, buffer, bufferLength, flags, Length);
 						}
 
 						// If we have not yet read as much as the low water mark,
 						// block the thread and retry later.
-						if (blockingState.receivedLength < ReceiveLowWaterMark && length < bufferLength)
+						if (blockingState.receivedLength < ReceiveLowWaterMark && Length < bufferLength)
 						{
 							outerInstance.blockThread(blockingState);
 							return -1;
@@ -1451,11 +1451,11 @@ namespace pspsharp.HLE.modules
 					}
 
 					clearError(blockingState);
-					return length;
+					return Length;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -1473,14 +1473,14 @@ namespace pspsharp.HLE.modules
 					}
 
 					ByteBuffer byteBuffer = getByteBuffer(buffer, bufferLength);
-					int length = socketChannel.write(byteBuffer);
-					if (log.DebugEnabled)
+					int Length = socketChannel.write(byteBuffer);
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetSend socket=0x{0:X} successfully sent 0x{1:X} bytes", Uid, length));
+						Console.WriteLine(string.Format("sceNetInetSend socket=0x{0:X} successfully sent 0x{1:X} bytes", Uid, Length));
 					}
 
 					// Nothing sent on a non-blocking stream, return EAGAIN in errno
-					if (length == 0 && !isBlocking(flags))
+					if (Length == 0 && !isBlocking(flags))
 					{
 						setErrno(EAGAIN, blockingState);
 						return -1;
@@ -1488,7 +1488,7 @@ namespace pspsharp.HLE.modules
 
 					if (blockingState != null)
 					{
-						blockingState.sentLength += length;
+						blockingState.sentLength += Length;
 					}
 
 					// With a blocking stream, we have to send all the bytes
@@ -1496,12 +1496,12 @@ namespace pspsharp.HLE.modules
 					{
 						if (blockingState == null)
 						{
-							blockingState = new BlockingSendState(this, buffer, bufferLength, flags, length);
+							blockingState = new BlockingSendState(this, buffer, bufferLength, flags, Length);
 						}
 
 						// If we have not yet sent all the bytes, block the thread
 						// and retry later
-						if (length < bufferLength)
+						if (Length < bufferLength)
 						{
 							outerInstance.blockThread(blockingState);
 							return -1;
@@ -1509,11 +1509,11 @@ namespace pspsharp.HLE.modules
 					}
 
 					clearError(blockingState);
-					return length;
+					return Length;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -1532,7 +1532,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						setError(e, blockingState);
 						return -1;
 					}
@@ -1547,7 +1547,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						setError(e, blockingState);
 						return -1;
 					}
@@ -1559,14 +1559,14 @@ namespace pspsharp.HLE.modules
 
 			public override int recvfrom(int buffer, int bufferLength, int flags, pspNetSockAddrInternet fromAddr, BlockingReceiveFromState blockingState)
 			{
-				log.warn("sceNetInetRecvfrom not supported on stream socket");
+				Console.WriteLine("sceNetInetRecvfrom not supported on stream socket");
 				setError(-1, blockingState);
 				return -1;
 			}
 
 			public override int sendto(int buffer, int bufferLength, int flags, pspNetSockAddrInternet toAddr, BlockingSendToState blockingState)
 			{
-				log.warn("sceNetInetSendto not supported on stream socket");
+				Console.WriteLine("sceNetInetSendto not supported on stream socket");
 				setError(-1, blockingState);
 				return -1;
 			}
@@ -1607,9 +1607,9 @@ namespace pspsharp.HLE.modules
 						}
 						catch (IOException e)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("{0}: {1}", ToString(), e.ToString()));
+								Console.WriteLine(string.Format("{0}: {1}", ToString(), e.ToString()));
 							}
 							return false;
 						}
@@ -1698,7 +1698,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (SocketException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -1718,7 +1718,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (SocketException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -1738,7 +1738,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (SocketException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -1758,7 +1758,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (SocketException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -1789,7 +1789,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -1809,7 +1809,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
@@ -1821,7 +1821,7 @@ namespace pspsharp.HLE.modules
 			{
 				if (!isServerSocket)
 				{
-					log.error(string.Format("sceNetInetAccept on non-server socket stream not allowed addr={0}, {1}", sockAddrInternet.ToString(), ToString()));
+					Console.WriteLine(string.Format("sceNetInetAccept on non-server socket stream not allowed addr={0}, {1}", sockAddrInternet.ToString(), ToString()));
 					return -1;
 				}
 				return base.accept(sockAddrInternet);
@@ -1838,7 +1838,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -1868,14 +1868,14 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 				sockAddrInternet.readFromInetSocketAddress((InetSocketAddress) socketChannel.socket().RemoteSocketAddress);
 				sockAddrInternet.write(Memory.Instance);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetInetAccept accepted connection from {0} on socket {1}", sockAddrInternet.ToString(), inetSocket.ToString()));
+					Console.WriteLine(string.Format("sceNetInetAccept accepted connection from {0} on socket {1}", sockAddrInternet.ToString(), inetSocket.ToString()));
 				}
 				else if (log.InfoEnabled)
 				{
@@ -1928,7 +1928,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
@@ -1946,7 +1946,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
@@ -1966,7 +1966,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -1983,19 +1983,19 @@ namespace pspsharp.HLE.modules
 					sbyte[] bytes = new sbyte[bufferLength];
 					ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
 					SocketAddress socketAddress = datagramChannel.receive(byteBuffer);
-					int length = byteBuffer.position();
-					storeBytes(buffer, length, bytes);
+					int Length = byteBuffer.position();
+					storeBytes(buffer, Length, bytes);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetRecv socket=0x{0:X} received 0x{1:X} bytes from {2}", Uid, length, socketAddress));
-						if (log.TraceEnabled && length > 0)
+						Console.WriteLine(string.Format("sceNetInetRecv socket=0x{0:X} received 0x{1:X} bytes from {2}", Uid, Length, socketAddress));
+						if (log.TraceEnabled && Length > 0)
 						{
-							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, length)));
+							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, Length)));
 						}
 					}
 
-					if (length < 0)
+					if (Length < 0)
 					{
 						// end of stream
 						clearError(blockingState);
@@ -2003,7 +2003,7 @@ namespace pspsharp.HLE.modules
 					}
 
 					// Nothing received on a non-blocking stream, return EAGAIN in errno
-					if (length == 0 && !isBlocking(flags))
+					if (Length == 0 && !isBlocking(flags))
 					{
 						if (bufferLength == 0)
 						{
@@ -2016,7 +2016,7 @@ namespace pspsharp.HLE.modules
 
 					if (blockingState != null)
 					{
-						blockingState.receivedLength += length;
+						blockingState.receivedLength += Length;
 					}
 
 					// With a blocking stream, at least the low water mark has to be read
@@ -2024,12 +2024,12 @@ namespace pspsharp.HLE.modules
 					{
 						if (blockingState == null)
 						{
-							blockingState = new BlockingReceiveState(this, buffer, bufferLength, flags, length);
+							blockingState = new BlockingReceiveState(this, buffer, bufferLength, flags, Length);
 						}
 
 						// If we have not yet read as much as the low water mark,
 						// block the thread and retry later.
-						if (blockingState.receivedLength < ReceiveLowWaterMark && length < bufferLength)
+						if (blockingState.receivedLength < ReceiveLowWaterMark && Length < bufferLength)
 						{
 							outerInstance.blockThread(blockingState);
 							return -1;
@@ -2037,11 +2037,11 @@ namespace pspsharp.HLE.modules
 					}
 
 					clearError(blockingState);
-					return length;
+					return Length;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -2049,7 +2049,7 @@ namespace pspsharp.HLE.modules
 
 			public override int send(int buffer, int bufferLength, int flags, BlockingSendState blockingState)
 			{
-				log.warn("sceNetInetSend not supported on datagram socket");
+				Console.WriteLine("sceNetInetSend not supported on datagram socket");
 				setError(-1, blockingState);
 				return -1;
 			}
@@ -2061,15 +2061,15 @@ namespace pspsharp.HLE.modules
 					sbyte[] bytes = new sbyte[bufferLength];
 					ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
 					SocketAddress socketAddress = datagramChannel.receive(byteBuffer);
-					int length = byteBuffer.position();
-					storeBytes(buffer, length, bytes);
+					int Length = byteBuffer.position();
+					storeBytes(buffer, Length, bytes);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetRecvfrom socket=0x{0:X} received 0x{1:X} bytes from {2}", Uid, length, socketAddress));
-						if (log.TraceEnabled && length > 0)
+						Console.WriteLine(string.Format("sceNetInetRecvfrom socket=0x{0:X} received 0x{1:X} bytes from {2}", Uid, Length, socketAddress));
+						if (log.TraceEnabled && Length > 0)
 						{
-							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, length)));
+							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, Length)));
 						}
 					}
 
@@ -2085,7 +2085,7 @@ namespace pspsharp.HLE.modules
 						// Nothing received on a blocking datagram, block the thread
 						if (blockingState == null)
 						{
-							blockingState = new BlockingReceiveFromState(this, buffer, bufferLength, flags, fromAddr, length);
+							blockingState = new BlockingReceiveFromState(this, buffer, bufferLength, flags, fromAddr, Length);
 						}
 						outerInstance.blockThread(blockingState);
 						return -1;
@@ -2099,11 +2099,11 @@ namespace pspsharp.HLE.modules
 					}
 
 					clearError(blockingState);
-					return length;
+					return Length;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -2116,14 +2116,14 @@ namespace pspsharp.HLE.modules
 					openChannel();
 					ByteBuffer byteBuffer = getByteBuffer(buffer, bufferLength);
 					SocketAddress socketAddress = getSocketAddress(toAddr);
-					int length = datagramChannel.send(byteBuffer, socketAddress);
-					if (log.DebugEnabled)
+					int Length = datagramChannel.send(byteBuffer, socketAddress);
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetSendto socket=0x{0:X} successfully sent 0x{1:X} bytes", Uid, length));
+						Console.WriteLine(string.Format("sceNetInetSendto socket=0x{0:X} successfully sent 0x{1:X} bytes", Uid, Length));
 					}
 
 					// Nothing sent on a non-blocking stream, return EAGAIN in errno
-					if (length == 0 && !isBlocking(flags))
+					if (Length == 0 && !isBlocking(flags))
 					{
 						setErrno(EAGAIN, blockingState);
 						return -1;
@@ -2131,7 +2131,7 @@ namespace pspsharp.HLE.modules
 
 					if (blockingState != null)
 					{
-						blockingState.sentLength += length;
+						blockingState.sentLength += Length;
 					}
 
 					// With a blocking stream, we have to send all the bytes
@@ -2139,12 +2139,12 @@ namespace pspsharp.HLE.modules
 					{
 						if (blockingState == null)
 						{
-							blockingState = new BlockingSendToState(this, buffer, bufferLength, flags, toAddr, length);
+							blockingState = new BlockingSendToState(this, buffer, bufferLength, flags, toAddr, Length);
 						}
 
 						// If we have not yet sent all the bytes, block the thread
 						// and retry later
-						if (length < bufferLength)
+						if (Length < bufferLength)
 						{
 							outerInstance.blockThread(blockingState);
 							return -1;
@@ -2152,11 +2152,11 @@ namespace pspsharp.HLE.modules
 					}
 
 					clearError(blockingState);
-					return length;
+					return Length;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -2172,7 +2172,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
@@ -2272,7 +2272,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (SocketException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -2283,7 +2283,7 @@ namespace pspsharp.HLE.modules
 
 			public override int shutdown(int how)
 			{
-				log.error(string.Format("Shutdown not supported on datagram socket: how={0:D}, {1}", how, ToString()));
+				Console.WriteLine(string.Format("Shutdown not supported on datagram socket: how={0:D}, {1}", how, ToString()));
 				return -1;
 			}
 
@@ -2295,13 +2295,13 @@ namespace pspsharp.HLE.modules
 
 			public override int listen(int backlog)
 			{
-				log.error(string.Format("Listen not supported on datagram socket: backlog={0:D}, {1}", backlog, ToString()));
+				Console.WriteLine(string.Format("Listen not supported on datagram socket: backlog={0:D}, {1}", backlog, ToString()));
 				return -1;
 			}
 
 			public override int accept(pspNetSockAddrInternet sockAddrInternet, BlockingAcceptState blockingState)
 			{
-				log.error(string.Format("Accept not supported on datagram socket: sockAddrInternet={0}, {1}", sockAddrInternet.ToString(), ToString()));
+				Console.WriteLine(string.Format("Accept not supported on datagram socket: sockAddrInternet={0}, {1}", sockAddrInternet.ToString(), ToString()));
 				return -1;
 			}
 		}
@@ -2338,7 +2338,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (UnsatisfiedLinkError e)
 					{
-						log.error(string.Format("The rocksaw library is not available on your system ({0}). This library is required to implement RAW sockets. Disabling this feature.", e.ToString()));
+						Console.WriteLine(string.Format("The rocksaw library is not available on your system ({0}). This library is required to implement RAW sockets. Disabling this feature.", e.ToString()));
 						isAvailable = false;
 						return false;
 					}
@@ -2352,7 +2352,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(string.Format("You need to start pspsharp with administator right to be able to open RAW sockets ({0}). Disabling this feature.", e.ToString()));
+						Console.WriteLine(string.Format("You need to start pspsharp with administator right to be able to open RAW sockets ({0}). Disabling this feature.", e.ToString()));
 						isAvailable = false;
 						return false;
 					}
@@ -2374,18 +2374,18 @@ namespace pspsharp.HLE.modules
 				}
 				catch (System.InvalidOperationException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					return -1;
 				}
 				catch (UnknownHostException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					ErrorToSelf = e;
 					return -1;
 				}
@@ -2403,7 +2403,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						ErrorToSelf = e;
 						return -1;
 					}
@@ -2418,7 +2418,7 @@ namespace pspsharp.HLE.modules
 
 			public override int connect(pspNetSockAddrInternet addr)
 			{
-				log.error(string.Format("sceNetInetConnect is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetConnect is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 
@@ -2429,7 +2429,7 @@ namespace pspsharp.HLE.modules
 
 			public override int getPeername(pspNetSockAddrInternet sockAddrInternet)
 			{
-				log.error(string.Format("sceNetInetGetpeername is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetGetpeername is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 
@@ -2447,7 +2447,7 @@ namespace pspsharp.HLE.modules
 
 			public override int getSockname(pspNetSockAddrInternet sockAddrInternet)
 			{
-				log.error(string.Format("sceNetInetGetsockname is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetGetsockname is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 
@@ -2461,13 +2461,13 @@ namespace pspsharp.HLE.modules
 
 			public override int listen(int backlog)
 			{
-				log.error(string.Format("sceNetInetListen is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetListen is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 
 			public override int recv(int buffer, int bufferLength, int flags, BlockingReceiveState blockingState)
 			{
-				log.error(string.Format("sceNetInetRecv is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetRecv is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 
@@ -2502,38 +2502,38 @@ namespace pspsharp.HLE.modules
 
 					sbyte[] bytes = new sbyte[bufferLength];
 					sbyte[] address = new sbyte[4];
-					int length = rawChannel.socket().read(bytes, address);
-					storeBytes(buffer, length, bytes);
+					int Length = rawChannel.socket().read(bytes, address);
+					storeBytes(buffer, Length, bytes);
 
 					if (blockingState != null)
 					{
-						blockingState.receivedLength += length;
+						blockingState.receivedLength += Length;
 					}
 
 					fromAddr.sin_family = AF_INET;
 					fromAddr.sin_addr = bytesToInternetAddress(address);
 					fromAddr.write(Memory.Instance);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetRecvfrom socket=0x{0:X} received 0x{1:X} bytes from {2}", Uid, length, fromAddr));
-						if (log.TraceEnabled && length > 0)
+						Console.WriteLine(string.Format("sceNetInetRecvfrom socket=0x{0:X} received 0x{1:X} bytes from {2}", Uid, Length, fromAddr));
+						if (log.TraceEnabled && Length > 0)
 						{
-							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, length)));
+							log.trace(string.Format("Received data: {0}", Utilities.getMemoryDump(buffer, Length)));
 						}
 					}
 
-					return length;
+					return Length;
 				}
 				catch (InterruptedIOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -2541,7 +2541,7 @@ namespace pspsharp.HLE.modules
 
 			public override int send(int buffer, int bufferLength, int flags, BlockingSendState blockignState)
 			{
-				log.error(string.Format("sceNetInetSend is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetSend is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 
@@ -2577,27 +2577,27 @@ namespace pspsharp.HLE.modules
 
 					InetAddress inetAddress = getInetAddress(toAddr);
 					sbyte[] data = getByteArray(buffer, bufferLength);
-					int length = rawChannel.socket().write(inetAddress, data);
-					if (log.DebugEnabled)
+					int Length = rawChannel.socket().write(inetAddress, data);
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetSendto socket=0x{0:X} successfully sent 0x{1:X} bytes", Uid, length));
+						Console.WriteLine(string.Format("sceNetInetSendto socket=0x{0:X} successfully sent 0x{1:X} bytes", Uid, Length));
 					}
 
 					if (blockingState != null)
 					{
-						blockingState.sentLength += length;
+						blockingState.sentLength += Length;
 					}
 
-					return length;
+					return Length;
 				}
 				catch (System.InvalidOperationException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					return -1;
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 					setError(e, blockingState);
 					return -1;
 				}
@@ -2605,7 +2605,7 @@ namespace pspsharp.HLE.modules
 
 			public override int shutdown(int how)
 			{
-				log.warn(string.Format("sceNetInetShutdown is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetShutdown is not supported on Raw sockets: {0}", ToString()));
 				return 0;
 			}
 
@@ -2616,7 +2616,7 @@ namespace pspsharp.HLE.modules
 
 			public override int accept(pspNetSockAddrInternet sockAddrInternet, BlockingAcceptState blockingState)
 			{
-				log.error(string.Format("sceNetInetAccept is not supported on Raw sockets: {0}", ToString()));
+				Console.WriteLine(string.Format("sceNetInetAccept is not supported on Raw sockets: {0}", ToString()));
 				return -1;
 			}
 		}
@@ -2778,10 +2778,10 @@ namespace pspsharp.HLE.modules
 			if (address.NotNull)
 			{
 				LinkedList<int> closedChannels = new LinkedList<int>();
-				int length = (n + 7) / 8;
+				int Length = (n + 7) / 8;
 				if (selectorOperation != 0)
 				{
-					IMemoryReader memoryReader = MemoryReader.getMemoryReader(address.Address, length, 4);
+					IMemoryReader memoryReader = MemoryReader.getMemoryReader(address.Address, Length, 4);
 					int value = 0;
 					for (int socket = 0; socket < n; socket++)
 					{
@@ -2821,9 +2821,9 @@ namespace pspsharp.HLE.modules
 											catch (ClosedChannelException e)
 											{
 												closedChannels.AddLast(socket);
-												if (log.DebugEnabled)
+												//if (log.DebugEnabled)
 												{
-													log.debug(string.Format("{0}: {1}", inetSocket.ToString(), e.ToString()));
+													Console.WriteLine(string.Format("{0}: {1}", inetSocket.ToString(), e.ToString()));
 												}
 											}
 										}
@@ -2836,7 +2836,7 @@ namespace pspsharp.HLE.modules
 
 				// Clear the socket list so that we just have to set the bits for
 				// the sockets that are ready.
-				address.clear(length);
+				address.clear(Length);
 
 				// and set the bit for all the closed channels
 				foreach (int? socket in closedChannels)
@@ -2888,9 +2888,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (!blockingState.threadBlocked)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Blocking the current thread {0}", Modules.ThreadManForUserModule.CurrentThread.ToString()));
+					Console.WriteLine(string.Format("Blocking the current thread {0}", Modules.ThreadManForUserModule.CurrentThread.ToString()));
 				}
 				Modules.ThreadManForUserModule.hleBlockCurrentThread(SceKernelThreadInfo.JPCSP_WAIT_NET, blockingState);
 				blockingState.threadBlocked = true;
@@ -2908,9 +2908,9 @@ namespace pspsharp.HLE.modules
 			}
 			if (blockingState.threadBlocked)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Unblocking the thread {0}", thread.ToString()));
+					Console.WriteLine(string.Format("Unblocking the thread {0}", thread.ToString()));
 				}
 				Modules.ThreadManForUserModule.hleUnblockThread(blockingState.threadId);
 				blockingState.threadBlocked = false;
@@ -3003,9 +3003,9 @@ namespace pspsharp.HLE.modules
 					if (blockingState.Timeout)
 					{
 						// Timeout, unblock the thread and return 0
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNetInetPoll returns {0:D} sockets (timeout)", count));
+							Console.WriteLine(string.Format("sceNetInetPoll returns {0:D} sockets (timeout)", count));
 						}
 						threadBlocked = false;
 					}
@@ -3018,9 +3018,9 @@ namespace pspsharp.HLE.modules
 				else
 				{
 					// Some sockets are ready, unblock the thread and return the count
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetPoll returns {0:D} sockets", count));
+						Console.WriteLine(string.Format("sceNetInetPoll returns {0:D} sockets", count));
 					}
 
 					for (IEnumerator<SelectionKey> it = blockingState.selector.selectedKeys().GetEnumerator(); it.MoveNext();)
@@ -3059,9 +3059,9 @@ namespace pspsharp.HLE.modules
 					for (int i = 0; i < blockingState.pollFds.Length; i++)
 					{
 						blockingState.pollFds[i].write(mem);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNetInetPoll returning pollFd[{0:D}]={1}", i, blockingState.pollFds[i].ToString()));
+							Console.WriteLine(string.Format("sceNetInetPoll returning pollFd[{0:D}]={1}", i, blockingState.pollFds[i].ToString()));
 						}
 					}
 
@@ -3071,7 +3071,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 		}
 
@@ -3129,9 +3129,9 @@ namespace pspsharp.HLE.modules
 					if (blockingState.Timeout)
 					{
 						// Timeout, unblock the thread and return 0
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNetInetSelect returns {0:D} sockets (timeout)", count));
+							Console.WriteLine(string.Format("sceNetInetSelect returns {0:D} sockets (timeout)", count));
 						}
 						threadBlocked = false;
 					}
@@ -3144,9 +3144,9 @@ namespace pspsharp.HLE.modules
 				else
 				{
 					// Some sockets are ready, unblock the thread and return the count
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetSelect returns {0:D} sockets", count));
+						Console.WriteLine(string.Format("sceNetInetSelect returns {0:D} sockets", count));
 					}
 
 					processSelectedKey(blockingState.selector, blockingState);
@@ -3169,15 +3169,15 @@ namespace pspsharp.HLE.modules
 					{
 						if (blockingState.readSocketsAddr.NotNull)
 						{
-							log.debug(string.Format("sceNetInetSelect returning Read Sockets       : {0}", dumpSelectBits(blockingState.readSocketsAddr, blockingState.numberSockets)));
+							Console.WriteLine(string.Format("sceNetInetSelect returning Read Sockets       : {0}", dumpSelectBits(blockingState.readSocketsAddr, blockingState.numberSockets)));
 						}
 						if (blockingState.writeSocketsAddr.NotNull)
 						{
-							log.debug(string.Format("sceNetInetSelect returning Write Sockets      : {0}", dumpSelectBits(blockingState.writeSocketsAddr, blockingState.numberSockets)));
+							Console.WriteLine(string.Format("sceNetInetSelect returning Write Sockets      : {0}", dumpSelectBits(blockingState.writeSocketsAddr, blockingState.numberSockets)));
 						}
 						if (blockingState.outOfBandSocketsAddr.NotNull)
 						{
-							log.debug(string.Format("sceNetInetSelect returning Out-of-band Sockets: {0}", dumpSelectBits(blockingState.outOfBandSocketsAddr, blockingState.numberSockets)));
+							Console.WriteLine(string.Format("sceNetInetSelect returning Out-of-band Sockets: {0}", dumpSelectBits(blockingState.outOfBandSocketsAddr, blockingState.numberSockets)));
 						}
 					}
 
@@ -3187,7 +3187,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 		}
 
@@ -3347,7 +3347,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (!sockets.ContainsKey(socket))
 			{
-				log.warn(string.Format("checkSocket invalid socket=0x{0:X}", socket));
+				Console.WriteLine(string.Format("checkSocket invalid socket=0x{0:X}", socket));
 				throw new SceKernelErrorException(-1); // Unknown error code
 			}
 
@@ -3358,7 +3358,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (addressLength < 16)
 			{
-				log.warn(string.Format("checkAddressLength invalid addressLength={0:D}", addressLength));
+				Console.WriteLine(string.Format("checkAddressLength invalid addressLength={0:D}", addressLength));
 				throw new SceKernelErrorException(-1); // Unknown error code
 			}
 
@@ -3425,7 +3425,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (sockAddrInternet.sin_family != AF_INET)
 			{
-				log.warn(string.Format("sceNetInetBind invalid socket address family={0:D}", sockAddrInternet.sin_family));
+				Console.WriteLine(string.Format("sceNetInetBind invalid socket address family={0:D}", sockAddrInternet.sin_family));
 				return -1;
 			}
 
@@ -3441,7 +3441,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("sceNetInetBind failed binding to {0}", sockAddrInternet.ToString()));
+				Console.WriteLine(string.Format("sceNetInetBind failed binding to {0}", sockAddrInternet.ToString()));
 			}
 
 			return result;
@@ -3477,7 +3477,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (sockAddrInternet.sin_family != AF_INET)
 			{
-				log.warn(string.Format("sceNetInetConnect invalid socket address family={0:D}", sockAddrInternet.sin_family));
+				Console.WriteLine(string.Format("sceNetInetConnect invalid socket address family={0:D}", sockAddrInternet.sin_family));
 				return -1;
 			}
 
@@ -3504,7 +3504,7 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					log.warn(string.Format("sceNetInetConnect failed connecting to {0} (errno={1:D})", sockAddrInternet.ToString(), Errno));
+					Console.WriteLine(string.Format("sceNetInetConnect failed connecting to {0} (errno={1:D})", sockAddrInternet.ToString(), Errno));
 				}
 			}
 
@@ -3550,9 +3550,9 @@ namespace pspsharp.HLE.modules
 		{
 			int optionLength = optionLengthAddr.Null ? 0 : optionLengthAddr.getValue();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetGetsockopt optionName={0}, optionLength={1:D}", getOptionNameString(optionName), optionLength));
+				Console.WriteLine(string.Format("sceNetInetGetsockopt optionName={0}, optionLength={1:D}", getOptionNameString(optionName), optionLength));
 			}
 
 			pspInetSocket inetSocket = sockets[socket];
@@ -3560,9 +3560,9 @@ namespace pspsharp.HLE.modules
 			if (optionName == SO_ERROR && optionLength >= 4)
 			{
 				optionValue.setValue32(inetSocket.ErrorAndClearToSelf);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetInetGetsockopt SO_ERROR returning {0:D}", optionValue.getValue32()));
+					Console.WriteLine(string.Format("sceNetInetGetsockopt SO_ERROR returning {0:D}", optionValue.getValue32()));
 				}
 				optionLengthAddr.setValue(4);
 			}
@@ -3628,7 +3628,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("Unimplemented sceNetInetGetsockopt socket=0x{0:X}, level=0x{1:X}, optionName=0x{2:X}, optionValue={3}, optionLength={4}(0x{5:X})", socket, level, optionName, optionValue, optionLengthAddr, optionLength));
+				Console.WriteLine(string.Format("Unimplemented sceNetInetGetsockopt socket=0x{0:X}, level=0x{1:X}, optionName=0x{2:X}, optionValue={3}, optionLength={4}(0x{5:X})", socket, level, optionName, optionValue, optionLengthAddr, optionLength));
 				return -1;
 			}
 
@@ -3767,7 +3767,7 @@ namespace pspsharp.HLE.modules
 								registeredOperations &= selectableChannel.validOps();
 								if (selectableChannel.Registered)
 								{
-									log.warn(string.Format("sceNetInetPoll channel already registered pollFd[{0:D}]={1}", i, pollFd));
+									Console.WriteLine(string.Format("sceNetInetPoll channel already registered pollFd[{0:D}]={1}", i, pollFd));
 								}
 								else
 								{
@@ -3785,9 +3785,9 @@ namespace pspsharp.HLE.modules
 						}
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetInetPoll pollFd[{0:D}]={1}", i, pollFd));
+						Console.WriteLine(string.Format("sceNetInetPoll pollFd[{0:D}]={1}", i, pollFd));
 					}
 				}
 
@@ -3803,7 +3803,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("sceNetInetPoll", e);
+				Console.WriteLine("sceNetInetPoll", e);
 				ErrnoToSelf = -1;
 				return -1;
 			}
@@ -3872,20 +3872,20 @@ namespace pspsharp.HLE.modules
 				timeoutUsec = pspInetSocket.NO_TIMEOUT;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetSelect timeout={0:D} us", timeoutUsec));
+				Console.WriteLine(string.Format("sceNetInetSelect timeout={0:D} us", timeoutUsec));
 				if (readSocketsAddr.NotNull)
 				{
-					log.debug(string.Format("sceNetInetSelect Read Sockets       : {0}", dumpSelectBits(readSocketsAddr, numberSockets)));
+					Console.WriteLine(string.Format("sceNetInetSelect Read Sockets       : {0}", dumpSelectBits(readSocketsAddr, numberSockets)));
 				}
 				if (writeSocketsAddr.NotNull)
 				{
-					log.debug(string.Format("sceNetInetSelect Write Sockets      : {0}", dumpSelectBits(writeSocketsAddr, numberSockets)));
+					Console.WriteLine(string.Format("sceNetInetSelect Write Sockets      : {0}", dumpSelectBits(writeSocketsAddr, numberSockets)));
 				}
 				if (outOfBandSocketsAddr.NotNull)
 				{
-					log.debug(string.Format("sceNetInetSelect Out-of-band Sockets: {0}", dumpSelectBits(outOfBandSocketsAddr, numberSockets)));
+					Console.WriteLine(string.Format("sceNetInetSelect Out-of-band Sockets: {0}", dumpSelectBits(outOfBandSocketsAddr, numberSockets)));
 				}
 			}
 
@@ -3919,7 +3919,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 				ErrnoToSelf = -1;
 				return -1;
 			}
@@ -3955,7 +3955,7 @@ namespace pspsharp.HLE.modules
 
 			if (toSockAddress.sin_family != AF_INET)
 			{
-				log.warn(string.Format("sceNetInetSendto invalid socket address familiy sin_family={0:D}", toSockAddress.sin_family));
+				Console.WriteLine(string.Format("sceNetInetSendto invalid socket address familiy sin_family={0:D}", toSockAddress.sin_family));
 				return -1;
 			}
 			pspInetSocket inetSocket = sockets[socket];
@@ -3983,9 +3983,9 @@ namespace pspsharp.HLE.modules
 				optionValue = optionValueAddr.getValue32();
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetSetsockopt optionName={0}", getOptionNameString(optionName)));
+				Console.WriteLine(string.Format("sceNetInetSetsockopt optionName={0}", getOptionNameString(optionName)));
 				if (log.TraceEnabled)
 				{
 					log.trace(string.Format("Option value: {0}", Utilities.getMemoryDump(optionValueAddr.Address, optionLength)));
@@ -4048,13 +4048,13 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					log.warn(string.Format("Unimplemented sceNetInetSetsockopt optionName={0}", getOptionNameString(optionName)));
+					Console.WriteLine(string.Format("Unimplemented sceNetInetSetsockopt optionName={0}", getOptionNameString(optionName)));
 					result = 0;
 				}
 			}
 			else
 			{
-				log.warn(string.Format("Unimplemented sceNetInetSetsockopt unknown level=0x{0:X}, optionName={1}", level, getOptionNameString(optionName)));
+				Console.WriteLine(string.Format("Unimplemented sceNetInetSetsockopt unknown level=0x{0:X}, optionName={1}", level, getOptionNameString(optionName)));
 				result = 0;
 			}
 
@@ -4069,7 +4069,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (how < SHUT_RD || how > SHUT_RDWR)
 			{
-				log.warn(string.Format("sceNetInetShutdown invalid how={0:D}", how));
+				Console.WriteLine(string.Format("sceNetInetShutdown invalid how={0:D}", how));
 				return -1;
 			}
 
@@ -4081,26 +4081,26 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x8B7B220F, version : 150)]
 		public virtual int sceNetInetSocket(int domain, int type, int protocol)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetSocket domain=0x{0:X}, type=0x{1:X}({2}), protocol=0x{3:X}", domain, type, getSocketTypeNameString(type), protocol));
+				Console.WriteLine(string.Format("sceNetInetSocket domain=0x{0:X}, type=0x{1:X}({2}), protocol=0x{3:X}", domain, type, getSocketTypeNameString(type), protocol));
 			}
 
 			if (domain != AF_INET)
 			{
-				log.warn(string.Format("sceNetInetSocket unsupported domain=0x{0:X}, type=0x{1:X}({2}), protocol=0x{3:X}", domain, type, getSocketTypeNameString(type), protocol));
+				Console.WriteLine(string.Format("sceNetInetSocket unsupported domain=0x{0:X}, type=0x{1:X}({2}), protocol=0x{3:X}", domain, type, getSocketTypeNameString(type), protocol));
 				return -1;
 			}
 			if (type != SOCK_DGRAM && type != SOCK_STREAM && type != SOCK_RAW && type != SOCK_DGRAM_UNKNOWN_6 && type != SOCK_STREAM_UNKNOWN_10)
 			{
-				log.warn(string.Format("sceNetInetSocket unsupported type=0x{0:X}({1}), domain=0x{2:X}, protocol=0x{3:X}", type, getSocketTypeNameString(type), domain, protocol));
+				Console.WriteLine(string.Format("sceNetInetSocket unsupported type=0x{0:X}({1}), domain=0x{2:X}, protocol=0x{3:X}", type, getSocketTypeNameString(type), domain, protocol));
 				return -1;
 			}
 
 			pspInetSocket inetSocket = createSocket(type, protocol);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetSocket created socket=0x{0:X}", inetSocket.Uid));
+				Console.WriteLine(string.Format("sceNetInetSocket created socket=0x{0:X}", inetSocket.Uid));
 			}
 
 			return inetSocket.Uid;
@@ -4117,16 +4117,16 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xFBABE411, version : 150)]
 		public virtual int sceNetInetGetErrno()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetGetErrno returning 0x{0:X8}({0:D})", Errno));
+				Console.WriteLine(string.Format("sceNetInetGetErrno returning 0x{0:X8}({0:D})", Errno));
 			}
 
 			return Errno;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB3888AD4, version = 150) public int sceNetInetGetTcpcbstat(pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=26, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB3888AD4, version = 150) public int sceNetInetGetTcpcbstat(pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=26, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
 		[HLEFunction(nid : 0xB3888AD4, version : 150)]
 		public virtual int sceNetInetGetTcpcbstat(TPointer32 sizeAddr, TPointer buf)
 		{
@@ -4142,9 +4142,9 @@ namespace pspsharp.HLE.modules
 			int size = sizeAddr.getValue();
 			SceNetInetTcpcbstat stat = new SceNetInetTcpcbstat();
 			sizeAddr.setValue(stat.@sizeof() * tcpCount);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetGetTcpcbstat returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetInetGetTcpcbstat returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -4160,9 +4160,9 @@ namespace pspsharp.HLE.modules
 							break;
 						}
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNetInetGetTcpcbstat returning {0} at 0x{1:X8}", socket, buf.Address + offset));
+							Console.WriteLine(string.Format("sceNetInetGetTcpcbstat returning {0} at 0x{1:X8}", socket, buf.Address + offset));
 						}
 
 						stat.ts_so_snd_sb_cc = 0;
@@ -4203,9 +4203,9 @@ namespace pspsharp.HLE.modules
 
 				fillNextPointersInLinkedList(buf, offset, stat.@sizeof());
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetInetGetTcpcbstat returning {0}", Utilities.getMemoryDump(buf.Address, offset)));
+					Console.WriteLine(string.Format("sceNetInetGetTcpcbstat returning {0}", Utilities.getMemoryDump(buf.Address, offset)));
 				}
 			}
 
@@ -4230,14 +4230,14 @@ namespace pspsharp.HLE.modules
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("sceNetInetInetAddr", e);
+				Console.WriteLine("sceNetInetInetAddr", e);
 				return -1;
 			}
 
 			int inetAddress = bytesToInternetAddress(inetAddressBytes);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetInetAddr {0} returning 0x{1:X8}", name, inetAddress));
+				Console.WriteLine(string.Format("sceNetInetInetAddr {0} returning 0x{1:X8}", name, inetAddress));
 			}
 
 			return inetAddress;
@@ -4252,9 +4252,9 @@ namespace pspsharp.HLE.modules
 				InetAddress inetAddress = InetAddress.getByName(hostname.String);
 				int resolvedAddress = bytesToInternetAddress(inetAddress.Address);
 				addr.setValue(resolvedAddress);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetInetInetAton returning address 0x{0:X8}('{1}')", resolvedAddress, sceNetInet.internetAddressToString(resolvedAddress)));
+					Console.WriteLine(string.Format("sceNetInetInetAton returning address 0x{0:X8}('{1}')", resolvedAddress, sceNetInet.internetAddressToString(resolvedAddress)));
 				}
 				else if (log.InfoEnabled)
 				{
@@ -4264,7 +4264,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("sceNetInetInetAton", e);
+				Console.WriteLine("sceNetInetInetAton", e);
 				result = 0;
 			}
 
@@ -4276,15 +4276,15 @@ namespace pspsharp.HLE.modules
 		{
 			if (family != AF_INET)
 			{
-				log.warn(string.Format("sceNetInetInetNtop unsupported family 0x{0:X}", family));
+				Console.WriteLine(string.Format("sceNetInetInetNtop unsupported family 0x{0:X}", family));
 				return 0;
 			}
 
 			int addr = srcAddr.getValue();
 			string ip = internetAddressToString(addr);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetInetNtop returning {0} for 0x{1:X8}", ip, addr));
+				Console.WriteLine(string.Format("sceNetInetInetNtop returning {0} for 0x{1:X8}", ip, addr));
 			}
 			buffer.setStringNZ(bufferLength, ip);
 
@@ -4300,7 +4300,7 @@ namespace pspsharp.HLE.modules
 
 			if (family != AF_INET)
 			{
-				log.warn(string.Format("sceNetInetInetPton unsupported family 0x{0:X}", family));
+				Console.WriteLine(string.Format("sceNetInetInetPton unsupported family 0x{0:X}", family));
 				return -1;
 			}
 
@@ -4310,9 +4310,9 @@ namespace pspsharp.HLE.modules
 				sbyte[] inetAddressBytes = inetAddress.Address;
 				int address = bytesToInternetAddress(inetAddressBytes);
 				buffer.setValue(address);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetInetInetPton returning 0x{0:X8}({1}) for '{2}'", address, internetAddressToString(address), src));
+					Console.WriteLine(string.Format("sceNetInetInetPton returning 0x{0:X8}({1}) for '{2}'", address, internetAddressToString(address), src));
 				}
 				result = 1;
 
@@ -4322,7 +4322,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (UnknownHostException e)
 			{
-				log.warn(string.Format("sceNetInetInetPton returned error '{0}' for '{1}'", e.ToString(), src));
+				Console.WriteLine(string.Format("sceNetInetInetPton returned error '{0}' for '{1}'", e.ToString(), src));
 				result = 0;
 			}
 
@@ -4332,9 +4332,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x8CA3A97E, version : 150)]
 		public virtual int sceNetInetGetPspError()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetInetGetPspError returning 0x{0:X8}({0:D})", Errno));
+				Console.WriteLine(string.Format("sceNetInetGetPspError returning 0x{0:X8}({0:D})", Errno));
 			}
 
 			return ERROR_ERRNO_BASE | (Errno & 0xFFFF);
@@ -4349,7 +4349,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAAF4895A, version = 150) public int sceNetInet_lib_AAF4895A(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAAF4895A, version = 150) public int sceNetInet_lib_AAF4895A(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0xAAF4895A, version : 150)]
 		public virtual int sceNetInet_lib_AAF4895A(TPointer unknown1, TPointer unknown2)
 		{
@@ -4360,7 +4360,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAC9D90A5, version = 150) public int sceNetInet_lib_AC9D90A5(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAC9D90A5, version = 150) public int sceNetInet_lib_AC9D90A5(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0xAC9D90A5, version : 150)]
 		public virtual int sceNetInet_lib_AC9D90A5(TPointer unknown1, TPointer unknown2)
 		{
@@ -4387,7 +4387,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5155EC8A, version = 150) public int sceNetInet_lib_5155EC8A(String interfaceName, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown3)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5155EC8A, version = 150) public int sceNetInet_lib_5155EC8A(String interfaceName, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) @CanBeNull pspsharp.HLE.TPointer unknown3)
 		[HLEFunction(nid : 0x5155EC8A, version : 150)]
 		public virtual int sceNetInet_lib_5155EC8A(string interfaceName, TPointer unknown1, TPointer unknown2, TPointer unknown3)
 		{
@@ -4399,7 +4399,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA94A75E7, version = 150) public int sceNetInet_lib_A94A75E7(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer ipAddress)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA94A75E7, version = 150) public int sceNetInet_lib_A94A75E7(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer ipAddress)
 		[HLEFunction(nid : 0xA94A75E7, version : 150)]
 		public virtual int sceNetInet_lib_A94A75E7(TPointer ipAddress)
 		{
@@ -4407,7 +4407,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7776A492, version = 150) public int sceNetInet_lib_7776A492(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7776A492, version = 150) public int sceNetInet_lib_7776A492(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0x7776A492, version : 150)]
 		public virtual int sceNetInet_lib_7776A492(TPointer unknown)
 		{
@@ -4415,7 +4415,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4F68DB0E, version = 150) public int sceNetInet_lib_4F68DB0E(String interfaceName, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer ipAddress, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer unknown, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer subnetMask)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4F68DB0E, version = 150) public int sceNetInet_lib_4F68DB0E(String interfaceName, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer ipAddress, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer unknown, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) @CanBeNull pspsharp.HLE.TPointer subnetMask)
 		[HLEFunction(nid : 0x4F68DB0E, version : 150)]
 		public virtual int sceNetInet_lib_4F68DB0E(string interfaceName, TPointer ipAddress, TPointer unknown, TPointer subnetMask)
 		{
@@ -4423,7 +4423,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x59561561, version = 150) public int sceNetInet_lib_59561561(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x59561561, version = 150) public int sceNetInet_lib_59561561(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0x59561561, version : 150)]
 		public virtual int sceNetInet_lib_59561561(TPointer unknown1, TPointer unknown2)
 		{
@@ -4431,7 +4431,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8FE19FC4, version = 150) public int sceNetInet_lib_8FE19FC4(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8FE19FC4, version = 150) public int sceNetInet_lib_8FE19FC4(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0x8FE19FC4, version : 150)]
 		public virtual int sceNetInet_lib_8FE19FC4(TPointer unknown)
 		{

@@ -21,7 +21,7 @@ namespace pspsharp.sound
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.kernel.types.SceKernelErrors.ERROR_ATRAC_ALL_DATA_DECODED;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using TPointer32 = pspsharp.HLE.TPointer32;
 	using sceSasCore = pspsharp.HLE.modules.sceSasCore;
@@ -59,15 +59,15 @@ namespace pspsharp.sound
 			int result = id.decodeData(buffer, TPointer32.NULL);
 			if (result == ERROR_ATRAC_ALL_DATA_DECODED)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("SampleSourceAtrac3 decodeData returned 0x{0:X8}", result));
+					Console.WriteLine(string.Format("SampleSourceAtrac3 decodeData returned 0x{0:X8}", result));
 				}
 				bufferedSamples = 0;
 			}
 			else if (result < 0)
 			{
-				log.error(string.Format("SampleSourceAtrac3 decodeData returned 0x{0:X8}", result));
+				Console.WriteLine(string.Format("SampleSourceAtrac3 decodeData returned 0x{0:X8}", result));
 				bufferedSamples = 0;
 			}
 			else
@@ -85,9 +85,9 @@ namespace pspsharp.sound
 				id.setContextDecodeResult(0, 0);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("SampleSourceAtrac3 decode: bufferedSamples={0:D}, currentSample={1:D}, endSample={2:D}", bufferedSamples, currentSampleIndex, id.AtracEndSample));
+				Console.WriteLine(string.Format("SampleSourceAtrac3 decode: bufferedSamples={0:D}, currentSample={1:D}, endSample={2:D}", bufferedSamples, currentSampleIndex, id.AtracEndSample));
 			}
 
 			sampleIndex = 0;

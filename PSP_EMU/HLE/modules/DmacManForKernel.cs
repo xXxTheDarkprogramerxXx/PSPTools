@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class DmacManForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("DmacManForKernel");
+		//public static Logger log = Modules.getLogger("DmacManForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x59615199, version = 150) public int sceKernelDmaOpAlloc()
@@ -43,7 +43,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF64BAB99, version = 150) public int sceKernelDmaOpAssign(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int unknown1, int unknown2, int unknown3)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF64BAB99, version = 150) public int sceKernelDmaOpAssign(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int unknown1, int unknown2, int unknown3)
 		[HLEFunction(nid : 0xF64BAB99, version : 150)]
 		public virtual int sceKernelDmaOpAssign(TPointer dmaOpAddr, int unknown1, int unknown2, int unknown3)
 		{
@@ -51,7 +51,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3BDEA96C, version = 150) public int sceKernelDmaOpEnQueue(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3BDEA96C, version = 150) public int sceKernelDmaOpEnQueue(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr)
 		[HLEFunction(nid : 0x3BDEA96C, version : 150)]
 		public virtual int sceKernelDmaOpEnQueue(TPointer dmaOpAddr)
 		{
@@ -59,7 +59,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5AF32783, version = 150) public int sceKernelDmaOpQuit(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer dmaOpAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5AF32783, version = 150) public int sceKernelDmaOpQuit(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer dmaOpAddr)
 		[HLEFunction(nid : 0x5AF32783, version : 150)]
 		public virtual int sceKernelDmaOpQuit(TPointer dmaOpAddr)
 		{
@@ -75,7 +75,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xCE467D9B, version = 150) public int sceKernelDmaOpSetupNormal(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int status, pspsharp.HLE.TPointer dstAddress, pspsharp.HLE.TPointer srcAddress, int attributes)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xCE467D9B, version = 150) public int sceKernelDmaOpSetupNormal(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int status, pspsharp.HLE.TPointer dstAddress, pspsharp.HLE.TPointer srcAddress, int attributes)
 		[HLEFunction(nid : 0xCE467D9B, version : 150)]
 		public virtual int sceKernelDmaOpSetupNormal(TPointer dmaOpAddr, int status, TPointer dstAddress, TPointer srcAddress, int attributes)
 		{
@@ -83,7 +83,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD0358BE9, version = 150) public int sceKernelDmaOpSetCallback(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, pspsharp.HLE.TPointer callback, int unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD0358BE9, version = 150) public int sceKernelDmaOpSetCallback(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, pspsharp.HLE.TPointer callback, int unknown)
 		[HLEFunction(nid : 0xD0358BE9, version : 150)]
 		public virtual int sceKernelDmaOpSetCallback(TPointer dmaOpAddr, TPointer callback, int unknown)
 		{
@@ -91,7 +91,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xDB286D65, version = 150) public int sceKernelDmaOpSync(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int waitType, int timeout)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xDB286D65, version = 150) public int sceKernelDmaOpSync(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int waitType, int timeout)
 		[HLEFunction(nid : 0xDB286D65, version : 150)]
 		public virtual int sceKernelDmaOpSync(TPointer dmaOpAddr, int waitType, int timeout)
 		{
@@ -102,7 +102,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7D21A2EF, version = 150) public int sceKernelDmaOpSetupLink(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int status, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 linkStructure)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7D21A2EF, version = 150) public int sceKernelDmaOpSetupLink(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, int status, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 linkStructure)
 		[HLEFunction(nid : 0x7D21A2EF, version : 150)]
 		public virtual int sceKernelDmaOpSetupLink(TPointer dmaOpAddr, int status, TPointer32 linkStructure)
 		{
@@ -110,9 +110,9 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3FAD5844, version = 150) public int sceKernelDmaOpSetupMemcpy(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, pspsharp.HLE.TPointer dstAddress, pspsharp.HLE.TPointer srcAddress, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3FAD5844, version = 150) public int sceKernelDmaOpSetupMemcpy(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=30, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer dmaOpAddr, pspsharp.HLE.TPointer dstAddress, pspsharp.HLE.TPointer srcAddress, int Length)
 		[HLEFunction(nid : 0x3FAD5844, version : 150)]
-		public virtual int sceKernelDmaOpSetupMemcpy(TPointer dmaOpAddr, TPointer dstAddress, TPointer srcAddress, int length)
+		public virtual int sceKernelDmaOpSetupMemcpy(TPointer dmaOpAddr, TPointer dstAddress, TPointer srcAddress, int Length)
 		{
 			return 0;
 		}

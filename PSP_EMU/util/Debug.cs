@@ -223,7 +223,7 @@ namespace pspsharp.util
 				return fontPixelSizeInBytes[pixelformat];
 			}
 
-			Modules.log.warn("Unknown pixel format for sceFont: " + pixelformat);
+			Modules.Console.WriteLine("Unknown pixel format for sceFont: " + pixelformat);
 			return 1;
 		}
 
@@ -265,8 +265,8 @@ namespace pspsharp.util
 				return;
 			}
 
-			int length = s.Length;
-			for (int i = 0; i < length; i++)
+			int Length = s.Length;
+			for (int i = 0; i < Length; i++)
 			{
 				char c = s[i];
 				if (c == '\n')

@@ -62,9 +62,9 @@ namespace pspsharp.network.adhoc
 				threadUid = Modules.ThreadManForUserModule.CurrentThreadID;
 				thread = Modules.ThreadManForUserModule.getThreadById(threadUid);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("BlockedPdpAction for thread {0}", thread));
+					Console.WriteLine(string.Format("BlockedPdpAction for thread {0}", thread));
 				}
 			}
 
@@ -77,18 +77,18 @@ namespace pspsharp.network.adhoc
 
 			public virtual void execute()
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("BlockedPdpAction: poll on {0}, thread {1}", pdpObject, thread));
+					Console.WriteLine(string.Format("BlockedPdpAction: poll on {0}, thread {1}", pdpObject, thread));
 				}
 
 				try
 				{
 					if (poll())
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("BlockedPdpAction: unblocking thread {0}", thread));
+							Console.WriteLine(string.Format("BlockedPdpAction: unblocking thread {0}", thread));
 						}
 						Modules.ThreadManForUserModule.hleUnblockThread(threadUid);
 					}
@@ -97,9 +97,9 @@ namespace pspsharp.network.adhoc
 						long now = Emulator.Clock.microTime();
 						if (now >= timeoutMicros)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("BlockedPdpAction: timeout for thread {0}", thread));
+								Console.WriteLine(string.Format("BlockedPdpAction: timeout for thread {0}", thread));
 							}
 							// Unblock thread and return timeout error
 							setReturnValue(thread, SceKernelErrors.ERROR_NET_ADHOC_TIMEOUT);
@@ -107,9 +107,9 @@ namespace pspsharp.network.adhoc
 						}
 						else
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("BlockedPdpAction: continue polling"));
+								Console.WriteLine(string.Format("BlockedPdpAction: continue polling"));
 							}
 							long schedule = now + BLOCKED_OPERATION_POLLING_MICROS;
 							Emulator.Scheduler.addAction(schedule, this);
@@ -119,7 +119,7 @@ namespace pspsharp.network.adhoc
 				catch (IOException e)
 				{
 					setReturnValue(thread, getExceptionResult(e));
-					log.error(this.GetType().Name, e);
+					Console.WriteLine(this.GetType().Name, e);
 				}
 			}
 
@@ -200,29 +200,29 @@ namespace pspsharp.network.adhoc
 			}
 			catch (BindException e)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("create", e);
+					Console.WriteLine("create", e);
 				}
 				result = SceKernelErrors.ERROR_NET_ADHOC_PORT_IN_USE;
 			}
 			catch (SocketException e)
 			{
-				log.error("create", e);
+				Console.WriteLine("create", e);
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("create", e);
+				Console.WriteLine("create", e);
 			}
 			catch (IOException e)
 			{
-				log.error("create", e);
+				Console.WriteLine("create", e);
 			}
 
 			return result;
 		}
 
-		public virtual int send(pspNetMacAddress destMacAddress, int destPort, TPointer data, int length, int timeout, int nonblock)
+		public virtual int send(pspNetMacAddress destMacAddress, int destPort, TPointer data, int Length, int timeout, int nonblock)
 		{
 			int result = 0;
 
@@ -230,25 +230,25 @@ namespace pspsharp.network.adhoc
 			{
 				openSocket();
 				setTimeout(timeout, nonblock);
-				AdhocMessage adhocMessage = networkAdapter.createAdhocPdpMessage(data.Address, length, destMacAddress.macAddress);
+				AdhocMessage adhocMessage = networkAdapter.createAdhocPdpMessage(data.Address, Length, destMacAddress.macAddress);
 				send(adhocMessage, destPort);
 			}
 			catch (SocketException e)
 			{
-				log.error("send", e);
+				Console.WriteLine("send", e);
 			}
 			catch (UnknownHostException e)
 			{
 				result = SceKernelErrors.ERROR_NET_ADHOC_INVALID_ADDR;
-				log.error("send", e);
+				Console.WriteLine("send", e);
 			}
 			catch (SocketTimeoutException e)
 			{
-				log.error("send", e);
+				Console.WriteLine("send", e);
 			}
 			catch (IOException e)
 			{
-				log.error("send", e);
+				Console.WriteLine("send", e);
 			}
 
 			return result;
@@ -259,7 +259,7 @@ namespace pspsharp.network.adhoc
 		private void addReceivedMessage(AdhocMessage adhocMessage, int port)
 		{
 			AdhocBufferMessage bufferMessage = new AdhocBufferMessage();
-			bufferMessage.length = adhocMessage.DataLength;
+			bufferMessage.Length = adhocMessage.DataLength;
 			bufferMessage.macAddress.MacAddress = adhocMessage.FromMacAddress;
 			bufferMessage.port = Modules.sceNetAdhocModule.getClientPortFromRealPort(adhocMessage.FromMacAddress, port);
 			bufferMessage.offset = rcvdData;
@@ -268,16 +268,16 @@ namespace pspsharp.network.adhoc
 			// Update the timestamp of the peer
 			Modules.sceNetAdhocctlModule.hleNetAdhocctlPeerUpdateTimestamp(adhocMessage.FromMacAddress);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Successfully received {0:D} bytes from {1} on port {2:D}({3:D})", bufferMessage.length, bufferMessage.macAddress, bufferMessage.port, port));
+				Console.WriteLine(string.Format("Successfully received {0:D} bytes from {1} on port {2:D}({3:D})", bufferMessage.Length, bufferMessage.macAddress, bufferMessage.port, port));
 				if (log.TraceEnabled)
 				{
-					log.trace(string.Format("Message data: {0}", Utilities.getMemoryDump(buffer.addr + bufferMessage.offset, bufferMessage.length)));
+					log.trace(string.Format("Message data: {0}", Utilities.getMemoryDump(buffer.addr + bufferMessage.offset, bufferMessage.Length)));
 				}
 			}
 
-			rcvdData += bufferMessage.length;
+			rcvdData += bufferMessage.Length;
 			rcvdMessages.AddLast(bufferMessage);
 		}
 
@@ -289,16 +289,16 @@ namespace pspsharp.network.adhoc
 				return;
 			}
 
-			if (rcvdData > bufferMessage.length)
+			if (rcvdData > bufferMessage.Length)
 			{
 				// Move the remaining buffer data to the beginning of the buffer
-				Memory.Instance.memcpy(buffer.addr, buffer.addr + bufferMessage.length, rcvdData - bufferMessage.length);
+				Memory.Instance.memcpy(buffer.addr, buffer.addr + bufferMessage.Length, rcvdData - bufferMessage.Length);
 				foreach (AdhocBufferMessage rcvdMessage in rcvdMessages)
 				{
-					rcvdMessage.offset -= bufferMessage.length;
+					rcvdMessage.offset -= bufferMessage.Length;
 				}
 			}
-			rcvdData -= bufferMessage.length;
+			rcvdData -= bufferMessage.Length;
 		}
 
 		// For Pdp sockets, data is read one packet at a time.
@@ -330,7 +330,7 @@ namespace pspsharp.network.adhoc
 			catch (IOException e)
 			{
 				result = SceKernelErrors.ERROR_NET_ADHOC_DISCONNECTED;
-				log.error("recv", e);
+				Console.WriteLine("recv", e);
 			}
 
 			return result;
@@ -340,7 +340,7 @@ namespace pspsharp.network.adhoc
 //ORIGINAL LINE: public boolean pollRecv(pspsharp.HLE.TPointer srcMacAddr, pspsharp.HLE.TPointer16 portAddr, pspsharp.HLE.TPointer data, pspsharp.HLE.TPointer32 dataLengthAddr, pspsharp.HLE.kernel.types.SceKernelThreadInfo thread) throws java.io.IOException
 		public virtual bool pollRecv(TPointer srcMacAddr, TPointer16 portAddr, TPointer data, TPointer32 dataLengthAddr, SceKernelThreadInfo thread)
 		{
-			int length = dataLengthAddr.getValue();
+			int Length = dataLengthAddr.getValue();
 			bool completed = false;
 
 			if (rcvdMessages.Count == 0)
@@ -351,18 +351,18 @@ namespace pspsharp.network.adhoc
 			if (rcvdMessages.Count > 0)
 			{
 				AdhocBufferMessage bufferMessage = rcvdMessages.First.Value;
-				if (length < bufferMessage.length)
+				if (Length < bufferMessage.Length)
 				{
 					// Buffer is too small to contain all the available data.
 					// Return the buffer size that would be required.
-					dataLengthAddr.setValue(bufferMessage.length);
+					dataLengthAddr.setValue(bufferMessage.Length);
 					setReturnValue(thread, SceKernelErrors.ERROR_NET_BUFFER_TOO_SMALL);
 				}
 				else
 				{
 					// Copy the data already received
-					dataLengthAddr.setValue(bufferMessage.length);
-					Memory.Instance.memcpy(data.Address, buffer.addr + bufferMessage.offset, bufferMessage.length);
+					dataLengthAddr.setValue(bufferMessage.Length);
+					Memory.Instance.memcpy(data.Address, buffer.addr + bufferMessage.offset, bufferMessage.Length);
 					if (srcMacAddr != null && !srcMacAddr.Null)
 					{
 						bufferMessage.macAddress.write(srcMacAddr);
@@ -374,9 +374,9 @@ namespace pspsharp.network.adhoc
 
 					removeFirstReceivedMessage();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Returned received data: {0:D} bytes from {1} on port {2:D}", dataLengthAddr.getValue(), bufferMessage.macAddress, portAddr.Value));
+						Console.WriteLine(string.Format("Returned received data: {0:D} bytes from {1} on port {2:D}", dataLengthAddr.getValue(), bufferMessage.macAddress, portAddr.Value));
 						if (log.TraceEnabled)
 						{
 							log.trace(string.Format("Returned data: {0}", Utilities.getMemoryDump(data.Address, dataLengthAddr.getValue())));
@@ -402,14 +402,14 @@ namespace pspsharp.network.adhoc
 					openSocket();
 					socket.Timeout = 1;
 					sbyte[] bytes = new sbyte[BufSize - rcvdData + MAX_HEADER_SIZE];
-					int length = socket.receive(bytes, bytes.Length);
-					if (length <= 0)
+					int Length = socket.receive(bytes, bytes.Length);
+					if (Length <= 0)
 					{
 						break;
 					}
 					int receivedPort = socket.ReceivedPort;
 					InetAddress receivedAddress = socket.ReceivedAddress;
-					AdhocMessage adhocMessage = createAdhocMessage(bytes, length);
+					AdhocMessage adhocMessage = createAdhocMessage(bytes, Length);
 					if (isForMe(adhocMessage, receivedPort, receivedAddress))
 					{
 						if (RcvdData + adhocMessage.DataLength <= BufSize)
@@ -418,23 +418,23 @@ namespace pspsharp.network.adhoc
 						}
 						else
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("Discarded message, receive buffer full ({0:D} of {1:D}): {2}", RcvdData, BufSize, adhocMessage));
+								Console.WriteLine(string.Format("Discarded message, receive buffer full ({0:D} of {1:D}): {2}", RcvdData, BufSize, adhocMessage));
 							}
 						}
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Received message not for me: {0}", adhocMessage));
+							Console.WriteLine(string.Format("Received message not for me: {0}", adhocMessage));
 						}
 					}
 				}
 				catch (SocketException e)
 				{
-					log.error("update", e);
+					Console.WriteLine("update", e);
 					break;
 				}
 				catch (SocketTimeoutException)
@@ -445,9 +445,9 @@ namespace pspsharp.network.adhoc
 			}
 		}
 
-		protected internal virtual AdhocMessage createAdhocMessage(sbyte[] message, int length)
+		protected internal virtual AdhocMessage createAdhocMessage(sbyte[] message, int Length)
 		{
-			return networkAdapter.createAdhocPdpMessage(message, length);
+			return networkAdapter.createAdhocPdpMessage(message, Length);
 		}
 
 		protected internal virtual bool isForMe(AdhocMessage adhocMessage, int port, InetAddress address)

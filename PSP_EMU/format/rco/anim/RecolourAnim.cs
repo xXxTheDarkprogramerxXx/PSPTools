@@ -70,18 +70,18 @@ namespace pspsharp.format.rco.anim
 
 				positionObject.onDisplayUpdated();
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("RecolourAnim '{0}' from ({1:F},{2:F},{3:F},{4:F}) to ({5:F},{6:F},{7:F},{8:F})", positionObject.Name, startRed, startGreen, startBlue, startAlpha, positionObject.redScale.FloatValue, positionObject.greenScale.FloatValue, positionObject.blueScale.FloatValue, positionObject.alphaScale.FloatValue));
+					Console.WriteLine(string.Format("RecolourAnim '{0}' from ({1:F},{2:F},{3:F},{4:F}) to ({5:F},{6:F},{7:F},{8:F})", positionObject.Name, startRed, startGreen, startBlue, startAlpha, positionObject.redScale.FloatValue, positionObject.greenScale.FloatValue, positionObject.blueScale.FloatValue, positionObject.alphaScale.FloatValue));
 				}
 			}
 		}
 
 		protected internal override long doPlayReference(BasePositionObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("RecolourAnim play {0} on {1}", ToString(), @object));
+				Console.WriteLine(string.Format("RecolourAnim play {0} on {1}", ToString(), @object));
 			}
 
 			Scheduler.addAction(new RecolourAnimAction(this, duration.IntValue, @object));

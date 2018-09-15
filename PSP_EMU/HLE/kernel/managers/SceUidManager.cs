@@ -64,13 +64,13 @@ namespace pspsharp.HLE.kernel.managers
 			{
 				if (!allowUnknown)
 				{
-					Emulator.log.warn("Attempt to use unknown SceUID (purpose='" + purpose.ToString() + "')");
+					Emulator.Console.WriteLine("Attempt to use unknown SceUID (purpose='" + purpose.ToString() + "')");
 					return false;
 				}
 			}
 			else if (!purpose.Equals(found.Purpose))
 			{
-				Emulator.log.error("Attempt to use SceUID for different purpose (purpose='" + purpose.ToString() + "',original='" + found.Purpose.ToString() + "')");
+				Emulator.Console.WriteLine("Attempt to use SceUID for different purpose (purpose='" + purpose.ToString() + "',original='" + found.Purpose.ToString() + "')");
 				return false;
 			}
 
@@ -86,7 +86,7 @@ namespace pspsharp.HLE.kernel.managers
 
 			if (found == null)
 			{
-				Emulator.log.warn("Attempt to release unknown SceUID (purpose='" + purpose.ToString() + "')");
+				Emulator.Console.WriteLine("Attempt to release unknown SceUID (purpose='" + purpose.ToString() + "')");
 				return false;
 			}
 
@@ -96,7 +96,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				Emulator.log.error("Attempt to release SceUID for different purpose (purpose='" + purpose.ToString() + "',original='" + found.Purpose.ToString() + "')");
+				Emulator.Console.WriteLine("Attempt to release SceUID for different purpose (purpose='" + purpose.ToString() + "',original='" + found.Purpose.ToString() + "')");
 				return false;
 			}
 
@@ -167,7 +167,7 @@ namespace pspsharp.HLE.kernel.managers
 
 			if (freeIds == null)
 			{
-				Emulator.log.warn(string.Format("Attempt to release ID={0:D} with unknown purpose='{1}'", id, purpose));
+				Emulator.Console.WriteLine(string.Format("Attempt to release ID={0:D} with unknown purpose='{1}'", id, purpose));
 				return false;
 			}
 
@@ -179,7 +179,7 @@ namespace pspsharp.HLE.kernel.managers
 				int currentId = lit.Current;
 				if (currentId == id)
 				{
-					Emulator.log.warn(string.Format("Attempt to release free ID={0:D} with purpose='{1}'", id, purpose));
+					Emulator.Console.WriteLine(string.Format("Attempt to release free ID={0:D} with purpose='{1}'", id, purpose));
 					return false;
 				}
 				if (currentId > id)

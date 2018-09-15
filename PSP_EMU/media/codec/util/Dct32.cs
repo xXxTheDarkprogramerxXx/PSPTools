@@ -98,7 +98,7 @@ namespace pspsharp.media.codec.util
 			val[a] += val[b];
 		}
 
-		// DCT32 without 1/sqrt(2) coef zero scaling.
+		// DCT32 without 1/Sqrt(2) coef zero scaling.
 		public static void dct32(float[] @out, int outOffset, float[] tab, int tabOffset)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':

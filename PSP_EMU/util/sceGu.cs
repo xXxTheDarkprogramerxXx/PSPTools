@@ -33,7 +33,7 @@ namespace pspsharp.util
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.graphics.GeCommands.VTYPE_TRANSFORM_PIPELINE_RAW_COORD;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using TPointer = pspsharp.HLE.TPointer;
@@ -69,7 +69,7 @@ namespace pspsharp.util
 			sysMemInfo = Modules.SysMemUserForUserModule.malloc(SysMemUserForUser.KERNEL_PARTITION_ID, "sceGu", SysMemUserForUser.PSP_SMEM_Low, totalMemorySize, 0);
 			if (sysMemInfo == null)
 			{
-				log.error(string.Format("Cannot allocate sceGu memory, size=0x{0:X}", totalMemorySize));
+				Console.WriteLine(string.Format("Cannot allocate sceGu memory, size=0x{0:X}", totalMemorySize));
 			}
 		}
 
@@ -78,9 +78,9 @@ namespace pspsharp.util
 			size = Utilities.alignUp(size, 3);
 			if (topAddr - size < listWriter.CurrentAddress)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceGuGetMemory size=0x{0:X} - not enough memory, available=0x{1:X}", size, topAddr - listWriter.CurrentAddress));
+					Console.WriteLine(string.Format("sceGuGetMemory size=0x{0:X} - not enough memory, available=0x{1:X}", size, topAddr - listWriter.CurrentAddress));
 				}
 				// Not enough memory available
 				return 0;
@@ -152,13 +152,13 @@ namespace pspsharp.util
 
 			if (topAddr < listWriter.CurrentAddress)
 			{
-				log.error(string.Format("sceGu memory overwrite mem={0}, listAddr=0x{1:X8}, topAddr=0x{2:X8}", sysMemInfo, listWriter.CurrentAddress, topAddr));
+				Console.WriteLine(string.Format("sceGu memory overwrite mem={0}, listAddr=0x{1:X8}, topAddr=0x{2:X8}", sysMemInfo, listWriter.CurrentAddress, topAddr));
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceGu memory usage free=0x{0:X}, mem={1}, listAddr=0x{2:X8}, topAddr=0x{3:X8}", topAddr - listWriter.CurrentAddress, sysMemInfo, listWriter.CurrentAddress, topAddr));
+					Console.WriteLine(string.Format("sceGu memory usage free=0x{0:X}, mem={1}, listAddr=0x{2:X8}, topAddr=0x{3:X8}", topAddr - listWriter.CurrentAddress, sysMemInfo, listWriter.CurrentAddress, topAddr));
 				}
 			}
 
@@ -181,9 +181,9 @@ namespace pspsharp.util
     
 				int listState = Modules.sceGe_userModule.hleGeListSync(listId);
     
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceGu list 0x{0:X}: state {1:D}", listId, listState));
+					Console.WriteLine(string.Format("sceGu list 0x{0:X}: state {1:D}", listId, listState));
 				}
     
 				return listState == sceGe_user.PSP_GE_LIST_DRAWING || listState == sceGe_user.PSP_GE_LIST_QUEUED;

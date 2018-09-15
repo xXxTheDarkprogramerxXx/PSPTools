@@ -37,11 +37,11 @@ namespace pspsharp.HLE.modules
 	using Mp3Header = pspsharp.media.codec.mp3.Mp3Header;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceMp3 : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMp3");
+		//public static Logger log = Modules.getLogger("sceMp3");
 		private Mp3Info[] ids;
 		private const int ID3 = 0x00334449; // "ID3"
 		private const int TAG_Xing = 0x676E6958; // "Xing"
@@ -286,9 +286,9 @@ namespace pspsharp.HLE.modules
 						decodeInputLength += wrapLength;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Decoding from 0x{0:X8}, length=0x{1:X} to 0x{2:X8}, inputBuffer {3}", decodeInputAddr, decodeInputLength, decodeOutputAddr, inputBuffer));
+						Console.WriteLine(string.Format("Decoding from 0x{0:X8}, Length=0x{1:X} to 0x{2:X8}, inputBuffer {3}", decodeInputAddr, decodeInputLength, decodeOutputAddr, inputBuffer));
 					}
 
 					result = codec.decode(decodeInputAddr, decodeInputLength, decodeOutputAddr);
@@ -323,9 +323,9 @@ namespace pspsharp.HLE.modules
 					{
 						if (inputBuffer.CurrentSize < minimumInputBufferSize || (inputBuffer.FilePosition - inputBuffer.CurrentSize) > endPos)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("Looping loopNum={0:D}", loopNum));
+								Console.WriteLine(string.Format("Looping loopNum={0:D}", loopNum));
 							}
 
 							if (loopNum > 0)
@@ -394,9 +394,9 @@ namespace pspsharp.HLE.modules
 					int size = endianSwap32(readUnaligned32(mem, startAddr + 6));
 					// Highest bit of each byte has to be ignored (format: 0x7F7F7F7F)
 					size = (size & 0x7F) | ((size & 0x7F00) >> 1) | ((size & 0x7F0000) >> 2) | ((size & 0x7F000000) >> 3);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Skipping ID3 of size 0x{0:X}", size));
+						Console.WriteLine(string.Format("Skipping ID3 of size 0x{0:X}", size));
 					}
 					inputBuffer.notifyRead(10 + size);
 					headerAddr = startAddr + 10 + size;
@@ -405,14 +405,14 @@ namespace pspsharp.HLE.modules
 
 				if (!isMp3Magic(header))
 				{
-					log.error(string.Format("Invalid MP3 header 0x{0:X8}", header));
+					Console.WriteLine(string.Format("Invalid MP3 header 0x{0:X8}", header));
 					return;
 				}
 
 				header = Utilities.endianSwap32(header);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Mp3 header: 0x{0:X8}", header));
+					Console.WriteLine(string.Format("Mp3 header: 0x{0:X8}", header));
 				}
 
 				Mp3Header mp3Header = new Mp3Header();
@@ -447,9 +447,9 @@ namespace pspsharp.HLE.modules
 						addr += 4;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Found TAG 0x{0:X8}, numberOfFrames={1:D}, numberOfBytes=0x{2:X}", tag, numberOfFrames, numberOfBytes));
+						Console.WriteLine(string.Format("Found TAG 0x{0:X8}, numberOfFrames={1:D}, numberOfBytes=0x{2:X}", tag, numberOfFrames, numberOfBytes));
 					}
 				}
 			}
@@ -466,9 +466,9 @@ namespace pspsharp.HLE.modules
 						int numberOfBytes = endianSwap32(readUnaligned32(mem, addr + 10));
 						numberOfFrames = endianSwap32(readUnaligned32(mem, addr + 14));
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Found TAG 0x{0:X8}, numberOfFrames={1:D}, numberOfBytes=0x{2:X}", tag, numberOfFrames, numberOfBytes));
+							Console.WriteLine(string.Format("Found TAG 0x{0:X8}, numberOfFrames={1:D}, numberOfBytes=0x{2:X}", tag, numberOfFrames, numberOfBytes));
 						}
 					}
 				}
@@ -588,9 +588,9 @@ namespace pspsharp.HLE.modules
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3ReserveMp3Handle parameters: startPos=0x{0:X}, endPos=0x{1:X}, " + "bufferAddr=0x{2:X8}, bufferSize=0x{3:X}, outputAddr=0x{4:X8}, outputSize=0x{5:X}", startPos, endPos, bufferAddr, bufferSize, outputAddr, outputSize));
+				Console.WriteLine(string.Format("sceMp3ReserveMp3Handle parameters: startPos=0x{0:X}, endPos=0x{1:X}, " + "bufferAddr=0x{2:X8}, bufferSize=0x{3:X}, outputAddr=0x{4:X8}, outputSize=0x{5:X}", startPos, endPos, bufferAddr, bufferSize, outputAddr, outputSize));
 			}
 
 			int id = FreeMp3Id;
@@ -671,9 +671,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceMp3GetSamplingRate(int id)
 		{
 			Mp3Info mp3Info = getMp3Info(id);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3GetSamplingRate returning 0x{0:X}", mp3Info.SampleRate));
+				Console.WriteLine(string.Format("sceMp3GetSamplingRate returning 0x{0:X}", mp3Info.SampleRate));
 			}
 			return mp3Info.SampleRate;
 		}
@@ -688,9 +688,9 @@ namespace pspsharp.HLE.modules
 			writableBytesAddr.setValue(info.WritableBytes);
 			readOffsetAddr.setValue(info.InputBuffer.FilePosition);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3GetInfoToAddStreamData returning writeAddr=0x{0:X8}, writableBytes=0x{1:X}, readOffset=0x{2:X}", writeAddr.getValue(), writableBytesAddr.getValue(), readOffsetAddr.getValue()));
+				Console.WriteLine(string.Format("sceMp3GetInfoToAddStreamData returning writeAddr=0x{0:X8}, writableBytes=0x{1:X}, readOffset=0x{2:X}", writeAddr.getValue(), writableBytesAddr.getValue(), readOffsetAddr.getValue()));
 			}
 			return 0;
 		}
@@ -702,9 +702,9 @@ namespace pspsharp.HLE.modules
 		{
 			int result = getMp3Info(id).decode(bufferAddress);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3Decode bufferAddress={0}(0x{1:X8}) returning 0x{2:X}", bufferAddress, bufferAddress.getValue(), result));
+				Console.WriteLine(string.Format("sceMp3Decode bufferAddress={0}(0x{1:X8}) returning 0x{2:X}", bufferAddress, bufferAddress.getValue(), result));
 			}
 
 			if (result >= 0)
@@ -739,9 +739,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceMp3GetSumDecodedSample(int id)
 		{
 			int sumDecodedSamples = getMp3Info(id).SumDecodedSamples;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3GetSumDecodedSample returning 0x{0:X}", sumDecodedSamples));
+				Console.WriteLine(string.Format("sceMp3GetSumDecodedSample returning 0x{0:X}", sumDecodedSamples));
 			}
 
 			return sumDecodedSamples;
@@ -761,9 +761,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceMp3GetMaxOutputSample(int id)
 		{
 			Mp3Info mp3Info = getMp3Info(id);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3GetMaxOutputSample returning 0x{0:X}", mp3Info.MaxSamples));
+				Console.WriteLine(string.Format("sceMp3GetMaxOutputSample returning 0x{0:X}", mp3Info.MaxSamples));
 			}
 			return mp3Info.MaxSamples;
 		}
@@ -819,9 +819,9 @@ namespace pspsharp.HLE.modules
 		{
 			Mp3Info mp3Info = getMp3Info(id);
 			int result = mp3Info.Codec.decode(sourceAddr.Address, 10000, samplesAddr.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMp3LowLevelDecode result=0x{0:X8}, samples=0x{1:X}", result, mp3Info.Codec.NumberOfSamples));
+				Console.WriteLine(string.Format("sceMp3LowLevelDecode result=0x{0:X8}, samples=0x{1:X}", result, mp3Info.Codec.NumberOfSamples));
 			}
 			if (result < 0)
 			{

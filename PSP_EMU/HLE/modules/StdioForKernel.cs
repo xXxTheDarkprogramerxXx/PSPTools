@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using CpuState = pspsharp.Allegrex.CpuState;
 
 	public class StdioForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("StdioForKernel");
+		//public static Logger log = Modules.getLogger("StdioForKernel");
 
 		[HLEFunction(nid : 0xCAB439DF, version : 150)]
 		public virtual int StdioForKernel_printf(CpuState cpu, PspString formatString)

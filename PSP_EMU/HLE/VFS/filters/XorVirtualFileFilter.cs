@@ -57,9 +57,9 @@ namespace pspsharp.HLE.VFS.filters
 			return readLength;
 		}
 
-		public virtual void filter(sbyte[] data, int offset, int length)
+		public virtual void filter(sbyte[] data, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				data[offset + i] ^= (sbyte)xor;
 			}

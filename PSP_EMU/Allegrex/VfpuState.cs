@@ -194,9 +194,9 @@ namespace pspsharp.Allegrex
 					{
 						swz[i] = i;
 					}
-					Arrays.fill(abs, false);
-					Arrays.fill(cst, false);
-					Arrays.fill(neg, false);
+					Arrays.Fill(abs, false);
+					Arrays.Fill(cst, false);
+					Arrays.Fill(neg, false);
 					enabled = false;
 				}
 
@@ -260,8 +260,8 @@ namespace pspsharp.Allegrex
 
 				public virtual void reset()
 				{
-					Arrays.fill(sat, 0);
-					Arrays.fill(msk, false);
+					Arrays.Fill(sat, 0);
+					Arrays.Fill(msk, false);
 					enabled = false;
 				}
 
@@ -312,7 +312,7 @@ namespace pspsharp.Allegrex
 				pfxs.reset();
 				pfxt.reset();
 				pfxd.reset();
-				Arrays.fill(cc, false);
+				Arrays.Fill(cc, false);
 			}
 
 			public Vcr()
@@ -431,11 +431,11 @@ namespace pspsharp.Allegrex
 		}
 
 		/// <summary>
-		/// Get the index of the Vpr register into the vprInt and vprFloat arrays. </summary>
+		/// Get the index of the Vpr register into the vprInt and vprFloat Array. </summary>
 		/// <param name="m"> register matrix index </param>
 		/// <param name="c"> register column index </param>
 		/// <param name="r"> register row index </param>
-		/// <returns> the index of the Vpr register into the vprInt and vprFloat arrays. </returns>
+		/// <returns> the index of the Vpr register into the vprInt and vprFloat Array. </returns>
 		public static int getVprIndex(int m, int c, int r)
 		{
 			return (m << 4) + (c << 2) + r;
@@ -3382,8 +3382,8 @@ namespace pspsharp.Allegrex
 				}
 				else
 				{
-					// PSP is rounding using Math.rint and not using Math.round
-					v3i[i] = (int) Math.rint(value);
+					// PSP is rounding using Math.Round and not using Math.round
+					v3i[i] = (int) Math.Round(value);
 				}
 			}
 
@@ -3920,7 +3920,7 @@ namespace pspsharp.Allegrex
 				int address = getRegister(rs) + simm14_a16;
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("SV.S unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("SV.S unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 
@@ -3939,7 +3939,7 @@ namespace pspsharp.Allegrex
 			{
 				if ((address & 15) != 0)
 				{
-					Memory.log.error(string.Format("LV.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("LV.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 
@@ -3971,7 +3971,7 @@ namespace pspsharp.Allegrex
 			{
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("LVL.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("LVL.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 
@@ -4007,7 +4007,7 @@ namespace pspsharp.Allegrex
 			{
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("LVR.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("LVR.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 
@@ -4041,7 +4041,7 @@ namespace pspsharp.Allegrex
 			{
 				if ((address & 15) != 0)
 				{
-					Memory.log.error(string.Format("SV.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("SV.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 
@@ -4073,7 +4073,7 @@ namespace pspsharp.Allegrex
 			{
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("SVL.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("SVL.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 
@@ -4109,7 +4109,7 @@ namespace pspsharp.Allegrex
 			{
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("SVR.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
+					Memory.Console.WriteLine(string.Format("SVR.Q unaligned addr:0x{0:x8} pc:0x{1:x8}", address, pc));
 				}
 			}
 

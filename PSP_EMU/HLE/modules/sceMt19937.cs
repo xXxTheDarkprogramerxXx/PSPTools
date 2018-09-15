@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceMT19937 = pspsharp.HLE.kernel.types.SceMT19937;
 
 	public class sceMt19937 : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMt19937");
+		//public static Logger log = Modules.getLogger("sceMt19937");
 
 		// Based on http://beam.acclab.helsinki.fi/~knordlun/mc/mt19937.c
 		/* A C-program for MT19937: Real number version                */
@@ -133,9 +133,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceMt19937UInt(SceMT19937 mt19937)
 		{
 			int random = MT19937.getInt(mt19937);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceMt19937UInt returning 0x{0:X8}", random));
+				Console.WriteLine(string.Format("sceMt19937UInt returning 0x{0:X8}", random));
 			}
 			mt19937.write(Memory.Instance);
 

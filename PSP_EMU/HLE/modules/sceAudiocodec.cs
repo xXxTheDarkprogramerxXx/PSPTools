@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -33,7 +33,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceAudiocodec : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceAudiocodec");
+		//public static Logger log = Modules.getLogger("sceAudiocodec");
 
 		public const int PSP_CODEC_AT3PLUS = 0x00001000;
 		public const int PSP_CODEC_AT3 = 0x00001001;
@@ -123,7 +123,7 @@ namespace pspsharp.HLE.modules
 				case PSP_CODEC_MP3:
 					break;
 				default:
-					log.warn(string.Format("sceAudiocodecInit unimplemented codecType=0x{0:X}", codecType));
+					Console.WriteLine(string.Format("sceAudiocodecInit unimplemented codecType=0x{0:X}", codecType));
 					return -1;
 			}
 			info = new AudiocodecInfo(workArea.Address);
@@ -138,7 +138,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9D3F790C, version = 150) public int sceAudiocodecCheckNeedMem(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9D3F790C, version = 150) public int sceAudiocodecCheckNeedMem(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
 		[HLEFunction(nid : 0x9D3F790C, version : 150)]
 		public virtual int sceAudiocodecCheckNeedMem(TPointer workArea, int codecType)
 		{
@@ -166,7 +166,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLELogging(level = "info") @HLEFunction(nid = 0x5B37EB1D, version = 150) public int sceAudiocodecInit(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
+//ORIGINAL LINE: @HLELogging(level = "info") @HLEFunction(nid = 0x5B37EB1D, version = 150) public int sceAudiocodecInit(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
 		[HLELogging(level : "info"), HLEFunction(nid : 0x5B37EB1D, version : 150)]
 		public virtual int sceAudiocodecInit(TPointer workArea, int codecType)
 		{
@@ -224,7 +224,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x70A703F8, version = 150) public int sceAudiocodecDecode(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
+//ORIGINAL LINE: @HLEFunction(nid = 0x70A703F8, version = 150) public int sceAudiocodecDecode(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
 		[HLEFunction(nid : 0x70A703F8, version : 150)]
 		public virtual int sceAudiocodecDecode(TPointer workArea, int codecType)
 		{
@@ -233,7 +233,7 @@ namespace pspsharp.HLE.modules
 			AudiocodecInfo info = infos[workArea.Address];
 			if (info == null)
 			{
-				log.warn(string.Format("sceAudiocodecDecode no info available for workArea={0}", workArea));
+				Console.WriteLine(string.Format("sceAudiocodecDecode no info available for workArea={0}", workArea));
 				return -1;
 			}
 
@@ -289,7 +289,7 @@ namespace pspsharp.HLE.modules
 							break; // MONO
 							goto default;
 						default:
-							log.warn(string.Format("sceAudiocodecDecode Atrac3 unknown value 0x{0:X} at offset 40", workArea.getValue32(40)));
+							Console.WriteLine(string.Format("sceAudiocodecDecode Atrac3 unknown value 0x{0:X} at offset 40", workArea.getValue32(40)));
 							inputBufferSize = 0x180;
 							break;
 					}
@@ -317,10 +317,10 @@ namespace pspsharp.HLE.modules
 			int outputBufferSize = getOutputBufferSize(workArea, codecType);
 			workArea.setValue32(36, outputBufferSize);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAudiocodecDecode inputBuffer=0x{0:X8}, outputBuffer=0x{1:X8}, inputBufferSize=0x{2:X}, outputBufferSize=0x{3:X}", inputBuffer, outputBuffer, inputBufferSize, outputBufferSize));
-				log.debug(string.Format("sceAudiocodecDecode unknown1=0x{0:X8}", unknown1));
+				Console.WriteLine(string.Format("sceAudiocodecDecode inputBuffer=0x{0:X8}, outputBuffer=0x{1:X8}, inputBufferSize=0x{2:X}, outputBufferSize=0x{3:X}", inputBuffer, outputBuffer, inputBufferSize, outputBufferSize));
+				Console.WriteLine(string.Format("sceAudiocodecDecode unknown1=0x{0:X8}", unknown1));
 				if (log.TraceEnabled)
 				{
 					log.trace(string.Format("sceAudiocodecDecode inputBuffer: {0}", Utilities.getMemoryDump(inputBuffer, inputBufferSize)));
@@ -336,20 +336,20 @@ namespace pspsharp.HLE.modules
 
 			if (codec == null)
 			{
-				log.warn(string.Format("sceAudiocodecDecode no codec available for codecType=0x{0:X}", codecType));
+				Console.WriteLine(string.Format("sceAudiocodecDecode no codec available for codecType=0x{0:X}", codecType));
 				return -1;
 			}
 
 			int bytesConsumed = codec.decode(inputBuffer, inputBufferSize, outputBuffer);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				if (bytesConsumed < 0)
 				{
-					log.debug(string.Format("codec.decode returned error 0x{0:X8}, data: {1}", bytesConsumed, Utilities.getMemoryDump(inputBuffer, inputBufferSize)));
+					Console.WriteLine(string.Format("codec.decode returned error 0x{0:X8}, data: {1}", bytesConsumed, Utilities.getMemoryDump(inputBuffer, inputBufferSize)));
 				}
 				else
 				{
-					log.debug(string.Format("sceAudiocodecDecode bytesConsumed=0x{0:X}", bytesConsumed));
+					Console.WriteLine(string.Format("sceAudiocodecDecode bytesConsumed=0x{0:X}", bytesConsumed));
 				}
 			}
 
@@ -377,9 +377,9 @@ namespace pspsharp.HLE.modules
 					}
 					workArea.setValue32(56, type); // type [0..2]
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceAudiocodecDecode MP3 bitrateIndex={0:D}, rawSampleRateIndex={1:D}, type={2:D}", mp3Header.bitrateIndex, mp3Header.rawSampleRateIndex, type));
+						Console.WriteLine(string.Format("sceAudiocodecDecode MP3 bitrateIndex={0:D}, rawSampleRateIndex={1:D}, type={2:D}", mp3Header.bitrateIndex, mp3Header.rawSampleRateIndex, type));
 					}
 				}
 			}
@@ -392,7 +392,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8ACA11D5, version = 150) public int sceAudiocodecGetInfo(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8ACA11D5, version = 150) public int sceAudiocodecGetInfo(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
 		[HLEFunction(nid : 0x8ACA11D5, version : 150)]
 		public virtual int sceAudiocodecGetInfo(TPointer workArea, int codecType)
 		{
@@ -400,7 +400,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x59176A0F, version = 150) public int sceAudiocodecAlcExtendParameter(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 sizeAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x59176A0F, version = 150) public int sceAudiocodecAlcExtendParameter(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 sizeAddr)
 		[HLEFunction(nid : 0x59176A0F, version : 150)]
 		public virtual int sceAudiocodecAlcExtendParameter(TPointer workArea, int codecType, TPointer32 sizeAddr)
 		{
@@ -459,7 +459,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLELogging(level = "info") @HLEFunction(nid = 0x3DD7EE1A, version = 150) public int sceAudiocodec_3DD7EE1A(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
+//ORIGINAL LINE: @HLELogging(level = "info") @HLEFunction(nid = 0x3DD7EE1A, version = 150) public int sceAudiocodec_3DD7EE1A(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=108, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer workArea, int codecType)
 		[HLELogging(level : "info"), HLEFunction(nid : 0x3DD7EE1A, version : 150)]
 		public virtual int sceAudiocodec_3DD7EE1A(TPointer workArea, int codecType)
 		{

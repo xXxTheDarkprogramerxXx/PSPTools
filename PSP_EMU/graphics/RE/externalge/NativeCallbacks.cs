@@ -20,7 +20,7 @@ namespace pspsharp.graphics.RE.externalge
 //	import static pspsharp.Memory.isAddressGood;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using DurationStatistics = pspsharp.util.DurationStatistics;
@@ -90,10 +90,10 @@ namespace pspsharp.graphics.RE.externalge
 			return Memory.read8(address);
 		}
 
-		public static int readByteBuffer(int address, ByteBuffer destination, int length)
+		public static int readByteBuffer(int address, ByteBuffer destination, int Length)
 		{
 			readByteBuffer_Renamed.start();
-			Buffer source = Memory.getBuffer(address, length);
+			Buffer source = Memory.getBuffer(address, Length);
 			int offset = 0;
 			if (source != null)
 			{
@@ -101,7 +101,7 @@ namespace pspsharp.graphics.RE.externalge
 				{
 					offset = address & 3;
 				}
-				Utilities.putBuffer(destination, source, ByteOrder.LITTLE_ENDIAN, length + offset);
+				Utilities.putBuffer(destination, source, ByteOrder.LITTLE_ENDIAN, Length + offset);
 			}
 			readByteBuffer_Renamed.end();
 			return offset;
@@ -122,23 +122,23 @@ namespace pspsharp.graphics.RE.externalge
 			Memory.write8(address, value);
 		}
 
-		public static void copy(int destination, int source, int length)
+		public static void copy(int destination, int source, int Length)
 		{
-			Memory.memcpy(destination, source, length);
+			Memory.memcpy(destination, source, Length);
 		}
 
-		public static void writeByteBuffer(int address, ByteBuffer source, int length)
+		public static void writeByteBuffer(int address, ByteBuffer source, int Length)
 		{
 			writeByteBuffer_Renamed.start();
-			if (RuntimeContext.hasMemoryInt() && (address & 3) == 0 && (length & 3) == 0 && isAddressGood(address))
+			if (RuntimeContext.hasMemoryInt() && (address & 3) == 0 && (Length & 3) == 0 && isAddressGood(address))
 			{
-				IntBuffer destination = IntBuffer.wrap(RuntimeContext.MemoryInt, (address & Memory.addressMask) >> 2, length >> 2);
+				IntBuffer destination = IntBuffer.wrap(RuntimeContext.MemoryInt, (address & Memory.addressMask) >> 2, Length >> 2);
 				source.order(ByteOrder.nativeOrder());
 				destination.put(source.asIntBuffer());
 			}
 			else
 			{
-				Memory.copyToMemory(address, source, length);
+				Memory.copyToMemory(address, source, Length);
 			}
 			writeByteBuffer_Renamed.end();
 		}
@@ -148,9 +148,9 @@ namespace pspsharp.graphics.RE.externalge
 			writeByteBufferArea_Renamed.start();
 			if (RuntimeContext.hasMemoryInt() && (address & 3) == 0 && (width & 3) == 0 && (bufferWidth & 3) == 0 && isAddressGood(address))
 			{
-				int length = bufferWidth * height;
+				int Length = bufferWidth * height;
 				int destinationOffset = (address & Memory.addressMask) >> 2;
-				IntBuffer destination = IntBuffer.wrap(RuntimeContext.MemoryInt, destinationOffset, length >> 2);
+				IntBuffer destination = IntBuffer.wrap(RuntimeContext.MemoryInt, destinationOffset, Length >> 2);
 				source.order(ByteOrder.nativeOrder());
 				IntBuffer sourceInt = source.asIntBuffer();
 				int width4 = width >> 2;
@@ -206,16 +206,16 @@ namespace pspsharp.graphics.RE.externalge
 					log.fatal(message);
 					break;
 				case 2: // E_ERROR
-					log.error(message);
+					Console.WriteLine(message);
 					break;
 				case 3: // E_WARN
-					log.warn(message);
+					Console.WriteLine(message);
 					break;
 				case 4: // E_INFO
 					log.info(message);
 					break;
 				case 5: // E_DEBUG
-					log.debug(message);
+					Console.WriteLine(message);
 					break;
 				case 6: // E_TRACE
 					log.trace(message);
@@ -224,7 +224,7 @@ namespace pspsharp.graphics.RE.externalge
 					log.info(message);
 					break;
 				default:
-					log.error(string.Format("Unknown log level {0:D}: {1}", level, message));
+					Console.WriteLine(string.Format("Unknown log level {0:D}: {1}", level, message));
 					break;
 			}
 		}

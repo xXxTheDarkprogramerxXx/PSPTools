@@ -22,7 +22,7 @@ namespace pspsharp.graphics
 	using AbstractBoolSettingsListener = pspsharp.settings.AbstractBoolSettingsListener;
 	using Settings = pspsharp.settings.Settings;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// Profiler for the Graphics Engine
@@ -32,7 +32,7 @@ namespace pspsharp.graphics
 	/// </summary>
 	public class GEProfiler
 	{
-		public static Logger log = Logger.getLogger("profiler");
+		//public static Logger log = Logger.getLogger("profiler");
 		private static bool profilerEnabled = true;
 		private static ProfilerEnabledSettingsListerner profilerEnabledSettingsListerner;
 		private static readonly long? zero = new long?(0);

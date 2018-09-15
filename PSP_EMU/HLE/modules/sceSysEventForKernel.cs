@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using pspSysEventHandler = pspsharp.HLE.kernel.types.pspSysEventHandler;
 
 	public class sceSysEventForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSysEventForKernel");
+		//public static Logger log = Modules.getLogger("sceSysEventForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAEB300AE, version = 150) public int sceKernelIsRegisterSysEventHandler()
@@ -45,9 +45,9 @@ namespace pspsharp.HLE.modules
 			pspSysEventHandler sysEventHandler = new pspSysEventHandler();
 			sysEventHandler.read(handler);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelRegisterSysEventHandler handler: {0}", sysEventHandler));
+				Console.WriteLine(string.Format("sceKernelRegisterSysEventHandler handler: {0}", sysEventHandler));
 			}
 
 			if ("SceFatfsSysEvent".Equals(sysEventHandler.name))

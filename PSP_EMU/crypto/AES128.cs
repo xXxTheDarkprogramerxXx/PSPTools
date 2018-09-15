@@ -23,7 +23,7 @@ namespace pspsharp.crypto
 
 	using Modules = pspsharp.HLE.Modules;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using BouncyCastleProvider = org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 	public class AES128
@@ -69,7 +69,7 @@ namespace pspsharp.crypto
 				}
 				catch (Exception e)
 				{
-					log.error("AES128 Cipher", e);
+					Console.WriteLine("AES128 Cipher", e);
 				}
 			}
 		}
@@ -115,19 +115,19 @@ namespace pspsharp.crypto
 			}
 			catch (InvalidKeyException e)
 			{
-				log.error("encrypt", e);
+				Console.WriteLine("encrypt", e);
 			}
 			catch (InvalidAlgorithmParameterException e)
 			{
-				log.error("encrypt", e);
+				Console.WriteLine("encrypt", e);
 			}
 			catch (IllegalBlockSizeException e)
 			{
-				log.error("encrypt", e);
+				Console.WriteLine("encrypt", e);
 			}
 			catch (BadPaddingException e)
 			{
-				log.error("encrypt", e);
+				Console.WriteLine("encrypt", e);
 			}
 
 			return result;
@@ -146,7 +146,7 @@ namespace pspsharp.crypto
 			}
 			catch (Exception e)
 			{
-				log.error("decrypt", e);
+				Console.WriteLine("decrypt", e);
 			}
 
 			return result;

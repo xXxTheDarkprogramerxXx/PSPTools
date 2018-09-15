@@ -25,9 +25,9 @@ namespace pspsharp.media.codec.util
 		private int readCount;
 		private int writeCount;
 
-		public BitBuffer(int length)
+		public BitBuffer(int Length)
 		{
-			bits = new int[length];
+			bits = new int[Length];
 		}
 
 		public virtual int read1()

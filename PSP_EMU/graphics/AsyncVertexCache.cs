@@ -79,14 +79,14 @@ namespace pspsharp.graphics
 			if (useVertexArray)
 			{
 				int address = vinfo.ptr_vertex;
-				int length = vinfo.vertexSize * asyncEntry.count;
-				if (length > 0)
+				int Length = vinfo.vertexSize * asyncEntry.count;
+				if (Length > 0)
 				{
-					VertexBuffer vertexBuffer = VertexBufferManager.Instance.getVertexBuffer(null, address, length, vinfo.vertexSize, useVertexArray);
+					VertexBuffer vertexBuffer = VertexBufferManager.Instance.getVertexBuffer(null, address, Length, vinfo.vertexSize, useVertexArray);
 					if (vertexBuffer != null)
 					{
-						Buffer buffer = Memory.Instance.getBuffer(address, length);
-						vertexBuffer.preLoad(buffer, address, length);
+						Buffer buffer = Memory.Instance.getBuffer(address, Length);
+						vertexBuffer.preLoad(buffer, address, Length);
 					}
 				}
 			}

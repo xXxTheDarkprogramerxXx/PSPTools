@@ -780,7 +780,7 @@ namespace pspsharp.Debugger.FileLogger
 				if (iso != null)
 				{
 					string filePath = filename;
-					filePath = filePath.Substring(14); // length of "disc0:/sce_lba"
+					filePath = filePath.Substring(14); // Length of "disc0:/sce_lba"
 					int sep = filePath.IndexOf("_size", StringComparison.Ordinal);
 					int fileStart = Integer.decode(filePath.Substring(0, sep));
 					string resolved = iso.getFileName(fileStart);

@@ -247,7 +247,7 @@ namespace pspsharp.graphics.RE
 
 		public override void exit()
 		{
-			Arrays.sort(statistics);
+			Array.Sort(statistics);
 			VideoEngine.log_Renamed.info("RenderingEngine methods:");
 
 			int lastStatistics = -1;

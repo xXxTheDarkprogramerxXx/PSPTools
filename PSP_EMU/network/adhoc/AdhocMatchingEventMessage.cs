@@ -35,13 +35,13 @@ namespace pspsharp.network.adhoc
 			this.matchingObject = matchingObject;
 		}
 
-		public AdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int address, int length, sbyte[] toMacAddress) : base(address, length, toMacAddress)
+		public AdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int address, int Length, sbyte[] toMacAddress) : base(address, Length, toMacAddress)
 		{
 			this.@event = @event;
 			this.matchingObject = matchingObject;
 		}
 
-		public AdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int length) : base(message, length)
+		public AdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int Length) : base(message, Length)
 		{
 			this.matchingObject = matchingObject;
 		}

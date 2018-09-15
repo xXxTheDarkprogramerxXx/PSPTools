@@ -134,7 +134,7 @@ namespace pspsharp.HLE.kernel.types
 				{
 					maxTextOutLength = outTextLimit;
 				}
-				int length = System.Math.Min(outText.Length, maxTextOutLength);
+				int Length = System.Math.Min(outText.Length, maxTextOutLength);
 
 				// When the following values are set for the inputAllowCharType flag set,
 				// the characters returned in the output text field are full width letters/digits:
@@ -144,7 +144,7 @@ namespace pspsharp.HLE.kernel.types
 				if ((inputAllowCharType & (PSP_UTILITY_OSK_DATA_CHAR_ALLOW_JPN | PSP_UTILITY_OSK_DATA_CHAR_ALLOW_JPN_LOWERCASE | PSP_UTILITY_OSK_DATA_CHAR_ALLOW_JPN_UPPERCASE)) != 0)
 				{
 					StringBuilder s = new StringBuilder(outText);
-					for (int i = 0; i < length; i++)
+					for (int i = 0; i < Length; i++)
 					{
 						int codePoint = s.codePointAt(i);
 						if (codePoint >= 65 && codePoint <= 90)
@@ -162,7 +162,7 @@ namespace pspsharp.HLE.kernel.types
 					}
 					outText = s.ToString();
 				}
-				writeStringUTF16Z(outTextAddr, outText.Substring(0, length));
+				writeStringUTF16Z(outTextAddr, outText.Substring(0, Length));
 				write32(outTextLength); // Offset 36
 				write32(outTextAddr); // Offset 40
 				write32(result); // Offset 44

@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -30,7 +30,7 @@ namespace pspsharp.HLE.modules
 
 	public class LoadExecForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("LoadExecForKernel");
+		//public static Logger log = Modules.getLogger("LoadExecForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEFunction(nid = 0xA3D5E142, version = 150) public int sceKernelExitVSHVSH(@CanBeNull pspsharp.HLE.TPointer param)
@@ -81,16 +81,16 @@ namespace pspsharp.HLE.modules
 			SceKernelLoadExecVSHParam loadExecVSHParam = new SceKernelLoadExecVSHParam();
 			loadExecVSHParam.read(param);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelLoadExecVSHMs2 param: {0}", loadExecVSHParam));
+				Console.WriteLine(string.Format("sceKernelLoadExecVSHMs2 param: {0}", loadExecVSHParam));
 				if (loadExecVSHParam.args > 0)
 				{
-					log.debug(string.Format("sceKernelLoadExecVSHMs2 argp: {0}", Utilities.getMemoryDump(loadExecVSHParam.argp, loadExecVSHParam.args)));
+					Console.WriteLine(string.Format("sceKernelLoadExecVSHMs2 argp: {0}", Utilities.getMemoryDump(loadExecVSHParam.argp, loadExecVSHParam.args)));
 				}
 				if (loadExecVSHParam.vshmainArgsSize > 0)
 				{
-					log.debug(string.Format("sceKernelLoadExecVSHMs2 vshmainArgs: {0}", Utilities.getMemoryDump(loadExecVSHParam.vshmainArgs, loadExecVSHParam.vshmainArgsSize)));
+					Console.WriteLine(string.Format("sceKernelLoadExecVSHMs2 vshmainArgs: {0}", Utilities.getMemoryDump(loadExecVSHParam.vshmainArgs, loadExecVSHParam.vshmainArgsSize)));
 				}
 			}
 
@@ -163,9 +163,9 @@ namespace pspsharp.HLE.modules
 				log.info(string.Format("sceKernelLoadExecBufferVSHUsbWlan param={0}", loadExecParam));
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelLoadExecBufferVSHUsbWlan buffAddr: {0}", Utilities.getMemoryDump(bufferAddr.Address, System.Math.Min(bufferSize, 1024))));
+				Console.WriteLine(string.Format("sceKernelLoadExecBufferVSHUsbWlan buffAddr: {0}", Utilities.getMemoryDump(bufferAddr.Address, System.Math.Min(bufferSize, 1024))));
 			}
 
 			sbyte[] moduleBytes = bufferAddr.getArray8(bufferSize);

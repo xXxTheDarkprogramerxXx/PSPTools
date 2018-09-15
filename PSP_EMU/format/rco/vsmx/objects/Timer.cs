@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.vsmx.objects
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IAction = pspsharp.HLE.kernel.types.IAction;
 	using VSMXArray = pspsharp.format.rco.vsmx.interpreter.VSMXArray;
@@ -78,9 +78,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		private void onTimer(int id, VSMXBaseObject @object, VSMXBaseObject function, VSMXBaseObject[] parameters)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Timer.onTimer id={0:D}, object={1}, function={2}, parameters={3}", id, @object, function, parameters));
+				Console.WriteLine(string.Format("Timer.onTimer id={0:D}, object={1}, function={2}, parameters={3}", id, @object, function, parameters));
 			}
 
 			if (function is VSMXFunction)
@@ -91,12 +91,12 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		private VSMXBaseObject setInterval(VSMXBaseObject @object, VSMXBaseObject function, VSMXBaseObject interval, params VSMXBaseObject[] parameters)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Timer.setInterval function={0}, interval={1:D}, numberOfParameters={2:D}", function, interval.IntValue, parameters.Length));
+				Console.WriteLine(string.Format("Timer.setInterval function={0}, interval={1:D}, numberOfParameters={2:D}", function, interval.IntValue, parameters.Length));
 				for (int i = 0; i < parameters.Length; i++)
 				{
-					log.debug(string.Format("Timer.setInterval param{0:D}={1}", i, parameters[i]));
+					Console.WriteLine(string.Format("Timer.setInterval param{0:D}={1}", i, parameters[i]));
 				}
 			}
 
@@ -151,9 +151,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual void clearInterval(VSMXBaseObject @object, VSMXBaseObject id)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Timer.clearInterval {0:D}", id.getPropertyValue(0).IntValue));
+				Console.WriteLine(string.Format("Timer.clearInterval {0:D}", id.getPropertyValue(0).IntValue));
 			}
 		}
 	}

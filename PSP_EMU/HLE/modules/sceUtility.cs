@@ -127,11 +127,11 @@ namespace pspsharp.HLE.modules
 	using Utilities = pspsharp.util.Utilities;
 	using sceGu = pspsharp.util.sceGu;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceUtility : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUtility");
+		//public static Logger log = Modules.getLogger("sceUtility");
 
 		public override void start()
 		{
@@ -325,7 +325,7 @@ namespace pspsharp.HLE.modules
 			{
 				bool keepVisible = false;
 
-				log.warn(string.Format("Partial sceUtilityInstallUpdate {0}", installParams.ToString()));
+				Console.WriteLine(string.Format("Partial sceUtilityInstallUpdate {0}", installParams.ToString()));
 
 				// We only get the game name from the install params. Is the rest fixed?
 				string fileName = string.Format("ms0:/PSP/GAME/{0}/EBOOT.PBP", installParams.gameName);
@@ -334,7 +334,7 @@ namespace pspsharp.HLE.modules
 					SeekableDataInput moduleInput = Modules.IoFileMgrForUserModule.getFile(fileName, IoFileMgrForUser.PSP_O_RDONLY);
 					if (moduleInput != null)
 					{
-						sbyte[] moduleBytes = new sbyte[(int) moduleInput.length()];
+						sbyte[] moduleBytes = new sbyte[(int) moduleInput.Length()];
 						moduleInput.readFully(moduleBytes);
 						ByteBuffer moduleBuffer = ByteBuffer.wrap(moduleBytes);
 
@@ -350,7 +350,7 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn("sceUtilityInstall - failed, target is not an ELF");
+							Console.WriteLine("sceUtilityInstall - failed, target is not an ELF");
 							installParams.@base.result = -1;
 						}
 						moduleInput.Dispose();
@@ -358,12 +358,12 @@ namespace pspsharp.HLE.modules
 				}
 				catch (GeneralJpcspException e)
 				{
-					log.error("General Error : " + e.Message);
+					Console.WriteLine("General Error : " + e.Message);
 					Emulator.PauseEmu();
 				}
 				catch (IOException e)
 				{
-					log.error(string.Format("sceUtilityInstall - Error while loading module {0}: {1}", fileName, e.Message));
+					Console.WriteLine(string.Format("sceUtilityInstall - Error while loading module {0}: {1}", fileName, e.Message));
 					installParams.@base.result = -1;
 				}
 
@@ -559,9 +559,9 @@ namespace pspsharp.HLE.modules
 			SceKernelThreadInfo currentThread = Modules.ThreadManForUserModule.CurrentThread;
 			int action = processor.cpu.getRegister(utilityThreadActionRegister);
 			int delay = processor.cpu.getRegister(utilityThreadDelayRegister);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleUtilityThread action={0:D}, delay={1:D}", action, delay));
+				Console.WriteLine(string.Format("hleUtilityThread action={0:D}, delay={1:D}", action, delay));
 			}
 
 			switch (action)
@@ -572,7 +572,7 @@ namespace pspsharp.HLE.modules
 					int lockResult = Modules.sceSuspendForUserModule.hleKernelVolatileMemLock(0, false);
 					if (lockResult < 0)
 					{
-						log.error(string.Format("hleUtilityThread init thread cannot lock the volatile mem 0x{0:X8}", lockResult));
+						Console.WriteLine(string.Format("hleUtilityThread init thread cannot lock the volatile mem 0x{0:X8}", lockResult));
 					}
 
 					currentThread.cpuContext.setRegister(utilityThreadActionRegister, UTILITY_THREAD_ACTION_INIT_COMPLETE);
@@ -604,7 +604,7 @@ namespace pspsharp.HLE.modules
 					int unlockResult = Modules.sceSuspendForUserModule.hleKernelVolatileMemUnlock(0);
 					if (unlockResult < 0)
 					{
-						log.error(string.Format("hleUtilityThread shutdown thread cannot unlock the volatile mem 0x{0:X8}", unlockResult));
+						Console.WriteLine(string.Format("hleUtilityThread shutdown thread cannot unlock the volatile mem 0x{0:X8}", unlockResult));
 					}
 					else
 					{
@@ -798,9 +798,9 @@ namespace pspsharp.HLE.modules
 			{
 				if (status != PSP_UTILITY_DIALOG_STATUS_NONE)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("{0}InitStart already started status={1:D}", name, status));
+						Console.WriteLine(string.Format("{0}InitStart already started status={1:D}", name, status));
 					}
 					return SceKernelErrors.ERROR_UTILITY_INVALID_STATUS;
 				}
@@ -841,9 +841,9 @@ namespace pspsharp.HLE.modules
 					// Wait for all the buttons to be released
 					if (State.controller.Buttons != 0)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Not ready for visible, button pressed 0x{0:X}", State.controller.Buttons));
+							Console.WriteLine(string.Format("Not ready for visible, button pressed 0x{0:X}", State.controller.Buttons));
 						}
 						return false;
 					}
@@ -863,16 +863,16 @@ namespace pspsharp.HLE.modules
 				// if a different type of dialog was started.
 				if (Modules.sceUtilityModule.startedDialogState == null || Modules.sceUtilityModule.startedDialogState != this)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("{0}GetStatus returning ERROR_UTILITY_WRONG_TYPE", name));
+						Console.WriteLine(string.Format("{0}GetStatus returning ERROR_UTILITY_WRONG_TYPE", name));
 					}
 					return SceKernelErrors.ERROR_UTILITY_WRONG_TYPE;
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("{0}GetStatus status {1:D}", name, status));
+					Console.WriteLine(string.Format("{0}GetStatus status {1:D}", name, status));
 				}
 
 				int previousStatus = status;
@@ -890,22 +890,22 @@ namespace pspsharp.HLE.modules
 			{
 				if (Modules.sceUtilityModule.startedDialogState == null || Modules.sceUtilityModule.startedDialogState != this)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("%ShutdownStart returning ERROR_UTILITY_WRONG_TYPE", name));
-						log.debug(string.Format("%ShutdownStart returning ERROR_UTILITY_WRONG_TYPE", name));
+//ORIGINAL LINE: Console.WriteLine(String.format("%ShutdownStart returning ERROR_UTILITY_WRONG_TYPE", name));
+						Console.WriteLine(string.Format("%ShutdownStart returning ERROR_UTILITY_WRONG_TYPE", name));
 					}
 					return SceKernelErrors.ERROR_UTILITY_WRONG_TYPE;
 				}
 
 				if (status != PSP_UTILITY_DIALOG_STATUS_QUIT)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("%ShutdownStart returning ERROR_UTILITY_INVALID_STATUS", name));
-						log.debug(string.Format("%ShutdownStart returning ERROR_UTILITY_INVALID_STATUS", name));
+//ORIGINAL LINE: Console.WriteLine(String.format("%ShutdownStart returning ERROR_UTILITY_INVALID_STATUS", name));
+						Console.WriteLine(string.Format("%ShutdownStart returning ERROR_UTILITY_INVALID_STATUS", name));
 					}
 					return SceKernelErrors.ERROR_UTILITY_INVALID_STATUS;
 				}
@@ -929,9 +929,9 @@ namespace pspsharp.HLE.modules
 
 				if (Modules.sceUtilityModule.startedDialogState == null || Modules.sceUtilityModule.startedDialogState != this)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("{0}Update returning ERROR_UTILITY_WRONG_TYPE", name));
+						Console.WriteLine(string.Format("{0}Update returning ERROR_UTILITY_WRONG_TYPE", name));
 					}
 					return SceKernelErrors.ERROR_UTILITY_WRONG_TYPE;
 				}
@@ -986,9 +986,9 @@ namespace pspsharp.HLE.modules
 					}
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("{0}Update returning 0x{1:X8}", name, result));
+					Console.WriteLine(string.Format("{0}Update returning 0x{1:X8}", name, result));
 				}
 				return result;
 			}
@@ -997,25 +997,25 @@ namespace pspsharp.HLE.modules
 			{
 				if (Modules.sceUtilityModule.startedDialogState == null || Modules.sceUtilityModule.startedDialogState != this)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("{0}Abort returning ERROR_UTILITY_WRONG_TYPE", name));
+						Console.WriteLine(string.Format("{0}Abort returning ERROR_UTILITY_WRONG_TYPE", name));
 					}
 					return SceKernelErrors.ERROR_UTILITY_WRONG_TYPE;
 				}
 
 				if (status != PSP_UTILITY_DIALOG_STATUS_VISIBLE)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("{0}Abort returning ERROR_UTILITY_INVALID_STATUS", name));
+						Console.WriteLine(string.Format("{0}Abort returning ERROR_UTILITY_INVALID_STATUS", name));
 					}
 					return SceKernelErrors.ERROR_UTILITY_INVALID_STATUS;
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("{0}Abort", name));
+					Console.WriteLine(string.Format("{0}Abort", name));
 				}
 
 				quitDialog(PSP_UTILITY_DIALOG_RESULT_ABORTED);
@@ -1126,28 +1126,28 @@ namespace pspsharp.HLE.modules
 
 			public override int executeInitStart(TPointer paramsAddr)
 			{
-				log.warn(string.Format("Unimplemented: {0}InitStart params: {1}", name, Utilities.getMemoryDump(paramsAddr.Address, paramsAddr.getValue32())));
+				Console.WriteLine(string.Format("Unimplemented: {0}InitStart params: {1}", name, Utilities.getMemoryDump(paramsAddr.Address, paramsAddr.getValue32())));
 
 				return SceKernelErrors.ERROR_UTILITY_IS_UNKNOWN;
 			}
 
 			public override int executeShutdownStart()
 			{
-				log.warn(string.Format("Unimplemented: {0}ShutdownStart", name));
+				Console.WriteLine(string.Format("Unimplemented: {0}ShutdownStart", name));
 
 				return SceKernelErrors.ERROR_UTILITY_IS_UNKNOWN;
 			}
 
 			public override int executeGetStatus()
 			{
-				log.warn(string.Format("Unimplemented: {0}GetStatus", name));
+				Console.WriteLine(string.Format("Unimplemented: {0}GetStatus", name));
 
 				return SceKernelErrors.ERROR_UTILITY_IS_UNKNOWN;
 			}
 
 			protected internal override bool executeUpdateVisible()
 			{
-				log.warn(string.Format("Unimplemented: {0}Update", name));
+				Console.WriteLine(string.Format("Unimplemented: {0}Update", name));
 
 				return false;
 			}
@@ -1191,7 +1191,7 @@ namespace pspsharp.HLE.modules
 				// Only these parameter sizes are allowed:
 				if (paramSize != 1480 && paramSize != 1500 && paramSize != 1536)
 				{
-					log.warn(string.Format("sceUtilitySavedataInitStart invalid parameter size {0:D}", paramSize));
+					Console.WriteLine(string.Format("sceUtilitySavedataInitStart invalid parameter size {0:D}", paramSize));
 					return SceKernelErrors.ERROR_UTILITY_INVALID_PARAM_SIZE;
 				}
 
@@ -1263,7 +1263,7 @@ namespace pspsharp.HLE.modules
 						catch (Exception e)
 						{
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_LOAD_ACCESS_ERROR;
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						break;
 					}
@@ -1336,7 +1336,7 @@ namespace pspsharp.HLE.modules
 								catch (Exception e)
 								{
 									savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_LOAD_ACCESS_ERROR;
-									log.error(e);
+									Console.WriteLine(e);
 								}
 
 								if (ReadyForVisible)
@@ -1410,7 +1410,7 @@ namespace pspsharp.HLE.modules
 									}
 									else if (string.ReferenceEquals(saveListSelection, null))
 									{
-										log.warn("Savedata MODE_LISTLOAD no save selected");
+										Console.WriteLine("Savedata MODE_LISTLOAD no save selected");
 										quitDialog(SceKernelErrors.ERROR_SAVEDATA_LOAD_BAD_PARAMS);
 									}
 									else
@@ -1430,9 +1430,9 @@ namespace pspsharp.HLE.modules
 								try
 								{
 									savedataParams.saveName = saveListSelection;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("Loading savedata {0}", savedataParams.saveName));
+										Console.WriteLine(string.Format("Loading savedata {0}", savedataParams.saveName));
 									}
 									savedataParams.load(mem);
 									savedataParams.@base.result = 0;
@@ -1457,7 +1457,7 @@ namespace pspsharp.HLE.modules
 								catch (Exception e)
 								{
 									savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_LOAD_ACCESS_ERROR;
-									log.error(e);
+									Console.WriteLine(e);
 								}
 
 								if (ReadyForVisible)
@@ -1510,7 +1510,7 @@ namespace pspsharp.HLE.modules
 						catch (Exception e)
 						{
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_SAVE_ACCESS_ERROR;
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						break;
 					}
@@ -1572,7 +1572,7 @@ namespace pspsharp.HLE.modules
 								catch (Exception e)
 								{
 									savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_SAVE_ACCESS_ERROR;
-									log.error(e);
+									Console.WriteLine(e);
 								}
 
 								if (ReadyForVisible)
@@ -1625,7 +1625,7 @@ namespace pspsharp.HLE.modules
 									}
 									else if (string.ReferenceEquals(saveListSelection, null))
 									{
-										log.warn("Savedata MODE_LISTSAVE no save selected");
+										Console.WriteLine("Savedata MODE_LISTSAVE no save selected");
 										quitDialog(ERROR_SAVEDATA_CANCELLED);
 									}
 									else
@@ -1678,9 +1678,9 @@ namespace pspsharp.HLE.modules
 							{
 								try
 								{
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("Saving savedata {0}", savedataParams.saveName));
+										Console.WriteLine(string.Format("Saving savedata {0}", savedataParams.saveName));
 									}
 									savedataParams.save(mem, true);
 									savedataParams.@base.result = 0;
@@ -1692,7 +1692,7 @@ namespace pspsharp.HLE.modules
 								catch (Exception e)
 								{
 									savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_SAVE_ACCESS_ERROR;
-									log.error(e);
+									Console.WriteLine(e);
 								}
 
 								if (ReadyForVisible)
@@ -1752,7 +1752,7 @@ namespace pspsharp.HLE.modules
 							}
 							else if (string.ReferenceEquals(saveListSelection, null))
 							{
-								log.warn("Savedata MODE_DELETE no save selected");
+								Console.WriteLine("Savedata MODE_DELETE no save selected");
 								savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_DELETE_BAD_PARAMS;
 							}
 							else
@@ -1760,7 +1760,7 @@ namespace pspsharp.HLE.modules
 								string dirName = savedataParams.getBasePath(saveListSelection);
 								if (savedataParams.deleteDir(dirName))
 								{
-									log.debug("Savedata MODE_DELETE deleting " + dirName);
+									Console.WriteLine("Savedata MODE_DELETE deleting " + dirName);
 									savedataParams.@base.result = 0;
 								}
 								else
@@ -1814,9 +1814,9 @@ namespace pspsharp.HLE.modules
 						//
 						int retval = 0;
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("MODE_SIZES: msFreeAddr=0x{0:X8}-0x{1:X8}, msDataAddr=0x{2:X8}-0x{3:X8}, utilityDataAddr=0x{4:X8}-0x{5:X8}", savedataParams.msFreeAddr, savedataParams.msFreeAddr + 20, savedataParams.msDataAddr, savedataParams.msDataAddr + 64, savedataParams.utilityDataAddr, savedataParams.utilityDataAddr + 28));
+							Console.WriteLine(string.Format("MODE_SIZES: msFreeAddr=0x{0:X8}-0x{1:X8}, msDataAddr=0x{2:X8}-0x{3:X8}, utilityDataAddr=0x{4:X8}-0x{5:X8}", savedataParams.msFreeAddr, savedataParams.msFreeAddr + 20, savedataParams.msDataAddr, savedataParams.msDataAddr + 64, savedataParams.utilityDataAddr, savedataParams.utilityDataAddr + 28));
 						}
 
 						// Gets the amount of free space on the Memory Stick.
@@ -1830,7 +1830,7 @@ namespace pspsharp.HLE.modules
 							mem.write32(msFreeAddr + 8, MemoryStick.FreeSizeKb);
 							Utilities.writeStringNZ(mem, msFreeAddr + 12, 8, memoryStickFreeSpaceString);
 
-							log.debug("Memory Stick Free Space = " + memoryStickFreeSpaceString);
+							Console.WriteLine("Memory Stick Free Space = " + memoryStickFreeSpaceString);
 						}
 
 						// Gets the size of the data already saved on the Memory Stick.
@@ -1852,11 +1852,11 @@ namespace pspsharp.HLE.modules
 								mem.write32(msDataAddr + 52, savedataSize32Kb);
 								Utilities.writeStringNZ(mem, msDataAddr + 56, 8, MemoryStick.getSizeKbString(savedataSize32Kb));
 
-								log.debug("Memory Stick Used Space = " + MemoryStick.getSizeKbString(savedataSizeKb));
+								Console.WriteLine("Memory Stick Used Space = " + MemoryStick.getSizeKbString(savedataSizeKb));
 							}
 							else
 							{
-								log.debug(string.Format("Savedata MODE_SIZES directory not found, gameName='{0}', saveName='{1}'", gameName, saveName));
+								Console.WriteLine(string.Format("Savedata MODE_SIZES directory not found, gameName='{0}', saveName='{1}'", gameName, saveName));
 								retval = SceKernelErrors.ERROR_SAVEDATA_SIZES_NO_DATA;
 							}
 						}
@@ -1876,7 +1876,7 @@ namespace pspsharp.HLE.modules
 							mem.write32(utilityDataAddr + 16, memoryStickRequiredSpace32Kb);
 							Utilities.writeStringNZ(mem, utilityDataAddr + 20, 8, memoryStickRequiredSpace32KbString);
 
-							log.debug("Memory Stick Required Space = " + memoryStickRequiredSpaceString);
+							Console.WriteLine("Memory Stick Required Space = " + memoryStickRequiredSpaceString);
 						}
 						savedataParams.@base.result = retval;
 						break;
@@ -1890,7 +1890,7 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn("Savedata MODE_AUTODELETE directory not found!");
+							Console.WriteLine("Savedata MODE_AUTODELETE directory not found!");
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_DELETE_NO_DATA;
 						}
 						// Tests show certain applications expect the PSP to change the
@@ -1907,7 +1907,7 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn("Savedata MODE_SINGLEDELETE file not found!");
+							Console.WriteLine("Savedata MODE_SINGLEDELETE file not found!");
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_DELETE_NO_MEMSTICK;
 						}
 						// Tests show certain applications expect the PSP to change the
@@ -1954,16 +1954,16 @@ namespace pspsharp.HLE.modules
 								entryName = getMsFileName(entryName);
 								Utilities.writeStringNZ(mem, entryAddr + 52, 20, entryName);
 
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("MODE_LIST returning filePath={0}, stat={1}, entryName={2} at 0x{3:X8}", filePath, stat, entryName, entryAddr));
+									Console.WriteLine(string.Format("MODE_LIST returning filePath={0}, stat={1}, entryName={2} at 0x{3:X8}", filePath, stat, entryName, entryAddr));
 								}
 							}
 							mem.write32(buffer4Addr + 4, numEntries);
 
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("MODE_LIST returning {0:D} entries", numEntries));
+								Console.WriteLine(string.Format("MODE_LIST returning {0:D} entries", numEntries));
 							}
 						}
 						savedataParams.@base.result = checkMultipleCallStatus();
@@ -1979,9 +1979,9 @@ namespace pspsharp.HLE.modules
 							int saveFileMaxNumEntries = mem.read32(fileListAddr + 4);
 							int systemMaxNumEntries = mem.read32(fileListAddr + 8);
 
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("MaxFiles in FileList: secure={0:D}, normal={1:D}, system={2:D}", saveFileSecureMaxNumEntries, saveFileMaxNumEntries, systemMaxNumEntries));
+								Console.WriteLine(string.Format("MaxFiles in FileList: secure={0:D}, normal={1:D}, system={2:D}", saveFileSecureMaxNumEntries, saveFileMaxNumEntries, systemMaxNumEntries));
 							}
 
 							int saveFileSecureEntriesAddr = mem.read32(fileListAddr + 24);
@@ -2084,20 +2084,20 @@ namespace pspsharp.HLE.modules
 								mem.write32(fileListAddr + 20, systemFileNumEntries);
 							}
 
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("FileList: {0}", Utilities.getMemoryDump(fileListAddr, 36)));
+								Console.WriteLine(string.Format("FileList: {0}", Utilities.getMemoryDump(fileListAddr, 36)));
 								if (saveFileSecureEntriesAddr != 0 && saveFileSecureNumEntries > 0)
 								{
-									log.debug(string.Format("SecureEntries: {0}", Utilities.getMemoryDump(saveFileSecureEntriesAddr, saveFileSecureNumEntries * 80)));
+									Console.WriteLine(string.Format("SecureEntries: {0}", Utilities.getMemoryDump(saveFileSecureEntriesAddr, saveFileSecureNumEntries * 80)));
 								}
 								if (saveFileEntriesAddr != 0 && saveFileNumEntries > 0)
 								{
-									log.debug(string.Format("NormalEntries: {0}", Utilities.getMemoryDump(saveFileEntriesAddr, saveFileNumEntries * 80)));
+									Console.WriteLine(string.Format("NormalEntries: {0}", Utilities.getMemoryDump(saveFileEntriesAddr, saveFileNumEntries * 80)));
 								}
 								if (systemEntriesAddr != 0 && systemFileNumEntries > 0)
 								{
-									log.debug(string.Format("SystemEntries: {0}", Utilities.getMemoryDump(systemEntriesAddr, systemFileNumEntries * 80)));
+									Console.WriteLine(string.Format("SystemEntries: {0}", Utilities.getMemoryDump(systemEntriesAddr, systemFileNumEntries * 80)));
 								}
 							}
 						}
@@ -2121,7 +2121,7 @@ namespace pspsharp.HLE.modules
 						catch (Exception e)
 						{
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_RW_ACCESS_ERROR;
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						break;
 					}
@@ -2169,7 +2169,7 @@ namespace pspsharp.HLE.modules
 						catch (Exception e)
 						{
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_RW_ACCESS_ERROR;
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						break;
 					}
@@ -2198,7 +2198,7 @@ namespace pspsharp.HLE.modules
 						catch (Exception e)
 						{
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_RW_ACCESS_ERROR;
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						break;
 					}
@@ -2212,7 +2212,7 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn("Savedata MODE_DELETEDATA no data found!");
+							Console.WriteLine("Savedata MODE_DELETEDATA no data found!");
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_RW_NO_DATA;
 						}
 						break;
@@ -2236,9 +2236,9 @@ namespace pspsharp.HLE.modules
 								long size = mem.read64(entryAddr);
 								string fileName = Utilities.readStringNZ(entryAddr + 8, 16);
 								int sizeKb = Utilities.getSizeKb(size);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("   Secure File '{0}', size {1:D} ({2:D} KB)", fileName, size, sizeKb));
+									Console.WriteLine(string.Format("   Secure File '{0}', size {1:D} ({2:D} KB)", fileName, size, sizeKb));
 								}
 
 								totalSizeKb += sizeKb;
@@ -2249,9 +2249,9 @@ namespace pspsharp.HLE.modules
 								long size = mem.read64(entryAddr);
 								string fileName = Utilities.readStringNZ(entryAddr + 8, 16);
 								int sizeKb = Utilities.getSizeKb(size);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("   File '{0}', size {1:D} ({2:D} KB)", fileName, size, sizeKb));
+									Console.WriteLine(string.Format("   File '{0}', size {1:D} ({2:D} KB)", fileName, size, sizeKb));
 								}
 
 								totalSizeKb += sizeKb;
@@ -2326,21 +2326,21 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn("Savedata MODE_ERASESECURE no fileName specified!");
+							Console.WriteLine("Savedata MODE_ERASESECURE no fileName specified!");
 							savedataParams.@base.result = SceKernelErrors.ERROR_SAVEDATA_RW_NO_DATA;
 						}
 						break;
 
 					default:
-						log.warn(string.Format("Savedata - Unsupported mode {0:D}", savedataParams.mode));
+						Console.WriteLine(string.Format("Savedata - Unsupported mode {0:D}", savedataParams.mode));
 						quitDialog(-1);
 						break;
 				}
 
 				savedataParams.@base.writeResult(mem);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleUtilitySavedataDisplay result: 0x{0:X8}", savedataParams.@base.result));
+					Console.WriteLine(string.Format("hleUtilitySavedataDisplay result: 0x{0:X8}", savedataParams.@base.result));
 				}
 
 				return false;
@@ -2400,9 +2400,9 @@ namespace pspsharp.HLE.modules
 						msgDialogParams.buttonPressed = SceUtilityMsgDialogParams.PSP_UTILITY_BUTTON_PRESSED_INVALID;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUtilityMsgDialog returning buttonPressed={0:D}", msgDialogParams.buttonPressed));
+						Console.WriteLine(string.Format("sceUtilityMsgDialog returning buttonPressed={0:D}", msgDialogParams.buttonPressed));
 					}
 					quitDialog(0);
 					msgDialogParams.write(mem);
@@ -2579,9 +2579,9 @@ namespace pspsharp.HLE.modules
 
 			protected internal override bool executeUpdateVisible()
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("SceUtilityScreenshotParams {0}", Utilities.getMemoryDump(paramsAddr.Address, @params.@sizeof())));
+					Console.WriteLine(string.Format("SceUtilityScreenshotParams {0}", Utilities.getMemoryDump(paramsAddr.Address, @params.@sizeof())));
 				}
 
 				if (status == PSP_UTILITY_DIALOG_STATUS_VISIBLE && (screenshotParams.ContModeAuto || screenshotParams.ContModeFinish))
@@ -2627,7 +2627,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error("sceUtilityScreenshot", e);
+						Console.WriteLine("sceUtilityScreenshot", e);
 					}
 				}
 
@@ -2726,23 +2726,23 @@ namespace pspsharp.HLE.modules
 										IVirtualFile ovf = ovfs.ioOpen(destinationFileName, IoFileMgrForUser.PSP_O_WRONLY | IoFileMgrForUser.PSP_O_CREAT, 0x1FF);
 										if (ovf != null)
 										{
-											if (log.DebugEnabled)
+											//if (log.DebugEnabled)
 											{
-												log.debug(string.Format("GamedataInstall: copying file disc0:/{0} to ms0:/{1}", sourceFileName, destinationFileName));
+												Console.WriteLine(string.Format("GamedataInstall: copying file disc0:/{0} to ms0:/{1}", sourceFileName, destinationFileName));
 											}
 											sbyte[] buffer = new sbyte[512 * 1024];
-											long restLength = ivf.length();
+											long restLength = ivf.Length();
 											while (restLength > 0)
 											{
-												int length = buffer.Length;
-												if (length > restLength)
+												int Length = buffer.Length;
+												if (Length > restLength)
 												{
-													length = (int) restLength;
+													Length = (int) restLength;
 												}
-												length = ivf.ioRead(buffer, 0, length);
-												ovf.ioWrite(buffer, 0, length);
+												Length = ivf.ioRead(buffer, 0, Length);
+												ovf.ioWrite(buffer, 0, Length);
 
-												restLength -= length;
+												restLength -= Length;
 											}
 											ovf.ioClose();
 											numberFiles++;
@@ -2805,9 +2805,9 @@ namespace pspsharp.HLE.modules
 					address += (short) mem.read16(sceNp_E24DA399 + 8);
 					if (Memory.isAddressGood(address))
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNp_E24DA399 Address 0x{0:X8}", address));
+							Console.WriteLine(string.Format("sceNp_E24DA399 Address 0x{0:X8}", address));
 						}
 						mem.write32(address, 1);
 					}
@@ -2820,9 +2820,9 @@ namespace pspsharp.HLE.modules
 					address += (short) mem.read16(sceNp_C48F2847 + 0x78);
 					if (Memory.isAddressGood(address))
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNp_C48F2847 Address 0x{0:X8}", address));
+							Console.WriteLine(string.Format("sceNp_C48F2847 Address 0x{0:X8}", address));
 						}
 						Utilities.writeStringZ(mem, address, Modules.sceNpModule.OnlineId);
 					}
@@ -2836,9 +2836,9 @@ namespace pspsharp.HLE.modules
 					address += (short) mem.read16(subAddress + 0x38);
 					if (Memory.isAddressGood(address))
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNpService_7EF4312E Address 0x{0:X8}", address));
+							Console.WriteLine(string.Format("sceNpService_7EF4312E Address 0x{0:X8}", address));
 						}
 						SysMemInfo memInfo = Modules.SysMemUserForUserModule.malloc(SysMemUserForUser.KERNEL_PARTITION_ID, "sceNpService_7EF4312E", SysMemUserForUser.PSP_SMEM_Low, 100, 0);
 						mem.write32(address, memInfo.addr);
@@ -2855,9 +2855,9 @@ namespace pspsharp.HLE.modules
 					address += (short) mem.read16(sceNp_02CA8CAA + 0x90);
 					if (Memory.isAddressGood(address))
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNp_02CA8CAA Address 0x{0:X8}", address));
+							Console.WriteLine(string.Format("sceNp_02CA8CAA Address 0x{0:X8}", address));
 						}
 						mem.write64(address, Modules.sceRtcModule.hleGetCurrentTick());
 					}
@@ -3276,10 +3276,10 @@ namespace pspsharp.HLE.modules
 			protected internal virtual void createDialog(UtilityDialogState utilityDialogState)
 			{
 				this.utilityDialogState = utilityDialogState;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 					int partitionId = SysMemUserForUser.USER_PARTITION_ID;
-					log.debug(string.Format("Free memory total=0x{0:X}, max=0x{1:X}", Modules.SysMemUserForUserModule.totalFreeMemSize(partitionId), Modules.SysMemUserForUserModule.maxFreeMemSize(partitionId)));
+					Console.WriteLine(string.Format("Free memory total=0x{0:X}, max=0x{1:X}", Modules.SysMemUserForUserModule.totalFreeMemSize(partitionId), Modules.SysMemUserForUserModule.maxFreeMemSize(partitionId)));
 				}
 
 				startDialogMillis = Emulator.Clock.milliTime();
@@ -3481,14 +3481,14 @@ namespace pspsharp.HLE.modules
 
 			protected internal virtual int getTextLength(SceFontInfo fontInfo, string s)
 			{
-				int length = 0;
+				int Length = 0;
 
 				for (int i = 0; i < s.Length; i++)
 				{
-					length += getTextLength(fontInfo, s[i]);
+					Length += getTextLength(fontInfo, s[i]);
 				}
 
-				return length;
+				return Length;
 			}
 
 			protected internal virtual int getTextLength(SceFontInfo fontInfo, char c)
@@ -4069,7 +4069,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.debug("getIcon0", e);
+						Console.WriteLine("getIcon0", e);
 					}
 					catch (Exception)
 					{
@@ -4086,7 +4086,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error("Cannot read default icon0.png", e);
+						Console.WriteLine("Cannot read default icon0.png", e);
 					}
 				}
 
@@ -4519,15 +4519,15 @@ namespace pspsharp.HLE.modules
 				{
 					try
 					{
-						int length = (int) iconDataInput.length();
-						sbyte[] iconBuffer = new sbyte[length];
+						int Length = (int) iconDataInput.Length();
+						sbyte[] iconBuffer = new sbyte[Length];
 						iconDataInput.readFully(iconBuffer);
 						iconDataInput.Dispose();
 						iconStream = new System.IO.MemoryStream(iconBuffer);
 					}
 					catch (IOException e)
 					{
-						log.debug("getIcon0", e);
+						Console.WriteLine("getIcon0", e);
 					}
 				}
 				else if (savedataParams.newData != null && savedataParams.newData.icon0 != null)
@@ -4575,8 +4575,8 @@ namespace pspsharp.HLE.modules
 				{
 					try
 					{
-						int length = (int) sfoDataInput.length();
-						sbyte[] sfoBuffer = new sbyte[length];
+						int Length = (int) sfoDataInput.Length();
+						sbyte[] sfoBuffer = new sbyte[Length];
 						sfoDataInput.readFully(sfoBuffer);
 						sfoDataInput.Dispose();
 
@@ -5001,7 +5001,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (System.FormatException)
 				{
-					log.error(string.Format("Invalid channel settings value {0:D} from {1}", indexedValue, guiValues));
+					Console.WriteLine(string.Format("Invalid channel settings value {0:D} from {1}", indexedValue, guiValues));
 				}
     
 				return channel;
@@ -5319,7 +5319,7 @@ namespace pspsharp.HLE.modules
 			if (!moduleManager.hasFlash0Module(prxName))
 			{ // Can't load flash0 module.
 				waitingModules[module] = moduleName; // Always save a load attempt.
-				log.error("Can't load flash0 module");
+				Console.WriteLine("Can't load flash0 module");
 				return SceKernelErrors.ERROR_MODULE_BAD_ID;
 			}
 
@@ -5363,7 +5363,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.error("Not yet loaded");
+				Console.WriteLine("Not yet loaded");
 				return SceKernelErrors.ERROR_MODULE_NOT_LOADED;
 			}
 		}
@@ -5873,13 +5873,13 @@ namespace pspsharp.HLE.modules
 					// This system param ID was introduced somewhere between v5.00 (not available) and v6.20 (available)
 					if (Emulator.Instance.FirmwareVersion <= 500)
 					{
-						log.warn(string.Format("sceUtilityGetSystemParamInt id={0:D}, value_addr={1} PSP_SYSTEMPARAM_ID_INT_LOCK_PARENTAL_LEVEL not available in PSP v{2:D}", id, valueAddr, Emulator.Instance.FirmwareVersion));
+						Console.WriteLine(string.Format("sceUtilityGetSystemParamInt id={0:D}, value_addr={1} PSP_SYSTEMPARAM_ID_INT_LOCK_PARENTAL_LEVEL not available in PSP v{2:D}", id, valueAddr, Emulator.Instance.FirmwareVersion));
 						return SceKernelErrors.ERROR_UTILITY_INVALID_SYSTEM_PARAM_ID;
 					}
 					valueAddr.setValue(SystemParamLockParentalLevel);
 					break;
 				default:
-					log.warn(string.Format("sceUtilityGetSystemParamInt id={0:D}, valueAddr={1} invalid id", id, valueAddr));
+					Console.WriteLine(string.Format("sceUtilityGetSystemParamInt id={0:D}, valueAddr={1} invalid id", id, valueAddr));
 					return SceKernelErrors.ERROR_UTILITY_INVALID_SYSTEM_PARAM_ID;
 			}
 
@@ -5895,7 +5895,7 @@ namespace pspsharp.HLE.modules
 					strAddr.setStringNZ(len, SystemParamNickname);
 					break;
 				default:
-					log.warn(string.Format("sceUtilityGetSystemParamString id={0:D}, strAddr={1}, len={2:D} invalid id", id, strAddr, len));
+					Console.WriteLine(string.Format("sceUtilityGetSystemParamString id={0:D}, strAddr={1}, len={2:D} invalid id", id, strAddr, len));
 					return SceKernelErrors.ERROR_UTILITY_INVALID_SYSTEM_PARAM_ID;
 			}
 
@@ -5934,7 +5934,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (id < 0 || id > 24)
 			{
-				log.warn(string.Format("sceUtilityGetNetParam invalid id={0:D}", id));
+				Console.WriteLine(string.Format("sceUtilityGetNetParam invalid id={0:D}", id));
 				return SceKernelErrors.ERROR_NETPARAM_BAD_NETCONF;
 			}
 
@@ -6040,7 +6040,7 @@ namespace pspsharp.HLE.modules
 					data.setValue32(0);
 					break;
 				default:
-					log.warn(string.Format("sceUtilityGetNetParam invalid param {0:D}", param));
+					Console.WriteLine(string.Format("sceUtilityGetNetParam invalid param {0:D}", param));
 					return SceKernelErrors.ERROR_NETPARAM_BAD_PARAM;
 			}
 
@@ -6178,7 +6178,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if ((module == UtilityModule.PSP_MODULE_NET_HTTPSTORAGE.id) && (!loadedModules.ContainsKey(UtilityModule.PSP_MODULE_NET_HTTP.id)))
 			{
-				log.error("Library not find");
+				Console.WriteLine("Library not find");
 				return SceKernelErrors.ERROR_KERNEL_LIBRARY_NOT_FOUND;
 			}
 
@@ -6308,9 +6308,9 @@ namespace pspsharp.HLE.modules
 
 			authNameAddr.setStringNZ(64, authName);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUtility_28D35634_getAuthName returning '{0}'", authName));
+				Console.WriteLine(string.Format("sceUtility_28D35634_getAuthName returning '{0}'", authName));
 			}
 
 			return 0;
@@ -6335,9 +6335,9 @@ namespace pspsharp.HLE.modules
 
 			authKeyAddr.setStringNZ(64, authKey);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUtility_EF3582B2_getAuthKey returning '{0}'", authKey));
+				Console.WriteLine(string.Format("sceUtility_EF3582B2_getAuthKey returning '{0}'", authKey));
 			}
 
 			return 0;
@@ -6443,23 +6443,23 @@ namespace pspsharp.HLE.modules
 			{
 				case 0:
 					string configurationName = value.StringZ;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUtility_netparam_internal_239F260D configurationName='{0}'", configurationName));
+						Console.WriteLine(string.Format("sceUtility_netparam_internal_239F260D configurationName='{0}'", configurationName));
 					}
 					break;
 				case 1:
 					string ssid = value.StringZ;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUtility_netparam_internal_239F260D SSID='{0}'", ssid));
+						Console.WriteLine(string.Format("sceUtility_netparam_internal_239F260D SSID='{0}'", ssid));
 					}
 					break;
 				case 2:
 					int security = value.getValue32(); // One of PSP_NET_APCTL_INFO_SECURITY_TYPE_*
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUtility_netparam_internal_239F260D security={0:D}", security));
+						Console.WriteLine(string.Format("sceUtility_netparam_internal_239F260D security={0:D}", security));
 					}
 					break;
 				case 3:
@@ -6477,16 +6477,16 @@ namespace pspsharp.HLE.modules
 				case 30:
 				case 31:
 					// ?
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUtility_netparam_internal_239F260D unknown value: {0}", Utilities.getMemoryDump(value.Address, 16)));
+						Console.WriteLine(string.Format("sceUtility_netparam_internal_239F260D unknown value: {0}", Utilities.getMemoryDump(value.Address, 16)));
 					}
 					break;
 				case 22:
 					string wepKey = value.StringZ;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceUtility_netparam_internal_239F260D wepKey='{0}'", wepKey));
+						Console.WriteLine(string.Format("sceUtility_netparam_internal_239F260D wepKey='{0}'", wepKey));
 					}
 					break;
 			}

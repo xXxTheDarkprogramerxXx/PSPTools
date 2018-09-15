@@ -21,7 +21,7 @@ namespace pspsharp.sound
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.sound.SoundChannel.MAX_VOLUME;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using Audio = pspsharp.hardware.Audio;
@@ -61,9 +61,9 @@ namespace pspsharp.sound
 			return (short) sample;
 		}
 
-		private void mixStereo(int[] stereoSamples, ISampleSource sampleSource, int startIndex, int length, int leftVol, int rightVol)
+		private void mixStereo(int[] stereoSamples, ISampleSource sampleSource, int startIndex, int Length, int leftVol, int rightVol)
 		{
-			int endIndex = startIndex + length;
+			int endIndex = startIndex + Length;
 			if (startIndex == 0)
 			{
 				sampleSource.resetToStart();
@@ -76,9 +76,9 @@ namespace pspsharp.sound
 			}
 		}
 
-		private void mixMono(int[] monoSamples, ISampleSource sampleSource, int startIndex, int length, int monoVol)
+		private void mixMono(int[] monoSamples, ISampleSource sampleSource, int startIndex, int Length, int monoVol)
 		{
-			int endIndex = startIndex + length;
+			int endIndex = startIndex + Length;
 			if (startIndex == 0)
 			{
 				sampleSource.resetToStart();
@@ -201,7 +201,7 @@ namespace pspsharp.sound
 		public virtual void synthesize(int addr, int samples)
 		{
 			int[] mixedSamples = new int[samples * 2];
-			Arrays.fill(mixedSamples, 0);
+			Arrays.Fill(mixedSamples, 0);
 
 			mix(mixedSamples, addr, samples, MAX_VOLUME, MAX_VOLUME, true);
 		}
@@ -223,7 +223,7 @@ namespace pspsharp.sound
 			if (leftVol == 0 && rightVol == 0)
 			{
 				// Do not mix with the input buffer
-				Arrays.fill(mixedSamples, 0);
+				Arrays.Fill(mixedSamples, 0);
 			}
 			else if (leftVol == MAX_VOLUME && rightVol == MAX_VOLUME)
 			{

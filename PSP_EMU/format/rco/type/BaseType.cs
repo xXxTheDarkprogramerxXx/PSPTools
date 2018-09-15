@@ -18,7 +18,7 @@ namespace pspsharp.format.rco.type
 {
 	using VSMX = pspsharp.format.rco.vsmx.VSMX;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class BaseType
 	{

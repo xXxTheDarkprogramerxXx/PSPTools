@@ -64,11 +64,11 @@ namespace pspsharp.HLE.modules
 	using Atrac3plusDecoder = pspsharp.media.codec.atrac3plus.Atrac3plusDecoder;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceAtrac3plus : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceAtrac3plus");
+		//public static Logger log = Modules.getLogger("sceAtrac3plus");
 
 		public override void start()
 		{
@@ -254,9 +254,9 @@ namespace pspsharp.HLE.modules
 
 				if (currentReadPosition + info.atracBytesPerFrame > info.inputFileSize || AtracCurrentSample - info.atracSampleOffset > info.atracEndSample)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("decodeData returning ERROR_ATRAC_ALL_DATA_DECODED"));
+						Console.WriteLine(string.Format("decodeData returning ERROR_ATRAC_ALL_DATA_DECODED"));
 					}
 					outEndAddr.setValue(true);
 					return ERROR_ATRAC_ALL_DATA_DECODED;
@@ -270,9 +270,9 @@ namespace pspsharp.HLE.modules
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("decodeData returning ERROR_ATRAC_BUFFER_IS_EMPTY"));
+							Console.WriteLine(string.Format("decodeData returning ERROR_ATRAC_BUFFER_IS_EMPTY"));
 						}
 						outEndAddr.setValue(false);
 						return ERROR_ATRAC_BUFFER_IS_EMPTY;
@@ -332,7 +332,7 @@ namespace pspsharp.HLE.modules
 					tempBuffer = Modules.SysMemUserForUserModule.malloc(SysMemUserForUser.KERNEL_PARTITION_ID, "sceAtrac3plus-temp-decode-buffer", SysMemUserForUser.PSP_SMEM_Low, tempBufferSize, 0);
 					if (tempBuffer == null)
 					{
-						log.warn(string.Format("decodeData cannot allocate required temporary buffer of size=0x{0:X}", tempBufferSize));
+						Console.WriteLine(string.Format("decodeData cannot allocate required temporary buffer of size=0x{0:X}", tempBufferSize));
 					}
 					else
 					{
@@ -340,17 +340,17 @@ namespace pspsharp.HLE.modules
 					}
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("decodeData from 0x{0:X8}(0x{1:X}) to 0x{2:X8}(0x{3:X}), skippedSamples=0x{4:X}, currentSample=0x{5:X}, outputChannels={6:D}", readAddr, info.atracBytesPerFrame, decodedSamplesAddr, maxSamples, skippedSamples, currentSample, outputChannels));
+					Console.WriteLine(string.Format("decodeData from 0x{0:X8}(0x{1:X}) to 0x{2:X8}(0x{3:X}), skippedSamples=0x{4:X}, currentSample=0x{5:X}, outputChannels={6:D}", readAddr, info.atracBytesPerFrame, decodedSamplesAddr, maxSamples, skippedSamples, currentSample, outputChannels));
 				}
 
 				int result = codec.decode(readAddr, info.atracBytesPerFrame, decodedSamplesAddr);
 				if (result < 0)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("decodeData received codec decode error 0x{0:X8}", result));
+						Console.WriteLine(string.Format("decodeData received codec decode error 0x{0:X8}", result));
 					}
 					outEndAddr.setValue(false);
 					if (tempBuffer != null)
@@ -444,22 +444,22 @@ namespace pspsharp.HLE.modules
 				readOffsetAddr.setValue(inputBuffer.FilePosition);
 			}
 
-			protected internal virtual void addStreamData(int length)
+			protected internal virtual void addStreamData(int Length)
 			{
-				if (length > 0)
+				if (Length > 0)
 				{
 					if (AtracCurrentSample < getStreamDataInfoCurrentSample)
 					{
 						// The atrac has looped since sceAtracGetStreamDataInfo() has been called.
 						// Ignore sceAtracAddStreamData as we now need atrac data from the loop start.
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("addStreamData ignored as the atrac has looped inbetween: sample 0x{0:X} -> 0x{1:X}", getStreamDataInfoCurrentSample, AtracCurrentSample));
+							Console.WriteLine(string.Format("addStreamData ignored as the atrac has looped inbetween: sample 0x{0:X} -> 0x{1:X}", getStreamDataInfoCurrentSample, AtracCurrentSample));
 						}
 					}
 					else
 					{
-						inputBuffer.notifyWrite(length);
+						inputBuffer.notifyWrite(Length);
 					}
 				}
 			}
@@ -468,15 +468,15 @@ namespace pspsharp.HLE.modules
 			{
 				while (inputBuffer.WriteSize > 0 && secondBufferSize > 0)
 				{
-					int length = System.Math.Min(inputBuffer.WriteSize, secondBufferSize);
-					if (log.DebugEnabled)
+					int Length = System.Math.Min(inputBuffer.WriteSize, secondBufferSize);
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("addSecondBufferStreamData from 0x{0:X8} to 0x{1:X8}, length=0x{2:X}", secondBufferAddr, inputBuffer.WriteAddr, length));
+						Console.WriteLine(string.Format("addSecondBufferStreamData from 0x{0:X8} to 0x{1:X8}, Length=0x{2:X}", secondBufferAddr, inputBuffer.WriteAddr, Length));
 					}
-					Memory.Instance.memcpy(inputBuffer.WriteAddr, secondBufferAddr, length);
-					addStreamData(length);
-					secondBufferAddr += length;
-					secondBufferSize -= length;
+					Memory.Instance.memcpy(inputBuffer.WriteAddr, secondBufferAddr, Length);
+					addStreamData(Length);
+					secondBufferAddr += Length;
+					secondBufferSize -= Length;
 				}
 
 				if (secondBufferSize <= 0)
@@ -818,9 +818,9 @@ namespace pspsharp.HLE.modules
 				bufferInfoAddr.setValue(24, SecondBufferSize); // Number of bytes that must to be written to the buffer.
 				bufferInfoAddr.setValue(28, SecondBufferReadPosition); // Read offset for input file.
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceAtracGetBufferInfoForReseting returning writeAddr=0x{0:X8}, writeMaxSize=0x{1:X}, writeMinSize=0x{2:X}, readPosition=0x{3:X}", bufferInfoAddr.getValue(0), bufferInfoAddr.getValue(4), bufferInfoAddr.getValue(8), bufferInfoAddr.getValue(12)));
+					Console.WriteLine(string.Format("sceAtracGetBufferInfoForReseting returning writeAddr=0x{0:X8}, writeMaxSize=0x{1:X}, writeMinSize=0x{2:X}, readPosition=0x{3:X}", bufferInfoAddr.getValue(0), bufferInfoAddr.getValue(4), bufferInfoAddr.getValue(8), bufferInfoAddr.getValue(12)));
 				}
 				return 0;
 			}
@@ -1091,39 +1091,39 @@ namespace pspsharp.HLE.modules
 			return atracIDs[atID];
 		}
 
-		public static int analyzeRiffFile(Memory mem, int addr, int length, AtracFileInfo info)
+		public static int analyzeRiffFile(Memory mem, int addr, int Length, AtracFileInfo info)
 		{
 			int result = ERROR_ATRAC_UNKNOWN_FORMAT;
 
 			int currentAddr = addr;
-			int bufferSize = length;
+			int bufferSize = Length;
 			info.atracEndSample = -1;
 			info.numLoops = 0;
 			info.inputFileDataOffset = 0;
 
 			if (bufferSize < 12)
 			{
-				log.error(string.Format("Atrac buffer too small {0:D}", bufferSize));
+				Console.WriteLine(string.Format("Atrac buffer too small {0:D}", bufferSize));
 				return ERROR_ATRAC_INVALID_SIZE;
 			}
 
 			// RIFF file format:
 			// Offset 0: 'RIFF'
-			// Offset 4: file length - 8
+			// Offset 4: file Length - 8
 			// Offset 8: 'WAVE'
 			int magic = readUnaligned32(mem, currentAddr);
 			int WAVEMagic = readUnaligned32(mem, currentAddr + 8);
 			if (magic != RIFF_MAGIC || WAVEMagic != WAVE_MAGIC)
 			{
-				log.error(string.Format("Not a RIFF/WAVE format! {0}", Utilities.getMemoryDump(currentAddr, 16)));
+				Console.WriteLine(string.Format("Not a RIFF/WAVE format! {0}", Utilities.getMemoryDump(currentAddr, 16)));
 				return ERROR_ATRAC_UNKNOWN_FORMAT;
 			}
 
 			info.inputFileSize = readUnaligned32(mem, currentAddr + 4) + 8;
 			info.inputDataSize = info.inputFileSize;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("FileSize 0x{0:X}", info.inputFileSize));
+				Console.WriteLine(string.Format("FileSize 0x{0:X}", info.inputFileSize));
 			}
 			currentAddr += 12;
 			bufferSize -= 12;
@@ -1143,9 +1143,9 @@ namespace pspsharp.HLE.modules
 						// Offset of the data chunk in the input file
 						info.inputFileDataOffset = currentAddr - addr;
 						info.inputDataSize = chunkSize;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("DATA Chunk: data offset=0x{0:X}, data size=0x{1:X}", info.inputFileDataOffset, info.inputDataSize));
+							Console.WriteLine(string.Format("DATA Chunk: data offset=0x{0:X}, data size=0x{1:X}", info.inputFileDataOffset, info.inputDataSize));
 						}
 						break;
 					case FMT_CHUNK_MAGIC:
@@ -1163,9 +1163,9 @@ namespace pspsharp.HLE.modules
 							{
 								info.atracCodingMode = mem.read16(currentAddr + 18 + 6);
 							}
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("WAVE format: magic=0x{0:X8}('{1}'), chunkSize={2:D}, compressionCode=0x{3:X4}, channels={4:D}, sampleRate={5:D}, bitrate={6:D}, bytesPerFrame=0x{7:X}, hiBytesPerSample={8:D}, codingMode={9:D}", chunkMagic, getStringFromInt32(chunkMagic), chunkSize, compressionCode, info.atracChannels, info.atracSampleRate, info.atracBitrate, info.atracBytesPerFrame, hiBytesPerSample, info.atracCodingMode));
+								Console.WriteLine(string.Format("WAVE format: magic=0x{0:X8}('{1}'), chunkSize={2:D}, compressionCode=0x{3:X4}, channels={4:D}, sampleRate={5:D}, bitrate={6:D}, bytesPerFrame=0x{7:X}, hiBytesPerSample={8:D}, codingMode={9:D}", chunkMagic, getStringFromInt32(chunkMagic), chunkSize, compressionCode, info.atracChannels, info.atracSampleRate, info.atracBitrate, info.atracBytesPerFrame, hiBytesPerSample, info.atracCodingMode));
 								// Display rest of chunk as debug information
 								StringBuilder restChunk = new StringBuilder();
 								for (int i = 16; i < chunkSize; i++)
@@ -1175,7 +1175,7 @@ namespace pspsharp.HLE.modules
 								}
 								if (restChunk.Length > 0)
 								{
-									log.debug(string.Format("Additional chunk data:{0}", restChunk));
+									Console.WriteLine(string.Format("Additional chunk data:{0}", restChunk));
 								}
 							}
 
@@ -1212,9 +1212,9 @@ namespace pspsharp.HLE.modules
 							{
 								info.atracSampleOffset = readUnaligned32(mem, currentAddr + 4); // The loop samples are offset by this value
 							}
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("FACT Chunk: chunkSize={0:D}, endSample=0x{1:X}, sampleOffset=0x{2:X}", chunkSize, info.atracEndSample, info.atracSampleOffset));
+								Console.WriteLine(string.Format("FACT Chunk: chunkSize={0:D}, endSample=0x{1:X}, sampleOffset=0x{2:X}", chunkSize, info.atracEndSample, info.atracSampleOffset));
 							}
 						}
 						break;
@@ -1240,9 +1240,9 @@ namespace pspsharp.HLE.modules
 									loop.fraction = readUnaligned32(mem, loopInfoAddr + 16);
 									loop.playCount = readUnaligned32(mem, loopInfoAddr + 20);
 
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("Loop #{0:D}: {1}", i, loop.ToString()));
+										Console.WriteLine(string.Format("Loop #{0:D}: {1}", i, loop.ToString()));
 									}
 									loopInfoAddr += 24;
 								}
@@ -1319,9 +1319,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (readSize > bufferSize)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", ERROR_ATRAC_INCORRECT_READ_SIZE));
+					Console.WriteLine(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", ERROR_ATRAC_INCORRECT_READ_SIZE));
 				}
 				return ERROR_ATRAC_INCORRECT_READ_SIZE;
 			}
@@ -1334,9 +1334,9 @@ namespace pspsharp.HLE.modules
 			int codecType = analyzeRiffFile(buffer.Memory, buffer.Address, readSize, info);
 			if (codecType < 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", codecType));
+					Console.WriteLine(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", codecType));
 				}
 				return codecType;
 			}
@@ -1344,9 +1344,9 @@ namespace pspsharp.HLE.modules
 			int atID = hleGetAtracID(codecType);
 			if (atID < 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", atID));
+					Console.WriteLine(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", atID));
 				}
 				return atID;
 			}
@@ -1356,16 +1356,16 @@ namespace pspsharp.HLE.modules
 			if (result < 0)
 			{
 				hleReleaseAtracID(atID);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", result));
+					Console.WriteLine(string.Format("hleSetHalfwayBufferAndGetID returning 0x{0:X}", result));
 				}
 				return result;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleSetHalfwayBufferAndGetID returning atID=0x{0:X}", atID));
+				Console.WriteLine(string.Format("hleSetHalfwayBufferAndGetID returning atID=0x{0:X}", atID));
 			}
 
 			// Reschedule
@@ -1383,9 +1383,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (atID < 0 || atID >= atracIDs.Length || !atracIDs[atID].InUse)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("checkAtracID invalid atracID=0x{0:X}", atID));
+					Console.WriteLine(string.Format("checkAtracID invalid atracID=0x{0:X}", atID));
 				}
 				throw new SceKernelErrorException(ERROR_ATRAC_BAD_ID);
 			}
@@ -1414,13 +1414,13 @@ namespace pspsharp.HLE.modules
 			address += 3;
 			if (magic != 0x656133 && magic != 0x494433)
 			{ // 3ae | 3AE
-				log.error(string.Format("Unknown AA3 magic 0x{0:X6}", magic));
+				Console.WriteLine(string.Format("Unknown AA3 magic 0x{0:X6}", magic));
 				return codecType;
 			}
 
 			if (mem.read8(address) != 3 || mem.read8(address + 1) != 0)
 			{
-				log.error(string.Format("Unknown AA3 bytes 0x{0:X8} 0x{1:X8}", mem.read8(address), mem.read8(address + 1)));
+				Console.WriteLine(string.Format("Unknown AA3 bytes 0x{0:X8} 0x{1:X8}", mem.read8(address), mem.read8(address + 1)));
 				return ERROR_AA3_INVALID_HEADER_VERSION;
 			}
 			address += 3;
@@ -1436,7 +1436,7 @@ namespace pspsharp.HLE.modules
 			magic = read24(mem, address);
 			if (magic != 0x454133)
 			{ // 3AE
-				log.error(string.Format("Unknown AA3 magic 0x{0:X6}", magic));
+				Console.WriteLine(string.Format("Unknown AA3 magic 0x{0:X6}", magic));
 				return ERROR_AA3_INVALID_HEADER;
 			}
 			address += 4;
@@ -1530,9 +1530,9 @@ namespace pspsharp.HLE.modules
 				return result;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleSetHalfwayBufferAndGetID returning atID=0x{0:X}", atID));
+				Console.WriteLine(string.Format("hleSetHalfwayBufferAndGetID returning atID=0x{0:X}", atID));
 			}
 
 			// Reschedule
@@ -1579,9 +1579,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceAtracGetAtracID(int codecType)
 		{
 			int atId = hleGetAtracID(codecType);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetAtracID: returning atID=0x{0:X}", atId));
+				Console.WriteLine(string.Format("sceAtracGetAtracID: returning atID=0x{0:X}", atId));
 			}
 
 			return atId;
@@ -1633,7 +1633,7 @@ namespace pspsharp.HLE.modules
 			AtracID id = atracIDs[atID];
 			if (id.SecondBufferNeeded && !id.SecondBufferSet)
 			{
-				log.warn(string.Format("sceAtracDecodeData atracID=0x{0:X} needs second buffer!", atID));
+				Console.WriteLine(string.Format("sceAtracDecodeData atracID=0x{0:X} needs second buffer!", atID));
 				return SceKernelErrors.ERROR_ATRAC_SECOND_BUFFER_NEEDED;
 			}
 
@@ -1647,9 +1647,9 @@ namespace pspsharp.HLE.modules
 			samplesNbrAddr.setValue(id.NumberOfSamples);
 			remainFramesAddr.setValue(id.RemainFrames);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracDecodeData returning 0x{0:X8}, samples=0x{1:X}, end={2:D}, remainFrames={3:D}, currentSample=0x{4:X}/0x{5:X}, {6}", result, samplesNbrAddr.getValue(), outEndAddr.getValue(), remainFramesAddr.getValue(), id.AtracCurrentSample, id.AtracEndSample, id));
+				Console.WriteLine(string.Format("sceAtracDecodeData returning 0x{0:X8}, samples=0x{1:X}, end={2:D}, remainFrames={3:D}, currentSample=0x{4:X}/0x{5:X}, {6}", result, samplesNbrAddr.getValue(), outEndAddr.getValue(), remainFramesAddr.getValue(), id.AtracCurrentSample, id.AtracEndSample, id));
 			}
 
 			// Delay the thread decoding the Atrac data,
@@ -1670,9 +1670,9 @@ namespace pspsharp.HLE.modules
 			AtracID id = atracIDs[atID];
 			remainFramesAddr.setValue(id.RemainFrames);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetRemainFrame returning {0:D}, {1}", remainFramesAddr.getValue(), id));
+				Console.WriteLine(string.Format("sceAtracGetRemainFrame returning {0:D}, {1}", remainFramesAddr.getValue(), id));
 			}
 
 			return 0;
@@ -1686,9 +1686,9 @@ namespace pspsharp.HLE.modules
 			AtracID id = atracIDs[atID];
 			id.getStreamDataInfo(writeAddr, writableBytesAddr, readOffsetAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetStreamDataInfo write=0x{0:X8}, writableBytes=0x{1:X}, readOffset=0x{2:X}, {3}", writeAddr.getValue(), writableBytesAddr.getValue(), readOffsetAddr.getValue(), id));
+				Console.WriteLine(string.Format("sceAtracGetStreamDataInfo write=0x{0:X8}, writableBytes=0x{1:X}, readOffset=0x{2:X}, {3}", writeAddr.getValue(), writableBytesAddr.getValue(), readOffsetAddr.getValue(), id));
 			}
 
 			return 0;
@@ -1701,9 +1701,9 @@ namespace pspsharp.HLE.modules
 		{
 			AtracID id = atracIDs[atID];
 			id.addStreamData(bytesToAdd);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracAddStreamData: {0}", id));
+				Console.WriteLine(string.Format("sceAtracAddStreamData: {0}", id));
 			}
 
 			return 0;
@@ -1754,9 +1754,9 @@ namespace pspsharp.HLE.modules
 
 			posAddr.setValue(id.AtracCurrentSample);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetNextDecodePosition returning pos={0:D}", posAddr.getValue()));
+				Console.WriteLine(string.Format("sceAtracGetNextDecodePosition returning pos={0:D}", posAddr.getValue()));
 			}
 
 			return 0;
@@ -1783,9 +1783,9 @@ namespace pspsharp.HLE.modules
 			loopStartSampleAddr.setValue(loopStartSample);
 			loopEndSampleAddr.setValue(loopEndSample);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetSoundSample returning endSample=0x{0:X}, loopStartSample=0x{1:X}, loopEndSample=0x{2:X}", endSample, loopStartSample, loopEndSample));
+				Console.WriteLine(string.Format("sceAtracGetSoundSample returning endSample=0x{0:X}, loopStartSample=0x{1:X}, loopEndSample=0x{2:X}", endSample, loopStartSample, loopEndSample));
 			}
 
 			return 0;
@@ -1810,9 +1810,9 @@ namespace pspsharp.HLE.modules
 			AtracID id = atracIDs[atID];
 			maxSamplesAddr.setValue(id.MaxSamples);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetMaxSample returning maxSamples=0x{0:X}", id.MaxSamples));
+				Console.WriteLine(string.Format("sceAtracGetMaxSample returning maxSamples=0x{0:X}", id.MaxSamples));
 			}
 
 			return 0;
@@ -1829,9 +1829,9 @@ namespace pspsharp.HLE.modules
 			{
 				samples = 0; // No more data available in input buffer
 			}
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetNextSample returning {0:D} samples", samples));
+				Console.WriteLine(string.Format("sceAtracGetNextSample returning {0:D} samples", samples));
 			}
 			nbrSamplesAddr.setValue(samples);
 
@@ -1858,9 +1858,9 @@ namespace pspsharp.HLE.modules
 
 			bitrateAddr.setValue(bitrate);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracGetBitrate returning bitRate=0x{0:X}", bitrate));
+				Console.WriteLine(string.Format("sceAtracGetBitrate returning bitRate=0x{0:X}", bitrate));
 			}
 
 			return 0;
@@ -2008,9 +2008,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x5622B7C1, version : 250, checkInsideInterrupt : true)]
 		public virtual int sceAtracSetAA3DataAndGetID(TPointer buffer, int bufferSize, int fileSize, int unused)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracSetAA3DataAndGetID buffer:{0}", Utilities.getMemoryDump(buffer.Address, bufferSize)));
+				Console.WriteLine(string.Format("sceAtracSetAA3DataAndGetID buffer:{0}", Utilities.getMemoryDump(buffer.Address, bufferSize)));
 			}
 			return hleSetAA3HalfwayBufferAndGetID(buffer, bufferSize, bufferSize, false, fileSize);
 		}
@@ -2018,9 +2018,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x5DD66588, version : 250)]
 		public virtual int sceAtracSetAA3HalfwayBufferAndGetID(TPointer buffer, int readSize, int bufferSize, int fileSize, int unused)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracSetAA3HalfwayBufferAndGetID buffer:{0}", Utilities.getMemoryDump(buffer.Address, readSize)));
+				Console.WriteLine(string.Format("sceAtracSetAA3HalfwayBufferAndGetID buffer:{0}", Utilities.getMemoryDump(buffer.Address, readSize)));
 			}
 			return hleSetAA3HalfwayBufferAndGetID(buffer, readSize, bufferSize, false, fileSize);
 		}
@@ -2041,9 +2041,9 @@ namespace pspsharp.HLE.modules
 				return 0;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("_sceAtracGetContextAddress returning 0x{0:X8}", atracContext.addr));
+				Console.WriteLine(string.Format("_sceAtracGetContextAddress returning 0x{0:X8}", atracContext.addr));
 			}
 
 			return atracContext.addr;
@@ -2065,9 +2065,9 @@ namespace pspsharp.HLE.modules
 			int sourceBytesConsumed = 0;
 			int bytesPerSample = id.OutputChannels << 1;
 			int result = codec.decode(sourceAddr.Address, id.SourceBufferLength, samplesAddr.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracLowLevelDecode codec returned 0x{0:X8}", result));
+				Console.WriteLine(string.Format("sceAtracLowLevelDecode codec returned 0x{0:X8}", result));
 			}
 			if (result < 0)
 			{
@@ -2094,9 +2094,9 @@ namespace pspsharp.HLE.modules
 			int outputChannels = paramsAddr.getValue(4);
 			int sourceBufferLength = paramsAddr.getValue(8);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAtracLowLevelInitDecoder values at {0}: numberOfChannels={1:D}, outputChannels={2:D}, sourceBufferLength=0x{3:X8}", paramsAddr, numberOfChannels, outputChannels, sourceBufferLength));
+				Console.WriteLine(string.Format("sceAtracLowLevelInitDecoder values at {0}: numberOfChannels={1:D}, outputChannels={2:D}, sourceBufferLength=0x{3:X8}", paramsAddr, numberOfChannels, outputChannels, sourceBufferLength));
 			}
 
 			AtracID id = atracIDs[atID];

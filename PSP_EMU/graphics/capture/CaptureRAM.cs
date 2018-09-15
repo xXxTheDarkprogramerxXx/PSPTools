@@ -27,26 +27,26 @@ namespace pspsharp.graphics.capture
 
 		private int packetSize;
 		private int address;
-		private int length;
+		private int Length;
 		private Buffer buffer;
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public CaptureRAM(int address, int length) throws java.io.IOException
-		public CaptureRAM(int address, int length)
+//ORIGINAL LINE: public CaptureRAM(int address, int Length) throws java.io.IOException
+		public CaptureRAM(int address, int Length)
 		{
-			packetSize = 8 + length;
+			packetSize = 8 + Length;
 			this.address = address;
-			this.length = length;
+			this.Length = Length;
 
 			Memory mem = Memory.Instance;
 			if (Memory.isAddressGood(address))
 			{
-				buffer = mem.getBuffer(address, length);
+				buffer = mem.getBuffer(address, Length);
 			}
 
 			if (buffer == null)
 			{
-				throw new IOException(string.Format("CaptureRAM: Unable to read buffer {0:x8} - {1:x8}", address, address + length));
+				throw new IOException(string.Format("CaptureRAM: Unable to read buffer {0:x8} - {1:x8}", address, address + Length));
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace pspsharp.graphics.capture
 
 			data.writeInt(packetSize);
 			data.writeInt(address);
-			data.writeInt(length);
+			data.writeInt(Length);
 
 			if (buffer is ByteBuffer)
 			{
@@ -67,15 +67,15 @@ namespace pspsharp.graphics.capture
 			}
 			else
 			{
-				IMemoryReader reader = MemoryReader.getMemoryReader(address, length, 1);
-				for (int i = 0; i < length; i++)
+				IMemoryReader reader = MemoryReader.getMemoryReader(address, Length, 1);
+				for (int i = 0; i < Length; i++)
 				{
 					data.writeByte(reader.readNext());
 				}
 			}
 
-			VideoEngine.log_Renamed.info(string.Format("Saved memory {0:x8} - {1:x8} (len {2:x8})", address, address + length, length));
-			//VideoEngine.log.info("CaptureRAM write " + ((3 * 4) + length));
+			VideoEngine.log_Renamed.info(string.Format("Saved memory {0:x8} - {1:x8} (len {2:x8})", address, address + Length, Length));
+			//VideoEngine.log.info("CaptureRAM write " + ((3 * 4) + Length));
 
 			//data.flush();
 			//out.flush();
@@ -98,7 +98,7 @@ namespace pspsharp.graphics.capture
 			{
 				ramFragment.address = data.readInt();
 				sizeRemaining -= 4;
-				ramFragment.length = data.readInt();
+				ramFragment.Length = data.readInt();
 				sizeRemaining -= 4;
 
 				if (sizeRemaining > data.available())
@@ -106,21 +106,21 @@ namespace pspsharp.graphics.capture
 					VideoEngine.log_Renamed.warn("CaptureRAM read want=" + sizeRemaining + " available=" + data.available());
 				}
 
-				if (sizeRemaining >= ramFragment.length)
+				if (sizeRemaining >= ramFragment.Length)
 				{
-					ByteBuffer bb = ByteBuffer.allocate(ramFragment.length);
+					ByteBuffer bb = ByteBuffer.allocate(ramFragment.Length);
 					sbyte[] b = bb.array();
 					if (b == null)
 					{
 						throw new IOException("Buffer is not backed by an array");
 					}
-					data.readFully(b, 0, ramFragment.length);
+					data.readFully(b, 0, ramFragment.Length);
 					ramFragment.buffer = bb;
-					sizeRemaining -= ramFragment.length;
+					sizeRemaining -= ramFragment.Length;
 
 					data.skipBytes(sizeRemaining);
 
-					VideoEngine.log_Renamed.info(string.Format("Loaded memory {0:x8} - {1:x8} (len {2:x8})", ramFragment.address, ramFragment.address + ramFragment.length, ramFragment.length));
+					VideoEngine.log_Renamed.info(string.Format("Loaded memory {0:x8} - {1:x8} (len {2:x8})", ramFragment.address, ramFragment.address + ramFragment.Length, ramFragment.Length));
 				}
 				else
 				{
@@ -137,7 +137,7 @@ namespace pspsharp.graphics.capture
 
 		public virtual void commit()
 		{
-			Memory.Instance.copyToMemory(address, (ByteBuffer)buffer, length);
+			Memory.Instance.copyToMemory(address, (ByteBuffer)buffer, Length);
 		}
 
 		public virtual int Address
@@ -152,7 +152,7 @@ namespace pspsharp.graphics.capture
 		{
 			get
 			{
-				return length;
+				return Length;
 			}
 		}
 

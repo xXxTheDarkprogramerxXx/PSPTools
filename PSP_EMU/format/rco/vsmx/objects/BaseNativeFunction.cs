@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.format.rco.vsmx.objects
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using VSMXBaseObject = pspsharp.format.rco.vsmx.interpreter.VSMXBaseObject;
 	using VSMXNull = pspsharp.format.rco.vsmx.interpreter.VSMXNull;
@@ -43,9 +43,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject call(VSMXBaseObject[] arguments)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Calling {0}", ToString(arguments)));
+				Console.WriteLine(string.Format("Calling {0}", ToString(arguments)));
 			}
 			return VSMXNull.singleton;
 		}

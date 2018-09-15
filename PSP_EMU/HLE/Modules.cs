@@ -19,7 +19,7 @@ namespace pspsharp.HLE
 {
 	using pspsharp.HLE.modules;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using LWJGLException = org.lwjgl.LWJGLException;
 
 	public class Modules
@@ -175,7 +175,7 @@ namespace pspsharp.HLE
 		public static scePopsMan scePopsManModule = new scePopsMan();
 		public static scePaf scePafModule = new scePaf();
 
-		public static Logger log = Logger.getLogger("hle");
+		//public static Logger log = Logger.getLogger("hle");
 
 		public static Logger getLogger(string module)
 		{
@@ -190,7 +190,7 @@ namespace pspsharp.HLE
 			}
 			catch (LWJGLException e)
 			{
-				log.error("Error while creating sceDisplay", e);
+				Console.WriteLine("Error while creating sceDisplay", e);
 			}
 		}
 	}

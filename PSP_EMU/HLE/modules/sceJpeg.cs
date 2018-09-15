@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using VideoEngine = pspsharp.graphics.VideoEngine;
 	using PixelColor = pspsharp.graphics.RE.software.PixelColor;
@@ -41,7 +41,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceJpeg : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceJpeg");
+		//public static Logger log = Modules.getLogger("sceJpeg");
 
 		protected internal const int PSP_JPEG_MJPEG_DHT_MODE = 0;
 		protected internal const int PSP_JPEG_MJPEG_NO_DHT_MODE = 1;
@@ -130,7 +130,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("Error reading Jpeg image", e);
+				Console.WriteLine("Error reading Jpeg image", e);
 			}
 
 			return bufferedImage;
@@ -174,7 +174,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("Error dumping Jpeg file", e);
+				Console.WriteLine("Error dumping Jpeg file", e);
 			}
 		}
 
@@ -257,9 +257,9 @@ namespace pspsharp.HLE.modules
 			int addressY = yCbCrBuffer.Address;
 			int addressCb = addressY + sizeY;
 			int addressCr = addressCb + sizeCb;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleJpegDecodeYCbCr 0x{0:X8}, 0x{1:X8}, 0x{2:X8}", addressY, addressCb, addressCr));
+				Console.WriteLine(string.Format("hleJpegDecodeYCbCr 0x{0:X8}, 0x{1:X8}, 0x{2:X8}", addressY, addressCb, addressCr));
 			}
 
 			// Store all the Cb and Cr values into an array as they will not be accessed sequentially.
@@ -361,9 +361,9 @@ namespace pspsharp.HLE.modules
 			int addressY = yCbCrBuffer.Address;
 			int addressCb = addressY + sizeY;
 			int addressCr = addressCb + sizeCb;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleJpegCsc 0x{0:X8}, 0x{1:X8}, 0x{2:X8}", addressY, addressCb, addressCr));
+				Console.WriteLine(string.Format("hleJpegCsc 0x{0:X8}, 0x{1:X8}, 0x{2:X8}", addressY, addressCb, addressCr));
 			}
 
 			// Read all the Cb and Cr values into an array as they will not be accessed sequentially.

@@ -47,11 +47,11 @@ namespace pspsharp.graphics.RE
 			{
 				if (flag < context.flags.Count)
 				{
-					log.debug(string.Format("enableFlag {0}", context.flags[flag].ToString()));
+					Console.WriteLine(string.Format("enableFlag {0}", context.flags[flag].ToString()));
 				}
 				else
 				{
-					log.debug(string.Format("enableFlag {0:D}", flag));
+					Console.WriteLine(string.Format("enableFlag {0:D}", flag));
 				}
 			}
 			base.enableFlag(flag);
@@ -63,11 +63,11 @@ namespace pspsharp.graphics.RE
 			{
 				if (flag < context.flags.Count)
 				{
-					log.debug(string.Format("disableFlag {0}", context.flags[flag].ToString()));
+					Console.WriteLine(string.Format("disableFlag {0}", context.flags[flag].ToString()));
 				}
 				else
 				{
-					log.debug(string.Format("disableFlag {0:D}", flag));
+					Console.WriteLine(string.Format("disableFlag {0:D}", flag));
 				}
 			}
 			base.disableFlag(flag);
@@ -77,7 +77,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setAlphaFunc func={0:D}, ref=0x{1:X2}, mask=0x{2:X2}", func, @ref, mask));
+				Console.WriteLine(string.Format("setAlphaFunc func={0:D}, ref=0x{1:X2}, mask=0x{2:X2}", func, @ref, mask));
 			}
 			base.setAlphaFunc(func, @ref, mask);
 		}
@@ -86,7 +86,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTextureFunc func={0:D}{1}{2}", func, alphaUsed ? " ALPHA" : "", colorDoubled ? " COLORx2" : ""));
+				Console.WriteLine(string.Format("setTextureFunc func={0:D}{1}{2}", func, alphaUsed ? " ALPHA" : "", colorDoubled ? " COLORx2" : ""));
 			}
 			base.setTextureFunc(func, alphaUsed, colorDoubled);
 		}
@@ -95,7 +95,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setBlendFunc src={0:D}, dst={1:D}", src, dst));
+				Console.WriteLine(string.Format("setBlendFunc src={0:D}, dst={1:D}", src, dst));
 			}
 			base.setBlendFunc(src, dst);
 		}
@@ -106,7 +106,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setBlendColor color=0x{0:X8}", PixelColor.getColor(value)));
+					Console.WriteLine(string.Format("setBlendColor color=0x{0:X8}", PixelColor.getColor(value)));
 				}
 				base.BlendColor = value;
 			}
@@ -118,7 +118,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setBlendEquation mode={0:D}", value));
+					Console.WriteLine(string.Format("setBlendEquation mode={0:D}", value));
 				}
 				base.BlendEquation = value;
 			}
@@ -132,7 +132,7 @@ namespace pspsharp.graphics.RE
 			}
 			for (int y = 0; y < 4; y++)
 			{
-				log.debug(string.Format("{0} {1:F3} {2:F3} {3:F3} {4:F3}", name, matrix[offset + 0 + y * 4], matrix[offset + 1 + y * 4], matrix[offset + 2 + y * 4], matrix[offset + 3 + y * 4]));
+				Console.WriteLine(string.Format("{0} {1:F3} {2:F3} {3:F3} {4:F3}", name, matrix[offset + 0 + y * 4], matrix[offset + 1 + y * 4], matrix[offset + 2 + y * 4], matrix[offset + 3 + y * 4]));
 			}
 		}
 
@@ -207,7 +207,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setTextureMipmapMinLevel {0:D}", value));
+					Console.WriteLine(string.Format("setTextureMipmapMinLevel {0:D}", value));
 				}
 				base.TextureMipmapMinLevel = value;
 			}
@@ -219,7 +219,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setTextureMipmapMaxLevel {0:D}", value));
+					Console.WriteLine(string.Format("setTextureMipmapMaxLevel {0:D}", value));
 				}
 				base.TextureMipmapMaxLevel = value;
 			}
@@ -231,7 +231,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setTextureMipmapMinFilter {0:D}", value));
+					Console.WriteLine(string.Format("setTextureMipmapMinFilter {0:D}", value));
 				}
 				base.TextureMipmapMinFilter = value;
 			}
@@ -243,7 +243,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setTextureMipmapMagFilter {0:D}", value));
+					Console.WriteLine(string.Format("setTextureMipmapMagFilter {0:D}", value));
 				}
 				base.TextureMipmapMagFilter = value;
 			}
@@ -253,7 +253,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setPixelStore rowLength={0:D}, alignment={1:D}", rowLength, alignment));
+				Console.WriteLine(string.Format("setPixelStore rowLength={0:D}, alignment={1:D}", rowLength, alignment));
 			}
 			base.setPixelStore(rowLength, alignment);
 		}
@@ -262,7 +262,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setCompressedTexImage level={0:D}, internalFormat={1:D}, {2:D}x{3:D}, compressedSize=0x{4:X}", level, internalFormat, width, height, compressedSize));
+				Console.WriteLine(string.Format("setCompressedTexImage level={0:D}, internalFormat={1:D}, {2:D}x{3:D}, compressedSize=0x{4:X}", level, internalFormat, width, height, compressedSize));
 			}
 			base.setCompressedTexImage(level, internalFormat, width, height, compressedSize, buffer);
 		}
@@ -271,7 +271,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTexImage level={0:D}, internalFormat={1:D}, {2:D}x{3:D}, format={4:D}, type={5:D}, textureSize={6:D}", level, internalFormat, width, height, format, type, textureSize));
+				Console.WriteLine(string.Format("setTexImage level={0:D}, internalFormat={1:D}, {2:D}x{3:D}, format={4:D}, type={5:D}, textureSize={6:D}", level, internalFormat, width, height, format, type, textureSize));
 			}
 			base.setTexImage(level, internalFormat, width, height, format, type, textureSize, buffer);
 		}
@@ -282,8 +282,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("startClearMode color=%b, stencil=%b, depth=%b", color, stencil, depth));
-				log.debug(string.Format("startClearMode color=%b, stencil=%b, depth=%b", color, stencil, depth));
+//ORIGINAL LINE: Console.WriteLine(String.format("startClearMode color=%b, stencil=%b, depth=%b", color, stencil, depth));
+				Console.WriteLine(string.Format("startClearMode color=%b, stencil=%b, depth=%b", color, stencil, depth));
 			}
 			base.startClearMode(color, stencil, depth);
 		}
@@ -292,7 +292,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug("endClearMode");
+				Console.WriteLine("endClearMode");
 			}
 			base.endClearMode();
 		}
@@ -302,8 +302,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("startDirectRendering texture=%b, depth=%b, color=%b, ortho=%b, inverted=%b, %dx%d", textureEnabled, depthWriteEnabled, colorWriteEnabled, setOrthoMatrix, orthoInverted, width, height));
-				log.debug(string.Format("startDirectRendering texture=%b, depth=%b, color=%b, ortho=%b, inverted=%b, %dx%d", textureEnabled, depthWriteEnabled, colorWriteEnabled, setOrthoMatrix, orthoInverted, width, height));
+//ORIGINAL LINE: Console.WriteLine(String.format("startDirectRendering texture=%b, depth=%b, color=%b, ortho=%b, inverted=%b, %dx%d", textureEnabled, depthWriteEnabled, colorWriteEnabled, setOrthoMatrix, orthoInverted, width, height));
+				Console.WriteLine(string.Format("startDirectRendering texture=%b, depth=%b, color=%b, ortho=%b, inverted=%b, %dx%d", textureEnabled, depthWriteEnabled, colorWriteEnabled, setOrthoMatrix, orthoInverted, width, height));
 			}
 			base.startDirectRendering(textureEnabled, depthWriteEnabled, colorWriteEnabled, setOrthoMatrix, orthoInverted, width, height);
 		}
@@ -312,7 +312,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug("endDirectRendering");
+				Console.WriteLine("endDirectRendering");
 			}
 			base.endDirectRendering();
 		}
@@ -321,7 +321,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("bindTexture {0:D}", texture));
+				Console.WriteLine(string.Format("bindTexture {0:D}", texture));
 			}
 			base.bindTexture(texture);
 		}
@@ -331,7 +331,7 @@ namespace pspsharp.graphics.RE
 			isLogDebugEnabled = log.DebugEnabled;
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("drawArrays type={0:D}, first={1:D}, count={2:D}", type, first, count));
+				Console.WriteLine(string.Format("drawArrays type={0:D}, first={1:D}, count={2:D}", type, first, count));
 			}
 			base.drawArrays(type, first, count);
 		}
@@ -340,7 +340,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("drawArraysBurstMode type={0:D}, first={1:D}, count={2:D}", type, first, count));
+				Console.WriteLine(string.Format("drawArraysBurstMode type={0:D}, first={1:D}, count={2:D}", type, first, count));
 			}
 			base.drawArraysBurstMode(type, first, count);
 		}
@@ -351,7 +351,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setDepthFunc {0:D}", value));
+					Console.WriteLine(string.Format("setDepthFunc {0:D}", value));
 				}
 				base.DepthFunc = value;
 			}
@@ -363,7 +363,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setDepthMask {0}", getEnabledDisabled(value)));
+					Console.WriteLine(string.Format("setDepthMask {0}", getEnabledDisabled(value)));
 				}
 				base.DepthMask = value;
 			}
@@ -373,7 +373,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setDepthRange zpos={0:F}, zscale={1:F}, near=0x{2:X4}, far=0x{3:X4}", zpos, zscale, near, far));
+				Console.WriteLine(string.Format("setDepthRange zpos={0:F}, zscale={1:F}, near=0x{2:X4}, far=0x{3:X4}", zpos, zscale, near, far));
 			}
 			base.setDepthRange(zpos, zscale, near, far);
 		}
@@ -382,7 +382,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setStencilFunc func={0:D}, ref=0x{1:X2}, mask=0x{2:X2}", func, @ref, mask));
+				Console.WriteLine(string.Format("setStencilFunc func={0:D}, ref=0x{1:X2}, mask=0x{2:X2}", func, @ref, mask));
 			}
 			base.setStencilFunc(func, @ref, mask);
 		}
@@ -391,7 +391,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setStencilOp fail={0:D}, zfail={1:D}, zpass={2:D}", fail, zfail, zpass));
+				Console.WriteLine(string.Format("setStencilOp fail={0:D}, zfail={1:D}, zpass={2:D}", fail, zfail, zpass));
 			}
 			base.setStencilOp(fail, zfail, zpass);
 		}
@@ -400,7 +400,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setBones count={0:D}", count));
+				Console.WriteLine(string.Format("setBones count={0:D}", count));
 				for (int i = 0; i < count; i++)
 				{
 					debugMatrix("setBones[" + i + "]", values, i * 16);
@@ -413,7 +413,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniformMatrix4 id={0:D}, count={1:D}", id, count));
+				Console.WriteLine(string.Format("setUniformMatrix4 id={0:D}, count={1:D}", id, count));
 				for (int i = 0; i < count; i++)
 				{
 					debugMatrix("setUniformMatrix4[" + i + "]", values, i * 16);
@@ -444,7 +444,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("enableVertexAttribArray {0:D}", id));
+				Console.WriteLine(string.Format("enableVertexAttribArray {0:D}", id));
 			}
 			base.enableVertexAttribArray(id);
 		}
@@ -453,7 +453,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("disableVertexAttribArray {0:D}", id));
+				Console.WriteLine(string.Format("disableVertexAttribArray {0:D}", id));
 			}
 			base.disableVertexAttribArray(id);
 		}
@@ -462,7 +462,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform {0}={1:F}", getUniformName(id), value));
+				Console.WriteLine(string.Format("setUniform {0}={1:F}", getUniformName(id), value));
 			}
 			base.setUniform(id, value);
 		}
@@ -471,7 +471,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform {0}={1:D}, {2:D}", getUniformName(id), value1, value2));
+				Console.WriteLine(string.Format("setUniform {0}={1:D}, {2:D}", getUniformName(id), value1, value2));
 			}
 			base.setUniform(id, value1, value2);
 		}
@@ -480,7 +480,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform2 {0}={1:D}, {2:D}", getUniformName(id), values[0], values[1]));
+				Console.WriteLine(string.Format("setUniform2 {0}={1:D}, {2:D}", getUniformName(id), values[0], values[1]));
 			}
 			base.setUniform2(id, values);
 		}
@@ -489,7 +489,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform3 {0}={1:D}, {2:D}, {3:D}", getUniformName(id), values[0], values[1], values[2]));
+				Console.WriteLine(string.Format("setUniform3 {0}={1:D}, {2:D}, {3:D}", getUniformName(id), values[0], values[1], values[2]));
 			}
 			base.setUniform3(id, values);
 		}
@@ -498,7 +498,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform4 {0}={1:D}, {2:D}, {3:D}, {4:D}", getUniformName(id), values[0], values[1], values[2], values[3]));
+				Console.WriteLine(string.Format("setUniform4 {0}={1:D}, {2:D}, {3:D}, {4:D}", getUniformName(id), values[0], values[1], values[2], values[3]));
 			}
 			base.setUniform4(id, values);
 		}
@@ -507,7 +507,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform {0}={1:D}", getUniformName(id), value));
+				Console.WriteLine(string.Format("setUniform {0}={1:D}", getUniformName(id), value));
 			}
 			base.setUniform(id, value);
 		}
@@ -517,8 +517,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, bufferSize=%d", id, size, type, normalized, stride, bufferSize));
-				log.debug(string.Format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, bufferSize=%d", id, size, type, normalized, stride, bufferSize));
+//ORIGINAL LINE: Console.WriteLine(String.format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, bufferSize=%d", id, size, type, normalized, stride, bufferSize));
+				Console.WriteLine(string.Format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, bufferSize=%d", id, size, type, normalized, stride, bufferSize));
 			}
 			base.setVertexAttribPointer(id, size, type, normalized, stride, bufferSize, buffer);
 		}
@@ -528,8 +528,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, offset=%d", id, size, type, normalized, stride, offset));
-				log.debug(string.Format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, offset=%d", id, size, type, normalized, stride, offset));
+//ORIGINAL LINE: Console.WriteLine(String.format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, offset=%d", id, size, type, normalized, stride, offset));
+				Console.WriteLine(string.Format("setVertexAttribPointer id=%d, size=%d, type=%d, normalized=%b, stride=%d, offset=%d", id, size, type, normalized, stride, offset));
 			}
 			base.setVertexAttribPointer(id, size, type, normalized, stride, offset);
 		}
@@ -538,7 +538,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("enableClientState {0:D}", type));
+				Console.WriteLine(string.Format("enableClientState {0:D}", type));
 			}
 			base.enableClientState(type);
 		}
@@ -547,7 +547,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("disableClientState {0:D}", type));
+				Console.WriteLine(string.Format("disableClientState {0:D}", type));
 			}
 			base.disableClientState(type);
 		}
@@ -556,7 +556,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setColorMask red {0}, green {1}, blue {2}, alpha {3}", getEnabledDisabled(redWriteEnabled), getEnabledDisabled(greenWriteEnabled), getEnabledDisabled(blueWriteEnabled), getEnabledDisabled(alphaWriteEnabled)));
+				Console.WriteLine(string.Format("setColorMask red {0}, green {1}, blue {2}, alpha {3}", getEnabledDisabled(redWriteEnabled), getEnabledDisabled(greenWriteEnabled), getEnabledDisabled(blueWriteEnabled), getEnabledDisabled(alphaWriteEnabled)));
 			}
 			base.setColorMask(redWriteEnabled, greenWriteEnabled, blueWriteEnabled, alphaWriteEnabled);
 		}
@@ -565,7 +565,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setColorMask red 0x{0:X2}, green 0x{1:X2}, blue 0x{2:X2}, alpha 0x{3:X2}", redMask, greenMask, blueMask, alphaMask));
+				Console.WriteLine(string.Format("setColorMask red 0x{0:X2}, green 0x{1:X2}, blue 0x{2:X2}, alpha 0x{3:X2}", redMask, greenMask, blueMask, alphaMask));
 			}
 			base.setColorMask(redMask, greenMask, blueMask, alphaMask);
 		}
@@ -574,7 +574,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTextureWrapMode {0:D}, {1:D}", s, t));
+				Console.WriteLine(string.Format("setTextureWrapMode {0:D}, {1:D}", s, t));
 			}
 			base.setTextureWrapMode(s, t);
 		}
@@ -583,7 +583,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("deleteTexture {0:D}", texture));
+				Console.WriteLine(string.Format("deleteTexture {0:D}", texture));
 			}
 			base.deleteTexture(texture);
 		}
@@ -592,7 +592,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("endDisplay"));
+				Console.WriteLine(string.Format("endDisplay"));
 			}
 			base.endDisplay();
 		}
@@ -602,7 +602,7 @@ namespace pspsharp.graphics.RE
 			int value = base.genTexture();
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("genTexture {0:D}", value));
+				Console.WriteLine(string.Format("genTexture {0:D}", value));
 			}
 			return value;
 		}
@@ -612,7 +612,7 @@ namespace pspsharp.graphics.RE
 			isLogDebugEnabled = log.DebugEnabled;
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("startDisplay"));
+				Console.WriteLine(string.Format("startDisplay"));
 			}
 			base.startDisplay();
 		}
@@ -621,7 +621,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTextureMapMode mode={0:D}, proj={1:D}", mode, proj));
+				Console.WriteLine(string.Format("setTextureMapMode mode={0:D}, proj={1:D}", mode, proj));
 			}
 			base.setTextureMapMode(mode, proj);
 		}
@@ -632,7 +632,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setFrontFace {0}", value ? "clockwise" : "counter-clockwise"));
+					Console.WriteLine(string.Format("setFrontFace {0}", value ? "clockwise" : "counter-clockwise"));
 				}
 				base.FrontFace = value;
 			}
@@ -642,7 +642,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setColorPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
+				Console.WriteLine(string.Format("setColorPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
 			}
 			base.setColorPointer(size, type, stride, bufferSize, buffer);
 		}
@@ -651,7 +651,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setColorPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
+				Console.WriteLine(string.Format("setColorPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
 			}
 			base.setColorPointer(size, type, stride, offset);
 		}
@@ -660,7 +660,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setNormalPointer type={0:D}, stride={1:D}, bufferSize={2:D}, buffer offset={3:D}", type, stride, bufferSize, buffer.position()));
+				Console.WriteLine(string.Format("setNormalPointer type={0:D}, stride={1:D}, bufferSize={2:D}, buffer offset={3:D}", type, stride, bufferSize, buffer.position()));
 			}
 			base.setNormalPointer(type, stride, bufferSize, buffer);
 		}
@@ -669,7 +669,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setNormalPointer type={0:D}, stride={1:D}, offset={2:D}", type, stride, offset));
+				Console.WriteLine(string.Format("setNormalPointer type={0:D}, stride={1:D}, offset={2:D}", type, stride, offset));
 			}
 			base.setNormalPointer(type, stride, offset);
 		}
@@ -678,7 +678,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTexCoordPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
+				Console.WriteLine(string.Format("setTexCoordPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
 			}
 			base.setTexCoordPointer(size, type, stride, bufferSize, buffer);
 		}
@@ -687,7 +687,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTexCoordPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
+				Console.WriteLine(string.Format("setTexCoordPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
 			}
 			base.setTexCoordPointer(size, type, stride, offset);
 		}
@@ -696,7 +696,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setVertexPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
+				Console.WriteLine(string.Format("setVertexPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
 			}
 			base.setVertexPointer(size, type, stride, bufferSize, buffer);
 		}
@@ -705,7 +705,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setVertexPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
+				Console.WriteLine(string.Format("setVertexPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
 			}
 			base.setVertexPointer(size, type, stride, offset);
 		}
@@ -714,7 +714,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setWeightPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
+				Console.WriteLine(string.Format("setWeightPointer size={0:D}, type={1:D}, stride={2:D}, bufferSize={3:D}, buffer offset={4:D}", size, type, stride, bufferSize, buffer.position()));
 			}
 			base.setWeightPointer(size, type, stride, bufferSize, buffer);
 		}
@@ -723,7 +723,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setWeightPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
+				Console.WriteLine(string.Format("setWeightPointer size={0:D}, type={1:D}, stride={2:D}, offset={3:D}", size, type, stride, offset));
 			}
 			base.setWeightPointer(size, type, stride, offset);
 		}
@@ -732,7 +732,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setBufferData target={0:D}, size={1:D}, buffer size={2:D}, usage={3:D}", target, size, buffer == null ? 0 : buffer.capacity(), usage));
+				Console.WriteLine(string.Format("setBufferData target={0:D}, size={1:D}, buffer size={2:D}, usage={3:D}", target, size, buffer == null ? 0 : buffer.capacity(), usage));
 			}
 			base.setBufferData(target, size, buffer, usage);
 		}
@@ -741,7 +741,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setBufferSubData target={0:D}, offset={1:D}, size={2:D}, buffer size={3:D}", target, offset, size, buffer == null ? 0 : buffer.capacity()));
+				Console.WriteLine(string.Format("setBufferSubData target={0:D}, offset={1:D}, size={2:D}, buffer size={3:D}", target, offset, size, buffer == null ? 0 : buffer.capacity()));
 			}
 			base.setBufferSubData(target, offset, size, buffer);
 		}
@@ -750,7 +750,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("bindBuffer {0:D}, {1:D}", target, buffer));
+				Console.WriteLine(string.Format("bindBuffer {0:D}, {1:D}", target, buffer));
 			}
 			base.bindBuffer(target, buffer);
 		}
@@ -760,7 +760,7 @@ namespace pspsharp.graphics.RE
 			useProgram_Renamed = program;
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("useProgram {0:D}", program));
+				Console.WriteLine(string.Format("useProgram {0:D}", program));
 			}
 			base.useProgram(program);
 		}
@@ -769,7 +769,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setViewport x={0:D}, y={1:D}, width={2:D}, height={3:D}", x, y, width, height));
+				Console.WriteLine(string.Format("setViewport x={0:D}, y={1:D}, width={2:D}, height={3:D}", x, y, width, height));
 			}
 			base.setViewport(x, y, width, height);
 		}
@@ -778,7 +778,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setScissor x={0:D}, y={1:D}, width={2:D}, height={3:D}", x, y, width, height));
+				Console.WriteLine(string.Format("setScissor x={0:D}, y={1:D}, width={2:D}, height={3:D}", x, y, width, height));
 			}
 			base.setScissor(x, y, width, height);
 		}
@@ -787,7 +787,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setTexSubImage level={0:D}, xOffset={1:D}, yOffset={2:D}, width={3:D}, height={4:D}, format={5:D}, type={6:D}, textureSize={7:D}", level, xOffset, yOffset, width, height, format, type, textureSize));
+				Console.WriteLine(string.Format("setTexSubImage level={0:D}, xOffset={1:D}, yOffset={2:D}, width={3:D}, height={4:D}, format={5:D}, type={6:D}, textureSize={7:D}", level, xOffset, yOffset, width, height, format, type, textureSize));
 			}
 			base.setTexSubImage(level, xOffset, yOffset, width, height, format, type, textureSize, buffer);
 		}
@@ -796,7 +796,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("copyTexSubImage level={0:D}, xOffset={1:D}, yOffset={2:D}, x={3:D}, y={4:D}, width={5:D}, height={6:D}", level, xOffset, yOffset, x, y, width, height));
+				Console.WriteLine(string.Format("copyTexSubImage level={0:D}, xOffset={1:D}, yOffset={2:D}, x={3:D}, y={4:D}, width={5:D}, height={6:D}", level, xOffset, yOffset, x, y, width, height));
 			}
 			base.copyTexSubImage(level, xOffset, yOffset, x, y, width, height);
 		}
@@ -806,7 +806,7 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-				log.debug(string.Format("getTexImage level={0:D}, format={1:D}, type={2:D}, buffer remaining={3:D}, buffer class={4}", level, format, type, buffer.remaining(), buffer.GetType().FullName));
+				Console.WriteLine(string.Format("getTexImage level={0:D}, format={1:D}, type={2:D}, buffer remaining={3:D}, buffer class={4}", level, format, type, buffer.remaining(), buffer.GetType().FullName));
 			}
 			base.getTexImage(level, format, type, buffer);
 		}
@@ -815,7 +815,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("bindVertexArray {0:D}", id));
+				Console.WriteLine(string.Format("bindVertexArray {0:D}", id));
 			}
 			base.bindVertexArray(id);
 		}
@@ -831,7 +831,7 @@ namespace pspsharp.graphics.RE
 				{
 					s.Append(string.Format(" ({0:D},{1:D})", first.get(p + i), count.get(p + i)));
 				}
-				log.debug(string.Format("multiDrawArrays primitive={0:D}, count={1:D},{2}", primitive, n, s.ToString()));
+				Console.WriteLine(string.Format("multiDrawArrays primitive={0:D}, count={1:D},{2}", primitive, n, s.ToString()));
 			}
 			base.multiDrawArrays(primitive, first, count);
 		}
@@ -842,7 +842,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setActiveTexture {0:D}", value));
+					Console.WriteLine(string.Format("setActiveTexture {0:D}", value));
 				}
 				base.ActiveTexture = value;
 			}
@@ -853,8 +853,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("setTextureFormat pixelFormat=%d(%s), swizzle=%b", pixelFormat, pspsharp.graphics.VideoEngine.getPsmName(pixelFormat), swizzle));
-				log.debug(string.Format("setTextureFormat pixelFormat=%d(%s), swizzle=%b", pixelFormat, VideoEngine.getPsmName(pixelFormat), swizzle));
+//ORIGINAL LINE: Console.WriteLine(String.format("setTextureFormat pixelFormat=%d(%s), swizzle=%b", pixelFormat, pspsharp.graphics.VideoEngine.getPsmName(pixelFormat), swizzle));
+				Console.WriteLine(string.Format("setTextureFormat pixelFormat=%d(%s), swizzle=%b", pixelFormat, VideoEngine.getPsmName(pixelFormat), swizzle));
 			}
 			base.setTextureFormat(pixelFormat, swizzle);
 		}
@@ -864,7 +864,7 @@ namespace pspsharp.graphics.RE
 			int program = base.createProgram();
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("createProgram {0:D}", program));
+				Console.WriteLine(string.Format("createProgram {0:D}", program));
 			}
 			return program;
 		}
@@ -875,7 +875,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setVertexColor (r={0:F3}, b={1:F3}, g={2:F3}, a={3:F3})", value[0], value[1], value[2], value[3]));
+					Console.WriteLine(string.Format("setVertexColor (r={0:F3}, b={1:F3}, g={2:F3}, a={3:F3})", value[0], value[1], value[2], value[3]));
 				}
 				base.VertexColor = value;
 			}
@@ -885,7 +885,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setUniform4 {0}={1:F}, {2:F}, {3:F}, {4:F}", getUniformName(id), values[0], values[1], values[2], values[3]));
+				Console.WriteLine(string.Format("setUniform4 {0}={1:F}, {2:F}, {3:F}, {4:F}", getUniformName(id), values[0], values[1], values[2], values[3]));
 			}
 			base.setUniform4(id, values);
 		}
@@ -895,8 +895,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("setColorMaterial ambient=%b, diffuse=%b, specular=%b", ambient, diffuse, specular));
-				log.debug(string.Format("setColorMaterial ambient=%b, diffuse=%b, specular=%b", ambient, diffuse, specular));
+//ORIGINAL LINE: Console.WriteLine(String.format("setColorMaterial ambient=%b, diffuse=%b, specular=%b", ambient, diffuse, specular));
+				Console.WriteLine(string.Format("setColorMaterial ambient=%b, diffuse=%b, specular=%b", ambient, diffuse, specular));
 			}
 			base.setColorMaterial(ambient, diffuse, specular);
 		}
@@ -905,7 +905,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("bindFramebuffer target={0:D}, framebuffer={1:D}", target, framebuffer));
+				Console.WriteLine(string.Format("bindFramebuffer target={0:D}, framebuffer={1:D}", target, framebuffer));
 			}
 			base.bindFramebuffer(target, framebuffer);
 		}
@@ -914,7 +914,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("bindActiveTexture index={0:D}, texture={1:D}", index, texture));
+				Console.WriteLine(string.Format("bindActiveTexture index={0:D}, texture={1:D}", index, texture));
 			}
 			base.bindActiveTexture(index, texture);
 		}
@@ -923,7 +923,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("blitFramebuffer src=({0:D},{1:D})-({2:D},{3:D}), dst=({4:D},{5:D})-({6:D},{7:D}), mask=0x{8:X}, filter={9:D}", srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter));
+				Console.WriteLine(string.Format("blitFramebuffer src=({0:D},{1:D})-({2:D},{3:D}), dst=({4:D},{5:D})-({6:D},{7:D}), mask=0x{8:X}, filter={9:D}", srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter));
 			}
 			base.blitFramebuffer(srcX0, srcY0, srcX1, srcY1, dstX0, dstY0, dstX1, dstY1, mask, filter);
 		}
@@ -933,8 +933,8 @@ namespace pspsharp.graphics.RE
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("setCopyRedToAlpha %b", copyRedToAlpha));
-				log.debug(string.Format("setCopyRedToAlpha %b", copyRedToAlpha));
+//ORIGINAL LINE: Console.WriteLine(String.format("setCopyRedToAlpha %b", copyRedToAlpha));
+				Console.WriteLine(string.Format("setCopyRedToAlpha %b", copyRedToAlpha));
 			}
 			return base.setCopyRedToAlpha(copyRedToAlpha);
 		}
@@ -943,7 +943,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("drawElements primitive={0:D}, count={1:D}, indexType={2:D}, indicesOffset={3:D}", primitive, count, indexType, indicesOffset));
+				Console.WriteLine(string.Format("drawElements primitive={0:D}, count={1:D}, indexType={2:D}, indicesOffset={3:D}", primitive, count, indexType, indicesOffset));
 			}
 			base.drawElements(primitive, count, indexType, indices, indicesOffset);
 		}
@@ -952,7 +952,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("drawElements primitive={0:D}, count={1:D}, indexType={2:D}, indicesOffset={3:D}", primitive, count, indexType, indicesOffset));
+				Console.WriteLine(string.Format("drawElements primitive={0:D}, count={1:D}, indexType={2:D}, indicesOffset={3:D}", primitive, count, indexType, indicesOffset));
 			}
 			base.drawElements(primitive, count, indexType, indicesOffset);
 		}
@@ -968,7 +968,7 @@ namespace pspsharp.graphics.RE
 				{
 					s.Append(string.Format(" ({0:D},{1:D})", first.get(p + i), count.get(p + i)));
 				}
-				log.debug(string.Format("multiDrawElements primitive={0:D}, count={1:D},{2}, indexType={3:D}, indicesOffset={4:D}", primitive, n, s.ToString(), indexType, indicesOffset));
+				Console.WriteLine(string.Format("multiDrawElements primitive={0:D}, count={1:D},{2}, indexType={3:D}, indicesOffset={4:D}", primitive, n, s.ToString(), indexType, indicesOffset));
 			}
 			base.multiDrawElements(primitive, first, count, indexType, indicesOffset);
 		}
@@ -977,7 +977,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("drawElementsBurstMode primitive={0:D}, count={1:D}, indexType={2:D}, indicesOffset={3:D}", primitive, count, indexType, indicesOffset));
+				Console.WriteLine(string.Format("drawElementsBurstMode primitive={0:D}, count={1:D}, indexType={2:D}, indicesOffset={3:D}", primitive, count, indexType, indicesOffset));
 			}
 			base.drawElementsBurstMode(primitive, count, indexType, indicesOffset);
 		}
@@ -987,7 +987,7 @@ namespace pspsharp.graphics.RE
 			int value = base.genFramebuffer();
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("genFramebuffer {0:D}", value));
+				Console.WriteLine(string.Format("genFramebuffer {0:D}", value));
 			}
 			return value;
 		}
@@ -997,7 +997,7 @@ namespace pspsharp.graphics.RE
 			int value = base.genRenderbuffer();
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("genRenderbuffer {0:D}", value));
+				Console.WriteLine(string.Format("genRenderbuffer {0:D}", value));
 			}
 			return value;
 		}
@@ -1006,7 +1006,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("bindRenderbuffer renderbuffer={0:D}", renderbuffer));
+				Console.WriteLine(string.Format("bindRenderbuffer renderbuffer={0:D}", renderbuffer));
 			}
 			base.bindRenderbuffer(renderbuffer);
 		}
@@ -1015,7 +1015,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setRenderbufferStorage internalFormat={0:D}, width={1:D}, height={2:D}", internalFormat, width, height));
+				Console.WriteLine(string.Format("setRenderbufferStorage internalFormat={0:D}, width={1:D}, height={2:D}", internalFormat, width, height));
 			}
 			base.setRenderbufferStorage(internalFormat, width, height);
 		}
@@ -1024,7 +1024,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setFramebufferRenderbuffer target={0:D}, attachment={1:D}, renderbuffer={2:D}", target, attachment, renderbuffer));
+				Console.WriteLine(string.Format("setFramebufferRenderbuffer target={0:D}, attachment={1:D}, renderbuffer={2:D}", target, attachment, renderbuffer));
 			}
 			base.setFramebufferRenderbuffer(target, attachment, renderbuffer);
 		}
@@ -1033,7 +1033,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug(string.Format("setFramebufferTexture target={0:D}, attachment={1:D}, texture={2:D}, level={3:D}", target, attachment, texture, level));
+				Console.WriteLine(string.Format("setFramebufferTexture target={0:D}, attachment={1:D}, texture={2:D}, level={3:D}", target, attachment, texture, level));
 			}
 			base.setFramebufferTexture(target, attachment, texture, level);
 		}
@@ -1042,7 +1042,7 @@ namespace pspsharp.graphics.RE
 		{
 			if (isLogDebugEnabled)
 			{
-				log.debug("textureBarrier");
+				Console.WriteLine("textureBarrier");
 			}
 			base.textureBarrier();
 		}
@@ -1053,7 +1053,7 @@ namespace pspsharp.graphics.RE
 			{
 				if (isLogDebugEnabled)
 				{
-					log.debug(string.Format("setLogicOp logicOp={0:D}", value));
+					Console.WriteLine(string.Format("setLogicOp logicOp={0:D}", value));
 				}
 				base.LogicOp = value;
 			}

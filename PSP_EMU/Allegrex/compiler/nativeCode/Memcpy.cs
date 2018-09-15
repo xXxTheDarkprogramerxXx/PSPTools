@@ -30,7 +30,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dstAddr, srcAddr, n));
+				log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dstAddr, srcAddr, n));
 			}
 
 			MemoryForLLE.memcpyWithVideoCheck(dstAddr, srcAddr, n);
@@ -46,7 +46,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("memcpy with invalidate cache dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dstAddr, srcAddr, n));
+				log.trace(string.Format("memcpy with invalidate cache dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dstAddr, srcAddr, n));
 			}
 
 			MemoryForLLE.memcpyWithVideoCheck(dstAddr, srcAddr, n);

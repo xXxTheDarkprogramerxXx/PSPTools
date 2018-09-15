@@ -117,7 +117,7 @@ namespace pspsharp.Allegrex.compiler
 	using ParameterInfo = pspsharp.util.ClassAnalyzer.ParameterInfo;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using ClassVisitor = org.objectweb.asm.ClassVisitor;
 	using Label = org.objectweb.asm.Label;
 	using MethodVisitor = org.objectweb.asm.MethodVisitor;
@@ -849,7 +849,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 			else
 			{
-				log.error("storeVRegister with non-prepared register is not supported");
+				Console.WriteLine("storeVRegister with non-prepared register is not supported");
 			}
 		}
 
@@ -1052,9 +1052,9 @@ namespace pspsharp.Allegrex.compiler
 				else
 				{
 					// Call NativeCodeSequence
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Inlining call at 0x{0:X8} to {1}", CodeInstruction.Address, preparedCallNativeCodeBlock));
+						Console.WriteLine(string.Format("Inlining call at 0x{0:X8} to {1}", CodeInstruction.Address, preparedCallNativeCodeBlock));
 					}
 
 					visitNativeCodeSequence(preparedCallNativeCodeBlock, address, null);
@@ -1372,7 +1372,7 @@ namespace pspsharp.Allegrex.compiler
 				else
 				{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-					log.error(string.Format("Unsupported sycall parameter type '{0}'", parameterType.FullName));
+					Console.WriteLine(string.Format("Unsupported sycall parameter type '{0}'", parameterType.FullName));
 					Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_UNIMPLEMENTED);
 				}
 			}
@@ -1391,7 +1391,7 @@ namespace pspsharp.Allegrex.compiler
 						}
 						catch (Exception e)
 						{
-							log.error(string.Format("CheckArgument method '{0}' not found in {1}", checkArgument.value(), func.ModuleName), e);
+							Console.WriteLine(string.Format("CheckArgument method '{0}' not found in {1}", checkArgument.value(), func.ModuleName), e);
 						}
 						break;
 					}
@@ -1486,7 +1486,7 @@ namespace pspsharp.Allegrex.compiler
 					//     int uid = <module>.<moduleMethodUidGenerator>();
 					//     cpu.gpr[_v0] = HLEUidObjectMapping.addObjectMap("<return type>", uid, returnValue);
 					// }
-					if (hleUidClass.moduleMethodUidGenerator().length() <= 0)
+					if (hleUidClass.moduleMethodUidGenerator().Length() <= 0)
 					{
 						// No UID generator method, use the default one
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
@@ -1510,7 +1510,7 @@ namespace pspsharp.Allegrex.compiler
 				else
 				{
 //JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-					log.error(string.Format("Unsupported sycall return value type '{0}'", returnType.FullName));
+					Console.WriteLine(string.Format("Unsupported sycall return value type '{0}'", returnType.FullName));
 				}
 			}
 		}
@@ -1601,7 +1601,7 @@ namespace pspsharp.Allegrex.compiler
 					Type parameterType = parameter.type;
 
 					BufferInfo.LengthInfo lengthInfo = BufferInfo.defaultLengthInfo;
-					int length = BufferInfo.defaultLength;
+					int Length = BufferInfo.defaultLength;
 					BufferInfo.Usage usage = BufferInfo.defaultUsage;
 					int maxDumpLength = BufferInfo.defaultMaxDumpLength;
 					foreach (Annotation parameterAnnotation in paramsAnotations[paramIndex])
@@ -1610,7 +1610,7 @@ namespace pspsharp.Allegrex.compiler
 						{
 							BufferInfo bufferInfo = (BufferInfo) parameterAnnotation;
 							lengthInfo = bufferInfo.lengthInfo();
-							length = bufferInfo.length();
+							Length = bufferInfo.Length();
 							usage = bufferInfo.usage();
 							maxDumpLength = bufferInfo.maxDumpLength();
 						}
@@ -1638,7 +1638,7 @@ namespace pspsharp.Allegrex.compiler
 						switch (lengthInfo)
 						{
 							case fixedLength:
-								loadImm(length);
+								loadImm(Length);
 								break;
 							case nextNextParameter:
 								parameterReader.skipNextInt();
@@ -1655,7 +1655,7 @@ namespace pspsharp.Allegrex.compiler
 								parameterReader.rewindPreviousInt();
 								// Go back to the previous parameter
 								parameterReader.rewindPreviousInt();
-								// Load the length from the previous parameter
+								// Load the Length from the previous parameter
 								parameterReader.loadNextInt();
 								// Skip again the address parameter
 								// to come back to the above situation
@@ -1699,7 +1699,7 @@ namespace pspsharp.Allegrex.compiler
 								}
 								break;
 							default:
-								log.error(string.Format("Unimplemented lengthInfo={0}", lengthInfo));
+								Console.WriteLine(string.Format("Unimplemented lengthInfo={0}", lengthInfo));
 								break;
 						}
 
@@ -1861,7 +1861,7 @@ namespace pspsharp.Allegrex.compiler
 						Type parameterType = parameter.type;
 
 						BufferInfo.LengthInfo lengthInfo = BufferInfo.defaultLengthInfo;
-						int length = BufferInfo.defaultLength;
+						int Length = BufferInfo.defaultLength;
 						BufferInfo.Usage usage = BufferInfo.defaultUsage;
 						int maxDumpLength = BufferInfo.defaultMaxDumpLength;
 						bool debugMemory = false;
@@ -1871,7 +1871,7 @@ namespace pspsharp.Allegrex.compiler
 							{
 								BufferInfo bufferInfo = (BufferInfo) parameterAnnotation;
 								lengthInfo = bufferInfo.lengthInfo();
-								length = bufferInfo.length();
+								Length = bufferInfo.Length();
 								usage = bufferInfo.usage();
 								maxDumpLength = bufferInfo.maxDumpLength();
 							}
@@ -1903,7 +1903,7 @@ namespace pspsharp.Allegrex.compiler
 							switch (lengthInfo)
 							{
 								case fixedLength:
-									loadImm(length);
+									loadImm(Length);
 									break;
 								case nextNextParameter:
 									parameterReader.skipNextInt();
@@ -1920,7 +1920,7 @@ namespace pspsharp.Allegrex.compiler
 									parameterReader.rewindPreviousInt();
 									// Go back to the previous parameter
 									parameterReader.rewindPreviousInt();
-									// Load the length from the previous parameter
+									// Load the Length from the previous parameter
 									parameterReader.loadNextInt();
 									// Skip again the address parameter
 									// to come back to the above situation
@@ -1985,7 +1985,7 @@ namespace pspsharp.Allegrex.compiler
 									}
 									break;
 								default:
-									log.error(string.Format("Unimplemented lengthInfo={0}", lengthInfo));
+									Console.WriteLine(string.Format("Unimplemented lengthInfo={0}", lengthInfo));
 									break;
 							}
 
@@ -2141,9 +2141,9 @@ namespace pspsharp.Allegrex.compiler
 				SceModule module = Managers.modules.getModuleByAddress(codeInstruction.Address);
 				if (module != null && !string.ReferenceEquals(module.pspfilename, null) && module.pspfilename.StartsWith("flash0:", StringComparison.Ordinal))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("syscall from a flash0 module({0}, '{1}'), no firmware version check", module, module.pspfilename));
+						Console.WriteLine(string.Format("syscall from a flash0 module({0}, '{1}'), no firmware version check", module, module.pspfilename));
 					}
 					needFirmwareVersionCheck = false;
 				}
@@ -2296,7 +2296,7 @@ namespace pspsharp.Allegrex.compiler
 			// catch (SceKernelErrorException e) {
 			//     errorCode = e.errorCode;
 			//     if (Modules.log.isDebugEnabled()) {
-			//         Modules.log.debug(String.format("<function name> return errorCode 0x%08X", errorCode));
+			//         Modules.Console.WriteLine(String.format("<function name> return errorCode 0x%08X", errorCode));
 			//     }
 			//     if (hasErrorPointer()) {
 			//         errorPointer.setValue(errorCode);
@@ -2379,9 +2379,9 @@ namespace pspsharp.Allegrex.compiler
 			// Call the HLE method only when it has not been overwritten
 			if (syscallAddr != 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Calling overwritten HLE method '{0}' instead of syscall", NIDMapper.Instance.getNameBySyscall(code)));
+					Console.WriteLine(string.Format("Calling overwritten HLE method '{0}' instead of syscall", NIDMapper.Instance.getNameBySyscall(code)));
 				}
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC, getClassName(syscallAddr, instanceIndex), StaticExecMethodName, StaticExecMethodDesc);
 			}
@@ -4083,9 +4083,9 @@ namespace pspsharp.Allegrex.compiler
 				// Only log "Nop" native code sequence in debug.
 				if (log.DebugEnabled || nativeCodeSequence.NativeCodeSequenceClass.Equals(typeof(Nop)))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Replacing CodeBlock at 0x{0:X8} ({1:X8}-0x{2:X8}, length {3:D}) by {4}", CodeBlock.StartAddress, CodeBlock.LowestAddress, codeBlock.HighestAddress, codeBlock.Length, nativeCodeSequence));
+						Console.WriteLine(string.Format("Replacing CodeBlock at 0x{0:X8} ({1:X8}-0x{2:X8}, Length {3:D}) by {4}", CodeBlock.StartAddress, CodeBlock.LowestAddress, codeBlock.HighestAddress, codeBlock.Length, nativeCodeSequence));
 					}
 				}
 				else if (log.InfoEnabled)
@@ -4097,9 +4097,9 @@ namespace pspsharp.Allegrex.compiler
 			{
 				// Be more verbose when Debug enabled
 				int endAddress = CodeInstruction.Address + (nativeCodeSequence.NumOpcodes - 1) * 4;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Replacing CodeSequence at 0x{0:X8}-0x{1:X8} by Native Code {2}", CodeInstruction.Address, endAddress, nativeCodeSequence));
+					Console.WriteLine(string.Format("Replacing CodeSequence at 0x{0:X8}-0x{1:X8} by Native Code {2}", CodeInstruction.Address, endAddress, nativeCodeSequence));
 				}
 				else if (log.InfoEnabled)
 				{
@@ -5045,7 +5045,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 
 			// Build parameters for
-			//    System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+			//    System.arraycopy(Object src, int srcPos, Object dest, int destPos, int Length)
 			// i.e.
 			//    System.arraycopy(RuntimeContext.memoryInt,
 			//                     RuntimeContext.checkMemoryRead32(rs + simm14, pc) >>> 2,
@@ -5111,7 +5111,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 
 			// Build parameters for
-			//    System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+			//    System.arraycopy(Object src, int srcPos, Object dest, int destPos, int Length)
 			// i.e.
 			//    System.arraycopy(RuntimeContext.vprInt,
 			//                     vprIndex,
@@ -5213,7 +5213,7 @@ namespace pspsharp.Allegrex.compiler
 			int[] storeSpRegisters = null;
 			IList<CodeInstruction> storeSpCodeInstructions = null;
 			bool[] modifiedRegisters = new bool[GprState.NUMBER_REGISTERS];
-			Arrays.fill(modifiedRegisters, false);
+			Arrays.Fill(modifiedRegisters, false);
 
 			foreach (CodeInstruction codeInstruction in codeInstructions)
 			{
@@ -5284,9 +5284,9 @@ namespace pspsharp.Allegrex.compiler
 						decreaseSpInstruction = currentInstructionIndex;
 						stackSize = -codeInstruction.getImm16(true);
 						storeSpInstructions = new int[stackSize >> 2];
-						Arrays.fill(storeSpInstructions, -1);
+						Arrays.Fill(storeSpInstructions, -1);
 						storeSpRegisters = new int[storeSpInstructions.Length];
-						Arrays.fill(storeSpRegisters, -1);
+						Arrays.Fill(storeSpRegisters, -1);
 						storeSpCodeInstructions = new LinkedList<CodeInstruction>();
 					}
 					else if (rs == _sp && simm16 >= 0)
@@ -5382,7 +5382,7 @@ namespace pspsharp.Allegrex.compiler
 		///     sw  $zr, n+8($reg)
 		///     ...
 		/// into
-		///     System.arraycopy(FastMemory.zero, 0, memoryInt, (n + $reg) >> 2, length)
+		///     System.arraycopy(FastMemory.zero, 0, memoryInt, (n + $reg) >> 2, Length)
 		/// </summary>
 		/// <param name="baseRegister"> </param>
 		/// <param name="offsets"> </param>
@@ -5408,12 +5408,12 @@ namespace pspsharp.Allegrex.compiler
 			}
 
 			int offset = offsets[0];
-			int length = offsets.Length;
+			int Length = offsets.Length;
 			do
 			{
-				int copyLength = System.Math.Min(length, FastMemory.zero.Length);
+				int copyLength = System.Math.Min(Length, FastMemory.zero.Length);
 				// Build parameters for
-				//    System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+				//    System.arraycopy(Object src, int srcPos, Object dest, int destPos, int Length)
 				// i.e.
 				//    System.arraycopy(FastMemory.zero,
 				//                     0,
@@ -5427,9 +5427,9 @@ namespace pspsharp.Allegrex.compiler
 				loadImm(copyLength);
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(typeof(System)), "arraycopy", arraycopyDescriptor);
 
-				length -= copyLength;
+				Length -= copyLength;
 				offset += copyLength;
-			} while (length > 0);
+			} while (Length > 0);
 
 			return true;
 		}

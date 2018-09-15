@@ -21,11 +21,11 @@ namespace pspsharp.HLE.modules
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using SysMemInfo = pspsharp.HLE.modules.SysMemUserForUser.SysMemInfo;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceSsl : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSsl");
+		//public static Logger log = Modules.getLogger("sceSsl");
 
 		private bool isSslInit;
 		private int maxMemSize;
@@ -294,11 +294,11 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB7CA8717, version = 150) public int SSL_write(int ssl, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buffer, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB7CA8717, version = 150) public int SSL_write(int ssl, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buffer, int Length)
 		[HLEFunction(nid : 0xB7CA8717, version : 150)]
-		public virtual int SSL_write(int ssl, TPointer buffer, int length)
+		public virtual int SSL_write(int ssl, TPointer buffer, int Length)
 		{
-			return length;
+			return Length;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:

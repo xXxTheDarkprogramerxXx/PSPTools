@@ -32,7 +32,7 @@ namespace pspsharp.network.pspsharp
 	{
 		protected internal static readonly int HEADER_SIZE = MAC_ADDRESS_LENGTH + MAC_ADDRESS_LENGTH;
 
-		public JpcspAdhocPdpMessage(int address, int length, sbyte[] destMacAddress) : base(address, length, destMacAddress)
+		public JpcspAdhocPdpMessage(int address, int Length, sbyte[] destMacAddress) : base(address, Length, destMacAddress)
 		{
 		}
 
@@ -40,18 +40,18 @@ namespace pspsharp.network.pspsharp
 		{
 		}
 
-		public JpcspAdhocPdpMessage(sbyte[] message, int length) : base(message, length)
+		public JpcspAdhocPdpMessage(sbyte[] message, int Length) : base(message, Length)
 		{
 		}
 
-		public override void setMessage(sbyte[] message, int length)
+		public override void setMessage(sbyte[] message, int Length)
 		{
-			if (length >= HEADER_SIZE)
+			if (Length >= HEADER_SIZE)
 			{
 				offset = 0;
 				copyFromBytes(message, fromMacAddress);
 				copyFromBytes(message, toMacAddress);
-				data = new sbyte[length - HEADER_SIZE];
+				data = new sbyte[Length - HEADER_SIZE];
 				copyFromBytes(message, data);
 			}
 		}

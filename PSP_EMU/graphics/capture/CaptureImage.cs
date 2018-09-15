@@ -47,7 +47,7 @@ namespace pspsharp.graphics.capture
 //	import static pspsharp.util.Utilities.alignUp;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
 	using MemoryReader = pspsharp.memory.MemoryReader;
@@ -251,7 +251,7 @@ namespace pspsharp.graphics.capture
 			{
 				if (!ImageIO.write(im, fileFormat, new File(fileName)))
 				{
-					log.error(string.Format("Cannot save image in format {0} using ImageIO: {1}", fileFormat, fileName));
+					Console.WriteLine(string.Format("Cannot save image in format {0} using ImageIO: {1}", fileFormat, fileName));
 				}
 			}
 		}
@@ -618,9 +618,9 @@ namespace pspsharp.graphics.capture
 			}
 			captureImage.writeEnd();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Saved image to {0}", FileName));
+				Console.WriteLine(string.Format("Saved image to {0}", FileName));
 			}
 		}
 
@@ -898,7 +898,7 @@ namespace pspsharp.graphics.capture
 					decompressImageDXT(5);
 					break;
 				default:
-					log.warn(string.Format("Unsupported compressed buffer storage {0:D}", bufferStorage));
+					Console.WriteLine(string.Format("Unsupported compressed buffer storage {0:D}", bufferStorage));
 					break;
 			}
 		}

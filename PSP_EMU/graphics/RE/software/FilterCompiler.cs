@@ -27,7 +27,7 @@ namespace pspsharp.graphics.RE.software
 //	import static pspsharp.graphics.GeCommands.CMAT_FLAG_SPECULAR;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using ClassSpecializer = pspsharp.util.ClassSpecializer;
@@ -179,11 +179,11 @@ namespace pspsharp.graphics.RE.software
 				}
 				catch (InstantiationException e)
 				{
-					log.error("Error while instanciating compiled renderer", e);
+					Console.WriteLine("Error while instanciating compiled renderer", e);
 				}
 				catch (IllegalAccessException e)
 				{
-					log.error("Error while instanciating compiled renderer", e);
+					Console.WriteLine("Error while instanciating compiled renderer", e);
 				}
 			}
 
@@ -205,7 +205,7 @@ namespace pspsharp.graphics.RE.software
 				{
 					statistics[n++] = renderer.Statistics;
 				}
-				Arrays.sort(statistics, 0, n);
+				Array.Sort(statistics, 0, n);
 				for (int i = 0; i < n; i++)
 				{
 					log.info(statistics[i]);

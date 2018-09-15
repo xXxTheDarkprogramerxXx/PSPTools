@@ -27,11 +27,11 @@ namespace pspsharp.HLE.modules
 	using MemoryReader = pspsharp.memory.MemoryReader;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceParseHttp : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceParseHttp");
+		//public static Logger log = Modules.getLogger("sceParseHttp");
 
 		private string getHeaderString(IMemoryReader memoryReader)
 		{
@@ -95,9 +95,9 @@ namespace pspsharp.HLE.modules
 							valueLength.setValue(memoryReader.CurrentAddress - addr - 1);
 							valueAddr.setValue(addr);
 							found = true;
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("sceParseHttpResponseHeader returning valueLength=0x{0:X}: {1}", valueLength.getValue(), Utilities.getMemoryDump(valueAddr.getValue(), valueLength.getValue())));
+								Console.WriteLine(string.Format("sceParseHttpResponseHeader returning valueLength=0x{0:X}: {1}", valueLength.getValue(), Utilities.getMemoryDump(valueAddr.getValue(), valueLength.getValue())));
 							}
 							break;
 						}

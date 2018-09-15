@@ -17,11 +17,11 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceDmac : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDmac");
+		//public static Logger log = Modules.getLogger("sceDmac");
 
 		[HLEFunction(nid : 0x617F3FE6, version : 150)]
 		public virtual int sceDmacMemcpy(TPointer dest, TPointer source, int size)

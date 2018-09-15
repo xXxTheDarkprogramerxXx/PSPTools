@@ -21,7 +21,7 @@ namespace pspsharp.media.codec.atrac3plus
 	using BitReader = pspsharp.media.codec.util.BitReader;
 	using FFT = pspsharp.media.codec.util.FFT;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * Based on the FFmpeg version from Maxim Poliakovski.
@@ -29,7 +29,7 @@ namespace pspsharp.media.codec.atrac3plus
 	 */
 	public class Atrac3plusDecoder : ICodec
 	{
-		public static Logger log = Logger.getLogger("atrac3plus");
+		//public static Logger log = Logger.getLogger("atrac3plus");
 		public const int AT3P_ERROR = -1;
 		public const int CH_UNIT_MONO = 0; ///< unit containing one coded channel
 		public const int CH_UNIT_STEREO = 1; ///< unit containing two jointly-coded channels
@@ -39,7 +39,7 @@ namespace pspsharp.media.codec.atrac3plus
 		public const int ATRAC3P_SUBBANDS = 16; ///< number of PQF subbands
 		public const int ATRAC3P_SUBBAND_SAMPLES = 128; ///< number of samples per subband
 		public static readonly int ATRAC3P_FRAME_SAMPLES = ATRAC3P_SUBBANDS * ATRAC3P_SUBBAND_SAMPLES;
-		public const int ATRAC3P_PQF_FIR_LEN = 12; ///< length of the prototype FIR of the PQF
+		public const int ATRAC3P_PQF_FIR_LEN = 12; ///< Length of the prototype FIR of the PQF
 		private Context ctx;
 
 		public virtual int init(int bytesPerFrame, int channels, int outputChannels, int codingMode)
@@ -91,7 +91,7 @@ namespace pspsharp.media.codec.atrac3plus
 			ctx.br = new BitReader(inputAddr, inputLength);
 			if (ctx.br.readBool())
 			{
-				log.error(string.Format("Invalid start bit"));
+				Console.WriteLine(string.Format("Invalid start bit"));
 				return AT3P_ERROR;
 			}
 
@@ -106,13 +106,13 @@ namespace pspsharp.media.codec.atrac3plus
 				}
 				if (chUnitId == CH_UNIT_EXTENSION)
 				{
-					log.warn(string.Format("Non implemented channel unit extension"));
+					Console.WriteLine(string.Format("Non implemented channel unit extension"));
 					return AT3P_ERROR;
 				}
 
 				if (chBlock >= ctx.channelUnits.Length)
 				{
-					log.error(string.Format("Too many channel blocks"));
+					Console.WriteLine(string.Format("Too many channel blocks"));
 					return AT3P_ERROR;
 				}
 
@@ -136,9 +136,9 @@ namespace pspsharp.media.codec.atrac3plus
 				chBlock++;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Bytes read 0x{0:X}", ctx.br.BytesRead));
+				Console.WriteLine(string.Format("Bytes read 0x{0:X}", ctx.br.BytesRead));
 			}
 
 			return ctx.br.BytesRead;

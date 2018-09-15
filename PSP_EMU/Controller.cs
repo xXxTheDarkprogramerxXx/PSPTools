@@ -61,7 +61,7 @@ namespace pspsharp
 	using Modules = pspsharp.HLE.Modules;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Component = net.java.games.input.Component;
 	using ControllerEnvironment = net.java.games.input.ControllerEnvironment;
@@ -75,7 +75,7 @@ namespace pspsharp
 	public class Controller
 	{
 
-		public static Logger log = Logger.getLogger("controller");
+		//public static Logger log = Logger.getLogger("controller");
 		private static Controller instance;
 		public static readonly sbyte analogCenter = unchecked((sbyte) 128);
 		// Left analog stick
@@ -581,9 +581,9 @@ namespace pspsharp
 					return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("keyPressed {0}", key.ToString()));
+				Console.WriteLine(string.Format("keyPressed {0}", key.ToString()));
 			}
 
 			lastKey = key;
@@ -694,9 +694,9 @@ namespace pspsharp
 					return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("keyReleased {0}", key.ToString()));
+				Console.WriteLine(string.Format("keyReleased {0}", key.ToString()));
 			}
 
 			lastKey = Controller.keyCode.RELEASED;
@@ -829,9 +829,9 @@ namespace pspsharp
 		private void processControllerEvent(Component component, float value)
 		{
 			Component.Identifier id = component.Identifier;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller Event on {0}({1}): {2:F}", component.Name, id.Name, value));
+				Console.WriteLine(string.Format("Controller Event on {0}({1}): {2:F}", component.Name, id.Name, value));
 			}
 
 			int? button = buttonComponents[id];
@@ -870,7 +870,7 @@ namespace pspsharp
 					}
 					else
 					{
-						log.warn(string.Format("Unknown Controller Button Event on {0}({1}): {2:F}", component.Name, id.Name, value));
+						Console.WriteLine(string.Format("Unknown Controller Button Event on {0}({1}): {2:F}", component.Name, id.Name, value));
 					}
 				}
 			}
@@ -996,7 +996,7 @@ namespace pspsharp
 				}
 				else
 				{
-					log.warn(string.Format("Unknown Controller Arrows Event on {0}({1}): {2:F}", component.Name, id.Name, value));
+					Console.WriteLine(string.Format("Unknown Controller Arrows Event on {0}({1}): {2:F}", component.Name, id.Name, value));
 				}
 			}
 			else
@@ -1005,23 +1005,23 @@ namespace pspsharp
 				// (e.g. due to small vibrations)
 				if (id is Component.Identifier.Axis && (isInDeadZone(component, value) || id == Component.Identifier.Axis.Z || id == Component.Identifier.Axis.RZ))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Unknown Controller Event in DeadZone on {0}({1}): {2:F}", component.Name, id.Name, value));
+						Console.WriteLine(string.Format("Unknown Controller Event in DeadZone on {0}({1}): {2:F}", component.Name, id.Name, value));
 					}
 				}
 				else if (isKeyboardController(inputController))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Unknown Keyboard Controller Event on {0}({1}): {2:F}", component.Name, id.Name, value));
+						Console.WriteLine(string.Format("Unknown Keyboard Controller Event on {0}({1}): {2:F}", component.Name, id.Name, value));
 					}
 				}
 				else
 				{
 					if (log.InfoEnabled)
 					{
-						log.warn(string.Format("Unknown Controller Event on {0}({1}): {2:F}", component.Name, id.Name, value));
+						Console.WriteLine(string.Format("Unknown Controller Event on {0}({1}): {2:F}", component.Name, id.Name, value));
 					}
 				}
 			}

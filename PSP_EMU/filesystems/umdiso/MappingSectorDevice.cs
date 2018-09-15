@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.filesystems.umdiso
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// Implements a SectorDevice where the sectors are stored in random
@@ -52,11 +52,11 @@ namespace pspsharp.filesystems.umdiso
 			}
 			catch (FileNotFoundException e)
 			{
-				log.debug("Mapping file not found, creating it", e);
+				Console.WriteLine("Mapping file not found, creating it", e);
 			}
 			catch (IOException e)
 			{
-				log.warn("Error reading mapping file", e);
+				Console.WriteLine("Error reading mapping file", e);
 			}
 		}
 
@@ -70,11 +70,11 @@ namespace pspsharp.filesystems.umdiso
 				if (value != previousNumSectors)
 				{
 					// Shrink or extend the sectorMapping array
-					sectorMapping = Arrays.copyOf(sectorMapping, value);
+					sectorMapping = Array.copyOf(sectorMapping, value);
 					if (value > previousNumSectors)
 					{
 						// Extending the sector mapping with -1 values
-						Arrays.fill(sectorMapping, previousNumSectors, sectorMapping.Length, freeSectorNumber);
+						Arrays.Fill(sectorMapping, previousNumSectors, sectorMapping.Length, freeSectorNumber);
 					}
 					sectorMappingDirty = true;
 				}
@@ -90,7 +90,7 @@ namespace pspsharp.filesystems.umdiso
 		protected internal virtual void readMappingFile()
 		{
 			System.IO.Stream mappingFileReader = new System.IO.FileStream(mappingFile, System.IO.FileMode.Open, System.IO.FileAccess.Read);
-			int mappingSize = (int)(mappingFile.length() / 4);
+			int mappingSize = (int)(mappingFile.Length() / 4);
 			sectorMapping = new int[mappingSize];
 			sbyte[] buffer = new sbyte[4];
 			IntBuffer intBuffer = ByteBuffer.wrap(buffer).asIntBuffer();
@@ -170,7 +170,7 @@ namespace pspsharp.filesystems.umdiso
 			}
 			else
 			{
-				Arrays.fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
+				Arrays.Fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
 			}
 		}
 

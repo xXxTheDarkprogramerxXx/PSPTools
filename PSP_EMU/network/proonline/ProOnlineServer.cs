@@ -28,7 +28,7 @@ namespace pspsharp.network.proonline
 	using SceNetAdhocctlPacketBaseS2C = pspsharp.network.proonline.PacketFactory.SceNetAdhocctlPacketBaseS2C;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * Ported from ProOnline aemu server
@@ -83,7 +83,7 @@ namespace pspsharp.network.proonline
 					bool isTimeout = DateTimeHelper.CurrentUnixTimeMillis() - lastReceiveTimestamp > 15000;
 					if (isTimeout)
 					{
-						log.debug(string.Format("User timed out now={0:D}, lastReceiveTimestamp={1:D}", DateTimeHelper.CurrentUnixTimeMillis(), lastReceiveTimestamp));
+						Console.WriteLine(string.Format("User timed out now={0:D}, lastReceiveTimestamp={1:D}", DateTimeHelper.CurrentUnixTimeMillis(), lastReceiveTimestamp));
 					}
 					return isTimeout;
 				}
@@ -140,7 +140,7 @@ namespace pspsharp.network.proonline
 
 			public override void run()
 			{
-				log.debug(string.Format("Starting ProOnlineServerThread"));
+				Console.WriteLine(string.Format("Starting ProOnlineServerThread"));
 				while (!exit_Renamed)
 				{
 					try
@@ -155,16 +155,16 @@ namespace pspsharp.network.proonline
 					}
 					catch (IOException e)
 					{
-						log.debug("Accept server socket", e);
+						Console.WriteLine("Accept server socket", e);
 					}
 
 					foreach (User user in outerInstance.users)
 					{
-						int length = 0;
+						int Length = 0;
 						try
 						{
 							System.IO.Stream @is = user.socket.InputStream;
-							length = @is.Read(user.buffer, user.bufferLength, user.buffer.Length - user.bufferLength);
+							Length = @is.Read(user.buffer, user.bufferLength, user.buffer.Length - user.bufferLength);
 						}
 						catch (SocketTimeoutException)
 						{
@@ -172,16 +172,16 @@ namespace pspsharp.network.proonline
 						}
 						catch (IOException e)
 						{
-							log.debug("Receive user socket", e);
+							Console.WriteLine("Receive user socket", e);
 						}
 
-						if (length > 0)
+						if (Length > 0)
 						{
-							user.bufferLength += length;
+							user.bufferLength += Length;
 							user.lastReceiveTimestamp = DateTimeHelper.CurrentUnixTimeMillis();
 							outerInstance.processUserStream(user);
 						}
-						else if (length < 0 || user.Timeout)
+						else if (Length < 0 || user.Timeout)
 						{
 							outerInstance.logoutUser(user);
 						}
@@ -208,7 +208,7 @@ namespace pspsharp.network.proonline
 			}
 			catch (IOException e)
 			{
-				log.error(string.Format("Server socket at port {0:D} not available: {1}", port, e));
+				Console.WriteLine(string.Format("Server socket at port {0:D} not available: {1}", port, e));
 				return;
 			}
 
@@ -237,7 +237,7 @@ namespace pspsharp.network.proonline
 				}
 				catch (IOException e)
 				{
-					log.debug("Closing server socket", e);
+					Console.WriteLine("Closing server socket", e);
 				}
 				serverSocket = null;
 			}
@@ -274,7 +274,7 @@ namespace pspsharp.network.proonline
 	//		for (User user : users) {
 	//			if (user.ipString.equals(ip)) {
 	//				// Duplicate user (same IP & same port)
-	//				log.debug(String.format("Duplicate user IP: %s", ip));
+	//				Console.WriteLine(String.format("Duplicate user IP: %s", ip));
 	//				socket.close();
 	//				return;
 	//			}
@@ -344,9 +344,9 @@ namespace pspsharp.network.proonline
 			}
 			else if (user.bufferLength >= packet.Length)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Incoming client packet {0}", packet));
+					Console.WriteLine(string.Format("Incoming client packet {0}", packet));
 				}
 
 				currentUser = user;
@@ -416,7 +416,7 @@ namespace pspsharp.network.proonline
 					}
 					catch (IOException e)
 					{
-						log.debug("disconnectUser", e);
+						Console.WriteLine("disconnectUser", e);
 					}
 				}
 
@@ -462,7 +462,7 @@ namespace pspsharp.network.proonline
 					}
 					catch (IOException e)
 					{
-						log.debug("processScan", e);
+						Console.WriteLine("processScan", e);
 					}
 				}
 			}
@@ -490,7 +490,7 @@ namespace pspsharp.network.proonline
 						}
 						catch (IOException e)
 						{
-							log.debug("spreadMessage global notice", e);
+							Console.WriteLine("spreadMessage global notice", e);
 						}
 					}
 				}
@@ -511,7 +511,7 @@ namespace pspsharp.network.proonline
 						}
 						catch (IOException e)
 						{
-							log.debug("spreadMessage", e);
+							Console.WriteLine("spreadMessage", e);
 						}
 					}
 				}
@@ -564,7 +564,7 @@ namespace pspsharp.network.proonline
 						}
 						catch (IOException e)
 						{
-							log.debug("processConnect", e);
+							Console.WriteLine("processConnect", e);
 						}
 
 						packet = new SceNetAdhocctlConnectPacketS2C(user.nickName, user.mac, user.ip);
@@ -574,7 +574,7 @@ namespace pspsharp.network.proonline
 						}
 						catch (IOException e)
 						{
-							log.debug("processConnect", e);
+							Console.WriteLine("processConnect", e);
 						}
 					}
 
@@ -586,7 +586,7 @@ namespace pspsharp.network.proonline
 					}
 					catch (IOException e)
 					{
-						log.debug("processConnect", e);
+						Console.WriteLine("processConnect", e);
 					}
 					log.info(string.Format("{0} joined {1} group '{2}'.", currentUser, currentUser.game == null ? "" : currentUser.game.name, currentUser.group.name));
 				}

@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.Allegrex.compiler.nativeCode.graphics
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using PspGeList = pspsharp.HLE.kernel.types.PspGeList;

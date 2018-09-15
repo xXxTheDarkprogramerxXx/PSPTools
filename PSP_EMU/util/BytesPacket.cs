@@ -23,34 +23,34 @@ namespace pspsharp.util
 	{
 		private sbyte[] buffer;
 		private int offset;
-		private int length;
+		private int Length;
 		private bool littleEndian;
 		private int bufferBits;
 		private int bit;
 
-		public BytesPacket(int length)
+		public BytesPacket(int Length)
 		{
-			buffer = new sbyte[length];
-			this.length = length;
+			buffer = new sbyte[Length];
+			this.Length = Length;
 		}
 
 		public BytesPacket(sbyte[] buffer)
 		{
 			this.buffer = buffer;
-			length = buffer.Length;
+			Length = buffer.Length;
 		}
 
-		public BytesPacket(sbyte[] buffer, int length)
+		public BytesPacket(sbyte[] buffer, int Length)
 		{
 			this.buffer = buffer;
-			this.length = length;
+			this.Length = Length;
 		}
 
-		public BytesPacket(sbyte[] buffer, int offset, int length)
+		public BytesPacket(sbyte[] buffer, int offset, int Length)
 		{
 			this.buffer = buffer;
 			this.offset = offset;
-			this.length = length;
+			this.Length = Length;
 		}
 
 		public virtual void setLittleEndian()
@@ -83,7 +83,7 @@ namespace pspsharp.util
 		{
 			get
 			{
-				return length;
+				return Length;
 			}
 		}
 
@@ -91,12 +91,12 @@ namespace pspsharp.util
 //ORIGINAL LINE: public byte readByte() throws java.io.EOFException
 		public virtual sbyte readByte()
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				throw new EOFException();
 			}
 
-			length--;
+			Length--;
 			return buffer[offset++];
 		}
 
@@ -217,15 +217,15 @@ namespace pspsharp.util
 		{
 			if (n > 0)
 			{
-				if (length < n)
+				if (Length < n)
 				{
-					offset += length;
-					length = 0;
+					offset += Length;
+					Length = 0;
 					throw new EOFException();
 				}
 
 				offset += n;
-				length -= n;
+				Length -= n;
 			}
 		}
 
@@ -254,12 +254,12 @@ namespace pspsharp.util
 //ORIGINAL LINE: public void writeByte(byte b) throws java.io.EOFException
 		public virtual void writeByte(sbyte b)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				throw new EOFException();
 			}
 
-			length--;
+			Length--;
 			buffer[offset++] = b;
 		}
 
@@ -390,7 +390,7 @@ namespace pspsharp.util
 		{
 			if (newOffset < offset)
 			{
-				length += offset - newOffset;
+				Length += offset - newOffset;
 				offset = newOffset;
 			}
 		}

@@ -195,9 +195,9 @@ namespace pspsharp.HLE.VFS.fat
 			int index = alignDown(fatIndex * sectorSize * 2 / 3, 1);
 			int offset = (index / 2 * 3) - (fatIndex * sectorSize);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Fat12VirtualFile.writeFatSector fatIndex=0x{0:X}, index=0x{1:X}, offset=0x{2:X}", fatIndex, index, offset));
+				Console.WriteLine(string.Format("Fat12VirtualFile.writeFatSector fatIndex=0x{0:X}, index=0x{1:X}, offset=0x{2:X}", fatIndex, index, offset));
 			}
 
 			while (offset < sectorSize && index < fatClusterMap.Length)

@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
 	using MemoryReader = pspsharp.memory.MemoryReader;
 	using Utilities = pspsharp.util.Utilities;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceAdler : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceAdler");
+		//public static Logger log = Modules.getLogger("sceAdler");
 		// Do not use the JDK Adler32 implementation as we need to specify the initial checksum value.
 		// This value is always forced to 1 in the JDK Adler32 implementation.
 		protected internal Adler32 adler32;
@@ -43,16 +43,16 @@ namespace pspsharp.HLE.modules
 		}
 
 		[HLEFunction(nid : 0x9702EF11, version : 150)]
-		public virtual int sceAdler32(int adler, TPointer data, int length)
+		public virtual int sceAdler32(int adler, TPointer data, int Length)
 		{
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("sceAdler32 data:{0}", Utilities.getMemoryDump(data.Address, length)));
+				log.trace(string.Format("sceAdler32 data:{0}", Utilities.getMemoryDump(data.Address, Length)));
 			}
 
-			sbyte[] b = new sbyte[length];
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(data.Address, length, 1);
-			for (int i = 0; i < length; i++)
+			sbyte[] b = new sbyte[Length];
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(data.Address, Length, 1);
+			for (int i = 0; i < Length; i++)
 			{
 				b[i] = (sbyte) memoryReader.readNext();
 			}
@@ -62,9 +62,9 @@ namespace pspsharp.HLE.modules
 			adler32.update(b);
 			int result = (int) adler32.Value;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAdler32 returning 0x{0:X8}", result));
+				Console.WriteLine(string.Format("sceAdler32 returning 0x{0:X8}", result));
 			}
 
 			return result;

@@ -29,7 +29,7 @@ namespace pspsharp.util
 		/// </summary>
 		/// <param name="hashCode">		current hashCode value </param>
 		/// <param name="addr">			start of the memory range to be hashed </param>
-		/// <param name="lengthInBytes">	length of the memory range </param>
+		/// <param name="lengthInBytes">	Length of the memory range </param>
 		/// <returns> updated hashCode value </returns>
 		public static int getHashCode(int hashCode, int addr, int lengthInBytes)
 		{
@@ -50,7 +50,7 @@ namespace pspsharp.util
 		/// </summary>
 		/// <param name="hashCode">		current hashCode value </param>
 		/// <param name="addr">			start of the memory range to be hashed </param>
-		/// <param name="lengthInBytes">	length of the memory range </param>
+		/// <param name="lengthInBytes">	Length of the memory range </param>
 		/// <param name="strideInBytes"> stride (hash only 4 bytes every stride bytes) </param>
 		/// <returns> updated hashCode value </returns>
 		public static int getHashCode(int hashCode, int addr, int lengthInBytes, int strideInBytes)
@@ -82,7 +82,7 @@ namespace pspsharp.util
 		/// </summary>
 		/// <param name="hashCode">		current hashCode value </param>
 		/// <param name="addr">			start of the memory range to be hashed </param>
-		/// <param name="lengthInBytes">	length of the memory range </param>
+		/// <param name="lengthInBytes">	Length of the memory range </param>
 		/// <returns> updated hashCode value </returns>
 		public static int getHashCodeComplex(int hashCode, int addr, int lengthInBytes)
 		{
@@ -105,7 +105,7 @@ namespace pspsharp.util
 		/// </summary>
 		/// <param name="hashCode">		current hashCode value </param>
 		/// <param name="addr">			start of the memory range to be hashed </param>
-		/// <param name="lengthInBytes">	length of the memory range </param>
+		/// <param name="lengthInBytes">	Length of the memory range </param>
 		/// <param name="strideInBytes"> stride (hash only 4 bytes every stride bytes) </param>
 		/// <returns> updated hashCode value </returns>
 		public static int getHashCodeComplex(int hashCode, int addr, int lengthInBytes, int strideInBytes)
@@ -139,7 +139,7 @@ namespace pspsharp.util
 		/// </summary>
 		/// <param name="hashCode">		current hashCode value </param>
 		/// <param name="addr">			start of the memory range to be hashed </param>
-		/// <param name="lengthInBytes">	length of the memory range </param>
+		/// <param name="lengthInBytes">	Length of the memory range </param>
 		/// <returns> updated hashCode value </returns>
 		public static int getHashCodeFloatingMemory(int hashCode, int addr, int lengthInBytes)
 		{
@@ -154,7 +154,7 @@ namespace pspsharp.util
 		/// </summary>
 		/// <param name="hashCode">		current hashCode value </param>
 		/// <param name="memoryReader">	the memory reader for the values to be hashed </param>
-		/// <param name="lengthInBytes">	length of the memory range </param>
+		/// <param name="lengthInBytes">	Length of the memory range </param>
 		/// <returns> updated hashCode value </returns>
 		public static int getHashCodeFloatingMemory(int hashCode, IMemoryReader memoryReader, int lengthInBytes)
 		{

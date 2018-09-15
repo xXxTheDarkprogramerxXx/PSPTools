@@ -19,7 +19,7 @@ namespace pspsharp.format.rco.anim
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.scheduler.Scheduler.getNow;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IAction = pspsharp.HLE.kernel.types.IAction;
 	using VSMX = pspsharp.format.rco.vsmx.VSMX;
@@ -46,9 +46,9 @@ namespace pspsharp.format.rco.anim
 		{
 			long now = Now;
 			int currentDuration = (int)(now - start);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("BaseAnimAction duration={0:D}/{1:D}", currentDuration, duration));
+				Console.WriteLine(string.Format("BaseAnimAction duration={0:D}/{1:D}", currentDuration, duration));
 			}
 			currentDuration = System.Math.Min(currentDuration, duration);
 			float step = currentDuration == duration ? 1f : currentDuration / (float) duration;

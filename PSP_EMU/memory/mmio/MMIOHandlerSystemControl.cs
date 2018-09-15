@@ -21,7 +21,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.kernel.managers.IntrManager.PSP_MECODEC_INTR;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using Modules = pspsharp.HLE.Modules;
@@ -466,9 +466,9 @@ namespace pspsharp.memory.mmio
 				if (RuntimeContextLLE.MainCpu)
 				{
 					// Interrupt from the main cpu to the Media Engine cpu
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sysregInterruptToOther to ME on {0}", MMIOHandlerMeCore.Instance.ToString()));
+						Console.WriteLine(string.Format("sysregInterruptToOther to ME on {0}", MMIOHandlerMeCore.Instance.ToString()));
 					}
 					RuntimeContextLLE.triggerInterrupt(RuntimeContextLLE.MediaEngineProcessor, PSP_MECODEC_INTR);
 					RuntimeContextLLE.MediaEngineProcessor.triggerException(ExceptionManager.IP2);
@@ -476,9 +476,9 @@ namespace pspsharp.memory.mmio
 				else
 				{
 					// Interrupt from the Media Engine cpu to the main cpu
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sysregInterruptToOther from ME on {0}", MMIOHandlerMeCore.Instance.ToString()));
+						Console.WriteLine(string.Format("sysregInterruptToOther from ME on {0}", MMIOHandlerMeCore.Instance.ToString()));
 					}
 					RuntimeContextLLE.triggerInterrupt(RuntimeContextLLE.MainProcessor, PSP_MECODEC_INTR);
 				}
@@ -591,23 +591,23 @@ namespace pspsharp.memory.mmio
     
 				if (hasBit(avcPower, SYSREG_AVC_POWER))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerSystemControl.setAvcPower enabling Avc power"));
+						Console.WriteLine(string.Format("MMIOHandlerSystemControl.setAvcPower enabling Avc power"));
 					}
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerSystemControl.setAvcPower disabling Avc power"));
+						Console.WriteLine(string.Format("MMIOHandlerSystemControl.setAvcPower disabling Avc power"));
 					}
 				}
     
 				// Only bit SYSREG_AVC_POWER is known
 				if ((value & ~(1 << SYSREG_AVC_POWER)) != 0)
 				{
-					log.error(string.Format("MMIOHandlerSystemControl.setAvcPower unknown value 0x{0:X}", value));
+					Console.WriteLine(string.Format("MMIOHandlerSystemControl.setAvcPower unknown value 0x{0:X}", value));
 				}
 			}
 		}

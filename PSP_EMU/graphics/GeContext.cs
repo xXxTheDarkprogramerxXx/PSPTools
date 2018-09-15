@@ -35,7 +35,7 @@ namespace pspsharp.graphics
 //	import static pspsharp.graphics.VideoEngine.NUM_LIGHTS;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using pspAbstractMemoryMappedStructure = pspsharp.HLE.kernel.types.pspAbstractMemoryMappedStructure;
 	using IRenderingEngine = pspsharp.graphics.RE.IRenderingEngine;
@@ -520,11 +520,11 @@ namespace pspsharp.graphics
 
 			if (Offset > @sizeof())
 			{
-				log.error(string.Format("GE context overflow: {0:D} (max allowed={1:D})", Offset, @sizeof()));
+				Console.WriteLine(string.Format("GE context overflow: {0:D} (max allowed={1:D})", Offset, @sizeof()));
 			}
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("GE context read size: {0:D} (max allowed={1:D})", Offset, @sizeof()));
+				Console.WriteLine(string.Format("GE context read size: {0:D} (max allowed={1:D})", Offset, @sizeof()));
 			}
 		}
 
@@ -694,11 +694,11 @@ namespace pspsharp.graphics
 
 			if (Offset > @sizeof())
 			{
-				log.error(string.Format("GE context overflow: {0:D} (max allowed={1:D})", Offset, @sizeof()));
+				Console.WriteLine(string.Format("GE context overflow: {0:D} (max allowed={1:D})", Offset, @sizeof()));
 			}
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("GE context write size: {0:D} (max allowed={1:D})", Offset, @sizeof()));
+				Console.WriteLine(string.Format("GE context write size: {0:D} (max allowed={1:D})", Offset, @sizeof()));
 			}
 		}
 
@@ -780,7 +780,7 @@ namespace pspsharp.graphics
 
 				if (log.DebugEnabled && !string.ReferenceEquals(name, null))
 				{
-					log.debug(string.Format("sceGu{0}({1})", enabled ? "Enable" : "Disable", name));
+					Console.WriteLine(string.Format("sceGu{0}({1})", enabled ? "Enable" : "Disable", name));
 				}
 			}
 

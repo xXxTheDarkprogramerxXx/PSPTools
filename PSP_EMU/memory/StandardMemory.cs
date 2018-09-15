@@ -81,7 +81,7 @@ namespace pspsharp.memory
 			catch (System.OutOfMemoryException)
 			{
 				// Not enough memory provided for this VM, cannot use StandardMemory model
-				Memory.log.error("Cannot allocate StandardMemory: add the option '-Xmx64m' to the Java Virtual Machine startup command to improve Performance");
+				Memory.Console.WriteLine("Cannot allocate StandardMemory: add the option '-Xmx64m' to the Java Virtual Machine startup command to improve Performance");
 				return false;
 			}
 
@@ -90,7 +90,7 @@ namespace pspsharp.memory
 
 		public override void Initialise()
 		{
-			Arrays.fill(all, (sbyte)0);
+			Arrays.Fill(all, (sbyte)0);
 		}
 
 		public StandardMemory()
@@ -102,7 +102,7 @@ namespace pspsharp.memory
 			int i;
 			int page;
 
-			Arrays.fill(map, -1);
+			Arrays.Fill(map, -1);
 
 			page = (int)((uint)START_SCRATCHPAD >> PAGE_SHIFT);
 			for (i = 0; i < ((int)((uint)SIZE_SCRATCHPAD >> PAGE_SHIFT)); ++i)
@@ -155,7 +155,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("read8 - " + e.Message);
+				Memory.Console.WriteLine("read8 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_READ);
 				return 0;
 			}
@@ -170,7 +170,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("read16 - " + e.Message);
+				Memory.Console.WriteLine("read16 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_READ);
 				return 0;
 			}
@@ -190,7 +190,7 @@ namespace pspsharp.memory
 					return 0;
 				}
 
-				Memory.log.error("read32 - " + e.Message);
+				Memory.Console.WriteLine("read32 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_READ);
 				return 0;
 			}
@@ -205,7 +205,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("read64 - " + e.Message);
+				Memory.Console.WriteLine("read64 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_READ);
 				return 0;
 			}
@@ -221,7 +221,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("write8 - " + e.Message);
+				Memory.Console.WriteLine("write8 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_WRITE);
 			}
 		}
@@ -236,7 +236,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("write16 - " + e.Message);
+				Memory.Console.WriteLine("write16 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_WRITE);
 			}
 		}
@@ -251,7 +251,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("write32 - " + e.Message);
+				Memory.Console.WriteLine("write32 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_WRITE);
 			}
 		}
@@ -266,7 +266,7 @@ namespace pspsharp.memory
 			}
 			catch (Exception e)
 			{
-				Memory.log.error("write64 - " + e.Message);
+				Memory.Console.WriteLine("write64 - " + e.Message);
 				Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_WRITE);
 			}
 		}
@@ -279,59 +279,59 @@ namespace pspsharp.memory
 			}
 		}
 
-		public override ByteBuffer getBuffer(int address, int length)
+		public override ByteBuffer getBuffer(int address, int Length)
 		{
 			address = normalizeAddress(address);
 
-			int endAddress = address + length - 1;
+			int endAddress = address + Length - 1;
 			if (address >= MemoryMap.START_RAM && endAddress <= MemoryMap.END_RAM)
 			{
-				return ByteBuffer.wrap(mainmemory.array(), mainmemory.arrayOffset() + address - MemoryMap.START_RAM, length).slice().order(ByteOrder.LITTLE_ENDIAN);
+				return ByteBuffer.wrap(mainmemory.array(), mainmemory.arrayOffset() + address - MemoryMap.START_RAM, Length).slice().order(ByteOrder.LITTLE_ENDIAN);
 			}
 			else if (address >= MemoryMap.START_VRAM && endAddress <= MemoryMap.END_VRAM)
 			{
-				return ByteBuffer.wrap(videoram.array(), videoram.arrayOffset() + address - MemoryMap.START_VRAM, length).slice().order(ByteOrder.LITTLE_ENDIAN);
+				return ByteBuffer.wrap(videoram.array(), videoram.arrayOffset() + address - MemoryMap.START_VRAM, Length).slice().order(ByteOrder.LITTLE_ENDIAN);
 			}
 			else if (address >= MemoryMap.START_SCRATCHPAD && endAddress <= MemoryMap.END_SCRATCHPAD)
 			{
-				return ByteBuffer.wrap(scratchpad.array(), scratchpad.arrayOffset() + address - MemoryMap.START_SCRATCHPAD, length).slice().order(ByteOrder.LITTLE_ENDIAN);
+				return ByteBuffer.wrap(scratchpad.array(), scratchpad.arrayOffset() + address - MemoryMap.START_SCRATCHPAD, Length).slice().order(ByteOrder.LITTLE_ENDIAN);
 			}
 
 			return null;
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
-			ByteBuffer buffer = getBuffer(address, length);
-			Arrays.fill(buffer.array(), buffer.arrayOffset(), buffer.arrayOffset() + length, data);
+			ByteBuffer buffer = getBuffer(address, Length);
+			Arrays.Fill(buffer.array(), buffer.arrayOffset(), buffer.arrayOffset() + Length, data);
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
-			sbyte[] data = new sbyte[length];
+			sbyte[] data = new sbyte[Length];
 			source.get(data);
-			ByteBuffer destination = getBuffer(address, length);
+			ByteBuffer destination = getBuffer(address, Length);
 			destination.put(data);
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
 			destination = normalizeAddress(destination);
 			source = normalizeAddress(source);
 
-			if (checkOverlap || !areOverlapping(destination, source, length))
+			if (checkOverlap || !areOverlapping(destination, source, Length))
 			{
 				// Direct copy if buffers do not overlap.
 				// ByteBuffer operations are handling correctly overlapping buffers.
-				ByteBuffer destinationBuffer = getBuffer(destination, length);
-				ByteBuffer sourceBuffer = getBuffer(source, length);
+				ByteBuffer destinationBuffer = getBuffer(destination, Length);
+				ByteBuffer sourceBuffer = getBuffer(source, Length);
 				destinationBuffer.put(sourceBuffer);
 			}
 			else
 			{
 				// Buffers are overlapping and we have to copy them as they would not overlap.
-				IMemoryReader sourceReader = MemoryReader.getMemoryReader(source, length, 1);
-				for (int i = 0; i < length; i++)
+				IMemoryReader sourceReader = MemoryReader.getMemoryReader(source, Length, 1);
+				for (int i = 0; i < Length; i++)
 				{
 					write8(destination + i, (sbyte) sourceReader.readNext());
 				}

@@ -19,7 +19,7 @@ namespace pspsharp.network.adhoc
 
 	using sceNetAdhoc = pspsharp.HLE.modules.sceNetAdhoc;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15

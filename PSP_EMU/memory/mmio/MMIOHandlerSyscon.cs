@@ -98,7 +98,7 @@ namespace pspsharp.memory.mmio
 //	import static pspsharp.memory.mmio.MMIOHandlerGpio.GPIO_PORT_SYSCON_END_CMD;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using sceSyscon = pspsharp.HLE.modules.sceSyscon;
@@ -178,7 +178,7 @@ namespace pspsharp.memory.mmio
 
 		private void clearData()
 		{
-			Arrays.fill(data, 0);
+			Arrays.Fill(data, 0);
 		}
 
 		private void setDataValue(int offset, int value)
@@ -189,12 +189,12 @@ namespace pspsharp.memory.mmio
 		private void addHashValue()
 		{
 			int hash = 0;
-			int length = data[PSP_SYSCON_RX_LEN];
-			for (int i = 0; i < length; i++)
+			int Length = data[PSP_SYSCON_RX_LEN];
+			for (int i = 0; i < Length; i++)
 			{
 				hash = (hash + data[i]) & 0xFF;
 			}
-			data[length] = (~hash) & 0xFF;
+			data[Length] = (~hash) & 0xFF;
 		}
 
 		private int[] addResponseData16(int[] responseData, int value)
@@ -251,9 +251,9 @@ namespace pspsharp.memory.mmio
 		private int[] addButtonsResponseData(int[] responseData, bool kernel)
 		{
 			int buttons = State.controller.Buttons;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("addButtonsResponseData buttons=0x{0:X8}", buttons));
+				Console.WriteLine(string.Format("addButtonsResponseData buttons=0x{0:X8}", buttons));
 			}
 			buttons ^= kernel ? 0x20F7F3F9 : 0x7F3F9;
 			responseData = Utilities.add(responseData, ((buttons & 0xF000) >> 8) | ((buttons & 0xF0) >> 4));
@@ -280,9 +280,9 @@ namespace pspsharp.memory.mmio
 				ly = Controller.analogCenter;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("addAnalogResponseData lx=0x{0:X2}, ly=0x{1:X2}", lx & 0xFF, ly & 0xFF));
+				Console.WriteLine(string.Format("addAnalogResponseData lx=0x{0:X2}, ly=0x{1:X2}", lx & 0xFF, ly & 0xFF));
 			}
 			responseData = Utilities.add(responseData, lx & 0xFF);
 			responseData = Utilities.add(responseData, ly & 0xFF);
@@ -293,9 +293,9 @@ namespace pspsharp.memory.mmio
 		private void startSysconCmd()
 		{
 			int cmd = data[PSP_SYSCON_TX_CMD];
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("startSysconCmd cmd=0x{0:X2}({1}), {2}", cmd, getSysconCmdName(cmd), this));
+				Console.WriteLine(string.Format("startSysconCmd cmd=0x{0:X2}({1}), {2}", cmd, getSysconCmdName(cmd), this));
 			}
 
 			// The default response
@@ -313,7 +313,7 @@ namespace pspsharp.memory.mmio
 				case PSP_SYSCON_CMD_RESET_DEVICE:
 					int device = data[PSP_SYSCON_TX_DATA] & 0x7F;
 					bool reset = (data[PSP_SYSCON_TX_DATA] & 0x80) != 0;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 						string deviceName = "Unknown";
 						if (device == 2)
@@ -325,8 +325,8 @@ namespace pspsharp.memory.mmio
 							deviceName = "WLAN";
 						}
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("PSP_SYSCON_CMD_RESET_DEVICE device=0x%X(%s), reset=%b", device, deviceName, reset));
-						log.debug(string.Format("PSP_SYSCON_CMD_RESET_DEVICE device=0x%X(%s), reset=%b", device, deviceName, reset));
+//ORIGINAL LINE: Console.WriteLine(String.format("PSP_SYSCON_CMD_RESET_DEVICE device=0x%X(%s), reset=%b", device, deviceName, reset));
+						Console.WriteLine(string.Format("PSP_SYSCON_CMD_RESET_DEVICE device=0x%X(%s), reset=%b", device, deviceName, reset));
 					}
 					break;
 				case PSP_SYSCON_CMD_GET_DIGITAL_KEY:
@@ -384,7 +384,7 @@ namespace pspsharp.memory.mmio
 							LED.LedBluetoothOn = setOn;
 							break;
 						default:
-							log.warn(string.Format("startSysconCmd PSP_SYSCON_CMD_CTRL_LED unknown flag value 0x{0:X2}", flag));
+							Console.WriteLine(string.Format("startSysconCmd PSP_SYSCON_CMD_CTRL_LED unknown flag value 0x{0:X2}", flag));
 							break;
 					}
 					break;
@@ -397,9 +397,9 @@ namespace pspsharp.memory.mmio
 						parameterId = data[PSP_SYSCON_TX_DATA];
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("startSysconCmd PSP_SYSCON_CMD_RECEIVE_SETPARAM parameterId=0x{0:X}", parameterId));
+						Console.WriteLine(string.Format("startSysconCmd PSP_SYSCON_CMD_RECEIVE_SETPARAM parameterId=0x{0:X}", parameterId));
 					}
 
 					// 8 bytes response data:
@@ -423,9 +423,9 @@ namespace pspsharp.memory.mmio
 					int forceSuspendCapacity = data[PSP_SYSCON_TX_DATA + 0];
 					forceSuspendCapacity |= data[PSP_SYSCON_TX_DATA + 1] << 8;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("startSysconCmd PSP_SYSCON_CMD_SEND_SETPARAM parameterId=0x{0:X}, forceSuspendCapacity=0x{1:X}", parameterId, forceSuspendCapacity));
+						Console.WriteLine(string.Format("startSysconCmd PSP_SYSCON_CMD_SEND_SETPARAM parameterId=0x{0:X}, forceSuspendCapacity=0x{1:X}", parameterId, forceSuspendCapacity));
 					}
 					break;
 				}
@@ -533,7 +533,7 @@ namespace pspsharp.memory.mmio
 					sceSysconModule.sceSysconCtrlVoltage(unknown & 0xFF, (unknown >> 8) & 0xFFFF);
 					break;
 				default:
-					log.error(string.Format("startSysconCmd: unknown cmd=0x{0:X2}({1}), {2}", cmd, getSysconCmdName(cmd), this));
+					Console.WriteLine(string.Format("startSysconCmd: unknown cmd=0x{0:X2}({1}), {2}", cmd, getSysconCmdName(cmd), this));
 					break;
 			}
 
@@ -544,21 +544,21 @@ namespace pspsharp.memory.mmio
 
 		private void endSysconCmd()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("endSysconCmd {0}", this));
+				Console.WriteLine(string.Format("endSysconCmd {0}", this));
 			}
 			MMIOHandlerGpio.Instance.Port = GPIO_PORT_SYSCON_END_CMD;
 		}
 
-		public virtual void setResponseData(int status, int[] responseData, int offset, int length)
+		public virtual void setResponseData(int status, int[] responseData, int offset, int Length)
 		{
 			clearData();
-			if (length >= 0 && length <= MAX_DATA_LENGTH - 3)
+			if (Length >= 0 && Length <= MAX_DATA_LENGTH - 3)
 			{
 				setDataValue(PSP_SYSCON_RX_STATUS, status);
-				setDataValue(PSP_SYSCON_RX_LEN, length + 2);
-				for (int i = 0; i < length; i++)
+				setDataValue(PSP_SYSCON_RX_LEN, Length + 2);
+				for (int i = 0; i < Length; i++)
 				{
 					setDataValue(PSP_SYSCON_RX_RESPONSE + i, responseData[offset + i]);
 				}

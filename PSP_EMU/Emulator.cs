@@ -53,7 +53,7 @@ namespace pspsharp
 	using DurationStatistics = pspsharp.util.DurationStatistics;
 	using JpcspDialogManager = pspsharp.util.JpcspDialogManager;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * TODO list:
@@ -76,7 +76,7 @@ namespace pspsharp
 		public static bool pause = false;
 		private static IMainGUI gui;
 		private InstructionCounter instructionCounter;
-		public static Logger log = Logger.getLogger("emu");
+		//public static Logger log = Logger.getLogger("emu");
 		private SceModule module;
 		private int firmwareVersion = 999;
 		private string[] bootModuleBlackList = new string[] {"Prometheus Loader"};
@@ -239,7 +239,7 @@ namespace pspsharp
 			{
 				if (module.module_start_func != entryAddr)
 				{
-					log.warn(string.Format("Using the module start function as module entry: 0x{0:X8} instead of 0x{1:X8}", module.module_start_func, entryAddr));
+					Console.WriteLine(string.Format("Using the module start function as module entry: 0x{0:X8} instead of 0x{1:X8}", module.module_start_func, entryAddr));
 					entryAddr = module.module_start_func;
 				}
 			}
@@ -364,7 +364,7 @@ namespace pspsharp
 			{
 				if (!moduleLoaded)
 				{
-					Emulator.log.debug("Nothing loaded, can't run...");
+					Emulator.Console.WriteLine("Nothing loaded, can't run...");
 					gui.RefreshButtons();
 					return;
 				}

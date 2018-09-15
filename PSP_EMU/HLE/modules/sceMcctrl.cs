@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceMcctrl : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMcctrl");
+		//public static Logger log = Modules.getLogger("sceMcctrl");
 
 		// Init function?
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
@@ -45,7 +45,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1EDFD6BB, version = 150) public int sceMcctrl_1EDFD6BB(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=288, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=176, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1EDFD6BB, version = 150) public int sceMcctrl_1EDFD6BB(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=288, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=176, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0x1EDFD6BB, version : 150)]
 		public virtual int sceMcctrl_1EDFD6BB(TPointer unknown1, TPointer unknown2)
 		{

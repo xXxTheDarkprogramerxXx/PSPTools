@@ -78,7 +78,7 @@ namespace pspsharp.Debugger
 		public static void log(string msg)
 		{
 			Console.Error.WriteLine(msg);
-			Modules.log.error(msg);
+			Modules.Console.WriteLine(msg);
 		}
 	}
 }

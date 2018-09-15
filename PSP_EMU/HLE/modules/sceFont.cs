@@ -66,14 +66,14 @@ namespace pspsharp.HLE.modules
 	using Debug = pspsharp.util.Debug;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	//
 	// The stackUsage values are based on tests performed using JpcspTrace
 	//
 	public class sceFont : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceFont");
+		//public static Logger log = Modules.getLogger("sceFont");
 		private const bool dumpUserFont = false;
 
 		private class UseDebugFontSettingsListerner : AbstractBoolSettingsListener
@@ -350,7 +350,7 @@ namespace pspsharp.HLE.modules
 				if (fontFile != null)
 				{
 					fontFile.skipBytes(32); // Skip custom header.
-					sbyte[] c = new sbyte[(int) fontFile.length() - 32];
+					sbyte[] c = new sbyte[(int) fontFile.Length() - 32];
 					fontFile.readFully(c);
 					fontFile.Dispose();
 					Debug.Font.DebugFont = c; // Set the internal debug font.
@@ -362,7 +362,7 @@ namespace pspsharp.HLE.modules
 			catch (IOException e)
 			{
 				// The file was removed from flash0.
-				log.error(e);
+				Console.WriteLine(e);
 			}
 		}
 
@@ -422,7 +422,7 @@ namespace pspsharp.HLE.modules
 						}
 						catch (IOException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						mem.memset(addr, (sbyte) 0, memoryLength);
 						level++;
@@ -441,7 +441,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 		}
 
@@ -478,7 +478,7 @@ namespace pspsharp.HLE.modules
 			catch (Exception e)
 			{
 				// Can't parse file.
-				log.error("openFontFile", e);
+				Console.WriteLine("openFontFile", e);
 			}
 
 			return font;
@@ -493,7 +493,7 @@ namespace pspsharp.HLE.modules
 				SeekableDataInput fontFile = Modules.IoFileMgrForUserModule.getFile(fileName, IoFileMgrForUser.PSP_O_RDONLY);
 				if (fontFile != null)
 				{
-					sbyte[] pgfBytes = new sbyte[(int) fontFile.length()];
+					sbyte[] pgfBytes = new sbyte[(int) fontFile.Length()];
 					fontFile.readFully(pgfBytes);
 					fontFile.Dispose();
 					ByteBuffer pgfBuffer = ByteBuffer.wrap(pgfBytes);
@@ -504,21 +504,21 @@ namespace pspsharp.HLE.modules
 			catch (IOException e)
 			{
 				// Can't open file.
-				log.warn(e);
+				Console.WriteLine(e);
 			}
 
 			return font;
 		}
 
-		protected internal virtual Font openFontFile(int addr, int length)
+		protected internal virtual Font openFontFile(int addr, int Length)
 		{
 			if (dumpUserFont)
 			{
 				try
 				{
 					System.IO.Stream os = new System.IO.FileStream(string.Format("{0}userFont-0x{1:X8}.pgf", Settings.Instance.TmpDirectory, addr), System.IO.FileMode.Create, System.IO.FileAccess.Write);
-					IMemoryReader memoryReader = MemoryReader.getMemoryReader(addr, length, 1);
-					for (int i = 0; i < length; i++)
+					IMemoryReader memoryReader = MemoryReader.getMemoryReader(addr, Length, 1);
+					for (int i = 0; i < Length; i++)
 					{
 						os.WriteByte(memoryReader.readNext());
 					}
@@ -531,9 +531,9 @@ namespace pspsharp.HLE.modules
 				{
 				}
 			}
-			ByteBuffer pgfBuffer = ByteBuffer.allocate(length);
-			Buffer memBuffer = Memory.Instance.getBuffer(addr, length);
-			Utilities.putBuffer(pgfBuffer, memBuffer, ByteOrder.LITTLE_ENDIAN, length);
+			ByteBuffer pgfBuffer = ByteBuffer.allocate(Length);
+			Buffer memBuffer = Memory.Instance.getBuffer(addr, Length);
+			Utilities.putBuffer(pgfBuffer, memBuffer, ByteOrder.LITTLE_ENDIAN, Length);
 			pgfBuffer.rewind();
 
 			Font font = openFontFile(pgfBuffer, null);
@@ -862,9 +862,9 @@ namespace pspsharp.HLE.modules
 
 			protected internal virtual void triggerAllocCallback(int size, IAction afterAllocCallback)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("triggerAllocCallback size=0x{0:X}", size));
+					Console.WriteLine(string.Format("triggerAllocCallback size=0x{0:X}", size));
 				}
 				Modules.ThreadManForUserModule.executeCallback(null, allocFuncAddr, afterAllocCallback, true, userDataAddr, size);
 			}
@@ -873,9 +873,9 @@ namespace pspsharp.HLE.modules
 			{
 				if (Memory.isAddressGood(addr))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Calling free callback on 0x{0:X8}", addr));
+						Console.WriteLine(string.Format("Calling free callback on 0x{0:X8}", addr));
 					}
 					Modules.ThreadManForUserModule.executeCallback(null, freeFuncAddr, afterFreeCallback, true, userDataAddr, addr);
 				}
@@ -908,9 +908,9 @@ namespace pspsharp.HLE.modules
 				errorFuncAddr = @params.getValue(36);
 				ioFinishFuncAddr = @params.getValue(40);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("userDataAddr 0x{0:X8}, numFonts={1:D}, cacheDataAddr=0x{2:X8}, allocFuncAddr=0x{3:X8}, freeFuncAddr=0x{4:X8}, openFuncAddr=0x{5:X8}, closeFuncAddr=0x{6:X8}, readFuncAddr=0x{7:X8}, seekFuncAddr=0x{8:X8}, errorFuncAddr=0x{9:X8}, ioFinishFuncAddr=0x{10:X8}", userDataAddr, numFonts, cacheDataAddr, allocFuncAddr, freeFuncAddr, openFuncAddr, closeFuncAddr, readFuncAddr, seekFuncAddr, errorFuncAddr, ioFinishFuncAddr));
+					Console.WriteLine(string.Format("userDataAddr 0x{0:X8}, numFonts={1:D}, cacheDataAddr=0x{2:X8}, allocFuncAddr=0x{3:X8}, freeFuncAddr=0x{4:X8}, openFuncAddr=0x{5:X8}, closeFuncAddr=0x{6:X8}, readFuncAddr=0x{7:X8}, seekFuncAddr=0x{8:X8}, errorFuncAddr=0x{9:X8}, ioFinishFuncAddr=0x{10:X8}", userDataAddr, numFonts, cacheDataAddr, allocFuncAddr, freeFuncAddr, openFuncAddr, closeFuncAddr, readFuncAddr, seekFuncAddr, errorFuncAddr, ioFinishFuncAddr));
 				}
 			}
 
@@ -945,9 +945,9 @@ namespace pspsharp.HLE.modules
 				{
 					int allocatedAddr = Emulator.Processor.cpu._v0;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("FontLib's allocation callback#{0:D} returned 0x{1:X8} for size 0x{2:X}", outerInstance.allocatedAddressIndex, allocatedAddr, outerInstance.allocatedSizes[outerInstance.allocatedAddressIndex]));
+						Console.WriteLine(string.Format("FontLib's allocation callback#{0:D} returned 0x{1:X8} for size 0x{2:X}", outerInstance.allocatedAddressIndex, allocatedAddr, outerInstance.allocatedSizes[outerInstance.allocatedAddressIndex]));
 					}
 
 					if (outerInstance.allocatedAddressIndex == 0)
@@ -1007,9 +1007,9 @@ namespace pspsharp.HLE.modules
 				{
 					int allocatedAddr = Emulator.Processor.cpu._v0;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("FontLib's allocation callback on open#{0:D} returned 0x{1:X8}", fontIndex, allocatedAddr));
+						Console.WriteLine(string.Format("FontLib's allocation callback on open#{0:D} returned 0x{1:X8}", fontIndex, allocatedAddr));
 					}
 
 					outerInstance.openAllocatedAddresses[fontIndex] = allocatedAddr;
@@ -1029,9 +1029,9 @@ namespace pspsharp.HLE.modules
 				{
 					outerInstance.fileFontHandle = Emulator.Processor.cpu._v0;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("FontLib's file open callback returned 0x{0:X}", outerInstance.fileFontHandle));
+						Console.WriteLine(string.Format("FontLib's file open callback returned 0x{0:X}", outerInstance.fileFontHandle));
 					}
 				}
 			}
@@ -1073,9 +1073,9 @@ namespace pspsharp.HLE.modules
 				{
 					outerInstance.charInfoBitmapAddress = Emulator.Processor.cpu._v0;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("FontLib's allocation callback on getCharInfo returned 0x{0:X8}", outerInstance.charInfoBitmapAddress));
+						Console.WriteLine(string.Format("FontLib's allocation callback on getCharInfo returned 0x{0:X8}", outerInstance.charInfoBitmapAddress));
 					}
 
 					if (outerInstance.charInfoBitmapAddress == 0)
@@ -1203,7 +1203,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x67F17ED7, version = 150, checkInsideInterrupt = true, stackUsage = 0x590) public int sceFontNewLib(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 paramsPtr, @CanBeNull pspsharp.HLE.TErrorPointer32 errorCodePtr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x67F17ED7, version = 150, checkInsideInterrupt = true, stackUsage = 0x590) public int sceFontNewLib(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 paramsPtr, @CanBeNull pspsharp.HLE.TErrorPointer32 errorCodePtr)
 		[HLEFunction(nid : 0x67F17ED7, version : 150, checkInsideInterrupt : true, stackUsage : 0x590)]
 		public virtual int sceFontNewLib(TPointer32 paramsPtr, TErrorPointer32 errorCodePtr)
 		{
@@ -1300,23 +1300,23 @@ namespace pspsharp.HLE.modules
 			fontInfoPtr.setValue8(262, (sbyte) 0); // Padding.
 			fontInfoPtr.setValue8(263, (sbyte) 0); // Padding.
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontGetFontInfo returning maxGlyphWidthI={0:D}, maxGlyphHeightI={1:D}, maxGlyphAscenderI={2:D}, maxGlyphDescenderI={3:D}, maxGlyphLeftXI={4:D}, maxGlyphBaseYI={5:D}, minGlyphCenterXI={6:D}, maxGlyphTopYI={7:D}, maxGlyphAdvanceXI={8:D}, maxGlyphAdvanceYI={9:D}, maxBitmapWidth={10:D}, maxBitmapHeight={11:D}, fontStyle=[{12}]{13}", maxGlyphWidthI, maxGlyphHeightI, maxGlyphAscenderI, maxGlyphDescenderI, maxGlyphLeftXI, maxGlyphBaseYI, minGlyphCenterXI, maxGlyphTopYI, maxGlyphAdvanceXI, maxGlyphAdvanceYI, maxBitmapWidth, maxBitmapHeight, fontStyle, Utilities.getMemoryDump(fontInfoPtr.Address, 264)));
+				Console.WriteLine(string.Format("sceFontGetFontInfo returning maxGlyphWidthI={0:D}, maxGlyphHeightI={1:D}, maxGlyphAscenderI={2:D}, maxGlyphDescenderI={3:D}, maxGlyphLeftXI={4:D}, maxGlyphBaseYI={5:D}, minGlyphCenterXI={6:D}, maxGlyphTopYI={7:D}, maxGlyphAdvanceXI={8:D}, maxGlyphAdvanceYI={9:D}, maxBitmapWidth={10:D}, maxBitmapHeight={11:D}, fontStyle=[{12}]{13}", maxGlyphWidthI, maxGlyphHeightI, maxGlyphAscenderI, maxGlyphDescenderI, maxGlyphLeftXI, maxGlyphBaseYI, minGlyphCenterXI, maxGlyphTopYI, maxGlyphAdvanceXI, maxGlyphAdvanceYI, maxBitmapWidth, maxBitmapHeight, fontStyle, Utilities.getMemoryDump(fontInfoPtr.Address, 264)));
 			}
 
 			return 0;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xDCC80C2F, version = 150, checkInsideInterrupt = true, stackUsage = 0x100) public int sceFontGetCharInfo(int fontHandle, int charCode, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=60, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer charInfoPtr)
+//ORIGINAL LINE: @HLEFunction(nid = 0xDCC80C2F, version = 150, checkInsideInterrupt = true, stackUsage = 0x100) public int sceFontGetCharInfo(int fontHandle, int charCode, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=60, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer charInfoPtr)
 		[HLEFunction(nid : 0xDCC80C2F, version : 150, checkInsideInterrupt : true, stackUsage : 0x100)]
 		public virtual int sceFontGetCharInfo(int fontHandle, int charCode, TPointer charInfoPtr)
 		{
 			Font font = getFont(fontHandle, false);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontGetCharInfo charCode={0:X4} ({1})", charCode, (charCode <= 0xFF ? (char) charCode : '?')));
+				Console.WriteLine(string.Format("sceFontGetCharInfo charCode={0:X4} ({1})", charCode, (charCode <= 0xFF ? (char) charCode : '?')));
 			}
 			charCode &= 0xFFFF;
 			pspCharInfo pspCharInfo = null;
@@ -1361,9 +1361,9 @@ namespace pspsharp.HLE.modules
 			// 26.6 fixed-point.
 			int xPosI = xPos64 >> 6;
 			int yPosI = yPos64 >> 6;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontGetCharGlyphImage charCode={0:X4} ({1}), xPos={2:D}, yPos={3:D}, buffer=0x{4:X8}, bufWidth={5:D}, bufHeight={6:D}, bytesPerLine={7:D}, pixelFormat={8:D}", charCode, (charCode <= 0xFF ? (char) charCode : '?'), xPosI, yPosI, buffer, bufWidth, bufHeight, bytesPerLine, pixelFormat));
+				Console.WriteLine(string.Format("sceFontGetCharGlyphImage charCode={0:X4} ({1}), xPos={2:D}, yPos={3:D}, buffer=0x{4:X8}, bufWidth={5:D}, bufHeight={6:D}, bytesPerLine={7:D}, pixelFormat={8:D}", charCode, (charCode <= 0xFF ? (char) charCode : '?'), xPosI, yPosI, buffer, bufWidth, bufHeight, bytesPerLine, pixelFormat));
 			}
 
 			// If there's an internal font loaded, use it to display the text.
@@ -1428,9 +1428,9 @@ namespace pspsharp.HLE.modules
 				index = 0;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontFindOptimumFont found font at index {0:D}: {1}", index, optimumFont));
+				Console.WriteLine(string.Format("sceFontFindOptimumFont found font at index {0:D}: {1}", index, optimumFont));
 			}
 
 			return index;
@@ -1447,9 +1447,9 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceFontClose font already closed font={0}", font));
+					Console.WriteLine(string.Format("sceFontClose font already closed font={0}", font));
 				}
 			}
 
@@ -1471,9 +1471,9 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceFontDoneLib font lib already done 0x{0:X8}", fontLibHandle));
+					Console.WriteLine(string.Format("sceFontDoneLib font lib already done 0x{0:X8}", fontLibHandle));
 				}
 			}
 
@@ -1494,9 +1494,9 @@ namespace pspsharp.HLE.modules
 			}
 
 			Font font = fontLib.openFont(internalFonts[index], mode, true);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Opening '{0}' - '{1}', font={2}", font.pgf.FontName, font.pgf.FontType, font));
+				Console.WriteLine(string.Format("Opening '{0}' - '{1}', font={2}", font.pgf.FontName, font.pgf.FontType, font));
 			}
 			errorCodePtr.Value = 0;
 
@@ -1524,9 +1524,9 @@ namespace pspsharp.HLE.modules
 			int xPosI = xPos64 >> 6;
 			int yPosI = yPos64 >> 6;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontGetCharGlyphImage_Clip charCode={0:X4} ({1}), xPos={2:D}({3:D}), yPos={4:D}({5:D}), buffer=0x{6:X8}, bufWidth={7:D}, bufHeight={8:D}, bytesPerLine={9:D}, pixelFormat={10:D}", charCode, (charCode <= 0xFF ? (char) charCode : '?'), xPosI, xPos64, yPosI, yPos64, buffer, bufWidth, bufHeight, bytesPerLine, pixelFormat));
+				Console.WriteLine(string.Format("sceFontGetCharGlyphImage_Clip charCode={0:X4} ({1}), xPos={2:D}({3:D}), yPos={4:D}({5:D}), buffer=0x{6:X8}, bufWidth={7:D}, bufHeight={8:D}, bytesPerLine={9:D}, pixelFormat={10:D}", charCode, (charCode <= 0xFF ? (char) charCode : '?'), xPosI, xPos64, yPosI, yPos64, buffer, bufWidth, bufHeight, bytesPerLine, pixelFormat));
 			}
 
 			// If there's an internal font loaded, use it to display the text.
@@ -1558,9 +1558,9 @@ namespace pspsharp.HLE.modules
 		{
 			// Get all the available fonts
 			int numFonts = internalFonts.Count;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontGetNumFontList returning {0:D}", numFonts));
+				Console.WriteLine(string.Format("sceFontGetNumFontList returning {0:D}", numFonts));
 			}
 			errorCodePtr.Value = 0;
 
@@ -1576,9 +1576,9 @@ namespace pspsharp.HLE.modules
 				Font font = internalFonts[i];
 				pspFontStyle fontStyle = font.FontStyle;
 				fontStyle.write(fontStylePtr, i * fontStyle.@sizeof());
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceFontGetFontList returning font #{0:D} at 0x{1:X8}: {2}", i, fontStylePtr.Address + i * fontStyle.@sizeof(), fontStyle));
+					Console.WriteLine(string.Format("sceFontGetFontList returning font #{0:D} at 0x{1:X8}: {2}", i, fontStylePtr.Address + i * fontStyle.@sizeof(), fontStyle));
 				}
 			}
 
@@ -1640,9 +1640,9 @@ namespace pspsharp.HLE.modules
 			Font font = internalFonts[fontIndex];
 			pspFontStyle fontStyle = font.FontStyle;
 			fontStyle.write(fontStylePtr);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceFontGetFontInfoByIndexNumber returning font #{0:D} at {1}: {2}", fontIndex, fontStylePtr, fontStyle));
+				Console.WriteLine(string.Format("sceFontGetFontInfoByIndexNumber returning font #{0:D} at {1}: {2}", fontIndex, fontStylePtr, fontStyle));
 			}
 
 			return 0;

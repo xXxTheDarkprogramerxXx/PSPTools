@@ -52,7 +52,7 @@ namespace pspsharp.memory
 		private const bool traceRead = false;
 		private const bool traceWrite = false;
 
-		// Array containing only 0, for fast memset(addr, 0, length);
+		// Array containing only 0, for fast memset(addr, 0, Length);
 		public static readonly int[] zero = new int[32768];
 
 		public static readonly int[] memory8Shift = new int[] {0, 8, 16, 24};
@@ -75,7 +75,7 @@ namespace pspsharp.memory
 			catch (System.OutOfMemoryException)
 			{
 				// Not enough memory provided for this VM, cannot use FastMemory model
-				Memory.log.warn("Cannot allocate FastMemory: add the option '-Xmx256m' to the Java Virtual Machine startup command to improve Performance");
+				Memory.Console.WriteLine("Cannot allocate FastMemory: add the option '-Xmx256m' to the Java Virtual Machine startup command to improve Performance");
 				Memory.log.info("The current Java Virtual Machine has been started using '-Xmx" + (Runtime.Runtime.maxMemory() / (1024 * 1024)) + "m'");
 				return false;
 			}
@@ -85,8 +85,8 @@ namespace pspsharp.memory
 
 		public override void Initialise()
 		{
-			Arrays.fill(zero, 0);
-			Arrays.fill(all, 0);
+			Arrays.Fill(zero, 0);
+			Arrays.Fill(all, 0);
 		}
 
 		public override int read8(int address)
@@ -242,13 +242,13 @@ namespace pspsharp.memory
 			}
 		}
 
-		public override IntBuffer getBuffer(int address, int length)
+		public override IntBuffer getBuffer(int address, int Length)
 		{
 			address = normalizeAddress(address);
 
 			IntBuffer buffer = MainMemoryByteBuffer;
 			buffer.position(address >> 2);
-			buffer.limit(round4(round4(address) + length) >> 2);
+			buffer.limit(round4(round4(address) + Length) >> 2);
 
 			return buffer.slice();
 		}
@@ -258,23 +258,23 @@ namespace pspsharp.memory
 			return isIntAligned_Renamed[n & 0x03];
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
 			address = normalizeAddress(address);
 
 			Modules.sceDisplayModule.write(address);
 
-			for (; !isIntAligned(address) && length > 0; address++, length--)
+			for (; !isIntAligned(address) && Length > 0; address++, Length--)
 			{
 				write8(address, data);
 			}
 
-			int count4 = length >> 2;
+			int count4 = Length >> 2;
 			if (count4 > 0)
 			{
 				if (data == 0)
 				{
-					// Fast memset(addr, 0, length) using copy from "zero" array
+					// Fast memset(addr, 0, Length) using copy from "zero" array
 					for (int i = 0; i < count4; i += zero.Length)
 					{
 						Array.Copy(zero, 0, all, (address >> 2) + i, System.Math.Min(zero.Length, count4 - i));
@@ -284,31 +284,31 @@ namespace pspsharp.memory
 				{
 					int data1 = data & 0xFF;
 					int data4 = (data1 << 24) | (data1 << 16) | (data1 << 8) | data1;
-					Arrays.fill(all, address >> 2, (address >> 2) + count4, data4);
+					Arrays.Fill(all, address >> 2, (address >> 2) + count4, data4);
 				}
 				address += count4 << 2;
-				length -= count4 << 2;
+				Length -= count4 << 2;
 			}
 
-			for (; length > 0; address++, length--)
+			for (; Length > 0; address++, Length--)
 			{
 				write8(address, data);
 			}
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
 			// copy in 1 byte steps until address is "int"-aligned
-			while (!isIntAligned(address) && length > 0 && source.hasRemaining())
+			while (!isIntAligned(address) && Length > 0 && source.hasRemaining())
 			{
 				sbyte b = source.get();
 				write8(address, b);
 				address++;
-				length--;
+				Length--;
 			}
 
 			// copy 1 int at each loop
-			int countInt = System.Math.Min(length, source.remaining()) >> 2;
+			int countInt = System.Math.Min(Length, source.remaining()) >> 2;
 			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, countInt << 2, 4);
 			for (int i = 0; i < countInt; i++)
 			{
@@ -321,16 +321,16 @@ namespace pspsharp.memory
 			}
 			memoryWriter.flush();
 			int copyLength = countInt << 2;
-			length -= copyLength;
+			Length -= copyLength;
 			address += copyLength;
 
-			// copy rest length in 1 byte steps (rest length <= 3)
-			while (length > 0 && source.hasRemaining())
+			// copy rest Length in 1 byte steps (rest Length <= 3)
+			while (Length > 0 && source.hasRemaining())
 			{
 				sbyte b = source.get();
 				write8(address, b);
 				address++;
-				length--;
+				Length--;
 			}
 		}
 
@@ -342,13 +342,13 @@ namespace pspsharp.memory
 			}
 		}
 
-		// Source, destination and length are "int"-aligned
-		private void memcpyAligned4(int destination, int source, int length, bool checkOverlap)
+		// Source, destination and Length are "int"-aligned
+		private void memcpyAligned4(int destination, int source, int Length, bool checkOverlap)
 		{
-			if (checkOverlap || !areOverlapping(destination, source, length))
+			if (checkOverlap || !areOverlapping(destination, source, Length))
 			{
 				// Direct copy, System.arraycopy is handling correctly overlapping arrays
-				Array.Copy(all, source >> 2, all, destination >> 2, length >> 2);
+				Array.Copy(all, source >> 2, all, destination >> 2, Length >> 2);
 			}
 			else
 			{
@@ -357,16 +357,16 @@ namespace pspsharp.memory
 				// so we have to copy manually...
 				int src = source >> 2;
 				int dst = destination >> 2;
-				for (int i = 0; i < length; i += 4)
+				for (int i = 0; i < Length; i += 4)
 				{
 					all[dst++] = all[src++];
 				}
 			}
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
@@ -376,37 +376,37 @@ namespace pspsharp.memory
 
 			Modules.sceDisplayModule.write(destination);
 
-			if (isIntAligned(source) && isIntAligned(destination) && isIntAligned(length))
+			if (isIntAligned(source) && isIntAligned(destination) && isIntAligned(Length))
 			{
-				// Source, destination and length are "int"-aligned
-				memcpyAligned4(destination, source, length, checkOverlap);
+				// Source, destination and Length are "int"-aligned
+				memcpyAligned4(destination, source, Length, checkOverlap);
 			}
-			else if ((source & 0x03) == (destination & 0x03) && (!checkOverlap || !areOverlapping(destination, source, length)))
+			else if ((source & 0x03) == (destination & 0x03) && (!checkOverlap || !areOverlapping(destination, source, Length)))
 			{
 				// Source and destination have the same alignment and are not overlapping
-				while (!isIntAligned(source) && length > 0)
+				while (!isIntAligned(source) && Length > 0)
 				{
 					write8(destination, (sbyte) read8(source));
 					source++;
 					destination++;
-					length--;
+					Length--;
 				}
 
-				int length4 = length & ~0x03;
+				int length4 = Length & ~0x03;
 				if (length4 > 0)
 				{
 					memcpyAligned4(destination, source, length4, checkOverlap);
 					source += length4;
 					destination += length4;
-					length -= length4;
+					Length -= length4;
 				}
 
-				while (length > 0)
+				while (Length > 0)
 				{
 					write8(destination, (sbyte) read8(source));
 					destination++;
 					source++;
-					length--;
+					Length--;
 				}
 			}
 			else
@@ -423,21 +423,21 @@ namespace pspsharp.memory
 				//                 [---destination---]
 				//      => Copy from the tail
 				//
-				if (!checkOverlap || source >= destination || !areOverlapping(destination, source, length))
+				if (!checkOverlap || source >= destination || !areOverlapping(destination, source, Length))
 				{
 					if (areOverlapping(destination, source, 4))
 					{
 						// Cannot use MemoryReader if source and destination are overlapping in less than 4 bytes
-						for (int i = 0; i < length; i++)
+						for (int i = 0; i < Length; i++)
 						{
 							write8(destination + i, (sbyte) read8(source + i));
 						}
 					}
 					else
 					{
-						IMemoryReader sourceReader = MemoryReader.getMemoryReader(source, length, 1);
-						IMemoryWriter destinationWriter = MemoryWriter.getMemoryWriter(destination, length, 1);
-						for (int i = 0; i < length; i++)
+						IMemoryReader sourceReader = MemoryReader.getMemoryReader(source, Length, 1);
+						IMemoryWriter destinationWriter = MemoryWriter.getMemoryWriter(destination, Length, 1);
+						for (int i = 0; i < Length; i++)
 						{
 							destinationWriter.writeNext(sourceReader.readNext());
 						}
@@ -446,7 +446,7 @@ namespace pspsharp.memory
 				}
 				else
 				{
-					for (int i = length - 1; i >= 0; i--)
+					for (int i = Length - 1; i >= 0; i--)
 					{
 						write8(destination + i, (sbyte) read8(source + i));
 					}
@@ -455,17 +455,17 @@ namespace pspsharp.memory
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: @Override protected void read(pspsharp.state.StateInputStream stream, int address, int length) throws java.io.IOException
-		protected internal override void read(StateInputStream stream, int address, int length)
+//ORIGINAL LINE: @Override protected void read(pspsharp.state.StateInputStream stream, int address, int Length) throws java.io.IOException
+		protected internal override void read(StateInputStream stream, int address, int Length)
 		{
-			stream.readInts(all, address >> 2, length >> 2);
+			stream.readInts(all, address >> 2, Length >> 2);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: @Override protected void write(pspsharp.state.StateOutputStream stream, int address, int length) throws java.io.IOException
-		protected internal override void write(StateOutputStream stream, int address, int length)
+//ORIGINAL LINE: @Override protected void write(pspsharp.state.StateOutputStream stream, int address, int Length) throws java.io.IOException
+		protected internal override void write(StateOutputStream stream, int address, int Length)
 		{
-			stream.writeInts(all, address >> 2, length >> 2);
+			stream.writeInts(all, address >> 2, Length >> 2);
 		}
 	}
 

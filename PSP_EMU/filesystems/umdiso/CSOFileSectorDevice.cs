@@ -57,7 +57,7 @@ namespace pspsharp.filesystems.umdiso
 				{
 					if ((sectorOffsets[i] & sectorOffsetMask) < (sectorOffsets[i - 1] & sectorOffsetMask))
 					{
-						log.error(string.Format("Corrupted CISO - Invalid offset [{0:D}]: 0x{1:X8} < 0x{2:X8}", i, sectorOffsets[i], sectorOffsets[i - 1]));
+						Console.WriteLine(string.Format("Corrupted CISO - Invalid offset [{0:D}]: 0x{1:X8} < 0x{2:X8}", i, sectorOffsets[i], sectorOffsets[i - 1]));
 					}
 				}
 			}
@@ -92,7 +92,7 @@ namespace pspsharp.filesystems.umdiso
 				int compressedLength = (int)(sectorEnd - sectorOffset);
 				if (compressedLength < 0)
 				{
-					Arrays.fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
+					Arrays.Fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
 				}
 				else
 				{

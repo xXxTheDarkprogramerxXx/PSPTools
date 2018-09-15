@@ -151,9 +151,9 @@ namespace pspsharp.filesystems.umdiso
 
 			UmdIsoFile f = new UmdIsoFile(this, startSector, sectorLength, null, null);
 			sbyte[] header = new sbyte[6];
-			int length = f.read(header);
+			int Length = f.read(header);
 			f.Dispose();
-			if (length < header.Length)
+			if (Length < header.Length)
 			{
 				return false;
 			}
@@ -165,9 +165,9 @@ namespace pspsharp.filesystems.umdiso
 
 			hasJolietExtension_Renamed = false;
 			f = new UmdIsoFile(this, startSectorJoliet, sectorLength, null, null);
-			length = f.read(header);
+			Length = f.read(header);
 			f.Dispose();
-			if (length == header.Length)
+			if (Length == header.Length)
 			{
 				if (header[0] == 2 && header[1] == (sbyte)'C' && header[2] == (sbyte)'D' && header[3] == (sbyte)'0' && header[4] == (sbyte)'0' && header[5] == (sbyte)'1')
 				{
@@ -214,8 +214,8 @@ namespace pspsharp.filesystems.umdiso
 		{
 			if (sectorNumber < 0 || (sectorNumber + numberSectors) > numSectors)
 			{
-				Arrays.fill(buffer, offset, offset + numberSectors * sectorLength, (sbyte) 0);
-				Emulator.log.warn(string.Format("Sectors start={0:D}, end={1:D} out of ISO (numSectors={2:D})", sectorNumber, sectorNumber + numberSectors, numSectors));
+				Arrays.Fill(buffer, offset, offset + numberSectors * sectorLength, (sbyte) 0);
+				Emulator.Console.WriteLine(string.Format("Sectors start={0:D}, end={1:D} out of ISO (numSectors={2:D})", sectorNumber, sectorNumber + numberSectors, numSectors));
 				return numberSectors;
 			}
 
@@ -235,8 +235,8 @@ namespace pspsharp.filesystems.umdiso
 		{
 			if (sectorNumber < 0 || sectorNumber >= numSectors)
 			{
-				Arrays.fill(buffer, offset, offset + sectorLength, (sbyte) 0);
-				Emulator.log.warn(string.Format("Sector number {0:D} out of ISO (numSectors={1:D})", sectorNumber, numSectors));
+				Arrays.Fill(buffer, offset, offset + sectorLength, (sbyte) 0);
+				Emulator.Console.WriteLine(string.Format("Sector number {0:D} out of ISO (numSectors={1:D})", sectorNumber, numSectors));
 				return;
 			}
 
@@ -277,19 +277,19 @@ namespace pspsharp.filesystems.umdiso
 			return buffer;
 		}
 
-		private int removePath(string[] path, int index, int length)
+		private int removePath(string[] path, int index, int Length)
 		{
-			if (index < 0 || index >= length)
+			if (index < 0 || index >= Length)
 			{
-				return length;
+				return Length;
 			}
 
-			for (int i = index + 1; i < length; i++)
+			for (int i = index + 1; i < Length; i++)
 			{
 				path[i - 1] = path[i];
 			}
 
-			return length - 1;
+			return Length - 1;
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -394,7 +394,7 @@ namespace pspsharp.filesystems.umdiso
 				// Direct sector access on UMD is using the following file name syntax:
 				//     sce_lbnSSSS_sizeLLLL
 				// where SSSS is the index of the first sector (in hexadecimal)
-				//       LLLL is the length in bytes (in hexadecimal)
+				//       LLLL is the Length in bytes (in hexadecimal)
 				// The prefix "0x" before each hexadecimal value is optional.
 				//
 				// E.g.
@@ -464,7 +464,7 @@ namespace pspsharp.filesystems.umdiso
 			return false;
 		}
 
-		public virtual string resolveSectorPath(int start, long length)
+		public virtual string resolveSectorPath(int start, long Length)
 		{
 			string fileName = null;
 			// Scroll back through the sectors until the file's start sector is reached
@@ -679,8 +679,8 @@ namespace pspsharp.filesystems.umdiso
 			}
 
 			UmdIsoFile file = getFile(fileName);
-			int length = (int) file.length();
-			sbyte[] buffer = new sbyte[length];
+			int Length = (int) file.Length();
+			sbyte[] buffer = new sbyte[Length];
 			int read = file.read(buffer);
 
 			if (read < 0)
@@ -689,7 +689,7 @@ namespace pspsharp.filesystems.umdiso
 			}
 
 			// Read less than expected?
-			if (read < length)
+			if (read < Length)
 			{
 				// Shrink the buffer to the read size
 				sbyte[] newBuffer = new sbyte[read];

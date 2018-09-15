@@ -24,7 +24,7 @@ namespace pspsharp.graphics.textures
 //	import static pspsharp.graphics.VideoEngine.SIZEOF_FLOAT;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using sceDisplay = pspsharp.HLE.modules.sceDisplay;
@@ -41,7 +41,7 @@ namespace pspsharp.graphics.textures
 	{
 		protected internal static Logger log = VideoEngine.log_Renamed;
 		protected internal int address;
-		protected internal int length;
+		protected internal int Length;
 		protected internal int bufferWidth;
 		protected internal int width;
 		protected internal int height;
@@ -71,7 +71,7 @@ namespace pspsharp.graphics.textures
 			this.height = height;
 			this.pixelFormat = pixelFormat;
 			bytesPerPixel = sceDisplay.getPixelFormatBytes(pixelFormat);
-			length = bufferWidth * height * bytesPerPixel;
+			Length = bufferWidth * height * bytesPerPixel;
 			widthPow2 = Utilities.makePow2(width);
 			heightPow2 = Utilities.makePow2(height);
 			this.useViewportResize = useViewportResize;
@@ -243,9 +243,9 @@ namespace pspsharp.graphics.textures
 
 		public virtual void copyScreenToTexture(IRenderingEngine re)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("GETexture.copyScreenToTexture {0}", ToString()));
+				Console.WriteLine(string.Format("GETexture.copyScreenToTexture {0}", ToString()));
 			}
 
 			bind(re, false);
@@ -277,9 +277,9 @@ namespace pspsharp.graphics.textures
 
 		protected internal virtual void copyTextureToScreen(IRenderingEngine re, int x, int y, int projectionWidth, int projectionHeight, bool scaleToCanvas, bool redWriteEnabled, bool greenWriteEnabled, bool blueWriteEnabled, bool alphaWriteEnabled)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("GETexture.copyTextureToScreen {0} at {1:D}x{2:D}", ToString(), x, y));
+				Console.WriteLine(string.Format("GETexture.copyTextureToScreen {0} at {1:D}x{2:D}", ToString(), x, y));
 			}
 
 			bind(re, true);
@@ -397,12 +397,12 @@ namespace pspsharp.graphics.textures
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("GETexture.copyTextureToMemory {0}", ToString()));
+				Console.WriteLine(string.Format("GETexture.copyTextureToMemory {0}", ToString()));
 			}
 
-			Buffer memoryBuffer = Memory.Instance.getBuffer(address, length);
+			Buffer memoryBuffer = Memory.Instance.getBuffer(address, Length);
 			prepareBuffer();
 			re.bindTexture(textureId);
 			re.setTextureFormat(pixelFormat, false);
@@ -570,9 +570,9 @@ namespace pspsharp.graphics.textures
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("GETexture.capture {0}", ToString()));
+				Console.WriteLine(string.Format("GETexture.capture {0}", ToString()));
 			}
 
 			prepareBuffer();
@@ -586,7 +586,7 @@ namespace pspsharp.graphics.textures
 
 		public override string ToString()
 		{
-			return string.Format("GETexture[0x{0:X8}-0x{1:X8}, {2:D}x{3:D} (texture {4:D}x{5:D}), bufferWidth={6:D}, pixelFormat={7:D}({8})]", address, address + length, width, height, TexImageWidth, TexImageHeight, bufferWidth, pixelFormat, VideoEngine.getPsmName(pixelFormat));
+			return string.Format("GETexture[0x{0:X8}-0x{1:X8}, {2:D}x{3:D} (texture {4:D}x{5:D}), bufferWidth={6:D}, pixelFormat={7:D}({8})]", address, address + Length, width, height, TexImageWidth, TexImageHeight, bufferWidth, pixelFormat, VideoEngine.getPsmName(pixelFormat));
 		}
 	}
 

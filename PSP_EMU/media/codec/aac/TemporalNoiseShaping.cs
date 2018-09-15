@@ -28,8 +28,8 @@ namespace pspsharp.media.codec.aac
 		public bool present;
 		public int[] nFilt = new int[8];
 //JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: public int[][] length = new int[8][4];
-		public int[][] length = RectangularArrays.ReturnRectangularIntArray(8, 4);
+//ORIGINAL LINE: public int[][] Length = new int[8][4];
+		public int[][] Length = RectangularArrays.ReturnRectangularIntArray(8, 4);
 //JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
 //ORIGINAL LINE: public bool[][] direction = new bool[8][4];
 		public bool[][] direction = RectangularArrays.ReturnRectangularBoolArray(8, 4);
@@ -44,7 +44,7 @@ namespace pspsharp.media.codec.aac
 		{
 			present = that.present;
 			Utilities.copy(nFilt, that.nFilt);
-			Utilities.copy(length, that.length);
+			Utilities.copy(Length, that.Length);
 			Utilities.copy(direction, that.direction);
 			Utilities.copy(order, that.order);
 			Utilities.copy(coef, that.coef);

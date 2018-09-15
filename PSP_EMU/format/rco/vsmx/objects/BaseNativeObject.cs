@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.format.rco.vsmx.objects
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using VSMXBaseObject = pspsharp.format.rco.vsmx.interpreter.VSMXBaseObject;
 	using VSMXFunction = pspsharp.format.rco.vsmx.interpreter.VSMXFunction;
@@ -60,9 +60,9 @@ namespace pspsharp.format.rco.vsmx.objects
 			VSMXBaseObject function = object.getPropertyValue(name);
 			if (function is VSMXFunction)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("callCallback {0}, arguments={1}", name, arguments));
+					Console.WriteLine(string.Format("callCallback {0}, arguments={1}", name, arguments));
 				}
 
 				interpreter.interpretFunction((VSMXFunction) function, null, arguments);

@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -24,17 +24,17 @@ namespace pspsharp.HLE.modules
 
 	public class mp4msv : HLEModule
 	{
-		public static Logger log = Modules.getLogger("mp4msv");
+		//public static Logger log = Modules.getLogger("mp4msv");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3C2183C7, version = 150) public int mp4msv_3C2183C7(int unknown, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer addr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3C2183C7, version = 150) public int mp4msv_3C2183C7(int unknown, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer addr)
 		[HLEFunction(nid : 0x3C2183C7, version : 150)]
 		public virtual int mp4msv_3C2183C7(int unknown, TPointer addr)
 		{
 			if (addr.NotNull)
 			{
 				// addr is pointing to five 32-bit values (20 bytes)
-				log.warn(string.Format("mp4msv_3C2183C7 unknown values: {0}", Utilities.getMemoryDump(addr.Address, 20, 4, 20)));
+				Console.WriteLine(string.Format("mp4msv_3C2183C7 unknown values: {0}", Utilities.getMemoryDump(addr.Address, 20, 4, 20)));
 			}
 
 			// mp4msv_3C2183C7 is called by sceMp4Init
@@ -44,14 +44,14 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9CA13D1A, version = 150) public int mp4msv_9CA13D1A(int unknown, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=68, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 addr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9CA13D1A, version = 150) public int mp4msv_9CA13D1A(int unknown, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=68, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 addr)
 		[HLEFunction(nid : 0x9CA13D1A, version : 150)]
 		public virtual int mp4msv_9CA13D1A(int unknown, TPointer32 addr)
 		{
 			if (addr.NotNull)
 			{
 				// addr is pointing to 17 32-bit values (68 bytes)
-				log.warn(string.Format("mp4msv_9CA13D1A unknown values: {0}", Utilities.getMemoryDump(addr.Address, 68, 4, 16)));
+				Console.WriteLine(string.Format("mp4msv_9CA13D1A unknown values: {0}", Utilities.getMemoryDump(addr.Address, 68, 4, 16)));
 			}
 
 			// mp4msv_9CA13D1A is called by sceMp4Init
@@ -71,7 +71,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3D8D41A0, version = 150) public int mp4msv_3D8D41A0(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, int unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3D8D41A0, version = 150) public int mp4msv_3D8D41A0(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, int unknown2)
 		[HLEFunction(nid : 0x3D8D41A0, version : 150)]
 		public virtual int mp4msv_3D8D41A0(TPointer unknown1, int unknown2)
 		{
@@ -79,7 +79,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x67AF9E0F, version = 150) public int mp4msv_67AF9E0F(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, int unknown2, int unknown3)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x67AF9E0F, version = 150) public int mp4msv_67AF9E0F(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, int unknown2, int unknown3)
 		[HLEFunction(nid : 0x67AF9E0F, version : 150)]
 		public virtual int mp4msv_67AF9E0F(TPointer unknown1, int unknown2, int unknown3)
 		{
@@ -87,7 +87,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x07C60A23, version = 150) public int mp4msv_07C60A23(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown2, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown3)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x07C60A23, version = 150) public int mp4msv_07C60A23(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown2, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown3)
 		[HLEFunction(nid : 0x07C60A23, version : 150)]
 		public virtual int mp4msv_07C60A23(TPointer unknown1, TPointer32 unknown2, TPointer32 unknown3)
 		{
@@ -98,7 +98,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0D32271B, version = 150) public int mp4msv_0D32271B(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0D32271B, version = 150) public int mp4msv_0D32271B(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown2)
 		[HLEFunction(nid : 0x0D32271B, version : 150)]
 		public virtual int mp4msv_0D32271B(TPointer unknown1, TPointer32 unknown2)
 		{
@@ -108,7 +108,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAD3AF34E, version = 150) public int mp4msv_AD3AF34E(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 unknown1, int unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAD3AF34E, version = 150) public int mp4msv_AD3AF34E(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 unknown1, int unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3)
 		[HLEFunction(nid : 0xAD3AF34E, version : 150)]
 		public virtual int mp4msv_AD3AF34E(TPointer32 unknown1, int unknown2, TPointer unknown3)
 		{

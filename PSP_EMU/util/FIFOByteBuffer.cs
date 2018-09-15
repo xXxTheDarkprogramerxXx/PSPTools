@@ -63,12 +63,12 @@ namespace pspsharp.util
 			bufferLength = 0;
 		}
 
-		private void checkBufferForWrite(int length)
+		private void checkBufferForWrite(int Length)
 		{
-			if (bufferLength + length > buffer.Length)
+			if (bufferLength + Length > buffer.Length)
 			{
 				// The buffer has to be extended
-				sbyte[] extendedBuffer = new sbyte[bufferLength + length];
+				sbyte[] extendedBuffer = new sbyte[bufferLength + Length];
 				if (bufferReadOffset + bufferLength <= buffer.Length)
 				{
 					Array.Copy(buffer, bufferReadOffset, extendedBuffer, 0, bufferLength);
@@ -85,26 +85,26 @@ namespace pspsharp.util
 			}
 		}
 
-		private void copyToBuffer(int offset, int length, Buffer src)
+		private void copyToBuffer(int offset, int Length, Buffer src)
 		{
-			ByteBuffer byteBuffer = ByteBuffer.wrap(buffer, offset, length);
-			Utilities.putBuffer(byteBuffer, src, ByteOrder.LITTLE_ENDIAN, length);
+			ByteBuffer byteBuffer = ByteBuffer.wrap(buffer, offset, Length);
+			Utilities.putBuffer(byteBuffer, src, ByteOrder.LITTLE_ENDIAN, Length);
 		}
 
-		public virtual void write(Buffer src, int length)
+		public virtual void write(Buffer src, int Length)
 		{
 			if (buffer == null)
 			{
 				return; // FIFOByteBuffer has been deleted
 			}
 
-			checkBufferForWrite(length);
+			checkBufferForWrite(Length);
 
 			// Copy the src content to the buffer at offset bufferWriteOffset
-			if (bufferWriteOffset + length <= buffer.Length)
+			if (bufferWriteOffset + Length <= buffer.Length)
 			{
 				// No buffer wrap, only 1 copy operation necessary
-				copyToBuffer(bufferWriteOffset, length, src);
+				copyToBuffer(bufferWriteOffset, Length, src);
 			}
 			else
 			{
@@ -113,7 +113,7 @@ namespace pspsharp.util
 				if ((lengthEndBuffer & 3) == 0 || !(src is IntBuffer))
 				{
 					copyToBuffer(bufferWriteOffset, lengthEndBuffer, src);
-					copyToBuffer(0, length - lengthEndBuffer, src);
+					copyToBuffer(0, Length - lengthEndBuffer, src);
 				}
 				else
 				{
@@ -131,19 +131,19 @@ namespace pspsharp.util
 					int bytesCopyLength2 = bytes4.Length - bytesCopyLength1;
 					copyToBuffer(0, bytesCopyLength2, src1);
 
-					copyToBuffer(bytesCopyLength2, length - lengthEndBuffer - bytesCopyLength2, src);
+					copyToBuffer(bytesCopyLength2, Length - lengthEndBuffer - bytesCopyLength2, src);
 				}
 			}
-			bufferWriteOffset = incrementOffset(bufferWriteOffset, length);
-			bufferLength += length;
+			bufferWriteOffset = incrementOffset(bufferWriteOffset, Length);
+			bufferLength += Length;
 		}
 
-		public virtual void write(int address, int length)
+		public virtual void write(int address, int Length)
 		{
-			if (length > 0 && Memory.isAddressGood(address))
+			if (Length > 0 && Memory.isAddressGood(address))
 			{
-				Buffer memoryBuffer = Memory.Instance.getBuffer(address, length);
-				write(memoryBuffer, length);
+				Buffer memoryBuffer = Memory.Instance.getBuffer(address, Length);
+				write(memoryBuffer, Length);
 			}
 		}
 
@@ -157,9 +157,9 @@ namespace pspsharp.util
 			write(ByteBuffer.wrap(src), src.Length);
 		}
 
-		public virtual void write(sbyte[] src, int offset, int length)
+		public virtual void write(sbyte[] src, int offset, int Length)
 		{
-			write(ByteBuffer.wrap(src, offset, length), length);
+			write(ByteBuffer.wrap(src, offset, Length), Length);
 		}
 
 		public virtual int readByteBuffer(ByteBuffer dst)
@@ -169,76 +169,76 @@ namespace pspsharp.util
 				return 0;
 			}
 
-			int length = dst.remaining();
-			if (length > bufferLength)
+			int Length = dst.remaining();
+			if (Length > bufferLength)
 			{
-				length = bufferLength;
+				Length = bufferLength;
 			}
 
-			if (bufferReadOffset + length > buffer.Length)
+			if (bufferReadOffset + Length > buffer.Length)
 			{
 				int lengthEndBuffer = buffer.Length - bufferReadOffset;
 				dst.put(buffer, bufferReadOffset, lengthEndBuffer);
-				dst.put(buffer, 0, length - lengthEndBuffer);
+				dst.put(buffer, 0, Length - lengthEndBuffer);
 			}
 			else
 			{
-				dst.put(buffer, bufferReadOffset, length);
+				dst.put(buffer, bufferReadOffset, Length);
 			}
-			bufferReadOffset = incrementOffset(bufferReadOffset, length);
-			bufferLength -= length;
+			bufferReadOffset = incrementOffset(bufferReadOffset, Length);
+			bufferLength -= Length;
 
-			return length;
+			return Length;
 		}
 
-		public virtual bool forward(int length)
+		public virtual bool forward(int Length)
 		{
-			if (buffer == null || length < 0)
+			if (buffer == null || Length < 0)
 			{
 				return false;
 			}
 
-			if (length == 0)
+			if (Length == 0)
 			{
 				return true;
 			}
 
-			if (length > bufferLength)
+			if (Length > bufferLength)
 			{
 				return false;
 			}
 
-			bufferLength -= length;
-			bufferReadOffset = incrementOffset(bufferReadOffset, length);
+			bufferLength -= Length;
+			bufferReadOffset = incrementOffset(bufferReadOffset, Length);
 
 			return true;
 		}
 
-		public virtual bool rewind(int length)
+		public virtual bool rewind(int Length)
 		{
-			if (buffer == null || length < 0)
+			if (buffer == null || Length < 0)
 			{
 				return false;
 			}
 
-			if (length == 0)
+			if (Length == 0)
 			{
 				return true;
 			}
 
 			int maxRewindLength = buffer.Length - bufferLength;
-			if (length > maxRewindLength)
+			if (Length > maxRewindLength)
 			{
 				return false;
 			}
 
-			bufferLength += length;
-			bufferReadOffset = incrementOffset(bufferReadOffset, -length);
+			bufferLength += Length;
+			bufferReadOffset = incrementOffset(bufferReadOffset, -Length);
 
 			return true;
 		}
 
-		public virtual int length()
+		public virtual int Length()
 		{
 			return bufferLength;
 		}
@@ -249,10 +249,10 @@ namespace pspsharp.util
 		}
 
 		/// <summary>
-		/// Prepare the internal buffer to receive all least length bytes.
+		/// Prepare the internal buffer to receive all least Length bytes.
 		/// This is just a hint to avoid resizing the internal buffer too often.
 		/// </summary>
-		/// <param name="length">  recommended size in bytes for the internal buffer. </param>
+		/// <param name="Length">  recommended size in bytes for the internal buffer. </param>
 		public virtual int BufferLength
 		{
 			set

@@ -18,7 +18,7 @@ namespace pspsharp.HLE
 {
 
 	/// <summary>
-	/// Annotation for the TPointer type, giving indications on the length
+	/// Annotation for the TPointer type, giving indications on the Length
 	/// of the buffer and if the buffer is used as input and/or input.
 	/// 
 	/// </summary>
@@ -50,13 +50,13 @@ namespace pspsharp.HLE
 
 		public LengthInfo lengthInfo;
 
-		public int length;
+		public int Length;
 
 		public Usage usage;
 
 		public int maxDumpLength;
 
-		public BufferInfo(,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , public LengthInfo lengthInfo = LengthInfo.unknown, public int length = defaultLength, public Usage usage = Usage.unknown, public int maxDumpLength = defaultMaxDumpLength)
+		public BufferInfo(,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  ,  , public LengthInfo lengthInfo = LengthInfo.unknown, public int Length = defaultLength, public Usage usage = Usage.unknown, public int maxDumpLength = defaultMaxDumpLength)
 		{
 			this. = ;
 			this. = ;
@@ -76,7 +76,7 @@ namespace pspsharp.HLE
 			this. = ;
 			this. = ;
 			this.lengthInfo = lengthInfo;
-			this.length = length;
+			this.Length = Length;
 			this.usage = usage;
 			this.maxDumpLength = maxDumpLength;
 		}

@@ -64,18 +64,18 @@ namespace pspsharp.format.rco.anim
 
 				positionObject.onDisplayUpdated();
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("ResizeAnim '{0}' from ({1:F},{2:F},{3:F}) to ({4:F},{5:F},{6:F})", positionObject.Name, startWidth, startHeight, startDepth, positionObject.scaleWidth.FloatValue, positionObject.scaleHeight.FloatValue, positionObject.scaleDepth.FloatValue));
+					Console.WriteLine(string.Format("ResizeAnim '{0}' from ({1:F},{2:F},{3:F}) to ({4:F},{5:F},{6:F})", positionObject.Name, startWidth, startHeight, startDepth, positionObject.scaleWidth.FloatValue, positionObject.scaleHeight.FloatValue, positionObject.scaleDepth.FloatValue));
 				}
 			}
 		}
 
 		protected internal override long doPlayReference(BasePositionObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("ResizeAnim play {0} on {1}", ToString(), @object));
+				Console.WriteLine(string.Format("ResizeAnim play {0} on {1}", ToString(), @object));
 			}
 
 			Scheduler.addAction(new ResizeAnimAction(this, duration.IntValue, @object));

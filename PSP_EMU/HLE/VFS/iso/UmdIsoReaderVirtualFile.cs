@@ -74,18 +74,18 @@ namespace pspsharp.HLE.VFS.iso
 				}
 				catch (IOException e)
 				{
-					log.error("ioRead", e);
+					Console.WriteLine("ioRead", e);
 					return ERROR_KERNEL_FILE_READ_ERROR;
 				}
 
 				int sectorOffset = SectorOffset;
-				int length = System.Math.Min(sectorLength - sectorOffset, outputLength);
-				outputPointer.setArray(outputOffset, buffer, sectorOffset, length);
+				int Length = System.Math.Min(sectorLength - sectorOffset, outputLength);
+				outputPointer.setArray(outputOffset, buffer, sectorOffset, Length);
 
-				readLength += length;
-				outputOffset += length;
-				position += length;
-				outputLength -= length;
+				readLength += Length;
+				outputOffset += Length;
+				position += Length;
+				outputLength -= Length;
 			}
 
 			return readLength;
@@ -97,7 +97,7 @@ namespace pspsharp.HLE.VFS.iso
 			while (outputLength > 0)
 			{
 				int sectorOffset = SectorOffset;
-				int length;
+				int Length;
 
 				// Can we read one or multiple sectors directly into the outputBuffer?
 				if (sectorOffset == 0 && outputLength >= sectorLength)
@@ -107,11 +107,11 @@ namespace pspsharp.HLE.VFS.iso
 						int numberSectors = outputLength / sectorLength;
 						iso.readSectors(SectorNumber, numberSectors, outputBuffer, outputOffset);
 
-						length = numberSectors * sectorLength;
+						Length = numberSectors * sectorLength;
 					}
 					catch (IOException e)
 					{
-						log.error("ioRead", e);
+						Console.WriteLine("ioRead", e);
 						return ERROR_KERNEL_FILE_READ_ERROR;
 					}
 				}
@@ -121,20 +121,20 @@ namespace pspsharp.HLE.VFS.iso
 					{
 						iso.readSector(SectorNumber, buffer);
 
-						length = System.Math.Min(sectorLength - sectorOffset, outputLength);
-						Array.Copy(buffer, sectorOffset, outputBuffer, outputOffset, length);
+						Length = System.Math.Min(sectorLength - sectorOffset, outputLength);
+						Array.Copy(buffer, sectorOffset, outputBuffer, outputOffset, Length);
 					}
 					catch (IOException e)
 					{
-						log.error("ioRead", e);
+						Console.WriteLine("ioRead", e);
 						return ERROR_KERNEL_FILE_READ_ERROR;
 					}
 				}
 
-				readLength += length;
-				outputOffset += length;
-				position += length;
-				outputLength -= length;
+				readLength += Length;
+				outputOffset += Length;
+				position += Length;
+				outputLength -= Length;
 			}
 
 			return readLength;
@@ -155,14 +155,14 @@ namespace pspsharp.HLE.VFS.iso
 			}
 			catch (IOException e)
 			{
-				log.error("ioClose", e);
+				Console.WriteLine("ioClose", e);
 				return IO_ERROR;
 			}
 
 			return 0;
 		}
 
-		public override long length()
+		public override long Length()
 		{
 			return iso.NumSectors * (long) sectorLength;
 		}

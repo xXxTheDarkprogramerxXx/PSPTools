@@ -26,13 +26,13 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int dstAddr = GprA0;
 			int srcAddr = GprA1;
-			int length = GprA2;
+			int Length = GprA2;
 
 			int dstLength = getStrlen(dstAddr);
-			int srcLength = getStrlen(srcAddr, length);
-			length = System.Math.Min(srcLength, length);
-			Memory.memcpy(dstAddr + dstLength, srcAddr, length);
-			Memory.write8(dstAddr + dstLength + length, (sbyte) 0);
+			int srcLength = getStrlen(srcAddr, Length);
+			Length = System.Math.Min(srcLength, Length);
+			Memory.memcpy(dstAddr + dstLength, srcAddr, Length);
+			Memory.write8(dstAddr + dstLength + Length, (sbyte) 0);
 
 			GprV0 = dstAddr;
 		}

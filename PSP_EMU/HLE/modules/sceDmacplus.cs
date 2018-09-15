@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -24,7 +24,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceDmacplus : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDmacplus");
+		//public static Logger log = Modules.getLogger("sceDmacplus");
 		public static readonly int[] pixelFormatFromCode = new int[] {GeCommands.PSM_32BIT_ABGR8888, GeCommands.PSM_16BIT_BGR5650, GeCommands.PSM_16BIT_ABGR5551, GeCommands.PSM_16BIT_ABGR4444};
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
@@ -49,9 +49,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceDmacplusLcdcSetFormat(int displayWidth, int displayFrameBufferWidth, int displayPixelFormatCoded)
 		{
 			int pixelFormat = pixelFormatFromCode[displayPixelFormatCoded];
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceDmacplusLcdcSetFormat pixelFormat={0:D}", pixelFormat));
+				Console.WriteLine(string.Format("sceDmacplusLcdcSetFormat pixelFormat={0:D}", pixelFormat));
 			}
 			return 0;
 		}
@@ -65,7 +65,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3438DA0B, version = 150) public int sceDmacplusSc2MeLLI(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 dmacParameters)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3438DA0B, version = 150) public int sceDmacplusSc2MeLLI(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 dmacParameters)
 		[HLEFunction(nid : 0x3438DA0B, version : 150)]
 		public virtual int sceDmacplusSc2MeLLI(TPointer32 dmacParameters)
 		{
@@ -74,16 +74,16 @@ namespace pspsharp.HLE.modules
 			int next = dmacParameters.getValue(8);
 			int attributes = dmacParameters.getValue(12);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceDmacplusSc2MeLLI src=0x{0:X8}, dst=0x{1:X8}, next=0x{2:X8}, attributes=0x{3:X}", src, dst, next, attributes));
+				Console.WriteLine(string.Format("sceDmacplusSc2MeLLI src=0x{0:X8}, dst=0x{1:X8}, next=0x{2:X8}, attributes=0x{3:X}", src, dst, next, attributes));
 			}
 
 			return 0;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x282CA0D7, version = 660) public int sceDmacplusSc2MeLLI_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 dmacParameters)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x282CA0D7, version = 660) public int sceDmacplusSc2MeLLI_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 dmacParameters)
 		[HLEFunction(nid : 0x282CA0D7, version : 660)]
 		public virtual int sceDmacplusSc2MeLLI_660(TPointer32 dmacParameters)
 		{

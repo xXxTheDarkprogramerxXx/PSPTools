@@ -19,11 +19,11 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.vsmx
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class VSMX
 	{
-		public static Logger log = Logger.getLogger("vsmx");
+		//public static Logger log = Logger.getLogger("vsmx");
 		private const int VSMX_SIGNATURE = 0x584D5356; // "VSMX"
 		private const int VSMX_VERSION = 0x00010000;
 		private sbyte[] buffer;
@@ -102,9 +102,9 @@ namespace pspsharp.format.rco.vsmx
 			header.namesEntries = read32();
 		}
 
-		private static bool isZero(sbyte[] buffer, int offset, int length)
+		private static bool isZero(sbyte[] buffer, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				if (buffer[offset + i] != (sbyte) 0)
 				{
@@ -115,15 +115,15 @@ namespace pspsharp.format.rco.vsmx
 			return true;
 		}
 
-		private string[] readStrings(int stringsOffset, int length, int entries, Charset charset, int bytesPerChar)
+		private string[] readStrings(int stringsOffset, int Length, int entries, Charset charset, int bytesPerChar)
 		{
 			string[] strings = new string[entries];
 			int stringIndex = 0;
-			sbyte[] buffer = new sbyte[length];
+			sbyte[] buffer = new sbyte[Length];
 			seek(stringsOffset);
 			read(buffer);
 			int stringStart = 0;
-			for (int i = 0; i < length; i += bytesPerChar)
+			for (int i = 0; i < Length; i += bytesPerChar)
 			{
 				if (isZero(buffer, i, bytesPerChar))
 				{
@@ -135,7 +135,7 @@ namespace pspsharp.format.rco.vsmx
 
 			if (stringIndex != entries)
 			{
-				log.warn(string.Format("readStrings: incorrect number of strings read: stringsOffset=0x{0:X}, length=0x{1:X}, entries=0x{2:X}, bytesPerChar={3:D}, read entries=0x{4:X}", stringsOffset, length, entries, bytesPerChar, stringIndex));
+				Console.WriteLine(string.Format("readStrings: incorrect number of strings read: stringsOffset=0x{0:X}, Length=0x{1:X}, entries=0x{2:X}, bytesPerChar={3:D}, read entries=0x{4:X}", stringsOffset, Length, entries, bytesPerChar, stringIndex));
 			}
 
 			return strings;
@@ -146,24 +146,24 @@ namespace pspsharp.format.rco.vsmx
 			readHeader();
 			if (header.sig != VSMX_SIGNATURE)
 			{
-				log.warn(string.Format("Invalid VSMX signature 0x{0:X8}", header.sig));
+				Console.WriteLine(string.Format("Invalid VSMX signature 0x{0:X8}", header.sig));
 				return;
 			}
 			if (header.ver != VSMX_VERSION)
 			{
-				log.warn(string.Format("Invalid VSMX version 0x{0:X8}", header.ver));
+				Console.WriteLine(string.Format("Invalid VSMX version 0x{0:X8}", header.ver));
 				return;
 			}
 
 			if (header.codeOffset > header.size())
 			{
-				log.warn(string.Format("VSMX: skipping range after header: 0x{0:X}-0x{1:X}", header.size(), header.codeOffset));
+				Console.WriteLine(string.Format("VSMX: skipping range after header: 0x{0:X}-0x{1:X}", header.size(), header.codeOffset));
 				seek(header.codeOffset);
 			}
 
 			if ((header.codeLength % VSMXGroup.SIZE_OF) != 0)
 			{
-				log.warn(string.Format("VSMX: code length is not aligned to 8 bytes: 0x{0:X}", header.codeLength));
+				Console.WriteLine(string.Format("VSMX: code Length is not aligned to 8 bytes: 0x{0:X}", header.codeLength));
 			}
 
 			mem = new VSMXMem();
@@ -179,7 +179,7 @@ namespace pspsharp.format.rco.vsmx
 			mem.properties = readStrings(header.propOffset, header.propLength, header.propEntries, Charset.forName("UTF-16LE"), 2);
 			mem.names = readStrings(header.namesOffset, header.namesLength, header.namesEntries, Charset.forName("ISO-8859-1"), 1);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				debug();
 			}
@@ -242,7 +242,7 @@ namespace pspsharp.format.rco.vsmx
 						int n = (code.id >> 16) & 0xFF;
 						if (n != 0)
 						{
-							log.warn(string.Format("Unexpected localvars value for function at line {0:D}, expected 0, got {1:D}", i, n));
+							Console.WriteLine(string.Format("Unexpected localvars value for function at line {0:D}, expected 0, got {1:D}", i, n));
 						}
 						int args = (code.id >> 8) & 0xFF;
 						int localVars = (code.id >> 24) & 0xFF;
@@ -311,7 +311,7 @@ namespace pspsharp.format.rco.vsmx
 					case VSMXCode.VID_END:
 						if (code.value != 0)
 						{
-							log.warn(string.Format("Unexpected non-zero value at line #{0:D}: 0x{1:X}!", i, code.value));
+							Console.WriteLine(string.Format("Unexpected non-zero value at line #{0:D}: 0x{1:X}!", i, code.value));
 						}
 						break;
 					default:
@@ -319,10 +319,10 @@ namespace pspsharp.format.rco.vsmx
 						break;
 				}
 
-				log.debug(string.Format("Line#{0:D}: {1}", i, s.ToString()));
+				Console.WriteLine(string.Format("Line#{0:D}: {1}", i, s.ToString()));
 			}
 
-			log.debug(decompile());
+			Console.WriteLine(decompile());
 		}
 
 		private string decompile()

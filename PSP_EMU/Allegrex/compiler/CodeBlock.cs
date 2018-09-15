@@ -36,7 +36,7 @@ namespace pspsharp.Allegrex.compiler
 	using IAction = pspsharp.HLE.kernel.types.IAction;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using ClassVisitor = org.objectweb.asm.ClassVisitor;
 	using ClassWriter = org.objectweb.asm.ClassWriter;
 	using FieldVisitor = org.objectweb.asm.FieldVisitor;
@@ -403,9 +403,9 @@ namespace pspsharp.Allegrex.compiler
 			foreach (CodeSequence codeSequence in codeSequences)
 			{
 				sequencesToBeSplit.Add(codeSequence);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("Sequence to be split: " + codeSequence.ToString());
+					Console.WriteLine("Sequence to be split: " + codeSequence.ToString());
 				}
 				currentMethodInstructions -= codeSequence.Length;
 				if (currentMethodInstructions <= methodMaxInstructions)
@@ -572,13 +572,13 @@ namespace pspsharp.Allegrex.compiler
 			}
 			ClassWriter cw = new ClassWriter(computeFlag);
 			ClassVisitor cv = cw;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				cv = new CheckClassAdapter(cv);
 			}
 
 			StringWriter debugOutput = null;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				debugOutput = new StringWriter();
 				PrintWriter debugPrintWriter = new PrintWriter(debugOutput);
@@ -604,7 +604,7 @@ namespace pspsharp.Allegrex.compiler
 
 			if (debugOutput != null)
 			{
-				log.debug(debugOutput.ToString());
+				Console.WriteLine(debugOutput.ToString());
 			}
 
 			compiledClass = loadExecutable(context, className, cw.toByteArray());
@@ -620,17 +620,17 @@ namespace pspsharp.Allegrex.compiler
 
 			context.CodeBlock = this;
 			string className = InternalClassName;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				string functionName = Utilities.getFunctionNameByAddress(StartAddress);
 
 				if (!string.ReferenceEquals(functionName, null))
 				{
-					log.debug(string.Format("Compiling {0} ({1})", className, functionName));
+					Console.WriteLine(string.Format("Compiling {0} ({1})", className, functionName));
 				}
 				else
 				{
-					log.debug(string.Format("Compiling {0}", className));
+					Console.WriteLine(string.Format("Compiling {0}", className));
 				}
 			}
 
@@ -644,7 +644,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 			ClassWriter cw = new ClassWriter(computeFlag);
 			ClassVisitor cv = cw;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				cv = new CheckClassAdapter(cv);
 			}
@@ -678,9 +678,9 @@ namespace pspsharp.Allegrex.compiler
 
 			foreach (SequenceCodeInstruction sequenceCodeInstruction in sequenceCodeInstructions)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("Compiling Sequence " + sequenceCodeInstruction.getMethodName(context));
+					Console.WriteLine("Compiling Sequence " + sequenceCodeInstruction.getMethodName(context));
 				}
 				currentSequence = sequenceCodeInstruction;
 				mv = cv.visitMethod(Opcodes.ACC_PUBLIC | Opcodes.ACC_STATIC, sequenceCodeInstruction.getMethodName(context), "()V", null, exceptions);
@@ -709,7 +709,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 			catch (System.NullReferenceException e)
 			{
-				log.error("Error while compiling " + className + ": " + e);
+				Console.WriteLine("Error while compiling " + className + ": " + e);
 			}
 
 			return compiledClass;
@@ -740,11 +740,11 @@ namespace pspsharp.Allegrex.compiler
 						}
 						catch (InstantiationException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						catch (IllegalAccessException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 					}
 				}
@@ -768,11 +768,11 @@ namespace pspsharp.Allegrex.compiler
 						}
 						catch (InstantiationException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						catch (IllegalAccessException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 					}
 				}

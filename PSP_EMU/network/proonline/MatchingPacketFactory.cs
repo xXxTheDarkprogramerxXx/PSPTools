@@ -58,7 +58,7 @@ namespace pspsharp.network.proonline
 
 		private abstract class MatchingPacketOpcode : ProOnlineAdhocMatchingEventMessage
 		{
-			public MatchingPacketOpcode(MatchingObject matchingObject, int @event, sbyte[] message, int length) : base(matchingObject, @event, message, length)
+			public MatchingPacketOpcode(MatchingObject matchingObject, int @event, sbyte[] message, int Length) : base(matchingObject, @event, message, Length)
 			{
 			}
 
@@ -78,9 +78,9 @@ namespace pspsharp.network.proonline
 				}
 			}
 
-			public override void setMessage(sbyte[] message, int length)
+			public override void setMessage(sbyte[] message, int Length)
 			{
-				if (length >= MessageLength)
+				if (Length >= MessageLength)
 				{
 					offset = 0;
 					PacketOpcode = copyByteFromBytes(message);
@@ -102,14 +102,14 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketPing(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_INTERNAL_PING, message, length)
+			public MatchingPacketPing(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_INTERNAL_PING, message, Length)
 			{
 			}
 		}
 
 		private class MatchingPacketHello : ProOnlineAdhocMatchingEventMessage
 		{
-			public MatchingPacketHello(MatchingObject matchingObject, int address, int length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_HELLO, ADHOC_MATCHING_PACKET_HELLO, address, length, toMacAddress)
+			public MatchingPacketHello(MatchingObject matchingObject, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_HELLO, ADHOC_MATCHING_PACKET_HELLO, address, Length, toMacAddress)
 			{
 			}
 
@@ -117,14 +117,14 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketHello(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_HELLO, message, length)
+			public MatchingPacketHello(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_HELLO, message, Length)
 			{
 			}
 		}
 
 		private class MatchingPacketJoin : ProOnlineAdhocMatchingEventMessage
 		{
-			public MatchingPacketJoin(MatchingObject matchingObject, int address, int length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_JOIN, ADHOC_MATCHING_PACKET_JOIN, address, length, toMacAddress)
+			public MatchingPacketJoin(MatchingObject matchingObject, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_JOIN, ADHOC_MATCHING_PACKET_JOIN, address, Length, toMacAddress)
 			{
 			}
 
@@ -132,7 +132,7 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketJoin(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_JOIN, message, length)
+			public MatchingPacketJoin(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_JOIN, message, Length)
 			{
 			}
 		}
@@ -142,7 +142,7 @@ namespace pspsharp.network.proonline
 		/// 
 		/// A MatchingPacketAccept is consisting of:
 		/// - 1 byte for the event
-		/// - 4 bytes for the message data length
+		/// - 4 bytes for the message data Length
 		/// - 4 bytes for the sibling count
 		/// - n bytes for the message data
 		/// - m bytes for the sibling MAC addresses (6 bytes per sibling)
@@ -151,7 +151,7 @@ namespace pspsharp.network.proonline
 		{
 			protected internal new const int HEADER_SIZE = 1 + 4 + 4;
 
-			public MatchingPacketAccept(MatchingObject matchingObject, int address, int length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_ACCEPT, ADHOC_MATCHING_PACKET_ACCEPT, address, length, toMacAddress)
+			public MatchingPacketAccept(MatchingObject matchingObject, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_ACCEPT, ADHOC_MATCHING_PACKET_ACCEPT, address, Length, toMacAddress)
 			{
 			}
 
@@ -159,7 +159,7 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketAccept(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_ACCEPT, message, length)
+			public MatchingPacketAccept(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_ACCEPT, message, Length)
 			{
 			}
 
@@ -178,9 +178,9 @@ namespace pspsharp.network.proonline
 					{
 						sbyte[] macAddress = MatchingObject.Members[i].macAddress;
 						addToBytes(message, macAddress);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Sending Sibling#{0:D}: MAC {1}", i, convertMacAddressToString(macAddress)));
+							Console.WriteLine(string.Format("Sending Sibling#{0:D}: MAC {1}", i, convertMacAddressToString(macAddress)));
 						}
 					}
     
@@ -188,24 +188,24 @@ namespace pspsharp.network.proonline
 				}
 			}
 
-			public override void setMessage(sbyte[] message, int length)
+			public override void setMessage(sbyte[] message, int Length)
 			{
-				if (length >= HEADER_SIZE)
+				if (Length >= HEADER_SIZE)
 				{
 					offset = 0;
 					PacketOpcode = copyByteFromBytes(message);
 					int dataLength = copyInt32FromBytes(message);
 					int siblingCount = copyInt32FromBytes(message);
-					int restLength = length - HEADER_SIZE - siblingCount * MAC_ADDRESS_LENGTH;
+					int restLength = Length - HEADER_SIZE - siblingCount * MAC_ADDRESS_LENGTH;
 					data = new sbyte[System.Math.Min(dataLength, restLength)];
 					copyFromBytes(message, data);
 					sbyte[] mac = new sbyte[MAC_ADDRESS_LENGTH];
 					for (int i = 0; i < siblingCount; i++)
 					{
 						copyFromBytes(message, mac);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Received Sibling#{0:D}: MAC {1}", i, convertMacAddressToString(mac)));
+							Console.WriteLine(string.Format("Received Sibling#{0:D}: MAC {1}", i, convertMacAddressToString(mac)));
 						}
 					}
 				}
@@ -252,7 +252,7 @@ namespace pspsharp.network.proonline
 
 		private class MatchingPacketCancel : ProOnlineAdhocMatchingEventMessage
 		{
-			public MatchingPacketCancel(MatchingObject matchingObject, int address, int length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_CANCEL, ADHOC_MATCHING_PACKET_CANCEL, address, length, toMacAddress)
+			public MatchingPacketCancel(MatchingObject matchingObject, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_CANCEL, ADHOC_MATCHING_PACKET_CANCEL, address, Length, toMacAddress)
 			{
 			}
 
@@ -260,14 +260,14 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketCancel(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_CANCEL, message, length)
+			public MatchingPacketCancel(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_CANCEL, message, Length)
 			{
 			}
 		}
 
 		private class MatchingPacketBulk : ProOnlineAdhocMatchingEventMessage
 		{
-			public MatchingPacketBulk(MatchingObject matchingObject, int address, int length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_DATA, ADHOC_MATCHING_PACKET_BULK, address, length, toMacAddress)
+			public MatchingPacketBulk(MatchingObject matchingObject, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_DATA, ADHOC_MATCHING_PACKET_BULK, address, Length, toMacAddress)
 			{
 			}
 
@@ -275,7 +275,7 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketBulk(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_DATA, message, length)
+			public MatchingPacketBulk(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_DATA, message, Length)
 			{
 			}
 		}
@@ -286,31 +286,31 @@ namespace pspsharp.network.proonline
 			{
 			}
 
-			public MatchingPacketBye(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_DISCONNECT, message, length)
+			public MatchingPacketBye(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, PSP_ADHOC_MATCHING_EVENT_DISCONNECT, message, Length)
 			{
 			}
 		}
 
-		public static ProOnlineAdhocMatchingEventMessage createPacket(ProOnlineNetworkAdapter proOnline, MatchingObject matchingObject, sbyte[] message, int length)
+		public static ProOnlineAdhocMatchingEventMessage createPacket(ProOnlineNetworkAdapter proOnline, MatchingObject matchingObject, sbyte[] message, int Length)
 		{
-			if (length > 0 && message != null && message.Length > 0)
+			if (Length > 0 && message != null && message.Length > 0)
 			{
 				switch (message[0])
 				{
 					case ADHOC_MATCHING_PACKET_PING:
-						return new MatchingPacketPing(matchingObject, message, length);
+						return new MatchingPacketPing(matchingObject, message, Length);
 					case ADHOC_MATCHING_PACKET_HELLO:
-						return new MatchingPacketHello(matchingObject, message, length);
+						return new MatchingPacketHello(matchingObject, message, Length);
 					case ADHOC_MATCHING_PACKET_JOIN:
-						return new MatchingPacketJoin(matchingObject, message, length);
+						return new MatchingPacketJoin(matchingObject, message, Length);
 					case ADHOC_MATCHING_PACKET_ACCEPT:
-						return new MatchingPacketAccept(matchingObject, message, length);
+						return new MatchingPacketAccept(matchingObject, message, Length);
 					case ADHOC_MATCHING_PACKET_CANCEL:
-						return new MatchingPacketCancel(matchingObject, message, length);
+						return new MatchingPacketCancel(matchingObject, message, Length);
 					case ADHOC_MATCHING_PACKET_BULK:
-						return new MatchingPacketBulk(matchingObject, message, length);
+						return new MatchingPacketBulk(matchingObject, message, Length);
 					case ADHOC_MATCHING_PACKET_BYE:
-						return new MatchingPacketBye(matchingObject, message, length);
+						return new MatchingPacketBye(matchingObject, message, Length);
 				}
 			}
 

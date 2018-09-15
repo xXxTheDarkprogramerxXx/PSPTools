@@ -18,11 +18,11 @@ namespace pspsharp.HLE.modules
 {
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceHprm : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceHprm");
+		//public static Logger log = Modules.getLogger("sceHprm");
 
 		private bool enableRemote = false;
 		private bool enableHeadphone = false;
@@ -55,11 +55,11 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x208DB1BD, version : 150)]
 		public virtual bool sceHprmIsRemoteExist()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("sceHprmIsRemoteExist returning %b", enableRemote));
-				log.debug(string.Format("sceHprmIsRemoteExist returning %b", enableRemote));
+//ORIGINAL LINE: Console.WriteLine(String.format("sceHprmIsRemoteExist returning %b", enableRemote));
+				Console.WriteLine(string.Format("sceHprmIsRemoteExist returning %b", enableRemote));
 			}
 
 			return enableRemote;
@@ -68,11 +68,11 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x7E69EDA4, version : 150)]
 		public virtual bool sceHprmIsHeadphoneExist()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("sceHprmIsHeadphoneExist returning %b", enableHeadphone));
-				log.debug(string.Format("sceHprmIsHeadphoneExist returning %b", enableHeadphone));
+//ORIGINAL LINE: Console.WriteLine(String.format("sceHprmIsHeadphoneExist returning %b", enableHeadphone));
+				Console.WriteLine(string.Format("sceHprmIsHeadphoneExist returning %b", enableHeadphone));
 			}
 
 			return enableHeadphone;
@@ -81,11 +81,11 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x219C58F1, version : 150)]
 		public virtual bool sceHprmIsMicrophoneExist()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("sceHprmIsMicrophoneExist returning %b", enableMicrophone));
-				log.debug(string.Format("sceHprmIsMicrophoneExist returning %b", enableMicrophone));
+//ORIGINAL LINE: Console.WriteLine(String.format("sceHprmIsMicrophoneExist returning %b", enableMicrophone));
+				Console.WriteLine(string.Format("sceHprmIsMicrophoneExist returning %b", enableMicrophone));
 			}
 
 			return enableMicrophone;

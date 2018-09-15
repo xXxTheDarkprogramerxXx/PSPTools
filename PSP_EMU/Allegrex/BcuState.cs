@@ -336,7 +336,7 @@ namespace pspsharp.Allegrex
 
 			if (Emulator.log.DebugEnabled)
 			{
-				Emulator.log.debug(string.Format("0x{0:X8} - eret with status=0x{1:X}, epc=0x{2:X8}", processor.cpu.pc, status, epc));
+				Emulator.Console.WriteLine(string.Format("0x{0:X8} - eret with status=0x{1:X}, epc=0x{2:X8}", processor.cpu.pc, status, epc));
 			}
 
 			return epc;

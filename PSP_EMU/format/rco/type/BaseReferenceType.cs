@@ -70,7 +70,7 @@ namespace pspsharp.format.rco.type
 					image = context.images[value];
 					break;
 				default:
-					log.warn(string.Format("BaseReferenceType: unknown referenceType 0x{0:X}({1})", referenceType, getReferenceTypeString(referenceType)));
+					Console.WriteLine(string.Format("BaseReferenceType: unknown referenceType 0x{0:X}({1})", referenceType, getReferenceTypeString(referenceType)));
 					break;
 			}
 			base.init(context);

@@ -23,7 +23,7 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.filesystems.umdiso.ISectorDevice_Fields.sectorLength;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -37,7 +37,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceUmdMan : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUmdMan");
+		//public static Logger log = Modules.getLogger("sceUmdMan");
 		protected internal SysMemInfo dummyAreaInfo;
 		protected internal TPointer dummyArea;
 		protected internal SysMemInfo dummyUmdDriveInfo;
@@ -179,7 +179,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE3716915, version = 150) public int sceUmdMan_E3716915(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer umdDrive, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer lbaParameters, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=sectorLength, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer readBuffer1, int readSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.previousParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer readBuffer2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=sectorLength, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer readBuffer3, int flags)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE3716915, version = 150) public int sceUmdMan_E3716915(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer umdDrive, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer lbaParameters, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=sectorLength, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer readBuffer1, int readSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.previousParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer readBuffer2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=sectorLength, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer readBuffer3, int flags)
 		[HLEFunction(nid : 0xE3716915, version : 150)]
 		public virtual int sceUmdMan_E3716915(TPointer umdDrive, TPointer lbaParameters, TPointer readBuffer1, int readSize, TPointer readBuffer2, TPointer readBuffer3, int flags)
 		{
@@ -189,15 +189,15 @@ namespace pspsharp.HLE.modules
 			int unknown3 = lbaParameters.getValue8(10);
 			int unknown4 = lbaParameters.getValue8(11);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUmdMan_E3716915 LBA parameters: sectorNumber=0x{0:X}, unknown1=0x{1:X}, unknown2=0x{2:X}, unknown3=0x{3:X}, unknown4=0x{4:X}", sectorNumber, unknown1, unknown2, unknown3, unknown4));
+				Console.WriteLine(string.Format("sceUmdMan_E3716915 LBA parameters: sectorNumber=0x{0:X}, unknown1=0x{1:X}, unknown2=0x{2:X}, unknown3=0x{3:X}, unknown4=0x{4:X}", sectorNumber, unknown1, unknown2, unknown3, unknown4));
 			}
 
 			ISectorDevice sectorDevice = SectorDevice;
 			if (sectorDevice == null)
 			{
-				log.warn(string.Format("sceUmdMan_E3716915 no SectorDevice available"));
+				Console.WriteLine(string.Format("sceUmdMan_E3716915 no SectorDevice available"));
 				return -1;
 			}
 
@@ -223,7 +223,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 				return -1;
 			}
 
@@ -264,7 +264,7 @@ namespace pspsharp.HLE.modules
 			ISectorDevice sectorDevice = SectorDevice;
 			if (sectorDevice == null)
 			{
-				log.warn(string.Format("sceUmdMan_D1478023 no SectorDevice available"));
+				Console.WriteLine(string.Format("sceUmdMan_D1478023 no SectorDevice available"));
 				return -1;
 			}
 
@@ -275,7 +275,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.warn(string.Format("sceUmdMan_D1478023 IO error {0}", e));
+				Console.WriteLine(string.Format("sceUmdMan_D1478023 IO error {0}", e));
 				return -1;
 			}
 

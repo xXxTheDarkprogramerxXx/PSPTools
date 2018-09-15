@@ -106,7 +106,7 @@ namespace pspsharp.HLE.kernel.types
 			}
 			else
 			{
-				VplManager.log.warn(string.Format("tryCreateVpl not enough free mem (want={0:D} ,free={1:D}, diff={2:D})", totalVplSize, maxFreeSize, totalVplSize - maxFreeSize));
+				VplManager.Console.WriteLine(string.Format("tryCreateVpl not enough free mem (want={0:D} ,free={1:D}, diff={2:D})", totalVplSize, maxFreeSize, totalVplSize - maxFreeSize));
 			}
 
 			return info;
@@ -135,7 +135,7 @@ namespace pspsharp.HLE.kernel.types
 				// Address is not in valid range.
 				if (VplManager.log.DebugEnabled)
 				{
-					VplManager.log.debug(string.Format("Free VPL 0x{0:X8} address not allocated", addr));
+					VplManager.Console.WriteLine(string.Format("Free VPL 0x{0:X8} address not allocated", addr));
 				}
 
 				return false;
@@ -146,7 +146,7 @@ namespace pspsharp.HLE.kernel.types
 			int top = mem.read32(addr - vplBlockHeaderSize);
 			if (top != allocAddress)
 			{
-				VplManager.log.warn(string.Format("Free VPL 0x{0:X8} corrupted header", addr));
+				VplManager.Console.WriteLine(string.Format("Free VPL 0x{0:X8} corrupted header", addr));
 				return false;
 			}
 
@@ -160,7 +160,7 @@ namespace pspsharp.HLE.kernel.types
 
 			if (VplManager.log.DebugEnabled)
 			{
-				VplManager.log.debug(string.Format("Free VPL: Block 0x{0:X8} with size={1:D} freed", addr, deallocSize));
+				VplManager.Console.WriteLine(string.Format("Free VPL: Block 0x{0:X8} with size={1:D} freed", addr, deallocSize));
 			}
 
 			return true;

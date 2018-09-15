@@ -388,83 +388,83 @@ namespace pspsharp.HLE
 			}
 		}
 
-		public void memcpy(int src, int length)
+		public void memcpy(int src, int Length)
 		{
-			memcpy(0, src, length);
+			memcpy(0, src, Length);
 		}
 
-		public void memcpy(int offset, int src, int length)
+		public void memcpy(int offset, int src, int Length)
 		{
 			if (NotNull)
 			{
-				memory.memcpy(Address + offset, src, length);
+				memory.memcpy(Address + offset, src, Length);
 			}
 		}
 
-		public void memmove(int src, int length)
+		public void memmove(int src, int Length)
 		{
-			memmove(0, src, length);
+			memmove(0, src, Length);
 		}
 
-		public void memmove(int offset, int src, int length)
+		public void memmove(int offset, int src, int Length)
 		{
 			if (NotNull)
 			{
-				memory.memmove(Address + offset, src, length);
+				memory.memmove(Address + offset, src, Length);
 			}
 		}
 
 		/// <summary>
-		/// Set "length" bytes to the value "data" starting at the pointer address.
+		/// Set "Length" bytes to the value "data" starting at the pointer address.
 		/// Equivalent to
-		///     Memory.memset(getAddress(), data, length);
+		///     Memory.memset(getAddress(), data, Length);
 		/// </summary>
 		/// <param name="data">    the byte to be set in memory </param>
-		/// <param name="length">  the number of bytes to be set </param>
-		public void memset(sbyte data, int length)
+		/// <param name="Length">  the number of bytes to be set </param>
+		public void memset(sbyte data, int Length)
 		{
-			memset(0, data, length);
+			memset(0, data, Length);
 		}
 
 		/// <summary>
-		/// Set "length" bytes to the value "data" starting at the pointer address
+		/// Set "Length" bytes to the value "data" starting at the pointer address
 		/// with the given "offset".
 		/// Equivalent to
-		///     Memory.memset(getAddress() + offset, data, length);
+		///     Memory.memset(getAddress() + offset, data, Length);
 		/// </summary>
 		/// <param name="offset">  the address offset from the pointer address </param>
 		/// <param name="data">    the byte to be set in memory </param>
-		/// <param name="length">  the number of bytes to be set </param>
-		public void memset(int offset, sbyte data, int length)
+		/// <param name="Length">  the number of bytes to be set </param>
+		public void memset(int offset, sbyte data, int Length)
 		{
 			if (NotNull)
 			{
-				memory.memset(Address + offset, data, length);
+				memory.memset(Address + offset, data, Length);
 			}
 		}
 
 		/// <summary>
-		/// Set "length" bytes to the value 0 starting at the pointer address.
+		/// Set "Length" bytes to the value 0 starting at the pointer address.
 		/// Equivalent to
-		///     Memory.memset(getAddress(), 0, length);
+		///     Memory.memset(getAddress(), 0, Length);
 		/// </summary>
-		/// <param name="length">  the number of bytes to be set </param>
-		public void clear(int length)
+		/// <param name="Length">  the number of bytes to be set </param>
+		public void clear(int Length)
 		{
-			clear(0, length);
+			clear(0, Length);
 		}
 
 		/// <summary>
-		/// Set "length" bytes to the value 0 starting at the pointer address
+		/// Set "Length" bytes to the value 0 starting at the pointer address
 		/// with the given "offset".
 		/// Equivalent to
-		///     Memory.memset(getAddress() + offset, 0, length);
+		///     Memory.memset(getAddress() + offset, 0, Length);
 		/// </summary>
 		/// <param name="offset">  the address offset from the pointer address </param>
-		/// <param name="length">  the number of bytes to be set </param>
-		public void clear(int offset, int length)
+		/// <param name="Length">  the number of bytes to be set </param>
+		public void clear(int offset, int Length)
 		{
-			memset(offset, (sbyte) 0, length);
+			memset(offset, (sbyte) 0, Length);
 		}
 
 		public void setUnalignedValue32(int offset, int value)

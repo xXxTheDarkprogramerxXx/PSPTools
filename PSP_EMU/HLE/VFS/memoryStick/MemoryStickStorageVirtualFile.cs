@@ -36,9 +36,9 @@ namespace pspsharp.HLE.VFS.memoryStick
 					// Is the memory stick locked?
 					if (outputPointer.NotNull && outputLength >= 4)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
+							Console.WriteLine(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
 						}
 						outputPointer.setValue32(MemoryStick.Locked);
 						result = 0;
@@ -52,9 +52,9 @@ namespace pspsharp.HLE.VFS.memoryStick
 					// Is the memory stick inserted?
 					if (outputPointer.NotNull && outputLength >= 4)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
+							Console.WriteLine(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
 						}
 						// Unknown output value
 						outputPointer.setValue32(MemoryStick.Inserted);
@@ -68,9 +68,9 @@ namespace pspsharp.HLE.VFS.memoryStick
 				case 0x02125803:
 					if (outputPointer.NotNull && outputLength >= 96)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
+							Console.WriteLine(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
 						}
 						// Unknown output values
 						outputPointer.clear(96);
@@ -110,7 +110,7 @@ namespace pspsharp.HLE.VFS.memoryStick
 			return IO_ERROR;
 		}
 
-		public override long length()
+		public override long Length()
 		{
 			return 0L;
 		}

@@ -22,7 +22,7 @@ namespace pspsharp.format.rco.vsmx.objects
 	using VSMXNativeObject = pspsharp.format.rco.vsmx.interpreter.VSMXNativeObject;
 	using VSMXNumber = pspsharp.format.rco.vsmx.interpreter.VSMXNumber;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class Math : BaseNativeObject
 	{
@@ -53,9 +53,9 @@ namespace pspsharp.format.rco.vsmx.objects
 		{
 			float value = random_Renamed.nextFloat();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Math.random() returns {0:F}", value));
+				Console.WriteLine(string.Format("Math.random() returns {0:F}", value));
 			}
 
 			return new VSMXNumber(interpreter, value);

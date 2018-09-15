@@ -44,12 +44,12 @@ namespace pspsharp.network.pspsharp
 			this.type = (sbyte) type;
 		}
 
-		public JpcspAdhocPtpMessage(int address, int length, int type) : base(address, length)
+		public JpcspAdhocPtpMessage(int address, int Length, int type) : base(address, Length)
 		{
 			this.type = (sbyte) type;
 		}
 
-		public JpcspAdhocPtpMessage(sbyte[] message, int length) : base(message, length)
+		public JpcspAdhocPtpMessage(sbyte[] message, int Length) : base(message, Length)
 		{
 		}
 
@@ -68,15 +68,15 @@ namespace pspsharp.network.pspsharp
 			}
 		}
 
-		public override void setMessage(sbyte[] message, int length)
+		public override void setMessage(sbyte[] message, int Length)
 		{
-			if (length >= HEADER_SIZE)
+			if (Length >= HEADER_SIZE)
 			{
 				offset = 0;
 				copyFromBytes(message, fromMacAddress);
 				copyFromBytes(message, toMacAddress);
 				type = copyByteFromBytes(message);
-				data = new sbyte[length - HEADER_SIZE];
+				data = new sbyte[Length - HEADER_SIZE];
 				copyFromBytes(message, data);
 			}
 		}

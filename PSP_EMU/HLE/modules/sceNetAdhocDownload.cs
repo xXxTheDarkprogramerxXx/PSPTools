@@ -17,11 +17,11 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNetAdhocDownload : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetAdhocDownload");
+		//public static Logger log = Modules.getLogger("sceNetAdhocDownload");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x117CA01A, version = 150) public int sceNetAdhocDownloadTermServer()

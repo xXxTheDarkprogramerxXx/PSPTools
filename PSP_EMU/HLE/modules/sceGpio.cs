@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class sceGpio : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceGpio");
+		//public static Logger log = Modules.getLogger("sceGpio");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x317D9D2C, version = 150) public int sceGpioSetPortMode(int port, int mode)

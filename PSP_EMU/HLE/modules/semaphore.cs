@@ -19,7 +19,7 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.crypto.PreDecrypt.preDecrypt;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -32,16 +32,16 @@ namespace pspsharp.HLE.modules
 
 	public class semaphore : HLEModule
 	{
-		public static Logger log = Modules.getLogger("semaphore");
+		//public static Logger log = Modules.getLogger("semaphore");
 
 		public virtual int hleUtilsBufferCopyWithRange(sbyte[] @out, int outOffset, int outSize, sbyte[] @in, int inOffset, int inSize, int cmd)
 		{
 			int result = 0;
 			if (preDecrypt(@out, outOffset, outSize, @in, inOffset, inSize, cmd))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleUtilsBufferCopyWithRange using pre-decrypted data"));
+					Console.WriteLine(string.Format("hleUtilsBufferCopyWithRange using pre-decrypted data"));
 				}
 			}
 			else
@@ -66,7 +66,7 @@ namespace pspsharp.HLE.modules
 				result = crypto.KIRKEngine.hleUtilsBufferCopyWithRange(outBuffer, outSize, inBuffer, inSizeAligned, inSize, cmd);
 				if (result != 0)
 				{
-					log.warn(string.Format("hleUtilsBufferCopyWithRange cmd=0x{0:X} returned 0x{1:X}", cmd, result));
+					Console.WriteLine(string.Format("hleUtilsBufferCopyWithRange cmd=0x{0:X} returned 0x{1:X}", cmd, result));
 				}
 			}
 

@@ -59,7 +59,7 @@ namespace pspsharp.network.proonline
 				}
 				catch (UnknownHostException e)
 				{
-					ProOnlineNetworkAdapter.log.error("Incorrect IP", e);
+					ProOnlineNetworkAdapter.Console.WriteLine("Incorrect IP", e);
 				}
 			}
 		}

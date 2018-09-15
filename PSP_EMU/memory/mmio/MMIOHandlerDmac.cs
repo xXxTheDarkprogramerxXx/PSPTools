@@ -19,7 +19,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.kernel.managers.IntrManager.PSP_DMA0_INTR;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using IAction = pspsharp.HLE.kernel.types.IAction;
@@ -93,9 +93,9 @@ namespace pspsharp.memory.mmio
 
 		private void memcpyCompleted(int flagCompleted)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("memcpyCompleted 0x{0:X}", flagCompleted));
+				Console.WriteLine(string.Format("memcpyCompleted 0x{0:X}", flagCompleted));
 			}
 			flagsCompleted |= flagCompleted;
 

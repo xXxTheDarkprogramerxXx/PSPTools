@@ -52,11 +52,11 @@ namespace pspsharp.HLE.modules
 	using Scheduler = pspsharp.scheduler.Scheduler;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceWlan : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceWlan");
+		//public static Logger log = Modules.getLogger("sceWlan");
 		public const int IOCTL_CMD_UNKNOWN_0x2 = 0x2;
 		public const int IOCTL_CMD_START_SCANNING = 0x34;
 		public const int IOCTL_CMD_CREATE = 0x35;
@@ -234,9 +234,9 @@ namespace pspsharp.HLE.modules
 
 			if (wlanThreadMustExit())
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Exiting hleWlanThread {0}", Modules.ThreadManForUserModule.CurrentThread));
+					Console.WriteLine(string.Format("Exiting hleWlanThread {0}", Modules.ThreadManForUserModule.CurrentThread));
 				}
 				Modules.ThreadManForUserModule.hleKernelExitDeleteThread(0);
 				return;
@@ -287,12 +287,12 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("End of scan action:"));
+					Console.WriteLine(string.Format("End of scan action:"));
 					foreach (int ch in channels)
 					{
-						log.debug(string.Format("Scan result channel#{0:D}, ssid='{1}', mode={2:D}", ch, channelSSIDs[ch], channelModes[ch]));
+						Console.WriteLine(string.Format("Scan result channel#{0:D}, ssid='{1}', mode={2:D}", ch, channelSSIDs[ch], channelModes[ch]));
 					}
 				}
 
@@ -304,9 +304,9 @@ namespace pspsharp.HLE.modules
 					{
 						break;
 					}
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Scan on channel {0:D}", channel));
+						Console.WriteLine(string.Format("Scan on channel {0:D}", channel));
 					}
 
 					if (isValidChannel(channel))
@@ -342,9 +342,9 @@ namespace pspsharp.HLE.modules
 
 		private void hleWlanConnectAction(TPointer handleAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanConnectAction handleAddr={0}", handleAddr));
+				Console.WriteLine(string.Format("hleWlanConnectAction handleAddr={0}", handleAddr));
 			}
 
 			// Signal the sema that the connect/join has completed
@@ -355,9 +355,9 @@ namespace pspsharp.HLE.modules
 
 		private void hleWlanCreateAction(TPointer handleAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanCreateAction handleAddr={0}", handleAddr));
+				Console.WriteLine(string.Format("hleWlanCreateAction handleAddr={0}", handleAddr));
 			}
 
 			// Signal the sema that the create has completed
@@ -368,9 +368,9 @@ namespace pspsharp.HLE.modules
 
 		private void hleWlanDisconnectAction(TPointer handleAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanDisconnectAction handleAddr={0}", handleAddr));
+				Console.WriteLine(string.Format("hleWlanDisconnectAction handleAddr={0}", handleAddr));
 			}
 
 			// Signal the sema that the disconnect has completed
@@ -407,9 +407,9 @@ namespace pspsharp.HLE.modules
 					}
 					catch (BindException e)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("createWlanSocket port {0:D} already in use ({1}) - retrying with port {2:D}", wlanSocketPort, e, wlanSocketPort + 1));
+							Console.WriteLine(string.Format("createWlanSocket port {0:D} already in use ({1}) - retrying with port {2:D}", wlanSocketPort, e, wlanSocketPort + 1));
 						}
 						// The port is already busy, retrying with another port
 						wlanSocketPort++;
@@ -417,7 +417,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (SocketException e)
 					{
-						log.error("createWlanSocket", e);
+						Console.WriteLine("createWlanSocket", e);
 					}
 				} while (retry);
 			}
@@ -445,9 +445,9 @@ namespace pspsharp.HLE.modules
 
 		protected internal virtual void sendPacket(sbyte[] buffer, int bufferLength)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sendPacket {0}", Utilities.getMemoryDump(buffer, 0, bufferLength)));
+				Console.WriteLine(string.Format("sendPacket {0}", Utilities.getMemoryDump(buffer, 0, bufferLength)));
 			}
 
 			try
@@ -464,11 +464,11 @@ namespace pspsharp.HLE.modules
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("sendPacket", e);
+				Console.WriteLine("sendPacket", e);
 			}
 			catch (IOException e)
 			{
-				log.error("sendPacket", e);
+				Console.WriteLine("sendPacket", e);
 			}
 		}
 
@@ -555,12 +555,12 @@ namespace pspsharp.HLE.modules
 			joinedChannel = channel;
 		}
 
-		private void processCmd(sbyte cmd, sbyte[] buffer, int offset, int length)
+		private void processCmd(sbyte cmd, sbyte[] buffer, int offset, int Length)
 		{
 			sbyte[] packetMacAddress = new sbyte[MAC_ADDRESS_LENGTH];
 			Array.Copy(buffer, offset, packetMacAddress, 0, MAC_ADDRESS_LENGTH);
 			offset += MAC_ADDRESS_LENGTH;
-			length -= MAC_ADDRESS_LENGTH;
+			Length -= MAC_ADDRESS_LENGTH;
 			sbyte[] myMacAddress = Wlan.MacAddress;
 			bool macAddressEqual = true;
 			for (int i = 0; i < MAC_ADDRESS_LENGTH; i++)
@@ -574,9 +574,9 @@ namespace pspsharp.HLE.modules
 			if (macAddressEqual)
 			{
 				// This packet is coming from myself, ignore it
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Ignoring packet coming from myself"));
+					Console.WriteLine(string.Format("Ignoring packet coming from myself"));
 				}
 				return;
 			}
@@ -607,15 +607,15 @@ namespace pspsharp.HLE.modules
 			}
 			else if (cmd == WLAN_CMD_SCAN_RESPONSE)
 			{
-				while (length >= 34)
+				while (Length >= 34)
 				{
 					int channel = buffer[offset];
 					offset++;
-					length--;
+					Length--;
 
 					int mode = buffer[offset];
 					offset++;
-					length--;
+					Length--;
 
 					string ssid = Utilities.readStringNZ(buffer, offset, 32);
 					if (!string.ReferenceEquals(ssid, null) && ssid.Length > 0)
@@ -627,14 +627,14 @@ namespace pspsharp.HLE.modules
 						}
 					}
 					offset += 32;
-					length -= 32;
+					Length -= 32;
 				}
 			}
 			else
 			{
 				if (log.InfoEnabled)
 				{
-					log.info(string.Format("processCmd unknown cmd=0x{0:X}, buffer={1}", cmd, Utilities.getMemoryDump(buffer, offset, length)));
+					log.info(string.Format("processCmd unknown cmd=0x{0:X}, buffer={1}", cmd, Utilities.getMemoryDump(buffer, offset, Length)));
 				}
 			}
 		}
@@ -653,9 +653,9 @@ namespace pspsharp.HLE.modules
 			try
 			{
 				wlanSocket.receive(packet);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleWlanReceiveMessage message: {0}", Utilities.getMemoryDump(packet.Data, packet.Offset, packet.Length)));
+					Console.WriteLine(string.Format("hleWlanReceiveMessage message: {0}", Utilities.getMemoryDump(packet.Data, packet.Offset, packet.Length)));
 				}
 
 				packetReceived = true;
@@ -679,9 +679,9 @@ namespace pspsharp.HLE.modules
 
 				if (joinedChannel >= 0 && !ssid.Equals(channelSSIDs[joinedChannel]))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanReceiveMessage message SSID('{0}') not matching the joined SSID('{1}')", ssid, channelSSIDs[joinedChannel]));
+						Console.WriteLine(string.Format("hleWlanReceiveMessage message SSID('{0}') not matching the joined SSID('{1}')", ssid, channelSSIDs[joinedChannel]));
 					}
 					return packetReceived;
 				}
@@ -718,11 +718,11 @@ namespace pspsharp.HLE.modules
 
 					if (dataLength > 0)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Notifying received message: {0}", message));
-							log.debug(string.Format("Message WLAN: {0}", wlanMessage));
-							log.debug(string.Format("Message data: {0}", Utilities.getMemoryDump(data.Address, dataLength)));
+							Console.WriteLine(string.Format("Notifying received message: {0}", message));
+							Console.WriteLine(string.Format("Message WLAN: {0}", wlanMessage));
+							Console.WriteLine(string.Format("Message data: {0}", Utilities.getMemoryDump(data.Address, dataLength)));
 						}
 
 						int sceNetIfEnqueue = NIDMapper.Instance.getAddressByName("sceNetIfEnqueue");
@@ -740,7 +740,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("hleWlanReceiveMessage", e);
+				Console.WriteLine("hleWlanReceiveMessage", e);
 			}
 
 			return packetReceived;
@@ -762,9 +762,9 @@ namespace pspsharp.HLE.modules
 
 			Array.Copy(myGameModeState.data, 0, buffer, offset, myGameModeState.dataLength);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanSendGameMode sending packet: {0}", Utilities.getMemoryDump(buffer, 0, buffer.Length)));
+				Console.WriteLine(string.Format("hleWlanSendGameMode sending packet: {0}", Utilities.getMemoryDump(buffer, 0, buffer.Length)));
 			}
 
 			sendDataPacket(buffer, buffer.Length);
@@ -788,9 +788,9 @@ namespace pspsharp.HLE.modules
 			try
 			{
 				wlanSocket.receive(packet);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleWlanReceiveGameMode message: {0}", Utilities.getMemoryDump(packet.Data, packet.Offset, packet.Length)));
+					Console.WriteLine(string.Format("hleWlanReceiveGameMode message: {0}", Utilities.getMemoryDump(packet.Data, packet.Offset, packet.Length)));
 				}
 
 				packetReceived = true;
@@ -814,9 +814,9 @@ namespace pspsharp.HLE.modules
 
 				if (joinedChannel >= 0 && !ssid.Equals(channelSSIDs[joinedChannel]))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanReceiveGameMode message SSID('{0}') not matching the joined SSID('{1}')", ssid, channelSSIDs[joinedChannel]));
+						Console.WriteLine(string.Format("hleWlanReceiveGameMode message SSID('{0}') not matching the joined SSID('{1}')", ssid, channelSSIDs[joinedChannel]));
 					}
 					return packetReceived;
 				}
@@ -828,20 +828,20 @@ namespace pspsharp.HLE.modules
 				GameModeState gameModeState = getGameModeStat(macAddress.macAddress);
 				if (gameModeState != null)
 				{
-					int length = System.Math.Min(dataLength, gameModeState.dataLength);
-					Array.Copy(dataBytes, dataOffset, gameModeState.data, 0, length);
+					int Length = System.Math.Min(dataLength, gameModeState.dataLength);
+					Array.Copy(dataBytes, dataOffset, gameModeState.data, 0, Length);
 
 					gameModeState.doUpdate();
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanReceiveGameMode updated GameModeState {0}", gameModeState));
+						Console.WriteLine(string.Format("hleWlanReceiveGameMode updated GameModeState {0}", gameModeState));
 					}
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanReceiveGameMode could not find GameModeState for MAC address {0}", macAddress));
+						Console.WriteLine(string.Format("hleWlanReceiveGameMode could not find GameModeState for MAC address {0}", macAddress));
 					}
 				}
 			}
@@ -851,7 +851,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("hleWlanReceiveMessage", e);
+				Console.WriteLine("hleWlanReceiveMessage", e);
 			}
 
 			return packetReceived;
@@ -863,11 +863,11 @@ namespace pspsharp.HLE.modules
 			SceNetWlanMessage wlanMessage = new SceNetWlanMessage();
 			wlanMessage.read(mem, message.dataAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanSendMessage message: {0}: {1}", message, Utilities.getMemoryDump(message.BaseAddress, message.@sizeof())));
-				log.debug(string.Format("hleWlanSendMessage WLAN message : {0}", wlanMessage));
-				log.debug(string.Format("hleWlanSendMessage message data: {0}", Utilities.getMemoryDump(message.dataAddr + wlanMessage.@sizeof(), message.dataLength - wlanMessage.@sizeof())));
+				Console.WriteLine(string.Format("hleWlanSendMessage message: {0}: {1}", message, Utilities.getMemoryDump(message.BaseAddress, message.@sizeof())));
+				Console.WriteLine(string.Format("hleWlanSendMessage WLAN message : {0}", wlanMessage));
+				Console.WriteLine(string.Format("hleWlanSendMessage message data: {0}", Utilities.getMemoryDump(message.dataAddr + wlanMessage.@sizeof(), message.dataLength - wlanMessage.@sizeof())));
 			}
 
 			if (!createWlanSocket())
@@ -913,9 +913,9 @@ namespace pspsharp.HLE.modules
 			SceNetIfMessage message = new SceNetIfMessage();
 			message.read(firstMessageAddr);
 			RuntimeContext.debugMemory(firstMessageAddr.Address, message.@sizeof());
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanSendCallback handleAddr={0}: {1}", handleAddr, handle));
+				Console.WriteLine(string.Format("hleWlanSendCallback handleAddr={0}: {1}", handleAddr, handle));
 			}
 
 			hleWlanSendMessage(handleAddr, message);
@@ -946,22 +946,22 @@ namespace pspsharp.HLE.modules
 		// Called by sceNetIfhandleIfUp
 		public virtual int hleWlanUpCallback(TPointer handleAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanUpCallback handleAddr: {0}", Utilities.getMemoryDump(handleAddr.Address, 44)));
+				Console.WriteLine(string.Format("hleWlanUpCallback handleAddr: {0}", Utilities.getMemoryDump(handleAddr.Address, 44)));
 				int handleInternalAddr = handleAddr.getValue32();
 				if (handleInternalAddr != 0)
 				{
-					log.debug(string.Format("hleWlanUpCallback handleInternalAddr: {0}", Utilities.getMemoryDump(handleInternalAddr, 320)));
+					Console.WriteLine(string.Format("hleWlanUpCallback handleInternalAddr: {0}", Utilities.getMemoryDump(handleInternalAddr, 320)));
 				}
 			}
 
 			SceNetIfHandle handle = new SceNetIfHandle();
 			handle.read(handleAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanUpCallback handleAddr={0}: {1}", handleAddr, handle));
+				Console.WriteLine(string.Format("hleWlanUpCallback handleAddr={0}: {1}", handleAddr, handle));
 			}
 
 			wlanHandleAddr = handleAddr;
@@ -985,22 +985,22 @@ namespace pspsharp.HLE.modules
 		// Called by sceNetIfhandleIfDown
 		public virtual int hleWlanDownCallback(TPointer handleAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanDownCallback handleAddr: {0}", Utilities.getMemoryDump(handleAddr.Address, 44)));
+				Console.WriteLine(string.Format("hleWlanDownCallback handleAddr: {0}", Utilities.getMemoryDump(handleAddr.Address, 44)));
 				int handleInternalAddr = handleAddr.getValue32();
 				if (handleInternalAddr != 0)
 				{
-					log.debug(string.Format("hleWlanDownCallback handleInternalAddr: {0}", Utilities.getMemoryDump(handleInternalAddr, 320)));
+					Console.WriteLine(string.Format("hleWlanDownCallback handleInternalAddr: {0}", Utilities.getMemoryDump(handleInternalAddr, 320)));
 				}
 			}
 
 			SceNetIfHandle handle = new SceNetIfHandle();
 			handle.read(handleAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleWlanDownCallback handleAddr={0}: {1}", handleAddr, handle));
+				Console.WriteLine(string.Format("hleWlanDownCallback handleAddr={0}: {1}", handleAddr, handle));
 			}
 
 			// This will force the current wlan thread to exit
@@ -1020,7 +1020,7 @@ namespace pspsharp.HLE.modules
 			int inputAddr = buffersAddr.getValue(0);
 			int outputAddr = buffersAddr.getValue(4);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				int inputLength = 0x80;
 				int outputLength = 0x80;
@@ -1053,15 +1053,15 @@ namespace pspsharp.HLE.modules
 						// Has no input and no output parameters
 						break;
 				}
-				log.debug(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, handleAddr={1}: {2}", cmd, handleAddr, handle));
+				Console.WriteLine(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, handleAddr={1}: {2}", cmd, handleAddr, handle));
 				if (inputAddr != 0 && Memory.isAddressGood(inputAddr) && inputLength > 0)
 				{
-					log.debug(string.Format("hleWlanIoctlCallback inputAddr: {0}", Utilities.getMemoryDump(inputAddr, inputLength)));
+					Console.WriteLine(string.Format("hleWlanIoctlCallback inputAddr: {0}", Utilities.getMemoryDump(inputAddr, inputLength)));
 					RuntimeContext.debugMemory(inputAddr, inputLength);
 				}
 				if (outputAddr != 0 && Memory.isAddressGood(outputAddr) && outputLength > 0)
 				{
-					log.debug(string.Format("hleWlanIoctlCallback outputAddr: {0}", Utilities.getMemoryDump(outputAddr, outputLength)));
+					Console.WriteLine(string.Format("hleWlanIoctlCallback outputAddr: {0}", Utilities.getMemoryDump(outputAddr, outputLength)));
 					RuntimeContext.debugMemory(outputAddr, outputLength);
 				}
 				RuntimeContext.debugMemory(unknown.Address, 32);
@@ -1120,9 +1120,9 @@ namespace pspsharp.HLE.modules
 					mode = mem.read32(inputAddr + 40);
 					int unknown44 = mem.read32(inputAddr + 44); // 0x64
 					int unknown62 = mem.read16(inputAddr + 62); // 0x22
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, channel={1:D}, ssid='{2}', mode=0x{3:X}, unknown44=0x{4:X}, unknown62=0x{5:X}", cmd, channel, ssid, mode, unknown44, unknown62));
+						Console.WriteLine(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, channel={1:D}, ssid='{2}', mode=0x{3:X}, unknown44=0x{4:X}, unknown62=0x{5:X}", cmd, channel, ssid, mode, unknown44, unknown62));
 					}
 					joinChannelSSID(channel, ssid, mode);
 
@@ -1133,9 +1133,9 @@ namespace pspsharp.HLE.modules
 					// Receiving as input the SSID structure returned by cmd=0x34
 					SceNetWlanScanInfo scanInfo = new SceNetWlanScanInfo();
 					scanInfo.read(mem, inputAddr);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, channel={1:D}, ssid='{2}', mode=0x{3:X}", cmd, scanInfo.channel, scanInfo.ssid, scanInfo.mode));
+						Console.WriteLine(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, channel={1:D}, ssid='{2}', mode=0x{3:X}", cmd, scanInfo.channel, scanInfo.ssid, scanInfo.mode));
 					}
 					joinChannelSSID(scanInfo.channel, scanInfo.ssid, scanInfo.mode);
 
@@ -1171,18 +1171,18 @@ namespace pspsharp.HLE.modules
 					pspNetMacAddress macAddress = new pspNetMacAddress();
 					macAddress.read(mem, outputAddr + 0);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, ssid='{1}', multicastMacAddress={2}, macAddress={3}", cmd, ssid, multicastMacAddress, macAddress));
+						Console.WriteLine(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, ssid='{1}', multicastMacAddress={2}, macAddress={3}", cmd, ssid, multicastMacAddress, macAddress));
 					}
 					isGameMode = true;
 					break;
 				case IOCTL_CMD_SET_WEP_KEY:
 					int unknown1 = mem.read32(inputAddr + 0); // Always 0
 					int unknown2 = mem.read32(inputAddr + 4); // Always 1
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleWlanIoctlCallback unknown1=0x{0:X}, unknown2=0x{1:X}", unknown1, unknown2));
+						Console.WriteLine(string.Format("hleWlanIoctlCallback unknown1=0x{0:X}, unknown2=0x{1:X}", unknown1, unknown2));
 					}
 
 					int wepKeyAddr = inputAddr + 12;
@@ -1191,15 +1191,15 @@ namespace pspsharp.HLE.modules
 					{
 						mode = mem.read32(wepKeyAddr + 0);
 						string wepKey = Utilities.readStringNZ(wepKeyAddr + 4, 13);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, wekKey#{1:D}: mode=0x{2:X}, wepKey='{3}'", cmd, i, mode, wepKey));
+							Console.WriteLine(string.Format("hleWlanIoctlCallback cmd=0x{0:X}, wekKey#{1:D}: mode=0x{2:X}, wepKey='{3}'", cmd, i, mode, wepKey));
 						}
 						wepKeyAddr += 20;
 					}
 					break;
 				default:
-					log.warn(string.Format("hleWlanIoctlCallback unknown cmd=0x{0:X}", cmd));
+					Console.WriteLine(string.Format("hleWlanIoctlCallback unknown cmd=0x{0:X}", cmd));
 					break;
 			}
 			handle.handleInternal.errorCode = errorCode;
@@ -1214,9 +1214,9 @@ namespace pspsharp.HLE.modules
 
 		private static void sendDummyMessage(int step, TPointer handleAddr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sendDummyMessage step={0:D}", step));
+				Console.WriteLine(string.Format("sendDummyMessage step={0:D}", step));
 			}
 			Memory mem = Memory.Instance;
 			SceNetIfMessage message = new SceNetIfMessage();
@@ -1398,10 +1398,10 @@ namespace pspsharp.HLE.modules
 
 			if (dataLength > 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Sending dummy message: {0}", message));
-					log.debug(string.Format("Dummy message data: {0}", Utilities.getMemoryDump(data.Address, dataLength)));
+					Console.WriteLine(string.Format("Sending dummy message: {0}", message));
+					Console.WriteLine(string.Format("Dummy message data: {0}", Utilities.getMemoryDump(data.Address, dataLength)));
 				}
 
 				int sceNetIfEnqueue = NIDMapper.Instance.getAddressByName("sceNetIfEnqueue");
@@ -1449,9 +1449,9 @@ namespace pspsharp.HLE.modules
 				step = 0;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Adding action step={0:D} for sending dummy message", step));
+				Console.WriteLine(string.Format("Adding action step={0:D} for sending dummy message", step));
 			}
 			dummyMessageStep = step;
 			dummyMessageHandleAddr = handleAddr;
@@ -1546,7 +1546,7 @@ namespace pspsharp.HLE.modules
 		/// requests 8 so pass it 8 bytes just in case) </param>
 		/// <returns> 0 on success, < 0 on error </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x0C622081, version = 150, checkInsideInterrupt = true) public int sceWlanGetEtherAddr(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer etherAddr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x0C622081, version = 150, checkInsideInterrupt = true) public int sceWlanGetEtherAddr(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer etherAddr)
 		[HLEFunction(nid : 0x0C622081, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceWlanGetEtherAddr(TPointer etherAddr)
 		{
@@ -1554,9 +1554,9 @@ namespace pspsharp.HLE.modules
 			macAddress.MacAddress = Wlan.MacAddress;
 			macAddress.write(etherAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceWlanGetEtherAddr returning {0}", macAddress));
+				Console.WriteLine(string.Format("sceWlanGetEtherAddr returning {0}", macAddress));
 			}
 
 			return 0;
@@ -1591,7 +1591,7 @@ namespace pspsharp.HLE.modules
 			int result = createWlanInterface();
 			if (result < 0)
 			{
-				log.error(string.Format("Cannot create the WLAN Interface: 0x{0:X8}", result));
+				Console.WriteLine(string.Format("Cannot create the WLAN Interface: 0x{0:X8}", result));
 				return result;
 			}
 
@@ -1616,7 +1616,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x749B813A, version = 150) public int sceWlanSetHostDiscover(int unknown1, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x749B813A, version = 150) public int sceWlanSetHostDiscover(int unknown1, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0x749B813A, version : 150)]
 		public virtual int sceWlanSetHostDiscover(int unknown1, TPointer unknown2)
 		{
@@ -1624,7 +1624,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xFE8A0B46, version = 150) public int sceWlanSetWakeUp(int unknown1, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xFE8A0B46, version = 150) public int sceWlanSetWakeUp(int unknown1, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0xFE8A0B46, version : 150)]
 		public virtual int sceWlanSetWakeUp(int unknown1, TPointer unknown2)
 		{
@@ -1710,7 +1710,7 @@ namespace pspsharp.HLE.modules
 			GameModeState myGameModeState = MyGameModeState;
 			if (myGameModeState == null)
 			{
-				log.error(string.Format("sceWlanGPSend not found my GameModeState!"));
+				Console.WriteLine(string.Format("sceWlanGPSend not found my GameModeState!"));
 				return -1;
 			}
 
@@ -1721,7 +1721,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x2D0FAE4E, version = 150) public int sceWlanDrv_lib_2D0FAE4E(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer16 unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x2D0FAE4E, version = 150) public int sceWlanDrv_lib_2D0FAE4E(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer16 unknown)
 		[HLEFunction(nid : 0x2D0FAE4E, version : 150)]
 		public virtual int sceWlanDrv_lib_2D0FAE4E(TPointer16 unknown)
 		{
@@ -1733,7 +1733,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x56F467CA, version = 150) public int sceWlanDrv_lib_56F467CA(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer16 unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x56F467CA, version = 150) public int sceWlanDrv_lib_56F467CA(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer16 unknown)
 		[HLEFunction(nid : 0x56F467CA, version : 150)]
 		public virtual int sceWlanDrv_lib_56F467CA(TPointer16 unknown)
 		{

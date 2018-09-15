@@ -88,14 +88,14 @@ namespace pspsharp.network.pspsharp
 		{
 		}
 
-		public override AdhocMessage createAdhocPdpMessage(int address, int length, sbyte[] destMacAddress)
+		public override AdhocMessage createAdhocPdpMessage(int address, int Length, sbyte[] destMacAddress)
 		{
-			return new JpcspAdhocPdpMessage(address, length, destMacAddress);
+			return new JpcspAdhocPdpMessage(address, Length, destMacAddress);
 		}
 
-		public override AdhocMessage createAdhocPdpMessage(sbyte[] message, int length)
+		public override AdhocMessage createAdhocPdpMessage(sbyte[] message, int Length)
 		{
-			return new JpcspAdhocPdpMessage(message, length);
+			return new JpcspAdhocPdpMessage(message, Length);
 		}
 
 		public override PdpObject createPdpObject()
@@ -108,14 +108,14 @@ namespace pspsharp.network.pspsharp
 			return new JpcspPtpObject(this);
 		}
 
-		public override AdhocMessage createAdhocPtpMessage(int address, int length)
+		public override AdhocMessage createAdhocPtpMessage(int address, int Length)
 		{
-			return new JpcspAdhocPtpMessage(address, length, PTP_MESSAGE_TYPE_DATA);
+			return new JpcspAdhocPtpMessage(address, Length, PTP_MESSAGE_TYPE_DATA);
 		}
 
-		public override AdhocMessage createAdhocPtpMessage(sbyte[] message, int length)
+		public override AdhocMessage createAdhocPtpMessage(sbyte[] message, int Length)
 		{
-			return new JpcspAdhocPtpMessage(message, length);
+			return new JpcspAdhocPtpMessage(message, Length);
 		}
 
 		public override AdhocMessage createAdhocGameModeMessage(sceNetAdhoc.GameModeArea gameModeArea)
@@ -123,9 +123,9 @@ namespace pspsharp.network.pspsharp
 			return new JpcspAdhocGameModeMessage(gameModeArea);
 		}
 
-		public override AdhocMessage createAdhocGameModeMessage(sbyte[] message, int length)
+		public override AdhocMessage createAdhocGameModeMessage(sbyte[] message, int Length)
 		{
-			return new JpcspAdhocGameModeMessage(message, length);
+			return new JpcspAdhocGameModeMessage(message, Length);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -165,15 +165,15 @@ namespace pspsharp.network.pspsharp
 			return new JpcspAdhocMatchingEventMessage(matchingObject, @event, data, dataLength, macAddress);
 		}
 
-		public override AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int length)
+		public override AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int Length)
 		{
-			return new JpcspAdhocMatchingEventMessage(matchingObject, message, length);
+			return new JpcspAdhocMatchingEventMessage(matchingObject, message, Length);
 		}
 
 		public override void sendChatMessage(string message)
 		{
 			// TODO Implement Chat
-			log.warn(string.Format("Chat functionality not supported: {0}", message));
+			Console.WriteLine(string.Format("Chat functionality not supported: {0}", message));
 		}
 
 		public override bool ConnectComplete
@@ -221,19 +221,19 @@ namespace pspsharp.network.pspsharp
 					DatagramPacket packet = new DatagramPacket(adhocctlMessage.Message, JpcspAdhocctlMessage.MessageLength, socketAddress[i]);
 					adhocctlSocket.send(packet);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("broadcast sent to peer[{0}]: {1}", socketAddress[i], adhocctlMessage));
+						Console.WriteLine(string.Format("broadcast sent to peer[{0}]: {1}", socketAddress[i], adhocctlMessage));
 					}
 				}
 			}
 			catch (SocketException e)
 			{
-				log.error("broadcastPeers", e);
+				Console.WriteLine("broadcastPeers", e);
 			}
 			catch (IOException e)
 			{
-				log.error("broadcastPeers", e);
+				Console.WriteLine("broadcastPeers", e);
 			}
 		}
 
@@ -252,9 +252,9 @@ namespace pspsharp.network.pspsharp
 					adhocctlSocket.receive(packet);
 					JpcspAdhocctlMessage adhocctlMessage = new JpcspAdhocctlMessage(packet.Data, packet.Length);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("broadcast received from peer: {0}", adhocctlMessage));
+						Console.WriteLine(string.Format("broadcast received from peer: {0}", adhocctlMessage));
 					}
 
 					// Ignore messages coming from myself
@@ -291,7 +291,7 @@ namespace pspsharp.network.pspsharp
 			}
 			catch (SocketException e)
 			{
-				log.error("broadcastPeers", e);
+				Console.WriteLine("broadcastPeers", e);
 			}
 			catch (SocketTimeoutException)
 			{
@@ -299,7 +299,7 @@ namespace pspsharp.network.pspsharp
 			}
 			catch (IOException e)
 			{
-				log.error("broadcastPeers", e);
+				Console.WriteLine("broadcastPeers", e);
 			}
 		}
 

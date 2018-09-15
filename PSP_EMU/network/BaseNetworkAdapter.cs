@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.network
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -35,17 +35,17 @@ namespace pspsharp.network
 		public abstract void updatePeers();
 		public abstract void sendChatMessage(string message);
 		public abstract bool ConnectComplete {get;}
-		public abstract pspsharp.network.adhoc.AdhocMatchingEventMessage createAdhocMatchingEventMessage(adhoc.MatchingObject matchingObject, sbyte[] message, int length);
+		public abstract pspsharp.network.adhoc.AdhocMatchingEventMessage createAdhocMatchingEventMessage(adhoc.MatchingObject matchingObject, sbyte[] message, int Length);
 		public abstract pspsharp.network.adhoc.AdhocMatchingEventMessage createAdhocMatchingEventMessage(adhoc.MatchingObject matchingObject, int @event, int data, int dataLength, sbyte[] macAddress);
 		public abstract pspsharp.network.adhoc.AdhocMatchingEventMessage createAdhocMatchingEventMessage(adhoc.MatchingObject matchingObject, int @event);
 		public abstract pspsharp.network.adhoc.MatchingObject createMatchingObject();
 		public abstract SocketAddress getSocketAddress(sbyte[] macAddress, int realPort);
-		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocGameModeMessage(sbyte[] message, int length);
+		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocGameModeMessage(sbyte[] message, int Length);
 		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocGameModeMessage(pspsharp.HLE.modules.sceNetAdhoc.GameModeArea gameModeArea);
-		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPtpMessage(sbyte[] message, int length);
-		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPtpMessage(int address, int length);
-		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPdpMessage(sbyte[] message, int length);
-		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPdpMessage(int address, int length, sbyte[] destMacAddress);
+		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPtpMessage(sbyte[] message, int Length);
+		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPtpMessage(int address, int Length);
+		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPdpMessage(sbyte[] message, int Length);
+		public abstract pspsharp.network.adhoc.AdhocMessage createAdhocPdpMessage(int address, int Length, sbyte[] destMacAddress);
 		public abstract pspsharp.network.adhoc.PtpObject createPtpObject();
 		public abstract pspsharp.network.adhoc.PdpObject createPdpObject();
 		protected internal static Logger log = Logger.getLogger("network");

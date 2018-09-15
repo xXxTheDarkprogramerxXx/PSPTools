@@ -45,7 +45,7 @@ namespace pspsharp.memory.mmio.dmac
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.memory.mmio.dmac.DmacProcessor.DMAC_STATUS_REQUIRES_DDR;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IAction = pspsharp.HLE.kernel.types.IAction;
 
@@ -135,11 +135,11 @@ namespace pspsharp.memory.mmio.dmac
 
 		private void dmacMemcpy(int dst, int src, int dstLength, int srcLength, int dstStepLength, int srcStepLength, bool dstIncrement, bool srcIncrement)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("dmacMemcpy dst=0x%08X, src=0x%08X, dstLength=0x%X, srcLength=0x%X, dstStepLength=%d, srcStepLength=%d, dstIncrement=%b, srcIncrement=%b", dst, src, dstLength, srcLength, dstStepLength, srcStepLength, dstIncrement, srcIncrement));
-				log.debug(string.Format("dmacMemcpy dst=0x%08X, src=0x%08X, dstLength=0x%X, srcLength=0x%X, dstStepLength=%d, srcStepLength=%d, dstIncrement=%b, srcIncrement=%b", dst, src, dstLength, srcLength, dstStepLength, srcStepLength, dstIncrement, srcIncrement));
+//ORIGINAL LINE: Console.WriteLine(String.format("dmacMemcpy dst=0x%08X, src=0x%08X, dstLength=0x%X, srcLength=0x%X, dstStepLength=%d, srcStepLength=%d, dstIncrement=%b, srcIncrement=%b", dst, src, dstLength, srcLength, dstStepLength, srcStepLength, dstIncrement, srcIncrement));
+				Console.WriteLine(string.Format("dmacMemcpy dst=0x%08X, src=0x%08X, dstLength=0x%X, srcLength=0x%X, dstStepLength=%d, srcStepLength=%d, dstIncrement=%b, srcIncrement=%b", dst, src, dstLength, srcLength, dstStepLength, srcStepLength, dstIncrement, srcIncrement));
 			}
 
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
@@ -172,28 +172,28 @@ namespace pspsharp.memory.mmio.dmac
 					case 1:
 						if (log.TraceEnabled)
 						{
-							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dst, src, 1));
+							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dst, src, 1));
 						}
 						memDst.write8(dst, (sbyte) memSrc.read8(src));
 						break;
 					case 2:
 						if (log.TraceEnabled)
 						{
-							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dst, src, 2));
+							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dst, src, 2));
 						}
 						memDst.write16(dst, (short) memSrc.read16(src));
 						break;
 					case 4:
 						if (log.TraceEnabled)
 						{
-							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dst, src, 4));
+							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dst, src, 4));
 						}
 						memDst.write32(dst, memSrc.read32(src));
 						break;
 					case 8:
 						if (log.TraceEnabled)
 						{
-							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dst, src, 8));
+							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dst, src, 8));
 						}
 						memDst.write32(dst, memSrc.read32(src));
 						memDst.write32(dst + dstStep4, memSrc.read32(src + srcStep4));
@@ -201,7 +201,7 @@ namespace pspsharp.memory.mmio.dmac
 					case 16:
 						if (log.TraceEnabled)
 						{
-							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", dst, src, 16));
+							log.trace(string.Format("memcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", dst, src, 16));
 						}
 						memDst.write32(dst, memSrc.read32(src));
 						memDst.write32(dst + dstStep4, memSrc.read32(src + srcStep4));
@@ -236,24 +236,24 @@ namespace pspsharp.memory.mmio.dmac
 			int dstLengthShift = (attributes >> DMAC_ATTRIBUTES_DST_LENGTH_SHIFT_SHIFT) & 0x7;
 			bool srcIncrement = (attributes & DMAC_ATTRIBUTES_SRC_INCREMENT) != 0;
 			bool dstIncrement = (attributes & DMAC_ATTRIBUTES_DST_INCREMENT) != 0;
-			int length = attributes & DMAC_ATTRIBUTES_LENGTH;
+			int Length = attributes & DMAC_ATTRIBUTES_LENGTH;
 
 			int srcStepLength = dmacMemcpyStepLength[srcStep];
 			if (srcStepLength == 0)
 			{
-				log.error(string.Format("dmacMemcpy with unknown srcStep={0:D}", srcStep));
+				Console.WriteLine(string.Format("dmacMemcpy with unknown srcStep={0:D}", srcStep));
 				return false;
 			}
 
 			int dstStepLength = dmacMemcpyStepLength[dstStep];
 			if (dstStepLength == 0)
 			{
-				log.error(string.Format("dmacMemcpy with unknown dstStep={0:D}", dstStep));
+				Console.WriteLine(string.Format("dmacMemcpy with unknown dstStep={0:D}", dstStep));
 				return false;
 			}
 
 	//		if (srcStepLength != dstStepLength) {
-	//			log.error(String.format("dmacMemcpy with different steps: srcStepLength=%d, dstSteplength=%d, dst=0x%08X, src=0x%08X, attr=0x%X, dstLength=0x%X(shift=%d), srcLength=0x%X(shift=%d)", srcStepLength, dstStepLength, dst, src, attributes, length << dstLengthShift, dstLengthShift, length << srcLengthShift, srcLengthShift));
+	//			Console.WriteLine(String.format("dmacMemcpy with different steps: srcStepLength=%d, dstSteplength=%d, dst=0x%08X, src=0x%08X, attr=0x%X, dstLength=0x%X(shift=%d), srcLength=0x%X(shift=%d)", srcStepLength, dstStepLength, dst, src, attributes, Length << dstLengthShift, dstLengthShift, Length << srcLengthShift, srcLengthShift));
 	//			return false;
 	//		}
 
@@ -269,19 +269,19 @@ namespace pspsharp.memory.mmio.dmac
 				dstLengthShift = 0;
 			}
 
-			int srcLength = length << srcLengthShift;
-			int dstLength = length << dstLengthShift;
+			int srcLength = Length << srcLengthShift;
+			int dstLength = Length << dstLengthShift;
 			if (srcLength != dstLength)
 			{
-				log.error(string.Format("dmacMemcpy with different lengths: srcLength=0x{0:X}, dstLength=0x{1:X}", srcLength, dstLength));
+				Console.WriteLine(string.Format("dmacMemcpy with different lengths: srcLength=0x{0:X}, dstLength=0x{1:X}", srcLength, dstLength));
 				return false;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("dmacMemcpy dst=0x%08X, src=0x%08X, attr=0x%08X, dstLength=0x%X(shift=%d), srcLength=0x%X(shift=%d), dstStepLength=0x%X(step=%d), srcStepLength=0x%X(step=%d), dstIncrement=%b, srcIncrement=%b, next=0x%08X, status=0x%X", dst, src, attributes, dstLength, dstLengthShift, srcLength, srcLengthShift, dstStepLength, dstStep, srcStepLength, srcStep, dstIncrement, srcIncrement, next, status));
-				log.debug(string.Format("dmacMemcpy dst=0x%08X, src=0x%08X, attr=0x%08X, dstLength=0x%X(shift=%d), srcLength=0x%X(shift=%d), dstStepLength=0x%X(step=%d), srcStepLength=0x%X(step=%d), dstIncrement=%b, srcIncrement=%b, next=0x%08X, status=0x%X", dst, src, attributes, dstLength, dstLengthShift, srcLength, srcLengthShift, dstStepLength, dstStep, srcStepLength, srcStep, dstIncrement, srcIncrement, next, status));
+//ORIGINAL LINE: Console.WriteLine(String.format("dmacMemcpy dst=0x%08X, src=0x%08X, attr=0x%08X, dstLength=0x%X(shift=%d), srcLength=0x%X(shift=%d), dstStepLength=0x%X(step=%d), srcStepLength=0x%X(step=%d), dstIncrement=%b, srcIncrement=%b, next=0x%08X, status=0x%X", dst, src, attributes, dstLength, dstLengthShift, srcLength, srcLengthShift, dstStepLength, dstStep, srcStepLength, srcStep, dstIncrement, srcIncrement, next, status));
+				Console.WriteLine(string.Format("dmacMemcpy dst=0x%08X, src=0x%08X, attr=0x%08X, dstLength=0x%X(shift=%d), srcLength=0x%X(shift=%d), dstStepLength=0x%X(step=%d), srcStepLength=0x%X(step=%d), dstIncrement=%b, srcIncrement=%b, next=0x%08X, status=0x%X", dst, src, attributes, dstLength, dstLengthShift, srcLength, srcLengthShift, dstStepLength, dstStep, srcStepLength, srcStep, dstIncrement, srcIncrement, next, status));
 			}
 
 			// Update the DMAC registers
@@ -295,9 +295,9 @@ namespace pspsharp.memory.mmio.dmac
 			// Check for most common case which can be implemented through a simple memcpy
 			if (srcIncrement && dstIncrement && memSrc == memDst)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("dmacMemcpy dst=0x{0:X8}, src=0x{1:X8}, length=0x{2:X}", normalizedDst, normalizedSrc, srcLength));
+					Console.WriteLine(string.Format("dmacMemcpy dst=0x{0:X8}, src=0x{1:X8}, Length=0x{2:X}", normalizedDst, normalizedSrc, srcLength));
 				}
 
 				memSrc.memcpy(normalizedDst, normalizedSrc, srcLength);
@@ -308,19 +308,19 @@ namespace pspsharp.memory.mmio.dmac
 			}
 
 			// Update the DMAC registers
-			if (length > 0)
+			if (Length > 0)
 			{
 				if (srcIncrement)
 				{
 					// Increment the src address
-					dmacProcessor.Src = src + ((length - 1) << srcLengthShift);
+					dmacProcessor.Src = src + ((Length - 1) << srcLengthShift);
 				}
 				if (dstIncrement)
 				{
 					// Increment the dst address
-					dmacProcessor.Dst = dst + ((length - 1) << dstLengthShift);
+					dmacProcessor.Dst = dst + ((Length - 1) << dstLengthShift);
 				}
-				// Clear the length field
+				// Clear the Length field
 				dmacProcessor.Attributes = attributes & unchecked((int)0xFFFFF000);
 			}
 
@@ -356,9 +356,9 @@ namespace pspsharp.memory.mmio.dmac
 				return true;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("waitForTrigger starting"));
+				Console.WriteLine(string.Format("waitForTrigger starting"));
 			}
 
 			bool acquired = false;
@@ -375,11 +375,11 @@ namespace pspsharp.memory.mmio.dmac
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("waitForTrigger done acquired=%b", acquired));
-				log.debug(string.Format("waitForTrigger done acquired=%b", acquired));
+//ORIGINAL LINE: Console.WriteLine(String.format("waitForTrigger done acquired=%b", acquired));
+				Console.WriteLine(string.Format("waitForTrigger done acquired=%b", acquired));
 			}
 
 			return acquired;
@@ -391,9 +391,9 @@ namespace pspsharp.memory.mmio.dmac
 
 			if ((status & DMAC_STATUS_REQUIRES_DDR) != 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("dmacMemcpy requiring a call to sceDdrFlush(0x{0:X}), dst=0x{1:X8}, src=0x{2:X8}, attr=0x{3:X8}, next=0x{4:X8}, status=0x{5:X}", DDR_FLUSH_DMAC, dst, src, attributes, next, status));
+					Console.WriteLine(string.Format("dmacMemcpy requiring a call to sceDdrFlush(0x{0:X}), dst=0x{1:X8}, src=0x{2:X8}, attr=0x{3:X8}, next=0x{4:X8}, status=0x{5:X}", DDR_FLUSH_DMAC, dst, src, attributes, next, status));
 				}
 				trigger.drainPermits();
 				waitForTrigger = true;
@@ -443,9 +443,9 @@ namespace pspsharp.memory.mmio.dmac
 
 		public virtual void ddrFlushDone()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("dmacMemcpy sceDdrFlush(0x{0:X}) called", DDR_FLUSH_DMAC));
+				Console.WriteLine(string.Format("dmacMemcpy sceDdrFlush(0x{0:X}) called", DDR_FLUSH_DMAC));
 			}
 
 			checkTrigger();

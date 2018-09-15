@@ -20,7 +20,7 @@ namespace pspsharp.graphics.RE.buffer
 {
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15

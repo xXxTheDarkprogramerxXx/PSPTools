@@ -20,11 +20,11 @@ namespace pspsharp.HLE.modules
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using SceKernelMppInfo = pspsharp.HLE.kernel.types.SceKernelMppInfo;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class StdioForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("StdioForUser");
+		//public static Logger log = Modules.getLogger("StdioForUser");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3054D478, version = 150) public int sceKernelStdioRead()

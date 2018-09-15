@@ -130,7 +130,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			}
 			else
 			{
-				Compiler.log.error("Memset.call: unsupported cLength=0x" + cLength.ToString("x"));
+				Compiler.Console.WriteLine("Memset.call: unsupported cLength=0x" + cLength.ToString("x"));
 			}
 
 			setRegisterValue(dstAddrReg, getRegisterValue(dstAddrReg) + n * cLength);

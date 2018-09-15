@@ -22,7 +22,7 @@ namespace pspsharp.graphics
 
 	using ClassSpecializer = pspsharp.util.ClassSpecializer;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -128,11 +128,11 @@ namespace pspsharp.graphics
 				}
 				catch (InstantiationException e)
 				{
-					log.error("Error while instanciating compiled vertexInfoReader", e);
+					Console.WriteLine("Error while instanciating compiled vertexInfoReader", e);
 				}
 				catch (IllegalAccessException e)
 				{
-					log.error("Error while instanciating compiled vertexInfoReader", e);
+					Console.WriteLine("Error while instanciating compiled vertexInfoReader", e);
 				}
 			}
 

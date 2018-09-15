@@ -94,7 +94,7 @@ namespace pspsharp.HLE.kernel.types
 			}
 			else
 			{
-				Modules.log.warn("tryCreateFpl not enough free mem (want=" + totalFplSize + ", free=" + maxFreeSize + ", diff=" + (totalFplSize - maxFreeSize) + ")");
+				Modules.Console.WriteLine("tryCreateFpl not enough free mem (want=" + totalFplSize + ", free=" + maxFreeSize + ", diff=" + (totalFplSize - maxFreeSize) + ")");
 			}
 
 			return info;

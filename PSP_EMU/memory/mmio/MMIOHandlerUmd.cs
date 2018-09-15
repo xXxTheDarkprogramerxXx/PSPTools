@@ -25,7 +25,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.memory.mmio.MMIOHandlerGpio.GPIO_PORT_UMD;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using TPointer = pspsharp.HLE.TPointer;
@@ -141,9 +141,9 @@ namespace pspsharp.memory.mmio
 			{
 				this.command = value;
     
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("MMIOHandlerUmd.setCommand command 0x{0:X}", value));
+					Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand command 0x{0:X}", value));
 				}
     
 				switch (value & 0xFF)
@@ -172,9 +172,9 @@ namespace pspsharp.memory.mmio
 						interrupt |= 0x1;
 						break;
 					case 0x08:
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("MMIOHandlerUmd.setCommand command=0x{0:X}, transferLength=0x{1:X}", value, totalTransferLength));
+							Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand command=0x{0:X}, transferLength=0x{1:X}", value, totalTransferLength));
 						}
 						TPointer result = new TPointer(Memory, transferAddresses[0]);
 						result.setValue32(0, 0x12345678);
@@ -204,14 +204,14 @@ namespace pspsharp.memory.mmio
 						break;
 					case 0x0A: // Called after ATA_CMD_OP_READ_BIG to read the data
 						int lba = MMIOHandlerAta.Instance.LogicalBlockAddress;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("MMIOHandlerUmd.setCommand command=0x{0:X}, transferLength=0x{1:X}, lba=0x{2:X}", value, totalTransferLength, lba));
+							Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand command=0x{0:X}, transferLength=0x{1:X}, lba=0x{2:X}", value, totalTransferLength, lba));
 						}
     
 						if (vFile == null)
 						{
-							log.error(string.Format("MMIOHandlerUmd no UMD loaded"));
+							Console.WriteLine(string.Format("MMIOHandlerUmd no UMD loaded"));
 						}
 						else
 						{
@@ -220,11 +220,11 @@ namespace pspsharp.memory.mmio
 							long seekResult = vFile.ioLseek(offset);
 							if (seekResult < 0)
 							{
-								log.error(string.Format("MMIOHandlerUmd.setCommand seek error 0x{0:X8}", seekResult));
+								Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand seek error 0x{0:X8}", seekResult));
 							}
 							else if (seekResult != offset)
 							{
-								log.error(string.Format("MMIOHandlerUmd.setCommand incorrect seek: offset=0x{0:X}, seekResult=0x{1:X}", offset, seekResult));
+								Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand incorrect seek: offset=0x{0:X}, seekResult=0x{1:X}", offset, seekResult));
 							}
 							else
 							{
@@ -237,14 +237,14 @@ namespace pspsharp.memory.mmio
 										int readResult = vFile.ioRead(addr, transferLength);
 										if (readResult < 0)
 										{
-											log.error(string.Format("MMIOHandlerUmd.setCommand read error 0x{0:X8}", readResult));
+											Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand read error 0x{0:X8}", readResult));
 											break;
 										}
 										else
 										{
 											if (readResult != transferLength)
 											{
-												log.error(string.Format("MMIOHandlerUmd.setCommand uncomplete read: transferLength=0x{0:X}, readLength=0x{1:X}", transferLength, readResult));
+												Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand uncomplete read: transferLength=0x{0:X}, readLength=0x{1:X}", transferLength, readResult));
 												break;
 											}
     
@@ -265,7 +265,7 @@ namespace pspsharp.memory.mmio
 					case 0x0B:
 						break;
 					default:
-						log.error(string.Format("MMIOHandlerUmd.setCommand unknown command 0x{0:X}", value));
+						Console.WriteLine(string.Format("MMIOHandlerUmd.setCommand unknown command 0x{0:X}", value));
 						break;
 				}
     

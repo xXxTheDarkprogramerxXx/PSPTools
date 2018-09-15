@@ -32,16 +32,16 @@ namespace pspsharp.network.adhoc
 			if (port == 0)
 			{
 				socket = new DatagramSocket();
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Opening socket on free local port {0:D}", socket.LocalPort));
+					Console.WriteLine(string.Format("Opening socket on free local port {0:D}", socket.LocalPort));
 				}
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Opening socket on real port {0:D}", port));
+					Console.WriteLine(string.Format("Opening socket on real port {0:D}", port));
 				}
 				socket = new DatagramSocket(port);
 			}

@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -32,7 +32,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceParseUri : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceParseUri");
+		//public static Logger log = Modules.getLogger("sceParseUri");
 		private static readonly bool[] escapeCharTable = new bool[] {true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, false, false, true, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true};
 		private static readonly int[] hexTable = new int[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
@@ -61,19 +61,19 @@ namespace pspsharp.HLE.modules
 				s = "";
 			}
 
-			int length = s.Length + 1;
-			if (offset + length > workAreaSize)
+			int Length = s.Length + 1;
+			if (offset + Length > workAreaSize)
 			{
-				length = workAreaSize - offset;
-				if (length <= 0)
+				Length = workAreaSize - offset;
+				if (Length <= 0)
 				{
 					return offset;
 				}
 			}
 
-			workArea.setStringNZ(offset, length, s);
+			workArea.setStringNZ(offset, Length, s);
 
-			return offset + length;
+			return offset + Length;
 		}
 
 		private string getUriComponent(int componentAddr, int flags, int flag)
@@ -87,7 +87,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x568518C9, version = 150) public int sceUriParse(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=44, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer parsedUriArea, pspsharp.HLE.PspString url, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer workArea, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 workAreaSizeAddr, int workAreaSize)
+//ORIGINAL LINE: @HLEFunction(nid = 0x568518C9, version = 150) public int sceUriParse(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=44, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer parsedUriArea, pspsharp.HLE.PspString url, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer workArea, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 workAreaSizeAddr, int workAreaSize)
 		[HLEFunction(nid : 0x568518C9, version : 150)]
 		public virtual int sceUriParse(TPointer parsedUriArea, PspString url, TPointer workArea, TPointer32 workAreaSizeAddr, int workAreaSize)
 		{
@@ -113,7 +113,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (URISyntaxException e)
 			{
-				log.error("parsedUriArea", e);
+				Console.WriteLine("parsedUriArea", e);
 				return -1;
 			}
 
@@ -198,7 +198,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x7EE318AF, version = 150) public int sceUriBuild(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer workArea, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 workAreaSizeAddr, int workAreaSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer parsedUriAddr, int flags)
+//ORIGINAL LINE: @HLEFunction(nid = 0x7EE318AF, version = 150) public int sceUriBuild(@CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer workArea, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 workAreaSizeAddr, int workAreaSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer parsedUriAddr, int flags)
 		[HLEFunction(nid : 0x7EE318AF, version : 150)]
 		public virtual int sceUriBuild(TPointer workArea, TPointer32 workAreaSizeAddr, int workAreaSize, TPointer parsedUriAddr, int flags)
 		{
@@ -268,9 +268,9 @@ namespace pspsharp.HLE.modules
 			{
 				workArea.setStringNZ(workAreaSize, uri);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceUriBuild returning '{0}'", uri));
+					Console.WriteLine(string.Format("sceUriBuild returning '{0}'", uri));
 				}
 			}
 			workAreaSizeAddr.setValue(uri.Length + 1);
@@ -395,12 +395,12 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8885A782, version = 150) public int sceUriSweepPath(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outputAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inputAddr, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8885A782, version = 150) public int sceUriSweepPath(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextNextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer outputAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inputAddr, int Length)
 		[HLEFunction(nid : 0x8885A782, version : 150)]
-		public virtual int sceUriSweepPath(TPointer outputAddr, TPointer inputAddr, int length)
+		public virtual int sceUriSweepPath(TPointer outputAddr, TPointer inputAddr, int Length)
 		{
 			// TODO Implemented URI path sweeping...
-			outputAddr.memcpy(inputAddr.Address, length);
+			outputAddr.memcpy(inputAddr.Address, Length);
 
 			return 0;
 		}

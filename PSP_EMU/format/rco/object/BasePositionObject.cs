@@ -90,9 +90,9 @@ namespace pspsharp.format.rco.@object
 			protected internal override void anim(float step)
 			{
 				outerInstance.rotateAngle = angle * step;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AnimRotateAction to angle={0:F}", outerInstance.rotateAngle));
+					Console.WriteLine(string.Format("AnimRotateAction to angle={0:F}", outerInstance.rotateAngle));
 				}
 
 				outerInstance.onDisplayUpdated();
@@ -128,9 +128,9 @@ namespace pspsharp.format.rco.@object
 				outerInstance.posY.FloatValue = interpolate(startY, y, step);
 				outerInstance.posZ.FloatValue = interpolate(startZ, z, step);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AnimPosAction from ({0:F},{1:F},{2:F}) to ({3:F},{4:F},{5:F})", startX, startY, startZ, outerInstance.posX.FloatValue, outerInstance.posY.FloatValue, outerInstance.posZ.FloatValue));
+					Console.WriteLine(string.Format("AnimPosAction from ({0:F},{1:F},{2:F}) to ({3:F},{4:F},{5:F})", startX, startY, startZ, outerInstance.posX.FloatValue, outerInstance.posY.FloatValue, outerInstance.posZ.FloatValue));
 				}
 
 				outerInstance.onDisplayUpdated();
@@ -166,9 +166,9 @@ namespace pspsharp.format.rco.@object
 				outerInstance.scaleHeight.FloatValue = interpolate(startHeight, height, step);
 				outerInstance.scaleDepth.FloatValue = interpolate(startDepth, depth, step);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AnimScaleAction scaling from ({0:F},{1:F},{2:F}) to ({3:F},{4:F},{5:F})", startWidth, startHeight, startDepth, outerInstance.scaleWidth.FloatValue, outerInstance.scaleHeight.FloatValue, outerInstance.scaleDepth.FloatValue));
+					Console.WriteLine(string.Format("AnimScaleAction scaling from ({0:F},{1:F},{2:F}) to ({3:F},{4:F},{5:F})", startWidth, startHeight, startDepth, outerInstance.scaleWidth.FloatValue, outerInstance.scaleHeight.FloatValue, outerInstance.scaleDepth.FloatValue));
 				}
 
 				outerInstance.onDisplayUpdated();
@@ -209,9 +209,9 @@ namespace pspsharp.format.rco.@object
 				outerInstance.blueScale.FloatValue = interpolate(startBlue, blue, step);
 				outerInstance.alphaScale.FloatValue = interpolate(startAlpha, alpha, step);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AnimColorAction scaling from ({0:F},{1:F},{2:F},{3:F}) to ({4:F},{5:F},{6:F},{7:F})", startRed, startGreen, startBlue, startAlpha, red, green, blue, alpha));
+					Console.WriteLine(string.Format("AnimColorAction scaling from ({0:F},{1:F},{2:F},{3:F}) to ({4:F},{5:F},{6:F},{7:F})", startRed, startGreen, startBlue, startAlpha, red, green, blue, alpha));
 				}
 
 				outerInstance.onDisplayUpdated();
@@ -337,9 +337,9 @@ namespace pspsharp.format.rco.@object
     
 				if (rotateAngle != 0f)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Rotating image at ({0:F},{1:F}) by {2:F}", rotateX, rotateY, rotateAngle));
+						Console.WriteLine(string.Format("Rotating image at ({0:F},{1:F}) by {2:F}", rotateX, rotateY, rotateAngle));
 					}
 					AffineTransform rotation = new AffineTransform();
 					rotation.rotate(-rotateAngle, rotateX + image.Width / 2, rotateY + image.Height / 2);
@@ -353,9 +353,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setPos(VSMXBaseObject @object, VSMXBaseObject posX, VSMXBaseObject posY)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setPos({0}, {1})", posX, posY));
+				Console.WriteLine(string.Format("setPos({0}, {1})", posX, posY));
 			}
 			this.posX.FloatValue = posX.FloatValue;
 			this.posY.FloatValue = posY.FloatValue;
@@ -363,9 +363,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setPos(VSMXBaseObject @object, VSMXBaseObject posX, VSMXBaseObject posY, VSMXBaseObject posZ)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setPos({0}, {1}, {2})", posX, posY, posZ));
+				Console.WriteLine(string.Format("setPos({0}, {1}, {2})", posX, posY, posZ));
 			}
 			this.posX.FloatValue = posX.FloatValue;
 			this.posY.FloatValue = posY.FloatValue;
@@ -380,9 +380,9 @@ namespace pspsharp.format.rco.@object
 			pos.setPropertyValue(1, new VSMXNumber(interpreter, posY.FloatValue));
 			pos.setPropertyValue(2, new VSMXNumber(interpreter, posZ.FloatValue));
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("getPos() returning {0}", pos));
+				Console.WriteLine(string.Format("getPos() returning {0}", pos));
 			}
 
 			return pos;
@@ -390,9 +390,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setRotate(VSMXBaseObject @object, VSMXBaseObject x, VSMXBaseObject y, VSMXBaseObject rotationRads)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setRotate({0}, {1}, {2})", x, y, rotationRads));
+				Console.WriteLine(string.Format("setRotate({0}, {1}, {2})", x, y, rotationRads));
 			}
 
 			rotateX = x.FloatValue;
@@ -409,9 +409,9 @@ namespace pspsharp.format.rco.@object
 			color.setPropertyValue(2, new VSMXNumber(interpreter, blueScale.FloatValue));
 			color.setPropertyValue(3, new VSMXNumber(interpreter, alphaScale.FloatValue));
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("getColor() returning {0}", color));
+				Console.WriteLine(string.Format("getColor() returning {0}", color));
 			}
 
 			return color;
@@ -419,9 +419,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setColor(VSMXBaseObject @object, VSMXBaseObject red, VSMXBaseObject green, VSMXBaseObject blue, VSMXBaseObject alpha)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setColor({0}, {1}, {2}, {3})", red, green, blue, alpha));
+				Console.WriteLine(string.Format("setColor({0}, {1}, {2}, {3})", red, green, blue, alpha));
 			}
 
 			redScale.FloatValue = red.FloatValue;
@@ -434,9 +434,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void animColor(VSMXBaseObject @object, VSMXBaseObject red, VSMXBaseObject green, VSMXBaseObject blue, VSMXBaseObject alpha, VSMXBaseObject duration)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("animColor({0}, {1}, {2}, {3}, {4})", red, green, blue, alpha, duration));
+				Console.WriteLine(string.Format("animColor({0}, {1}, {2}, {3}, {4})", red, green, blue, alpha, duration));
 			}
 
 			AnimColorAction action = new AnimColorAction(this, red.FloatValue, green.FloatValue, blue.FloatValue, alpha.FloatValue, duration.IntValue);
@@ -445,9 +445,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setScale(VSMXBaseObject @object, VSMXBaseObject width, VSMXBaseObject height, VSMXBaseObject depth)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setScale({0}, {1}, {2})", width, height, depth));
+				Console.WriteLine(string.Format("setScale({0}, {1}, {2})", width, height, depth));
 			}
 
 			// TODO To be implemented
@@ -456,9 +456,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void animScale(VSMXBaseObject @object, VSMXBaseObject width, VSMXBaseObject height, VSMXBaseObject depth, VSMXBaseObject duration)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("animScale({0}, {1}, {2}, {3})", width, height, depth, duration));
+				Console.WriteLine(string.Format("animScale({0}, {1}, {2}, {3})", width, height, depth, duration));
 			}
 
 			AnimScaleAction action = new AnimScaleAction(this, width.FloatValue, height.FloatValue, depth.FloatValue, duration.IntValue);
@@ -467,9 +467,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void animPos(VSMXBaseObject @object, VSMXBaseObject x, VSMXBaseObject y, VSMXBaseObject z, VSMXBaseObject duration)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("animPos from ({0},{1},{2}) to ({3}, {4}, {5}), duration={6}", posX, posY, posZ, x, y, z, duration));
+				Console.WriteLine(string.Format("animPos from ({0},{1},{2}) to ({3}, {4}, {5}), duration={6}", posX, posY, posZ, x, y, z, duration));
 			}
 
 			AnimPosAction action = new AnimPosAction(this, x.FloatValue, y.FloatValue, z.FloatValue, duration.IntValue);
@@ -478,9 +478,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void animRotate(VSMXBaseObject @object, VSMXBaseObject x, VSMXBaseObject y, VSMXBaseObject rotationRads, VSMXBaseObject duration)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("animRotate({0}, {1}, {2}, {3})", x, y, rotationRads, duration));
+				Console.WriteLine(string.Format("animRotate({0}, {1}, {2}, {3})", x, y, rotationRads, duration));
 			}
 
 			AnimRotateAction action = new AnimRotateAction(this, x.FloatValue, y.FloatValue, rotationRads.FloatValue, duration.IntValue);
@@ -489,9 +489,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setFocus()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setFocus()"));
+				Console.WriteLine(string.Format("setFocus()"));
 			}
 			if (display != null)
 			{
@@ -517,9 +517,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void setSize(VSMXBaseObject @object, VSMXBaseObject width, VSMXBaseObject height, VSMXBaseObject depth)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("setSize({0}, {1}, {2})", width, height, depth));
+				Console.WriteLine(string.Format("setSize({0}, {1}, {2})", width, height, depth));
 			}
 
 			this.width.FloatValue = width.FloatValue;

@@ -34,11 +34,11 @@ namespace pspsharp.HLE.modules
 	using MatchingObject = pspsharp.network.adhoc.MatchingObject;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNetAdhocMatching : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetAdhocMatching");
+		//public static Logger log = Modules.getLogger("sceNetAdhocMatching");
 		protected internal Dictionary<int, MatchingObject> matchingObjects;
 		public static readonly int loopThreadRegisterArgument = _s0; // $s0 is preserved across calls
 		private bool isInitialized;
@@ -248,9 +248,9 @@ namespace pspsharp.HLE.modules
 		{
 			checkInitialized();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocMatchingCreate mode={0}", getModeName(mode)));
+				Console.WriteLine(string.Format("sceNetAdhocMatchingCreate mode={0}", getModeName(mode)));
 			}
 
 			MatchingObject matchingObject = NetworkAdapter.createMatchingObject();
@@ -366,7 +366,7 @@ namespace pspsharp.HLE.modules
 		/// </summary>
 		/// <param name="matchingid"> - The ID returned from ::sceNetAdhocMatchingCreate </param>
 		/// <param name="mac"> - MAC address to select </param>
-		/// <param name="optlen"> - Optional data length </param>
+		/// <param name="optlen"> - Optional data Length </param>
 		/// <param name="optdata"> - Pointer to the optional data
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
@@ -398,7 +398,7 @@ namespace pspsharp.HLE.modules
 		/// </summary>
 		/// <param name="matchingid"> - The ID returned from ::sceNetAdhocMatchingCreate </param>
 		/// <param name="mac"> - The MAC address to cancel </param>
-		/// <param name="optlen"> - Optional data length </param>
+		/// <param name="optlen"> - Optional data Length </param>
 		/// <param name="optdata"> - Pointer to the optional data
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
@@ -436,8 +436,8 @@ namespace pspsharp.HLE.modules
 
 			if (helloOptLen > 0 && optData.Address != 0 && bufSize > 0)
 			{
-				int length = System.Math.Min(bufSize, helloOptLen);
-				writeBytes(optData.Address, length, matchingObject.HelloOptData, 0);
+				int Length = System.Math.Min(bufSize, helloOptLen);
+				writeBytes(optData.Address, Length, matchingObject.HelloOptData, 0);
 			}
 
 			return 0;
@@ -470,12 +470,12 @@ namespace pspsharp.HLE.modules
 		/// Get a list of matching members
 		/// </summary>
 		/// <param name="matchingid"> - The ID returned from ::sceNetAdhocMatchingCreate </param>
-		/// <param name="length"> - The length of the list. </param>
-		/// <param name="buf"> - An allocated area of size length.
+		/// <param name="Length"> - The Length of the list. </param>
+		/// <param name="buf"> - An allocated area of size Length.
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xC58BCD9E, version = 150) public int sceNetAdhocMatchingGetMembers(@CheckArgument("checkMatchingId") int matchingId, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
+//ORIGINAL LINE: @HLEFunction(nid = 0xC58BCD9E, version = 150) public int sceNetAdhocMatchingGetMembers(@CheckArgument("checkMatchingId") int matchingId, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
 		[HLEFunction(nid : 0xC58BCD9E, version : 150)]
 		public virtual int sceNetAdhocMatchingGetMembers(int matchingId, TPointer32 sizeAddr, TPointer buf)
 		{
@@ -486,9 +486,9 @@ namespace pspsharp.HLE.modules
 
 			int size = sizeAddr.getValue();
 			sizeAddr.setValue(matchingMemberSize * members.Count);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocMatchingGetMembers returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetAdhocMatchingGetMembers returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -502,9 +502,9 @@ namespace pspsharp.HLE.modules
 						break;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetAdhocMatchingGetMembers returning {0} at 0x{1:X8}", member, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetAdhocMatchingGetMembers returning {0} at 0x{1:X8}", member, buf.Address + offset));
 					}
 
 					/// <summary>

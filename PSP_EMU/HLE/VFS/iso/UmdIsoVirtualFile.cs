@@ -75,9 +75,9 @@ namespace pspsharp.HLE.VFS.iso
 					if (inputPointer.AddressGood && inputLength >= 4)
 					{
 						int offset = inputPointer.getValue32();
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl umd file seek set {0:D}", offset));
+							Console.WriteLine(string.Format("ioIoctl umd file seek set {0:D}", offset));
 						}
 						Position = offset;
 						result = 0;
@@ -106,7 +106,7 @@ namespace pspsharp.HLE.VFS.iso
 						}
 						catch (IOException e)
 						{
-							log.error("ioIoctl", e);
+							Console.WriteLine("ioIoctl", e);
 							result = ERROR_KERNEL_FILE_READ_ERROR;
 						}
 					}
@@ -138,7 +138,7 @@ namespace pspsharp.HLE.VFS.iso
 						}
 						catch (IOException e)
 						{
-							log.error("ioIoctl", e);
+							Console.WriteLine("ioIoctl", e);
 							result = ERROR_KERNEL_FILE_READ_ERROR;
 						}
 					}
@@ -171,15 +171,15 @@ namespace pspsharp.HLE.VFS.iso
 						{
 							int fPointer = (int) file.FilePointer;
 							outputPointer.setValue32(fPointer);
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("ioIoctl umd file get file pointer {0:D}", fPointer));
+								Console.WriteLine(string.Format("ioIoctl umd file get file pointer {0:D}", fPointer));
 							}
 							result = 0;
 						}
 						catch (IOException e)
 						{
-							log.error("ioIoctl", e);
+							Console.WriteLine("ioIoctl", e);
 							result = ERROR_KERNEL_FILE_READ_ERROR;
 						}
 					}
@@ -196,9 +196,9 @@ namespace pspsharp.HLE.VFS.iso
 					{
 						int startSector = 0;
 						startSector = file.StartSector;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl umd file get start sector {0:D}", startSector));
+							Console.WriteLine(string.Format("ioIoctl umd file get start sector {0:D}", startSector));
 						}
 						outputPointer.setValue32(startSector);
 						result = 0;
@@ -209,16 +209,16 @@ namespace pspsharp.HLE.VFS.iso
 					}
 					break;
 				}
-				// Get UMD file length in bytes.
+				// Get UMD file Length in bytes.
 				case 0x01020007:
 				{
 					if (outputPointer.AddressGood && outputLength >= 8)
 					{
-						long length = this.length();
-						outputPointer.Value64 = length;
-						if (log.DebugEnabled)
+						long Length = this.Length();
+						outputPointer.Value64 = Length;
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl get file size {0:D}", length));
+							Console.WriteLine(string.Format("ioIoctl get file size {0:D}", Length));
 						}
 						result = 0;
 					}
@@ -233,20 +233,20 @@ namespace pspsharp.HLE.VFS.iso
 				{
 					if (inputPointer.AddressGood && inputLength >= 4)
 					{
-						int length = inputPointer.getValue32();
-						if (length > 0)
+						int Length = inputPointer.getValue32();
+						if (Length > 0)
 						{
-							if (outputPointer.AddressGood && outputLength >= length)
+							if (outputPointer.AddressGood && outputLength >= Length)
 							{
 								try
 								{
-									Utilities.readFully(file, outputPointer.Address, length);
-									Position = Position + length;
-									result = length;
+									Utilities.readFully(file, outputPointer.Address, Length);
+									Position = Position + Length;
+									result = Length;
 								}
 								catch (IOException e)
 								{
-									log.error("ioIoctl", e);
+									Console.WriteLine("ioIoctl", e);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
@@ -278,14 +278,14 @@ namespace pspsharp.HLE.VFS.iso
 							{
 								try
 								{
-									int length = numberOfSectors * UmdIsoFile.sectorLength;
-									Utilities.readFully(file, outputPointer.Address, length);
-									Position = Position + length;
-									result = length / UmdIsoFile.sectorLength;
+									int Length = numberOfSectors * UmdIsoFile.sectorLength;
+									Utilities.readFully(file, outputPointer.Address, Length);
+									Position = Position + Length;
+									result = Length / UmdIsoFile.sectorLength;
 								}
 								catch (IOException e)
 								{
-									log.error("ioIoctl", e);
+									Console.WriteLine("ioIoctl", e);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
@@ -316,9 +316,9 @@ namespace pspsharp.HLE.VFS.iso
 						{
 							offset *= UmdIsoFile.sectorLength;
 						}
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl UMD file seek offset {0:D}, whence {1:D}", offset, whence));
+							Console.WriteLine(string.Format("ioIoctl UMD file seek offset {0:D}, whence {1:D}", offset, whence));
 						}
 						switch (whence)
 						{
@@ -331,11 +331,11 @@ namespace pspsharp.HLE.VFS.iso
 								result = 0;
 								break;
 							case PSP_SEEK_END:
-								Position = length() + offset;
+								Position = Length() + offset;
 								result = 0;
 								break;
 							default:
-								log.error(string.Format("ioIoctl - unhandled whence {0:D}", whence));
+								Console.WriteLine(string.Format("ioIoctl - unhandled whence {0:D}", whence));
 								result = ERROR_INVALID_ARGUMENT;
 								break;
 						}
@@ -368,7 +368,7 @@ namespace pspsharp.HLE.VFS.iso
 			}
 			catch (IOException e)
 			{
-				log.warn("UmdIsoVirtualFile.duplicate", e);
+				Console.WriteLine("UmdIsoVirtualFile.duplicate", e);
 			}
 
 			return duplicate;

@@ -53,26 +53,26 @@ namespace pspsharp.HLE.VFS
 			bufferLength = 0;
 		}
 
-		private void copyFromBuffer(int outputAddr, int length)
+		private void copyFromBuffer(int outputAddr, int Length)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
 
-			Utilities.writeBytes(outputAddr, length, buffer, bufferIndex);
-			bufferIndex += length;
+			Utilities.writeBytes(outputAddr, Length, buffer, bufferIndex);
+			bufferIndex += Length;
 		}
 
-		private void copyFromBuffer(sbyte[] output, int offset, int length)
+		private void copyFromBuffer(sbyte[] output, int offset, int Length)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
 
-			Array.Copy(buffer, bufferIndex, output, offset, length);
-			bufferIndex += length;
+			Array.Copy(buffer, bufferIndex, output, offset, Length);
+			bufferIndex += Length;
 		}
 
 		private void checkPopulateBuffer()
@@ -101,9 +101,9 @@ namespace pspsharp.HLE.VFS
 			while (bufferLength >= 0 && readLength < outputLength)
 			{
 				checkPopulateBuffer();
-				int length = System.Math.Min(bufferLength - bufferIndex, outputLength - readLength);
-				copyFromBuffer(outputPointer.Address + readLength, length);
-				readLength += length;
+				int Length = System.Math.Min(bufferLength - bufferIndex, outputLength - readLength);
+				copyFromBuffer(outputPointer.Address + readLength, Length);
+				readLength += Length;
 			}
 
 			return readLength;
@@ -121,9 +121,9 @@ namespace pspsharp.HLE.VFS
 			while (bufferLength >= 0 && readLength < outputLength)
 			{
 				checkPopulateBuffer();
-				int length = System.Math.Min(bufferLength - bufferIndex, outputLength - readLength);
-				copyFromBuffer(outputBuffer, outputOffset + readLength, length);
-				readLength += length;
+				int Length = System.Math.Min(bufferLength - bufferIndex, outputLength - readLength);
+				copyFromBuffer(outputBuffer, outputOffset + readLength, Length);
+				readLength += Length;
 			}
 
 			return readLength;

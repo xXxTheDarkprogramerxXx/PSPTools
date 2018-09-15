@@ -69,11 +69,11 @@ namespace pspsharp.HLE.modules
 //	import static pspsharp.format.PSP.PSP_MAGIC;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class LoadCoreForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("LoadCoreForKernel");
+		//public static Logger log = Modules.getLogger("LoadCoreForKernel");
 		private ISet<int> dummyModuleData;
 		private TPointer syscallStubAddr;
 		private int availableSyscallStubs;
@@ -159,7 +159,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo memInfo = Modules.SysMemUserForUserModule.malloc(KERNEL_PARTITION_ID, "LoadCore-StartModuleParameters", PSP_SMEM_Low, size, 0);
 			if (memInfo == null)
 			{
-				log.error(string.Format("Cannot allocate memory for loadcore.prx start parameters"));
+				Console.WriteLine(string.Format("Cannot allocate memory for loadcore.prx start parameters"));
 				return TPointer.NULL;
 			}
 
@@ -190,7 +190,7 @@ namespace pspsharp.HLE.modules
 				if (syscallStubAddr.Null)
 				{
 					availableSyscallStubs = 0;
-					log.error(string.Format("No more free memory to create a new Syscall stub!"));
+					Console.WriteLine(string.Format("No more free memory to create a new Syscall stub!"));
 					return 0;
 				}
 			}
@@ -199,9 +199,9 @@ namespace pspsharp.HLE.modules
 			syscallStubAddr.setValue32(0, JR());
 			syscallStubAddr.setValue32(4, SYSCALL(syscallCode));
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Adding a syscall 0x{0:X} stub at 0x{1:X8}", syscallCode, stubAddr));
+				Console.WriteLine(string.Format("Adding a syscall 0x{0:X} stub at 0x{1:X8}", syscallCode, stubAddr));
 			}
 
 			syscallStubAddr.add(stubSize);
@@ -286,9 +286,9 @@ namespace pspsharp.HLE.modules
 			modBuf.setValue32(offset + 4, ADDIU(_v0, _zr, 0));
 			offset += initCodeSize;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("createDummyModule moduleName='{0}', entryPointCode={1}", moduleName, entryPointCode));
+				Console.WriteLine(string.Format("createDummyModule moduleName='{0}', entryPointCode={1}", moduleName, entryPointCode));
 			}
 			return entryPointCode;
 		}
@@ -340,11 +340,11 @@ namespace pspsharp.HLE.modules
 				}
 				bool isVariableExport = nidMapper.isVariableExportByAddress(address);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Registering library '%s' NID 0x%08X at address 0x%08X (variableExport=%b)", libName, nid, address, isVariableExport));
-					log.debug(string.Format("Registering library '%s' NID 0x%08X at address 0x%08X (variableExport=%b)", libName, nid, address, isVariableExport));
+//ORIGINAL LINE: Console.WriteLine(String.format("Registering library '%s' NID 0x%08X at address 0x%08X (variableExport=%b)", libName, nid, address, isVariableExport));
+					Console.WriteLine(string.Format("Registering library '%s' NID 0x%08X at address 0x%08X (variableExport=%b)", libName, nid, address, isVariableExport));
 				}
 
 				addresses[i] = address;
@@ -395,12 +395,12 @@ namespace pspsharp.HLE.modules
 			int[] nids = NIDMapper.Instance.getModuleNids(libName);
 			if (nids == null)
 			{
-				log.warn(string.Format("Unknown library '{0}', no NIDs found", libName));
+				Console.WriteLine(string.Format("Unknown library '{0}', no NIDs found", libName));
 				return;
 			}
 
 			// Keep the list of NIDs sorted for easier debugging
-			Arrays.sort(nids);
+			Array.Sort(nids);
 
 			addKernelUserLibs(sysMemThreadConfig, libName, nids);
 		}
@@ -422,9 +422,9 @@ namespace pspsharp.HLE.modules
 			SceModule module = Managers.modules.getModuleByName(moduleName);
 			if (module == null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("addExistingModule could not find module '{0}'", moduleName));
+					Console.WriteLine(string.Format("addExistingModule could not find module '{0}'", moduleName));
 				}
 				return;
 			}
@@ -438,7 +438,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = HLESyscallNid, version = 150) public int hleLoadCoreInitStart(int argc, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=128, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer sceLoadCoreBootInfoAddr)
+//ORIGINAL LINE: @HLEFunction(nid = HLESyscallNid, version = 150) public int hleLoadCoreInitStart(int argc, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=128, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer sceLoadCoreBootInfoAddr)
 		[HLEFunction(nid : HLESyscallNid, version : 150)]
 		public virtual int hleLoadCoreInitStart(int argc, TPointer sceLoadCoreBootInfoAddr)
 		{
@@ -542,9 +542,9 @@ namespace pspsharp.HLE.modules
 			argp.setPointer(0, sceLoadCoreBootInfoAddr);
 			argp.setPointer(4, sysMemThreadConfigAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("onModuleStart sceLoadCoreBootInfoAddr={0}, sysMemThreadConfigAddr={1}, loadCoreExecInfoAddr={2}, sysMemExecInfoAddr={3}", sceLoadCoreBootInfoAddr, sysMemThreadConfigAddr, loadCoreExecInfoAddr, sysMemExecInfoAddr));
+				Console.WriteLine(string.Format("onModuleStart sceLoadCoreBootInfoAddr={0}, sysMemThreadConfigAddr={1}, loadCoreExecInfoAddr={2}, sysMemExecInfoAddr={3}", sceLoadCoreBootInfoAddr, sysMemThreadConfigAddr, loadCoreExecInfoAddr, sysMemExecInfoAddr));
 			}
 
 			// Set the thread start parameters
@@ -920,7 +920,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAE7C6E76, version = 150) public int sceKernelRegisterModule(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=228, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer module)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAE7C6E76, version = 150) public int sceKernelRegisterModule(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=228, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer module)
 		[HLEFunction(nid : 0xAE7C6E76, version : 150)]
 		public virtual int sceKernelRegisterModule(TPointer module)
 		{
@@ -941,18 +941,18 @@ namespace pspsharp.HLE.modules
 			SceModule module = Managers.modules.getModuleByName(moduleName.String);
 			if (module == null)
 			{
-				log.warn(string.Format("sceKernelFindModuleByName not found moduleName={0}", moduleName));
+				Console.WriteLine(string.Format("sceKernelFindModuleByName not found moduleName={0}", moduleName));
 				return 0; // return NULL
 			}
 
 			if (!Modules.ThreadManForUserModule.KernelMode)
 			{
-				log.warn("kernel mode required (sceKernelFindModuleByName)");
+				Console.WriteLine("kernel mode required (sceKernelFindModuleByName)");
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelFindModuleByName returning 0x{0:X8}", module.address));
+				Console.WriteLine(string.Format("sceKernelFindModuleByName returning 0x{0:X8}", module.address));
 			}
 
 			return module.address;
@@ -964,18 +964,18 @@ namespace pspsharp.HLE.modules
 			SceModule module = Managers.modules.getModuleByAddress(address.Address);
 			if (module == null)
 			{
-				log.warn(string.Format("sceKernelFindModuleByAddress not found module address={0}", address));
+				Console.WriteLine(string.Format("sceKernelFindModuleByAddress not found module address={0}", address));
 				return 0; // return NULL
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelFindModuleByAddress found module '{0}'", module.modname));
+				Console.WriteLine(string.Format("sceKernelFindModuleByAddress found module '{0}'", module.modname));
 			}
 
 			if (!Modules.ThreadManForUserModule.KernelMode)
 			{
-				log.warn("kernel mode required (sceKernelFindModuleByAddress)");
+				Console.WriteLine("kernel mode required (sceKernelFindModuleByAddress)");
 			}
 
 			return module.address;
@@ -987,7 +987,7 @@ namespace pspsharp.HLE.modules
 			SceModule module = Managers.modules.getModuleByUID(uid);
 			if (module == null)
 			{
-				log.warn(string.Format("sceKernelFindModuleByUID not found module uid=0x{0:X}", uid));
+				Console.WriteLine(string.Format("sceKernelFindModuleByUID not found module uid=0x{0:X}", uid));
 				return 0; // return NULL
 			}
 
@@ -1007,23 +1007,23 @@ namespace pspsharp.HLE.modules
 				{
 					if (bannedModule.Equals(module.modname))
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceKernelFindModuleByUID banning module '{0}' for a homebrew", module.modname));
+							Console.WriteLine(string.Format("sceKernelFindModuleByUID banning module '{0}' for a homebrew", module.modname));
 						}
 						return 0; // NULL
 					}
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelFindModuleByUID found module '{0}'", module.modname));
+				Console.WriteLine(string.Format("sceKernelFindModuleByUID found module '{0}'", module.modname));
 			}
 
 			if (!Modules.ThreadManForUserModule.KernelMode)
 			{
-				log.warn("kernel mode required (sceKernelFindModuleByUID)");
+				Console.WriteLine("kernel mode required (sceKernelFindModuleByUID)");
 			}
 
 			return module.address;
@@ -1068,7 +1068,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x493EE781, version = 660) public int sceKernelLoadModuleBootLoadCore_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer bootModInfo, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer execInfo, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 modMemId)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x493EE781, version = 660) public int sceKernelLoadModuleBootLoadCore_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer bootModInfo, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer execInfo, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 modMemId)
 		[HLEFunction(nid : 0x493EE781, version : 660)]
 		public virtual int sceKernelLoadModuleBootLoadCore_660(TPointer bootModInfo, TPointer execInfo, TPointer32 modMemId)
 		{
@@ -1076,7 +1076,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD3353EC4, version = 660) public int sceKernelCheckExecFile_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execInfo)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD3353EC4, version = 660) public int sceKernelCheckExecFile_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execInfo)
 		[HLEFunction(nid : 0xD3353EC4, version : 660)]
 		public virtual int sceKernelCheckExecFile_660(TPointer buf, TPointer execInfo)
 		{
@@ -1084,7 +1084,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x41D10899, version = 660) public int sceKernelProbeExecutableObject_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execInfo)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x41D10899, version = 660) public int sceKernelProbeExecutableObject_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execInfo)
 		[HLEFunction(nid : 0x41D10899, version : 660)]
 		public virtual int sceKernelProbeExecutableObject_660(TPointer buf, TPointer execInfo)
 		{
@@ -1092,7 +1092,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1C394885, version = 660) public int sceKernelLoadExecutableObject_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execInfo)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1C394885, version = 660) public int sceKernelLoadExecutableObject_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer buf, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execInfo)
 		[HLEFunction(nid : 0x1C394885, version : 660)]
 		public virtual int sceKernelLoadExecutableObject_660(TPointer buf, TPointer execInfo)
 		{
@@ -1108,7 +1108,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x48AF96A9, version = 660) public int sceKernelRegisterLibrary_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x48AF96A9, version = 660) public int sceKernelRegisterLibrary_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
 		[HLEFunction(nid : 0x48AF96A9, version : 660)]
 		public virtual int sceKernelRegisterLibrary_660(TPointer libEntryTable)
 		{
@@ -1126,7 +1126,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 indicates the library can be released. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x538129F8, version = 660) public int sceKernelCanReleaseLibrary_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x538129F8, version = 660) public int sceKernelCanReleaseLibrary_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
 		[HLEFunction(nid : 0x538129F8, version : 660)]
 		public virtual int sceKernelCanReleaseLibrary_660(TPointer libEntryTable)
 		{
@@ -1144,7 +1144,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8EAE9534, version = 660) public int sceKernelLinkLibraryEntries_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable, int size)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8EAE9534, version = 660) public int sceKernelLinkLibraryEntries_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable, int size)
 		[HLEFunction(nid : 0x8EAE9534, version : 660)]
 		public virtual int sceKernelLinkLibraryEntries_660(TPointer libEntryTable, int size)
 		{
@@ -1159,7 +1159,7 @@ namespace pspsharp.HLE.modules
 		/// <param name="size"> The number of entry tables to unlink. </param>
 		/// <returns>  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0295CFCE, version = 660) public int sceKernelUnLinkLibraryEntries_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable, int size)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0295CFCE, version = 660) public int sceKernelUnLinkLibraryEntries_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable, int size)
 		[HLEFunction(nid : 0x0295CFCE, version : 660)]
 		public virtual int sceKernelUnLinkLibraryEntries_660(TPointer libEntryTable, int size)
 		{
@@ -1206,7 +1206,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x2C60CCB8, version = 660) public int sceKernelRegisterLibraryForUser_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x2C60CCB8, version = 660) public int sceKernelRegisterLibraryForUser_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
 		[HLEFunction(nid : 0x2C60CCB8, version : 660)]
 		public virtual int sceKernelRegisterLibraryForUser_660(TPointer libEntryTable)
 		{
@@ -1221,7 +1221,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xCB636A90, version = 660) public int sceKernelReleaseLibrary_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xCB636A90, version = 660) public int sceKernelReleaseLibrary_660(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=26, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer libEntryTable)
 		[HLEFunction(nid : 0xCB636A90, version : 660)]
 		public virtual int sceKernelReleaseLibrary_660(TPointer libEntryTable)
 		{
@@ -1454,7 +1454,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF3DD4808, version = 660) public int sceKernelAssignModule_660(pspsharp.HLE.TPointer mod, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execFileInfo)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF3DD4808, version = 660) public int sceKernelAssignModule_660(pspsharp.HLE.TPointer mod, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer execFileInfo)
 		[HLEFunction(nid : 0xF3DD4808, version : 660)]
 		public virtual int sceKernelAssignModule_660(TPointer mod, TPointer execFileInfo)
 		{

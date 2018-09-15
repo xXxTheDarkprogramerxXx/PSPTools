@@ -76,7 +76,7 @@ namespace pspsharp
 	using pspsharp.util;
 
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using DOMConfigurator = org.apache.log4j.xml.DOMConfigurator;
 
 	using LookAndFeelFactory = com.jidesoft.plaf.LookAndFeelFactory;
@@ -250,7 +250,7 @@ namespace pspsharp
 			try
 			{
 				Image iconImage = (new ImageIcon(ClassLoader.SystemClassLoader.getResource("pspsharp/icon.png"))).Image;
-				this.IconImages = Arrays.asList(iconImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH), iconImage.getScaledInstance(32, 32, Image.SCALE_SMOOTH), iconImage);
+				this.IconImages = Array.asList(iconImage.getScaledInstance(16, 16, Image.SCALE_SMOOTH), iconImage.getScaledInstance(32, 32, Image.SCALE_SMOOTH), iconImage);
 			}
 			catch (Exception t)
 			{
@@ -2433,7 +2433,7 @@ namespace pspsharp
 				RandomAccessFile raf = new RandomAccessFile(file, "r");
 				ByteBuffer readbuffer;
 				FileChannel roChannel = null;
-				long size = raf.length();
+				long size = raf.Length();
 				// Do not try to map very large files, this would raise on OutOfMemory exception.
 				if (size > 1 * 1024 * 1024)
 				{
@@ -2814,9 +2814,9 @@ namespace pspsharp
 			try
 			{
 				UmdIsoFile bootBin = iso.getFile(bootPath);
-				if (bootBin.length() != 0)
+				if (bootBin.Length() != 0)
 				{
-					sbyte[] bootfile = new sbyte[(int) bootBin.length()];
+					sbyte[] bootfile = new sbyte[(int) bootBin.Length()];
 					bootBin.read(bootfile);
 					ByteBuffer buf = ByteBuffer.wrap(bootfile);
 					emulator.load("disc0:/" + bootPath, buf);
@@ -2918,7 +2918,7 @@ namespace pspsharp
 			}
 			catch (IOException e)
 			{
-				log.error("loadUMD", e);
+				Console.WriteLine("loadUMD", e);
 				closeIso = true;
 			}
 			finally
@@ -2934,7 +2934,7 @@ namespace pspsharp
 					}
 					catch (IOException e)
 					{
-						log.error("loadUMD", e);
+						Console.WriteLine("loadUMD", e);
 					}
 				}
 			}
@@ -2948,7 +2948,7 @@ namespace pspsharp
 				UmdIsoReader iso = new UmdIsoReader(file.Path);
 				if (!iso.hasFile("PSP_GAME/param.sfo"))
 				{
-					log.error(string.Format("The UMD '{0}' is not a PSP_GAME UMD", file));
+					Console.WriteLine(string.Format("The UMD '{0}' is not a PSP_GAME UMD", file));
 					return;
 				}
 
@@ -2958,7 +2958,7 @@ namespace pspsharp
 			}
 			catch (IOException e)
 			{
-				log.error("switchUMD", e);
+				Console.WriteLine("switchUMD", e);
 			}
 		}
 
@@ -2991,7 +2991,7 @@ namespace pspsharp
 				UmdIsoFile psfFile = iso.getFile("PSP_GAME/param.sfo");
 
 				PSF psf = new PSF();
-				sbyte[] data = new sbyte[(int) psfFile.length()];
+				sbyte[] data = new sbyte[(int) psfFile.Length()];
 				psfFile.read(data);
 				psf.read(ByteBuffer.wrap(data));
 
@@ -3028,7 +3028,7 @@ namespace pspsharp
 					UmdIsoFile umdDataBin = iso.getFile("UMD_DATA.BIN");
 					if (umdDataBin != null)
 					{
-						sbyte[] buffer = new sbyte[(int) umdDataBin.length()];
+						sbyte[] buffer = new sbyte[(int) umdDataBin.Length()];
 						umdDataBin.readFully(buffer);
 						umdDataBin.Dispose();
 						string umdDataBinContent = (StringHelper.NewString(buffer)).Replace((char) 0, ' ');
@@ -3138,7 +3138,7 @@ namespace pspsharp
 				UmdIsoFile umdDataFile = iso.getFile("UMD_DATA.BIN");
 
 				PSF psf = new PSF();
-				sbyte[] data = new sbyte[(int) psfFile.length()];
+				sbyte[] data = new sbyte[(int) psfFile.Length()];
 				psfFile.read(data);
 				psf.read(ByteBuffer.wrap(data));
 
@@ -3210,7 +3210,7 @@ namespace pspsharp
 				UmdIsoFile psfFile = iso.getFile("UMD_AUDIO/param.sfo");
 
 				PSF psf = new PSF();
-				sbyte[] data = new sbyte[(int) psfFile.length()];
+				sbyte[] data = new sbyte[(int) psfFile.Length()];
 				psfFile.read(data);
 				psf.read(ByteBuffer.wrap(data));
 
@@ -3338,7 +3338,7 @@ namespace pspsharp
 			}
 			else
 			{
-				log.info(string.Format("{0}{1}, size=0x{2:X}", prefix, dir.Name, dir.length()));
+				log.info(string.Format("{0}{1}, size=0x{2:X}", prefix, dir.Name, dir.Length()));
 			}
 		}
 
@@ -3382,7 +3382,7 @@ namespace pspsharp
 					{
 						UmdIsoFile psfFile = iso.getFile(paramSfoFile);
 						PSF psf = new PSF();
-						sbyte[] data = new sbyte[(int) psfFile.length()];
+						sbyte[] data = new sbyte[(int) psfFile.Length()];
 						psfFile.read(data);
 						psf.read(ByteBuffer.wrap(data));
 
@@ -3400,7 +3400,7 @@ namespace pspsharp
 				UmdIsoFile umdDataBin = iso.getFile("UMD_DATA.BIN");
 				if (umdDataBin != null)
 				{
-					sbyte[] buffer = new sbyte[(int) umdDataBin.length()];
+					sbyte[] buffer = new sbyte[(int) umdDataBin.Length()];
 					umdDataBin.readFully(buffer);
 					umdDataBin.Dispose();
 					string umdDataBinContent = (StringHelper.NewString(buffer)).Replace((char) 0, ' ');
@@ -3618,13 +3618,13 @@ namespace pspsharp
 				System.IO.Stream output = new System.IO.FileStream(exportFileName, System.IO.FileMode.Create, System.IO.FileAccess.Write);
 				sbyte[] buffer = new sbyte[10 * 1024];
 				long readLength = 0;
-				long totalLength = input.length();
+				long totalLength = input.Length();
 				while (readLength < totalLength)
 				{
-					int length = (int) System.Math.Min(totalLength - readLength, buffer.Length);
-					input.readFully(buffer, 0, length);
-					output.Write(buffer, 0, length);
-					readLength += length;
+					int Length = (int) System.Math.Min(totalLength - readLength, buffer.Length);
+					input.readFully(buffer, 0, Length);
+					output.Write(buffer, 0, Length);
+					readLength += Length;
 				}
 				output.Close();
 				input.Dispose();
@@ -3636,7 +3636,7 @@ namespace pspsharp
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 
 	} //GEN-LAST:event_ExportISOFileActionPerformed
@@ -4250,7 +4250,7 @@ namespace pspsharp
 
 					if (!Modules.rebootModule.loadAndRun())
 					{
-						log.error(string.Format("Cannot reboot - missing files"));
+						Console.WriteLine(string.Format("Cannot reboot - missing files"));
 						reboot.enableReboot = false;
 					}
 				}

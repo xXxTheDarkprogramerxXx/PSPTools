@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.graphics.textures
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IRenderingEngine = pspsharp.graphics.RE.IRenderingEngine;
 	using CacheStatistics = pspsharp.util.CacheStatistics;
@@ -185,17 +185,17 @@ namespace pspsharp.graphics.textures
 			return Memory.isVRAM(texture.Addr);
 		}
 
-		public virtual void deleteVramTextures(IRenderingEngine re, int addr, int length)
+		public virtual void deleteVramTextures(IRenderingEngine re, int addr, int Length)
 		{
 //JAVA TO C# CONVERTER WARNING: Unlike Java's ListIterator, enumerators in .NET do not allow altering the collection:
 			for (IEnumerator<Texture> lit = vramTextures.GetEnumerator(); lit.MoveNext();)
 			{
 				Texture texture = lit.Current;
-				if (texture.isInsideMemory(addr, addr + length))
+				if (texture.isInsideMemory(addr, addr + Length))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Delete VRAM texture inside GE {0}", texture.ToString()));
+						Console.WriteLine(string.Format("Delete VRAM texture inside GE {0}", texture.ToString()));
 					}
 					texture.deleteTexture(re);
 //JAVA TO C# CONVERTER TODO TASK: .NET enumerators are read-only:

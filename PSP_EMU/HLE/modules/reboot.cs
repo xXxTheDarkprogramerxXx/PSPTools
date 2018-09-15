@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.modules.SysMemUserForUser.VSHELL_PARTITION_ID;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Compiler = pspsharp.Allegrex.compiler.Compiler;
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
@@ -45,7 +45,7 @@ namespace pspsharp.HLE.modules
 
 	public class reboot : HLEModule
 	{
-		public static Logger log = Modules.getLogger("reboot");
+		//public static Logger log = Modules.getLogger("reboot");
 		public static bool enableReboot = false;
 		private const string rebootFileName = "flash0:/reboot.bin";
 		private static readonly int rebootBaseAddress = MemoryMap.START_KERNEL + 0x600000;
@@ -81,7 +81,7 @@ namespace pspsharp.HLE.modules
 				return false;
 			}
 
-			int rebootFileLength = (int) vFile.length();
+			int rebootFileLength = (int) vFile.Length();
 			if (rebootFileLength <= 0)
 			{
 				return false;
@@ -163,9 +163,9 @@ namespace pspsharp.HLE.modules
 			// This will set the Log4j MDC values for the root thread
 			Emulator.Scheduler.addAction(new SetLog4jMDC());
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceReboot arg0={0}, arg1={1}", sceLoadCoreBootInfoAddr, sceKernelLoadExecVSHParamAddr));
+				Console.WriteLine(string.Format("sceReboot arg0={0}, arg1={1}", sceLoadCoreBootInfoAddr, sceKernelLoadExecVSHParamAddr));
 			}
 
 			return true;
@@ -283,9 +283,9 @@ namespace pspsharp.HLE.modules
 				int textAddr = mem.read32(address + 108);
 				int textSize = mem.read32(address + 112);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Module '{0}': text 0x{1:X8}-0x{2:X8}", moduleName, textAddr, textAddr + textSize));
+					Console.WriteLine(string.Format("Module '{0}': text 0x{1:X8}-0x{2:X8}", moduleName, textAddr, textAddr + textSize));
 				}
 				// Next
 				address = mem.read32(address);
@@ -300,17 +300,17 @@ namespace pspsharp.HLE.modules
 				int numExports = mem.read32(address + 16);
 				int entryTable = mem.read32(address + 32);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Library '{0}':", libName));
+					Console.WriteLine(string.Format("Library '{0}':", libName));
 				}
 				for (int i = 0; i < numExports; i++)
 				{
 					int nid = mem.read32(entryTable + i * 4);
 					int entryAddress = mem.read32(entryTable + (i + numExports) * 4);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("   0x{0:X8}: 0x{1:X8}", nid, entryAddress));
+						Console.WriteLine(string.Format("   0x{0:X8}: 0x{1:X8}", nid, entryAddress));
 					}
 				}
 
@@ -445,9 +445,9 @@ namespace pspsharp.HLE.modules
 			SceSysmemUidCB sceSysmemUidCB = new SceSysmemUidCB();
 			sceSysmemUidCB.read(mem, cb);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("{0}: uid=0x{1:X}, name='{2}', status=0x{3:X}({4}), currentPriority=0x{5:X}{6}", comment, uid, sceSysmemUidCB.name, status, SceKernelThreadInfo.getStatusName(status), currentPriority, waitInfo));
+				Console.WriteLine(string.Format("{0}: uid=0x{1:X}, name='{2}', status=0x{3:X}({4}), currentPriority=0x{5:X}{6}", comment, uid, sceSysmemUidCB.name, status, SceKernelThreadInfo.getStatusName(status), currentPriority, waitInfo));
 				if (log.TraceEnabled)
 				{
 					log.trace(Utilities.getMemoryDump(address, 0x140));

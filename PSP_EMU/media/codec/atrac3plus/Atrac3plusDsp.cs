@@ -21,7 +21,7 @@ namespace pspsharp.media.codec.atrac3plus
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static Math.max;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.pow;
+//	import static Math.Pow;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static Math.sin;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
@@ -69,11 +69,11 @@ namespace pspsharp.media.codec.atrac3plus
 		public static readonly int[] ff_atrac3p_qu_to_spec_pos = new int[] {0, 16, 32, 48, 64, 80, 96, 112, 128, 160, 192, 224, 256, 288, 320, 352, 384, 448, 512, 576, 640, 704, 768, 896, 1024, 1152, 1280, 1408, 1536, 1664, 1792, 1920, 2048};
 
 		/* Scalefactors table. */
-		/* Approx. Equ: pow(2.0, (i - 16.0 + 0.501783948) / 3.0) */
+		/* Approx. Equ: Pow(2.0, (i - 16.0 + 0.501783948) / 3.0) */
 		public static readonly float[] ff_atrac3p_sf_tab = new float[] {0.027852058f, 0.0350914f, 0.044212341f, 0.055704117f, 0.0701828f, 0.088424683f, 0.11140823f, 0.1403656f, 0.17684937f, 0.22281647f, 0.2807312f, 0.35369873f, 0.44563293f, 0.5614624f, 0.70739746f, 0.89126587f, 1.1229248f, 1.4147949f, 1.7825317f, 2.2458496f, 2.8295898f, 3.5650635f, 4.4916992f, 5.6591797f, 7.130127f, 8.9833984f, 11.318359f, 14.260254f, 17.966797f, 22.636719f, 28.520508f, 35.933594f, 45.273438f, 57.041016f, 71.867188f, 90.546875f, 114.08203f, 143.73438f, 181.09375f, 228.16406f, 287.46875f, 362.1875f, 456.32812f, 574.9375f, 724.375f, 912.65625f, 1149.875f, 1448.75f, 1825.3125f, 2299.75f, 2897.5f, 3650.625f, 4599.5f, 5795.0f, 7301.25f, 9199.0f, 11590.0f, 14602.5f, 18398.0f, 23180.0f, 29205.0f, 36796.0f, 46360.0f, 58410.0f};
 
 		/* Mantissa table. */
-		/* pow(10, x * log10(2) + 0.05) / 2 / ([1,2,3,5,7,15,31] + 0.5) */
+		/* Pow(10, x * log10(2) + 0.05) / 2 / ([1,2,3,5,7,15,31] + 0.5) */
 		public static readonly float[] ff_atrac3p_mant_tab = new float[] {0.0f, 0.74801636f, 0.44882202f, 0.32058716f, 0.20400238f, 0.1496048f, 0.07239151f, 0.035619736f};
 
 		private static readonly int[] subband_to_powgrp = new int[] {0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4};
@@ -83,7 +83,7 @@ namespace pspsharp.media.codec.atrac3plus
 
 		/// <summary>
 		/// Noise level table for power compensation.
-		///  Equ: pow(2.0f, (double)(6 - i) / 3.0f) where i = 0...15 
+		///  Equ: Pow(2.0f, (double)(6 - i) / 3.0f) where i = 0...15 
 		/// </summary>
 		private static readonly float[] pwc_levs = new float[] {3.96875f, 3.15625f, 2.5f, 2.0f, 1.59375f, 1.25f, 1.0f, 0.78125f, 0.625f, 0.5f, 0.40625f, 0.3125f, 0.25f, 0.1875f, 0.15625f, 0.0f};
 
@@ -158,7 +158,7 @@ namespace pspsharp.media.codec.atrac3plus
 			// generate amplitude scalefactors table
 			for (int i = 0; i < 64; i++)
 			{
-				amp_sf_tab[i] = (float) pow(2.0, ((double)(i - 3)) / 4.0);
+				amp_sf_tab[i] = (float) Pow(2.0, ((double)(i - 3)) / 4.0);
 			}
 		}
 
@@ -239,7 +239,7 @@ namespace pspsharp.media.codec.atrac3plus
 			 *   Both regions are 32 samples long. */
 			if ((windId & 2) != 0)
 			{ // 1st half: steep window
-				Arrays.fill(@out, outOffset, outOffset + 32, 0f);
+				Arrays.Fill(@out, outOffset, outOffset + 32, 0f);
 				vectorFmul(@out, outOffset + 32, @out, outOffset + 32, ff_sine_64, 0, 64);
 			}
 			else
@@ -250,7 +250,7 @@ namespace pspsharp.media.codec.atrac3plus
 			if ((windId & 1) != 0)
 			{ // 2nd half: steep window
 				vectorFmulReverse(@out, outOffset + 160, @out, outOffset + 160, ff_sine_64, 0, 64);
-				Arrays.fill(@out, outOffset + 224, outOffset + 224 + 32, 0f);
+				Arrays.Fill(@out, outOffset + 224, outOffset + 224 + 32, 0f);
 			}
 			else
 			{ // 2nd half: simple sine window
@@ -304,7 +304,7 @@ namespace pspsharp.media.codec.atrac3plus
 				int pos = (envelope.startPos << 2) - regOffset;
 				if (pos > 0 && pos <= 128)
 				{
-					Arrays.fill(@out, 0, pos, 0f);
+					Arrays.Fill(@out, 0, pos, 0f);
 					if (!envelope.hasStopPoint || envelope.startPos != envelope.stopPos)
 					{
 						@out[pos + 0] *= hann_window[0];
@@ -325,7 +325,7 @@ namespace pspsharp.media.codec.atrac3plus
 					@out[pos - 3] *= hann_window[64];
 					@out[pos - 2] *= hann_window[32];
 					@out[pos - 1] *= hann_window[0];
-					Arrays.fill(@out, pos, 128, 0f);
+					Arrays.Fill(@out, pos, 128, 0f);
 				}
 			}
 		}
@@ -416,7 +416,7 @@ namespace pspsharp.media.codec.atrac3plus
 			float[] idctIn = new float[ATRAC3P_SUBBANDS];
 			float[] idctOut = new float[ATRAC3P_SUBBANDS];
 
-			Arrays.fill(@out, 0, ATRAC3P_FRAME_SAMPLES, 0f);
+			Arrays.Fill(@out, 0, ATRAC3P_FRAME_SAMPLES, 0f);
 
 			for (int s = 0; s < ATRAC3P_SUBBAND_SAMPLES; s++)
 			{

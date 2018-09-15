@@ -68,12 +68,12 @@ namespace pspsharp.HLE.VFS.filters
 			return filter;
 		}
 
-		public virtual void filter(sbyte[] data, int offset, int length)
+		public virtual void filter(sbyte[] data, int offset, int Length)
 		{
 			IVirtualFileFilter filter = Filter;
 			if (filter != null)
 			{
-				filter.filter(data, offset, length);
+				filter.filter(data, offset, Length);
 			}
 		}
 	}

@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.media.codec.atrac3plus
 {
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.pow;
+//	import static Math.Pow;
 
 	public class Atrac
 	{
@@ -39,7 +39,7 @@ namespace pspsharp.media.codec.atrac3plus
 			{
 				for (int i = 0; i < 64; i++)
 				{
-					ff_atrac_sf_table[i] = (float) pow(2.0f, (i - 15) / 3.0);
+					ff_atrac_sf_table[i] = (float) Pow(2.0f, (i - 15) / 3.0);
 				}
 			}
 

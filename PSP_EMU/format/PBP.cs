@@ -316,7 +316,7 @@ namespace pspsharp.format
 		{
 			vFile.ioLseek(0L);
 			PBP pbp = new PBP();
-			pbp.size_pbp = (int) vFile.length();
+			pbp.size_pbp = (int) vFile.Length();
 			pbp.p_magic = read32(vFile);
 			if (!pbp.Valid)
 			{
@@ -343,14 +343,14 @@ namespace pspsharp.format
 						System.IO.Stream os = new System.IO.FileStream(PBP_UNPACK_PATH_PREFIX + pbp.getName(index), System.IO.FileMode.Create, System.IO.FileAccess.Write);
 						while (size > 0)
 						{
-							int length = System.Math.Min(size, buffer.Length);
-							int readLength = vFile.ioRead(buffer, 0, length);
+							int Length = System.Math.Min(size, buffer.Length);
+							int readLength = vFile.ioRead(buffer, 0, Length);
 							if (readLength > 0)
 							{
 								os.Write(buffer, 0, readLength);
 								size -= readLength;
 							}
-							if (readLength != length)
+							if (readLength != Length)
 							{
 								break;
 							}

@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using CpuState = pspsharp.Allegrex.CpuState;
 
 	public class sceFpu : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceFpu");
+		//public static Logger log = Modules.getLogger("sceFpu");
 
 		private int getCfc1_31(CpuState cpu)
 		{

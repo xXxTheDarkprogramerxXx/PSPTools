@@ -29,7 +29,7 @@ namespace pspsharp.network.proonline
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.network.proonline.ProOnlineNetworkAdapter.convertIpToString;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using pspNetMacAddress = pspsharp.HLE.kernel.types.pspNetMacAddress;
@@ -83,18 +83,18 @@ namespace pspsharp.network.proonline
 				offset++;
 			}
 
-			protected internal virtual void copyToBytes(sbyte[] bytes, string s, int length)
+			protected internal virtual void copyToBytes(sbyte[] bytes, string s, int Length)
 			{
-				for (int i = 0; i < length; i++, offset++)
+				for (int i = 0; i < Length; i++, offset++)
 				{
 					bytes[offset] = (sbyte)(i < s.Length ? s[i] : 0);
 				}
 			}
 
-			protected internal virtual string copyStringFromBytes(sbyte[] bytes, int length)
+			protected internal virtual string copyStringFromBytes(sbyte[] bytes, int Length)
 			{
-				int stringLength = length;
-				for (int i = 0; i < length; i++)
+				int stringLength = Length;
+				for (int i = 0; i < Length; i++)
 				{
 					if (bytes[offset + i] == (sbyte) 0)
 					{
@@ -104,7 +104,7 @@ namespace pspsharp.network.proonline
 				}
 
 				string s = StringHelper.NewString(bytes, offset, stringLength);
-				offset += length;
+				offset += Length;
 
 				return s;
 			}
@@ -147,10 +147,10 @@ namespace pspsharp.network.proonline
 				copyInt8ToBytes(bytes, value >> 24);
 			}
 
-			protected internal virtual void init(sbyte[] bytes, int length)
+			protected internal virtual void init(sbyte[] bytes, int Length)
 			{
 				offset = 0;
-				if (length >= Length)
+				if (Length >= Length)
 				{
 					opcode = bytes[offset];
 					offset++;
@@ -203,9 +203,9 @@ namespace pspsharp.network.proonline
 				opcode = OPCODE_PING;
 			}
 
-			public SceNetAdhocctlPingPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int length) : base(proOnline, proOnlineServer)
+			public SceNetAdhocctlPingPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int Length) : base(proOnline, proOnlineServer)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public override void process()
@@ -221,9 +221,9 @@ namespace pspsharp.network.proonline
 				opcode = OPCODE_DISCONNECT;
 			}
 
-			public SceNetAdhocctlDisconnectPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int length) : base(proOnline, proOnlineServer)
+			public SceNetAdhocctlDisconnectPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int Length) : base(proOnline, proOnlineServer)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public override void process()
@@ -239,9 +239,9 @@ namespace pspsharp.network.proonline
 				opcode = OPCODE_SCAN;
 			}
 
-			public SceNetAdhocctlScanPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int length) : base(proOnline, proOnlineServer)
+			public SceNetAdhocctlScanPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int Length) : base(proOnline, proOnlineServer)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public override void process()
@@ -264,15 +264,15 @@ namespace pspsharp.network.proonline
 				game = Modules.sceNetAdhocctlModule.hleNetAdhocctlGetAdhocID();
 			}
 
-			public SceNetAdhocctlLoginPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int length) : base(proOnline, proOnlineServer)
+			public SceNetAdhocctlLoginPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int Length) : base(proOnline, proOnlineServer)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					mac = copyMacFromBytes(bytes);
 					nickName = copyStringFromBytes(bytes, NICK_NAME_LENGTH);
@@ -312,15 +312,15 @@ namespace pspsharp.network.proonline
 				group = Modules.sceNetAdhocctlModule.hleNetAdhocctlGetGroupName();
 			}
 
-			public SceNetAdhocctlConnectPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int length) : base(proOnline, proOnlineServer)
+			public SceNetAdhocctlConnectPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int Length) : base(proOnline, proOnlineServer)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					group = copyStringFromBytes(bytes, GROUP_NAME_LENGTH);
 				}
@@ -356,15 +356,15 @@ namespace pspsharp.network.proonline
 				this.message = message;
 			}
 
-			public SceNetAdhocctlChatPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int length) : base(proOnline, proOnlineServer)
+			public SceNetAdhocctlChatPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] bytes, int Length) : base(proOnline, proOnlineServer)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					message = copyStringFromBytes(bytes, CHAT_MESSAGE_LENGTH);
 				}
@@ -392,9 +392,9 @@ namespace pspsharp.network.proonline
 
 		private class SceNetAdhocctlPingPacketS2C : SceNetAdhocctlPacketBaseS2C
 		{
-			public SceNetAdhocctlPingPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlPingPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public override void process()
@@ -414,9 +414,9 @@ namespace pspsharp.network.proonline
 			internal pspNetMacAddress mac;
 			internal int ip;
 
-			public SceNetAdhocctlConnectPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlConnectPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public SceNetAdhocctlConnectPacketS2C(string nickName, pspNetMacAddress mac, int ip) : base(null)
@@ -427,10 +427,10 @@ namespace pspsharp.network.proonline
 				this.ip = ip;
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					nickName = copyStringFromBytes(bytes, NICK_NAME_LENGTH);
 					mac = copyMacFromBytes(bytes);
@@ -469,9 +469,9 @@ namespace pspsharp.network.proonline
 		{
 			internal pspNetMacAddress mac;
 
-			public SceNetAdhocctlConnectBSSIDPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlConnectBSSIDPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public SceNetAdhocctlConnectBSSIDPacketS2C(pspNetMacAddress mac) : base(null)
@@ -480,10 +480,10 @@ namespace pspsharp.network.proonline
 				this.mac = mac;
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					mac = copyMacFromBytes(bytes);
 				}
@@ -520,9 +520,9 @@ namespace pspsharp.network.proonline
 			internal string group;
 			internal pspNetMacAddress mac;
 
-			public SceNetAdhocctlScanPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlScanPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public SceNetAdhocctlScanPacketS2C(string group, pspNetMacAddress mac) : base(null)
@@ -532,10 +532,10 @@ namespace pspsharp.network.proonline
 				this.mac = mac;
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					group = copyStringFromBytes(bytes, GROUP_NAME_LENGTH);
 					mac = copyMacFromBytes(bytes);
@@ -570,9 +570,9 @@ namespace pspsharp.network.proonline
 
 		private class SceNetAdhocctlScanCompletePacketS2C : SceNetAdhocctlPacketBaseS2C
 		{
-			public SceNetAdhocctlScanCompletePacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlScanCompletePacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public override void process()
@@ -590,9 +590,9 @@ namespace pspsharp.network.proonline
 		{
 			internal int ip;
 
-			public SceNetAdhocctlDisconnectPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlDisconnectPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public SceNetAdhocctlDisconnectPacketS2C(int ip) : base(null)
@@ -601,10 +601,10 @@ namespace pspsharp.network.proonline
 				this.ip = ip;
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					ip = copyInt32FromBytes(bytes);
 				}
@@ -640,9 +640,9 @@ namespace pspsharp.network.proonline
 			internal string message;
 			internal string nickName;
 
-			public SceNetAdhocctlChatPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int length) : base(proOnline)
+			public SceNetAdhocctlChatPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] bytes, int Length) : base(proOnline)
 			{
-				init(bytes, length);
+				init(bytes, Length);
 			}
 
 			public SceNetAdhocctlChatPacketS2C(string message, string nickName) : base(null)
@@ -652,10 +652,10 @@ namespace pspsharp.network.proonline
 				this.nickName = nickName;
 			}
 
-			protected internal override void init(sbyte[] bytes, int length)
+			protected internal override void init(sbyte[] bytes, int Length)
 			{
-				base.init(bytes, length);
-				if (length >= Length)
+				base.init(bytes, Length);
+				if (Length >= Length)
 				{
 					message = copyStringFromBytes(bytes, CHAT_MESSAGE_LENGTH);
 					nickName = copyStringFromBytes(bytes, NICK_NAME_LENGTH);
@@ -688,28 +688,28 @@ namespace pspsharp.network.proonline
 			}
 		}
 
-		public virtual SceNetAdhocctlPacketBaseS2C createPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] buffer, int length)
+		public virtual SceNetAdhocctlPacketBaseS2C createPacketS2C(ProOnlineNetworkAdapter proOnline, sbyte[] buffer, int Length)
 		{
-			if (length > 0)
+			if (Length > 0)
 			{
 				switch (buffer[0])
 				{
 					case OPCODE_PING:
-						return new SceNetAdhocctlPingPacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlPingPacketS2C(proOnline, buffer, Length);
 					case OPCODE_CONNECT_BSSID:
-						return new SceNetAdhocctlConnectBSSIDPacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlConnectBSSIDPacketS2C(proOnline, buffer, Length);
 					case OPCODE_CONNECT:
-						return new SceNetAdhocctlConnectPacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlConnectPacketS2C(proOnline, buffer, Length);
 					case OPCODE_SCAN:
-						return new SceNetAdhocctlScanPacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlScanPacketS2C(proOnline, buffer, Length);
 					case OPCODE_SCAN_COMPLETE:
-						return new SceNetAdhocctlScanCompletePacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlScanCompletePacketS2C(proOnline, buffer, Length);
 					case OPCODE_DISCONNECT:
-						return new SceNetAdhocctlDisconnectPacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlDisconnectPacketS2C(proOnline, buffer, Length);
 					case OPCODE_CHAT:
-						return new SceNetAdhocctlChatPacketS2C(proOnline, buffer, length);
+						return new SceNetAdhocctlChatPacketS2C(proOnline, buffer, Length);
 					default:
-						ProOnlineNetworkAdapter.log.error(string.Format("Received unknown S2C opcode {0:D}", buffer[0]));
+						ProOnlineNetworkAdapter.Console.WriteLine(string.Format("Received unknown S2C opcode {0:D}", buffer[0]));
 						break;
 				}
 			}
@@ -717,26 +717,26 @@ namespace pspsharp.network.proonline
 			return null;
 		}
 
-		public virtual SceNetAdhocctlPacketBaseC2S createPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] buffer, int length)
+		public virtual SceNetAdhocctlPacketBaseC2S createPacketC2S(ProOnlineNetworkAdapter proOnline, ProOnlineServer proOnlineServer, sbyte[] buffer, int Length)
 		{
-			if (length > 0)
+			if (Length > 0)
 			{
 				switch (buffer[0])
 				{
 					case OPCODE_LOGIN:
-						return new SceNetAdhocctlLoginPacketC2S(proOnline, proOnlineServer, buffer, length);
+						return new SceNetAdhocctlLoginPacketC2S(proOnline, proOnlineServer, buffer, Length);
 					case OPCODE_PING:
-						return new SceNetAdhocctlPingPacketC2S(proOnline, proOnlineServer, buffer, length);
+						return new SceNetAdhocctlPingPacketC2S(proOnline, proOnlineServer, buffer, Length);
 					case OPCODE_CONNECT:
-						return new SceNetAdhocctlConnectPacketC2S(proOnline, proOnlineServer, buffer, length);
+						return new SceNetAdhocctlConnectPacketC2S(proOnline, proOnlineServer, buffer, Length);
 					case OPCODE_DISCONNECT:
-						return new SceNetAdhocctlDisconnectPacketC2S(proOnline, proOnlineServer, buffer, length);
+						return new SceNetAdhocctlDisconnectPacketC2S(proOnline, proOnlineServer, buffer, Length);
 					case OPCODE_SCAN:
-						return new SceNetAdhocctlScanPacketC2S(proOnline, proOnlineServer, buffer, length);
+						return new SceNetAdhocctlScanPacketC2S(proOnline, proOnlineServer, buffer, Length);
 					case OPCODE_CHAT:
-						return new SceNetAdhocctlChatPacketC2S(proOnline, proOnlineServer, buffer, length);
+						return new SceNetAdhocctlChatPacketC2S(proOnline, proOnlineServer, buffer, Length);
 					default:
-						ProOnlineNetworkAdapter.log.error(string.Format("Received unknown C2S opcode {0:D}", buffer[0]));
+						ProOnlineNetworkAdapter.Console.WriteLine(string.Format("Received unknown C2S opcode {0:D}", buffer[0]));
 						break;
 				}
 			}

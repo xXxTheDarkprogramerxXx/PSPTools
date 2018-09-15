@@ -37,9 +37,9 @@ namespace pspsharp.scheduler
 		{
 			if (sceKernelVTimerInfo.handlerAddress == 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("VTimerInterruptAction with null handler, cancelling the VTimer {0}", sceKernelVTimerInfo));
+					Console.WriteLine(string.Format("VTimerInterruptAction with null handler, cancelling the VTimer {0}", sceKernelVTimerInfo));
 				}
 
 				Modules.ThreadManForUserModule.cancelVTimer(sceKernelVTimerInfo);
@@ -49,9 +49,9 @@ namespace pspsharp.scheduler
 				long now = Scheduler.Now;
 
 				// Trigger interrupt
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Calling VTimer uid=0x{0:X}, now={1:D}", sceKernelVTimerInfo.uid, now));
+					Console.WriteLine(string.Format("Calling VTimer uid=0x{0:X}, now={1:D}", sceKernelVTimerInfo.uid, now));
 				}
 
 				sceKernelVTimerInfo.vtimerInterruptHandler = new VTimerInterruptHandler(sceKernelVTimerInfo);

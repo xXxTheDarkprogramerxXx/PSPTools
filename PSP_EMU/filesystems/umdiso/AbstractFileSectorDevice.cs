@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.filesystems.umdiso
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public abstract class AbstractFileSectorDevice : ISectorDevice
 	{
@@ -42,7 +42,7 @@ namespace pspsharp.filesystems.umdiso
 		{
 			get
 			{
-				return getNumSectors(fileAccess.length(), ISectorDevice_Fields.sectorLength);
+				return getNumSectors(fileAccess.Length(), ISectorDevice_Fields.sectorLength);
 			}
 		}
 

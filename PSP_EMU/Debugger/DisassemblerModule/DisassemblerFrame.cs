@@ -42,7 +42,7 @@ namespace pspsharp.Debugger.DisassemblerModule
 	using MemoryBreakpointsDialog = pspsharp.Debugger.MemoryBreakpoints.MemoryBreakpointsDialog;
 	using DebuggerMemory = pspsharp.memory.DebuggerMemory;
 	using Constants = pspsharp.util.Constants;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// 
 	/// <summary>
@@ -243,14 +243,14 @@ namespace pspsharp.Debugger.DisassemblerModule
 				//label.addStyleRange(new StyleRange(3, -1, Font.BOLD, Color.BLACK));
 
 				// highlight: address, raw opcode, opcode. no operands.
-				int length = 32;
-				if (length > text.Length - 3)
+				int Length = 32;
+				if (Length > text.Length - 3)
 				{
-					length = text.Length - 3;
+					Length = text.Length - 3;
 				}
 
-				label.addStyleRange(new StyleRange(3, length, Font.BOLD, Color.BLACK));
-				// testing label.addStyleRange(new StyleRange(3, length, Font.PLAIN, Color.RED, Color.GREEN, 0));
+				label.addStyleRange(new StyleRange(3, Length, Font.BOLD, Color.BLACK));
+				// testing label.addStyleRange(new StyleRange(3, Length, Font.PLAIN, Color.RED, Color.GREEN, 0));
 
 				// highlight gutter if there is no breakpoint
 				if (!text.StartsWith("<*>", StringComparison.Ordinal))
@@ -296,7 +296,7 @@ namespace pspsharp.Debugger.DisassemblerModule
 			{
 
 				string regName = text.Substring(lastfind);
-				for (int i = 0; i < gprNames.length; i++)
+				for (int i = 0; i < gprNames.Length; i++)
 				{
 					// we still need to check every possible register because a tracked register may not be the first operand
 					if (!regName.StartsWith(gprNames[i], StringComparison.Ordinal))
@@ -450,7 +450,7 @@ namespace pspsharp.Debugger.DisassemblerModule
 
 				// find register in disassembly
 				string regName = text.Substring(lastFind);
-				for (int i = 0; i < gprNames.length; i++)
+				for (int i = 0; i < gprNames.Length; i++)
 				{
 					if (!regName.StartsWith(gprNames[i], StringComparison.Ordinal))
 					{

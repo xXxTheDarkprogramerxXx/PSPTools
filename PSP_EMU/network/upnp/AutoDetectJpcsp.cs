@@ -34,7 +34,7 @@ namespace pspsharp.network.upnp
 	using ProOnlineNetworkAdapter = pspsharp.network.proonline.ProOnlineNetworkAdapter;
 	using ProOnlineServer = pspsharp.network.proonline.ProOnlineServer;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class AutoDetectJpcsp
 	{
@@ -86,7 +86,7 @@ namespace pspsharp.network.upnp
 		{
 			if (OtherJpcspAvailable)
 			{
-				log.debug(string.Format("Other pspsharp is running"));
+				Console.WriteLine(string.Format("Other pspsharp is running"));
 			}
 			else
 			{
@@ -118,8 +118,8 @@ namespace pspsharp.network.upnp
 					if (responsePacket.Length > 0)
 					{
 						string reply = new string(responsePacket.Data, responsePacket.Offset, responsePacket.Length);
-						log.debug(string.Format("Discovery {0}: {1}", deviceName, reply));
-						Pattern p = Pattern.compile("^location: *(\\S+):(\\d+)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+						Console.WriteLine(string.Format("Discovery {0}: {1}", deviceName, reply));
+						Regex p = Pattern.compile("^location: *(\\S+):(\\d+)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 						Matcher m = p.matcher(reply);
 						if (m.find())
 						{
@@ -135,18 +135,18 @@ namespace pspsharp.network.upnp
 						}
 						else
 						{
-							log.error(string.Format("Could not parse discovery response for {0}: {1}", deviceName, reply));
+							Console.WriteLine(string.Format("Could not parse discovery response for {0}: {1}", deviceName, reply));
 						}
 					}
 					socket.close();
 				}
 				catch (SocketTimeoutException e)
 				{
-					log.debug(string.Format("Timeout while discovering pspsharp: {0}", e.Message));
+					Console.WriteLine(string.Format("Timeout while discovering pspsharp: {0}", e.Message));
 				}
 				catch (IOException e)
 				{
-					log.error("Discover pspsharp", e);
+					Console.WriteLine("Discover pspsharp", e);
 				}
     
 				return found;
@@ -188,7 +188,7 @@ namespace pspsharp.network.upnp
 
 			public override void run()
 			{
-				log.debug(string.Format("Starting AutoDetectJpcsp ListenerThread"));
+				Console.WriteLine(string.Format("Starting AutoDetectJpcsp ListenerThread"));
 				sbyte[] response = new sbyte[256];
 
 				while (!exit_Renamed)
@@ -208,7 +208,7 @@ namespace pspsharp.network.upnp
 					}
 					catch (IOException e)
 					{
-						log.error("ListenerThread", e);
+						Console.WriteLine("ListenerThread", e);
 						exit();
 					}
 				}
@@ -218,9 +218,9 @@ namespace pspsharp.network.upnp
 //ORIGINAL LINE: private void processRequest(java.net.MulticastSocket socket, String request, java.net.InetAddress address, int port) throws java.io.IOException
 			internal virtual void processRequest(MulticastSocket socket, string request, InetAddress address, int port)
 			{
-				log.debug(string.Format("Received '{0}' from {1}:{2:D}", request, address, port));
+				Console.WriteLine(string.Format("Received '{0}' from {1}:{2:D}", request, address, port));
 
-				Pattern p = Pattern.compile("SEARCH +\\* +.*^ST: *" + deviceName + "$.*", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
+				Regex p = Pattern.compile("SEARCH +\\* +.*^ST: *" + deviceName + "$.*", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 				Matcher m = p.matcher(request);
 				if (m.find())
 				{
@@ -235,7 +235,7 @@ namespace pspsharp.network.upnp
 					}
 					response.Append(string.Format("Location: {0}:{1:D}", LocalHostIP, netServerPortShift));
 
-					log.debug(string.Format("Sending response '{0}' to {1}:{2:D}", response, address, port));
+					Console.WriteLine(string.Format("Sending response '{0}' to {1}:{2:D}", response, address, port));
 					DatagramPacket packet = new DatagramPacket(response.ToString().GetBytes(), response.Length, address, port);
 					socket.send(packet);
 				}

@@ -55,11 +55,11 @@ namespace pspsharp.HLE.kernel.managers
 	using ThreadWaitInfo = pspsharp.HLE.kernel.types.ThreadWaitInfo;
 	using ThreadManForUser = pspsharp.HLE.modules.ThreadManForUser;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class VplManager
 	{
-		public static Logger log = Modules.getLogger("ThreadManForUser");
+		//public static Logger log = Modules.getLogger("ThreadManForUser");
 
 		private Dictionary<int, SceKernelVplInfo> vplMap;
 		private VplWaitStateChecker vplWaitStateChecker;
@@ -100,7 +100,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("VPL deleted while we were waiting for it! (timeout expired)");
+				Console.WriteLine("VPL deleted while we were waiting for it! (timeout expired)");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -116,7 +116,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("EventFlag deleted while we were waiting for it!");
+				Console.WriteLine("EventFlag deleted while we were waiting for it!");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -178,9 +178,9 @@ namespace pspsharp.HLE.kernel.managers
 				int addr = tryAllocateVpl(info, thread.wait.Vpl_size);
 				if (addr != 0)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("onVplFree waking thread {0}", thread));
+						Console.WriteLine(string.Format("onVplFree waking thread {0}", thread));
 					}
 					// Return allocated address
 					thread.wait.Vpl_dataAddr.setValue(addr);
@@ -226,7 +226,7 @@ namespace pspsharp.HLE.kernel.managers
 			SceUidManager.checkUidPurpose(uid, "ThreadMan-Vpl", true);
 			if (!vplMap.ContainsKey(uid))
 			{
-				log.warn(string.Format("checkVplID unknown uid=0x{0:X}", uid));
+				Console.WriteLine(string.Format("checkVplID unknown uid=0x{0:X}", uid));
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_VPOOL);
 			}
 
@@ -244,7 +244,7 @@ namespace pspsharp.HLE.kernel.managers
 			if (option.NotNull)
 			{
 				int optionSize = option.getValue32();
-				log.warn(string.Format("sceKernelCreateVpl option at {0}, size={1:D}", option, optionSize));
+				Console.WriteLine(string.Format("sceKernelCreateVpl option at {0}, size={1:D}", option, optionSize));
 			}
 
 			int memType = PSP_SMEM_Low;
@@ -255,7 +255,7 @@ namespace pspsharp.HLE.kernel.managers
 
 			if ((attr & ~PSP_VPL_ATTR_MASK) != 0)
 			{
-				log.warn("sceKernelCreateVpl bad attr value 0x" + attr.ToString("x"));
+				Console.WriteLine("sceKernelCreateVpl bad attr value 0x" + attr.ToString("x"));
 				return ERROR_KERNEL_ILLEGAL_ATTR;
 			}
 			if (size == 0)
@@ -273,9 +273,9 @@ namespace pspsharp.HLE.kernel.managers
 				return ERROR_KERNEL_NO_MEMORY;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCreateVpl returning {0}", info));
+				Console.WriteLine(string.Format("sceKernelCreateVpl returning {0}", info));
 			}
 			vplMap[info.uid] = info;
 
@@ -287,7 +287,7 @@ namespace pspsharp.HLE.kernel.managers
 			SceKernelVplInfo info = vplMap.Remove(uid);
 			if (info.freeSize < info.poolSize)
 			{
-				log.warn(string.Format("sceKernelDeleteVpl approx 0x{0:X} unfreed bytes allocated", info.poolSize - info.freeSize));
+				Console.WriteLine(string.Format("sceKernelDeleteVpl approx 0x{0:X} unfreed bytes allocated", info.poolSize - info.freeSize));
 			}
 			info.delete();
 			onVplDeleted(uid);
@@ -307,9 +307,9 @@ namespace pspsharp.HLE.kernel.managers
 			ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 			if (addr == 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelAllocateVpl {0} fast check failed", vpl));
+					Console.WriteLine(string.Format("hleKernelAllocateVpl {0} fast check failed", vpl));
 				}
 				if (!wait)
 				{
@@ -327,9 +327,9 @@ namespace pspsharp.HLE.kernel.managers
 			else
 			{
 				// Success, do not reschedule the current thread.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelAllocateVpl {0} fast check succeeded, allocated addr=0x{1:X8}", vpl, addr));
+					Console.WriteLine(string.Format("hleKernelAllocateVpl {0} fast check succeeded, allocated addr=0x{1:X8}", vpl, addr));
 				}
 				dataAddr.setValue(addr);
 			}
@@ -378,9 +378,9 @@ namespace pspsharp.HLE.kernel.managers
 		public virtual int sceKernelReferVplStatus(int uid, TPointer infoAddr)
 		{
 			SceKernelVplInfo info = vplMap[uid];
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelReferVplStatus returning {0}", info));
+				Console.WriteLine(string.Format("sceKernelReferVplStatus returning {0}", info));
 			}
 			info.write(infoAddr);
 

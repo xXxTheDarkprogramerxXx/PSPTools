@@ -41,7 +41,7 @@ namespace pspsharp.HLE.VFS.memoryStick
 				// Check the MemoryStick's driver status (mscmhc0).
 				case 0x02025801:
 				{
-					log.debug("ioDevctl check ms driver status");
+					Console.WriteLine("ioDevctl check ms driver status");
 					if (outputPointer.AddressGood)
 					{
 						// 0 = Driver busy.
@@ -59,7 +59,7 @@ namespace pspsharp.HLE.VFS.memoryStick
 				// Register MemoryStick's insert/eject callback (mscmhc0).
 				case 0x02015804:
 				{
-					log.debug("ioDevctl register memorystick insert/eject callback (mscmhc0)");
+					Console.WriteLine("ioDevctl register memorystick insert/eject callback (mscmhc0)");
 					ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 					if (inputPointer.AddressGood && inputLength == 4)
 					{
@@ -85,7 +85,7 @@ namespace pspsharp.HLE.VFS.memoryStick
 				// Unregister MemoryStick's insert/eject callback (mscmhc0).
 				case 0x02015805:
 				{
-					log.debug("ioDevctl unregister memorystick insert/eject callback (mscmhc0)");
+					Console.WriteLine("ioDevctl unregister memorystick insert/eject callback (mscmhc0)");
 					ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 					if (inputPointer.AddressGood && inputLength == 4)
 					{
@@ -108,7 +108,7 @@ namespace pspsharp.HLE.VFS.memoryStick
 				// Check if the device is inserted (mscmhc0).
 				case 0x02025806:
 				{
-					log.debug("ioDevctl check ms inserted (mscmhc0)");
+					Console.WriteLine("ioDevctl check ms inserted (mscmhc0)");
 					if (outputPointer.AddressGood && outputLength >= 4)
 					{
 						// 0 = Not inserted.

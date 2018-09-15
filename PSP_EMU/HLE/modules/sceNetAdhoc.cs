@@ -44,11 +44,11 @@ namespace pspsharp.HLE.modules
 	using AbstractBoolSettingsListener = pspsharp.settings.AbstractBoolSettingsListener;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNetAdhoc : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetAdhoc");
+		//public static Logger log = Modules.getLogger("sceNetAdhoc");
 
 		// For test purpose when running 2 different pspsharp instances on the same computer:
 		// one computer has to have netClientPortShift=0 and netServerPortShift=100,
@@ -392,9 +392,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleGameModeUpdate()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleGameModeUpdate"));
+				Console.WriteLine(string.Format("hleGameModeUpdate"));
 			}
 
 			try
@@ -420,9 +420,9 @@ namespace pspsharp.HLE.modules
 							DatagramPacket packet = new DatagramPacket(adhocGameModeMessage.Message, adhocGameModeMessage.MessageLength, socketAddress[i]);
 							gameModeSocket.send(packet);
 
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("GameMode message sent to {0}: {1}", socketAddress[i], adhocGameModeMessage));
+								Console.WriteLine(string.Format("GameMode message sent to {0}: {1}", socketAddress[i], adhocGameModeMessage));
 							}
 						}
 					}
@@ -442,18 +442,18 @@ namespace pspsharp.HLE.modules
 						gameModeSocket.receive(packet);
 						AdhocMessage adhocGameModeMessage = NetworkAdapter.createAdhocGameModeMessage(packet.Data, packet.Length);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("GameMode received: {0}", adhocGameModeMessage));
+							Console.WriteLine(string.Format("GameMode received: {0}", adhocGameModeMessage));
 						}
 
 						foreach (GameModeArea gameModeArea in replicaGameModeAreas)
 						{
 							if (isSameMacAddress(gameModeArea.macAddress.macAddress, adhocGameModeMessage.FromMacAddress))
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("Received new Data for GameMode Area {0}", gameModeArea));
+									Console.WriteLine(string.Format("Received new Data for GameMode Area {0}", gameModeArea));
 								}
 								gameModeArea.NewData = adhocGameModeMessage.Data;
 								break;
@@ -469,7 +469,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("hleGameModeUpdate", e);
+				Console.WriteLine("hleGameModeUpdate", e);
 			}
 		}
 
@@ -477,9 +477,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (gameModeScheduledAction == null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Starting GameMode"));
+					Console.WriteLine(string.Format("Starting GameMode"));
 				}
 				gameModeScheduledAction = new GameModeScheduledAction(GAME_MODE_UPDATE_MICROS);
 				gameModeScheduledAction.start();
@@ -490,9 +490,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (gameModeScheduledAction != null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Stopping GameMode"));
+					Console.WriteLine(string.Format("Stopping GameMode"));
 				}
 				gameModeScheduledAction.stop();
 				gameModeScheduledAction = null;
@@ -576,9 +576,9 @@ namespace pspsharp.HLE.modules
 
 			if (!pdpObjects.ContainsKey(pdpId))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Invalid Pdp Id={0:D}", pdpId));
+					Console.WriteLine(string.Format("Invalid Pdp Id={0:D}", pdpId));
 				}
 				throw new SceKernelErrorException(SceKernelErrors.ERROR_NET_ADHOC_INVALID_SOCKET_ID);
 			}
@@ -592,9 +592,9 @@ namespace pspsharp.HLE.modules
 
 			if (!ptpObjects.ContainsKey(ptpId))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Invalid Ptp Id={0:D}", ptpId));
+					Console.WriteLine(string.Format("Invalid Ptp Id={0:D}", ptpId));
 				}
 				throw new SceKernelErrorException(SceKernelErrors.ERROR_NET_ADHOC_INVALID_SOCKET_ID);
 			}
@@ -750,9 +750,9 @@ namespace pspsharp.HLE.modules
 			{
 				// Allocate a free port
 				port = FreePort;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocPdpCreate: using free port {0:D}", port));
+					Console.WriteLine(string.Format("sceNetAdhocPdpCreate: using free port {0:D}", port));
 				}
 			}
 
@@ -762,16 +762,16 @@ namespace pspsharp.HLE.modules
 			{
 				pdpObjects[pdpObject.Id] = pdpObject;
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocPdpCreate: returning id=0x{0:X}", result));
+					Console.WriteLine(string.Format("sceNetAdhocPdpCreate: returning id=0x{0:X}", result));
 				}
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocPdpCreate: returning error=0x{0:X8}", result));
+					Console.WriteLine(string.Format("sceNetAdhocPdpCreate: returning error=0x{0:X8}", result));
 				}
 			}
 
@@ -785,7 +785,7 @@ namespace pspsharp.HLE.modules
 		/// <param name="destMacAddr"> - The destination MAC address, can be set to all 0xFF for broadcast </param>
 		/// <param name="port"> - The port to send to </param>
 		/// <param name="data"> - The data to send </param>
-		/// <param name="len"> - The length of the data. </param>
+		/// <param name="len"> - The Length of the data. </param>
 		/// <param name="timeout"> - Timeout in microseconds. </param>
 		/// <param name="nonblock"> - Set to 0 to block, 1 for non-blocking.
 		/// </param>
@@ -810,13 +810,13 @@ namespace pspsharp.HLE.modules
 		/// <param name="srcMacAddr"> - Buffer to hold the source mac address of the sender </param>
 		/// <param name="port"> - Buffer to hold the port number of the received data </param>
 		/// <param name="data"> - Data buffer </param>
-		/// <param name="dataLength"> - The length of the data buffer </param>
+		/// <param name="dataLength"> - The Length of the data buffer </param>
 		/// <param name="timeout"> - Timeout in microseconds. </param>
 		/// <param name="nonblock"> - Set to 0 to block, 1 for non-blocking.
 		/// </param>
 		/// <returns> Number of bytes received, < 0 on error. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xDFE53E03, version = 150) public int sceNetAdhocPdpRecv(@CheckArgument("checkPdpId") int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer srcMacAddr, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer16 portAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer data, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 dataLengthAddr, int timeout, int nonblock)
+//ORIGINAL LINE: @HLEFunction(nid = 0xDFE53E03, version = 150) public int sceNetAdhocPdpRecv(@CheckArgument("checkPdpId") int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer srcMacAddr, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer16 portAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer data, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 dataLengthAddr, int timeout, int nonblock)
 		[HLEFunction(nid : 0xDFE53E03, version : 150)]
 		public virtual int sceNetAdhocPdpRecv(int id, TPointer srcMacAddr, TPointer16 portAddr, TPointer data, TPointer32 dataLengthAddr, int timeout, int nonblock)
 		{
@@ -869,9 +869,9 @@ namespace pspsharp.HLE.modules
 
 			int size = sizeAddr.getValue();
 			sizeAddr.setValue(objectInfoSize * pdpObjects.Count);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocGetPdpStat returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetAdhocGetPdpStat returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -896,9 +896,9 @@ namespace pspsharp.HLE.modules
 						// Ignore error
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetAdhocGetPdpStat returning {0} at 0x{1:X8}", pdpObject, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetAdhocGetPdpStat returning {0} at 0x{1:X8}", pdpObject, buf.Address + offset));
 					}
 
 					/// <summary>
@@ -968,9 +968,9 @@ namespace pspsharp.HLE.modules
 
 			ptpObjects[ptpObject.Id] = ptpObject;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocPtpOpen: returning id=0x{0:X}", ptpObject.Id));
+				Console.WriteLine(string.Format("sceNetAdhocPtpOpen: returning id=0x{0:X}", ptpObject.Id));
 			}
 
 			return ptpObject.Id;
@@ -1000,7 +1000,7 @@ namespace pspsharp.HLE.modules
 		/// <param name="bufsize"> - Socket buffer size </param>
 		/// <param name="delay"> - Interval between retrying (microseconds). </param>
 		/// <param name="count"> - Number of retries. </param>
-		/// <param name="queue"> - Connection queue length. </param>
+		/// <param name="queue"> - Connection queue Length. </param>
 		/// <param name="unk1"> - Pass 0.
 		/// </param>
 		/// <returns> A socket ID on success, < 0 on error. </returns>
@@ -1026,9 +1026,9 @@ namespace pspsharp.HLE.modules
 
 			ptpObjects[ptpObject.Id] = ptpObject;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocPtpListen: returning id=0x{0:X}", ptpObject.Id));
+				Console.WriteLine(string.Format("sceNetAdhocPtpListen: returning id=0x{0:X}", ptpObject.Id));
 			}
 
 			return ptpObject.Id;
@@ -1159,9 +1159,9 @@ namespace pspsharp.HLE.modules
 			int size = sizeAddr.getValue();
 			// Return size required
 			sizeAddr.setValue(objectInfoSize * ptpObjects.Count);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocGetPtpStat returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetAdhocGetPtpStat returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -1187,9 +1187,9 @@ namespace pspsharp.HLE.modules
 						// Ignore error
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetAdhocGetPtpStat returning {0} at 0x{1:X8}", ptpObject, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetAdhocGetPtpStat returning {0} at 0x{1:X8}", ptpObject, buf.Address + offset));
 					}
 
 					/// <summary>
@@ -1300,9 +1300,9 @@ namespace pspsharp.HLE.modules
 			if (!found)
 			{
 				GameModeArea gameModeArea = new GameModeArea(macAddress, data.Address, size);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Adding GameMode Replica {0}", gameModeArea));
+					Console.WriteLine(string.Format("Adding GameMode Replica {0}", gameModeArea));
 				}
 				result = gameModeArea.id;
 				replicaGameModeAreas.AddLast(gameModeArea);
@@ -1360,9 +1360,9 @@ namespace pspsharp.HLE.modules
 
 					if (gameModeArea.hasNewData())
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Updating GameMode Area with new data: {0}", gameModeArea));
+							Console.WriteLine(string.Format("Updating GameMode Area with new data: {0}", gameModeArea));
 						}
 						gameModeArea.writeNewData();
 						gameModeArea.resetNewData();

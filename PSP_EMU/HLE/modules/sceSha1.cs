@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SHA1 = pspsharp.crypto.SHA1;
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceSha1 : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSha1");
+		//public static Logger log = Modules.getLogger("sceSha1");
 
 		public override void start()
 		{
@@ -48,9 +48,9 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5AF85569, version = 150) public int sceSha1BlockUpdate(pspsharp.HLE.TPointer sha, pspsharp.HLE.TPointer data, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5AF85569, version = 150) public int sceSha1BlockUpdate(pspsharp.HLE.TPointer sha, pspsharp.HLE.TPointer data, int Length)
 		[HLEFunction(nid : 0x5AF85569, version : 150)]
-		public virtual int sceSha1BlockUpdate(TPointer sha, TPointer data, int length)
+		public virtual int sceSha1BlockUpdate(TPointer sha, TPointer data, int Length)
 		{
 		return 0;
 		}
@@ -64,24 +64,24 @@ namespace pspsharp.HLE.modules
 		}
 
 		[HLEFunction(nid : 0xB94ACDAE, version : 150)]
-		public virtual int sceSha1Digest(TPointer data, int length, TPointer digest)
+		public virtual int sceSha1Digest(TPointer data, int Length, TPointer digest)
 		{
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("sceSha1Digest data:{0}", Utilities.getMemoryDump(data.Address, length)));
+				log.trace(string.Format("sceSha1Digest data:{0}", Utilities.getMemoryDump(data.Address, Length)));
 			}
 
 			// Read in the source data.
-		sbyte[] b = new sbyte[length];
-		IMemoryReader memoryReader = MemoryReader.getMemoryReader(data.Address, length, 1);
-		for (int i = 0; i < length; i++)
+		sbyte[] b = new sbyte[Length];
+		IMemoryReader memoryReader = MemoryReader.getMemoryReader(data.Address, Length, 1);
+		for (int i = 0; i < Length; i++)
 		{
 				b[i] = (sbyte) memoryReader.readNext();
 		}
 
 			// Calculate SHA-1.
 			SHA1 sha1 = new SHA1();
-			sbyte[] d = sha1.doSHA1(b, length);
+			sbyte[] d = sha1.doSHA1(b, Length);
 
 			// Write back the resulting digest.
 			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(digest.Address, 0x14, 1);

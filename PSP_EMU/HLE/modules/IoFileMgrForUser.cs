@@ -105,11 +105,11 @@ namespace pspsharp.HLE.modules
 	using Settings = pspsharp.settings.Settings;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class IoFileMgrForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("IoFileMgrForUser");
+		//public static Logger log = Modules.getLogger("IoFileMgrForUser");
 		private static Logger stdout = Logger.getLogger("stdout");
 		private static Logger stderr = Logger.getLogger("stderr");
 		public const int PSP_O_RDONLY = 0x0001;
@@ -439,19 +439,19 @@ namespace pspsharp.HLE.modules
 				}
 			}
 
-			public virtual void truncate(int length)
+			public virtual void truncate(int Length)
 			{
 				try
 				{
 					// Only valid for msFile.
 					if (msFile != null)
 					{
-						msFile.Length = length;
+						msFile.Length = Length;
 					}
 				}
 				catch (IOException ioe)
 				{
-					log.debug("truncate", ioe);
+					Console.WriteLine("truncate", ioe);
 				}
 			}
 
@@ -666,9 +666,9 @@ namespace pspsharp.HLE.modules
 					{
 						if (Memory.isAddressGood(wait.Io_resultAddr))
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("IoWaitStateChecker - async completed, writing pending result 0x{0:X}", info.result));
+								Console.WriteLine(string.Format("IoWaitStateChecker - async completed, writing pending result 0x{0:X}", info.result));
 							}
 							Memory.Instance.write64(wait.Io_resultAddr, info.result);
 						}
@@ -736,7 +736,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 						result = ERROR_KERNEL_FILE_READ_ERROR;
 					}
 				}
@@ -834,7 +834,7 @@ namespace pspsharp.HLE.modules
 					}
 					catch (IOException e)
 					{
-						log.error("pspiofilemgr - error closing file: " + e.Message);
+						Console.WriteLine("pspiofilemgr - error closing file: " + e.Message);
 					}
 				}
 			}
@@ -1286,13 +1286,13 @@ namespace pspsharp.HLE.modules
 					// check umd is mounted
 					if (iso == null)
 					{
-						log.error("stat - no umd mounted");
+						Console.WriteLine("stat - no umd mounted");
 						Emulator.Processor.cpu._v0 = ERROR_ERRNO_DEVICE_NOT_FOUND;
 					// check umd is activated
 					}
 					else if (!Modules.sceUmdUserModule.UmdActivated)
 					{
-						log.warn("stat - umd mounted but not activated");
+						Console.WriteLine("stat - umd mounted but not activated");
 						Emulator.Processor.cpu._v0 = ERROR_KERNEL_NO_SUCH_DEVICE;
 					}
 					else
@@ -1308,7 +1308,7 @@ namespace pspsharp.HLE.modules
 							// Check for files first.
 							UmdIsoFile file = iso.getFile(isofilename);
 							attr = 0x20;
-							size = file.length();
+							size = file.Length();
 							timestamp = file.Timestamp.Ticks;
 							startSector = file.StartSector;
 							// Octal extend into user and group
@@ -1343,16 +1343,16 @@ namespace pspsharp.HLE.modules
 							}
 							catch (FileNotFoundException)
 							{
-								log.warn("stat - '" + isofilename + "' umd file/dir not found");
+								Console.WriteLine("stat - '" + isofilename + "' umd file/dir not found");
 							}
 							catch (IOException e)
 							{
-								log.warn("stat - umd io error: " + e.Message);
+								Console.WriteLine("stat - umd io error: " + e.Message);
 							}
 						}
 						catch (IOException e)
 						{
-							log.warn("stat - umd io error: " + e.Message);
+							Console.WriteLine("stat - umd io error: " + e.Message);
 						}
 					}
 				}
@@ -1363,7 +1363,7 @@ namespace pspsharp.HLE.modules
 					{
 						int mode = (file.canRead() ? 4 : 0) + (file.canWrite() ? 2 : 0) + (file.canExecute() ? 1 : 0);
 						int attr = 0;
-						long size = file.length();
+						long size = file.Length();
 						long mtime = file.lastModified();
 						// Octal extend into user and group
 						mode = mode + mode * 8 + mode * 64;
@@ -1409,13 +1409,13 @@ namespace pspsharp.HLE.modules
 					// check umd is mounted
 					if (iso == null)
 					{
-						log.error("getFile - no umd mounted");
+						Console.WriteLine("getFile - no umd mounted");
 						return resultFile;
 					// check flags are valid
 					}
 					else if ((flags & PSP_O_WRONLY) == PSP_O_WRONLY || (flags & PSP_O_CREAT) == PSP_O_CREAT || (flags & PSP_O_TRUNC) == PSP_O_TRUNC)
 					{
-						log.error("getFile - refusing to open umd media for write");
+						Console.WriteLine("getFile - refusing to open umd media for write");
 						return resultFile;
 					}
 					else
@@ -1428,14 +1428,14 @@ namespace pspsharp.HLE.modules
 						}
 						catch (FileNotFoundException)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug("getFile - umd file not found '" + pcfilename + "' (ok to ignore this message, debug purpose only)");
+								Console.WriteLine("getFile - umd file not found '" + pcfilename + "' (ok to ignore this message, debug purpose only)");
 							}
 						}
 						catch (IOException e)
 						{
-							log.error("getFile - error opening umd media: " + e.Message);
+							Console.WriteLine("getFile - error opening umd media: " + e.Message);
 						}
 					}
 				}
@@ -1445,16 +1445,16 @@ namespace pspsharp.HLE.modules
 					File file = new File(pcfilename);
 					if (file.exists() && (flags & PSP_O_CREAT) == PSP_O_CREAT && (flags & PSP_O_EXCL) == PSP_O_EXCL)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("getFile - file already exists (PSP_O_CREAT + PSP_O_EXCL)");
+							Console.WriteLine("getFile - file already exists (PSP_O_CREAT + PSP_O_EXCL)");
 						}
 					}
 					else
 					{
 						if (file.exists() && (flags & PSP_O_TRUNC) == PSP_O_TRUNC)
 						{
-							log.warn("getFile - file already exists, deleting UNIMPLEMENT (PSP_O_TRUNC)");
+							Console.WriteLine("getFile - file already exists, deleting UNIMPLEMENT (PSP_O_TRUNC)");
 						}
 						string mode = getMode(flags);
 
@@ -1464,9 +1464,9 @@ namespace pspsharp.HLE.modules
 						}
 						catch (FileNotFoundException)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug("getFile - file not found '" + pcfilename + "' (ok to ignore this message, debug purpose only)");
+								Console.WriteLine("getFile - file not found '" + pcfilename + "' (ok to ignore this message, debug purpose only)");
 							}
 						}
 					}
@@ -1546,9 +1546,9 @@ namespace pspsharp.HLE.modules
 		public virtual void setfilepath(string filepath)
 		{
 			filepath = filepath.replaceAll("\\\\", "/");
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("filepath set to '{0}'", filepath));
+				Console.WriteLine(string.Format("filepath set to '{0}'", filepath));
 			}
 			this.filepath = filepath;
 		}
@@ -1568,7 +1568,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error("Error closing ISO reader", e);
+					Console.WriteLine("Error closing ISO reader", e);
 				}
 				iso = null;
 			}
@@ -1627,9 +1627,9 @@ namespace pspsharp.HLE.modules
 			IoInfo info = fileUids[uid];
 			if (info == null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleAsyncThread non-existing uid={0:x}", uid));
+					Console.WriteLine(string.Format("hleAsyncThread non-existing uid={0:x}", uid));
 				}
 				cpu._v0 = 0; // Exit status
 				// Exit and delete the thread to free its resources (e.g. its stack)
@@ -1637,27 +1637,27 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleAsyncThread id={0:x}", info.id));
+					Console.WriteLine(string.Format("hleAsyncThread id={0:x}", info.id));
 				}
 				bool asyncCompleted = doStepAsync(info);
 				if (threadMan.CurrentThread == info.asyncThread)
 				{
 					if (asyncCompleted)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Async IO completed"));
+							Console.WriteLine(string.Format("Async IO completed"));
 						}
 						// Wait for a new Async IO... wakeup is done by triggerAsyncThread()
 						threadMan.hleKernelSleepThread(false);
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Async IO not yet completed"));
+							Console.WriteLine(string.Format("Async IO not yet completed"));
 						}
 						// Wait for the Async IO to complete...
 						threadMan.hleKernelDelayThread(info.AsyncRestMillis * 1000, false);
@@ -1722,16 +1722,16 @@ namespace pspsharp.HLE.modules
 
 				if (info.asyncThread.StackAddr == 0)
 				{
-					log.warn(string.Format("Cannot start the Async IO thread, not enough memory to create its stack"));
+					Console.WriteLine(string.Format("Cannot start the Async IO thread, not enough memory to create its stack"));
 					threadMan.hleDeleteThread(info.asyncThread);
 					info.asyncThread = null;
 					startResult = SceKernelErrors.ERROR_KERNEL_NO_MEMORY;
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Starting Async IO thread {0}", info.asyncThread));
+						Console.WriteLine(string.Format("Starting Async IO thread {0}", info.asyncThread));
 					}
 					// This must be the last action of the hleIoXXX call because it can context-switch
 					// Inherit $gp from this process ($gp can be used by interrupts)
@@ -1786,18 +1786,18 @@ namespace pspsharp.HLE.modules
 						SceKernelThreadInfo thread = it.Current;
 						if (thread.waitType == JPCSP_WAIT_IO && thread.wait.Io_id == info.id)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug("IoFileMgrForUser.doStepAsync - onContextSwitch waking " + thread.uid.ToString("x") + " thread:'" + thread.name + "'");
+								Console.WriteLine("IoFileMgrForUser.doStepAsync - onContextSwitch waking " + thread.uid.ToString("x") + " thread:'" + thread.name + "'");
 							}
 
 							// Write result
 							Memory mem = Memory.Instance;
 							if (Memory.isAddressGood(thread.wait.Io_resultAddr))
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("IoFileMgrForUser.doStepAsync - storing result 0x{0:X}", info.result));
+									Console.WriteLine(string.Format("IoFileMgrForUser.doStepAsync - storing result 0x{0:X}", info.result));
 								}
 								mem.write64(thread.wait.Io_resultAddr, info.result);
 							}
@@ -1956,11 +1956,11 @@ namespace pspsharp.HLE.modules
 		 */
 		public virtual int hleIoWaitAsync(int id, TPointer64 resAddr, bool wait, bool callbacks)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleIoWaitAsync id=0x%X, res=%s, wait=%b, callbacks=%b", id, resAddr, wait, callbacks));
-				log.debug(string.Format("hleIoWaitAsync id=0x%X, res=%s, wait=%b, callbacks=%b", id, resAddr, wait, callbacks));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleIoWaitAsync id=0x%X, res=%s, wait=%b, callbacks=%b", id, resAddr, wait, callbacks));
+				Console.WriteLine(string.Format("hleIoWaitAsync id=0x%X, res=%s, wait=%b, callbacks=%b", id, resAddr, wait, callbacks));
 			}
 
 			IoInfo info = fileIds[id];
@@ -1970,31 +1970,31 @@ namespace pspsharp.HLE.modules
 				if (id == 0)
 				{
 					// Avoid WARN spam messages
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleIoWaitAsync - unknown id 0x{0:X}", id));
+						Console.WriteLine(string.Format("hleIoWaitAsync - unknown id 0x{0:X}", id));
 					}
 				}
 				else
 				{
-					log.warn(string.Format("hleIoWaitAsync - unknown id 0x{0:X}", id));
+					Console.WriteLine(string.Format("hleIoWaitAsync - unknown id 0x{0:X}", id));
 				}
 				return ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 			}
 
 			if (info.result == ERROR_KERNEL_NO_ASYNC_OP || info.asyncThread == null)
 			{
-				log.debug("hleIoWaitAsync - PSP_ERROR_NO_ASYNC_OP");
+				Console.WriteLine("hleIoWaitAsync - PSP_ERROR_NO_ASYNC_OP");
 				return ERROR_KERNEL_NO_ASYNC_OP;
 			}
 
 			if (info.asyncPending && !wait)
 			{
 				// Polling returns 1 when async is busy.
-				log.debug("hleIoWaitAsync - poll return = 1(busy)");
-				if (log.DebugEnabled)
+				Console.WriteLine("hleIoWaitAsync - poll return = 1(busy)");
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleIoWaitAsync info.result=0x{0:X}", info.result));
+					Console.WriteLine(string.Format("hleIoWaitAsync info.result=0x{0:X}", info.result));
 				}
 				return 1;
 			}
@@ -2009,14 +2009,14 @@ namespace pspsharp.HLE.modules
 
 			if (!info.asyncPending)
 			{
-				log.debug("hleIoWaitAsync - async already completed, not waiting");
+				Console.WriteLine("hleIoWaitAsync - async already completed, not waiting");
 				waitForAsync = false;
 			}
 
 			// The file was marked as closePending, so close it right away to avoid delays.
 			if (info.closePending)
 			{
-				log.debug("hleIoWaitAsync - file marked with closePending, calling hleIoClose, not waiting");
+				Console.WriteLine("hleIoWaitAsync - file marked with closePending, calling hleIoClose, not waiting");
 				info.asyncPending = false;
 				info.asyncResultPending = false;
 				hleIoClose(info.id, false);
@@ -2026,7 +2026,7 @@ namespace pspsharp.HLE.modules
 			// The file was not found at sceIoOpenAsync.
 			if (info.result == ERROR_ERRNO_FILE_NOT_FOUND)
 			{
-				log.debug("hleIoWaitAsync - file not found, not waiting");
+				Console.WriteLine("hleIoWaitAsync - file not found, not waiting");
 				info.close();
 				triggerAsyncThread(info);
 				waitForAsync = false;
@@ -2051,9 +2051,9 @@ namespace pspsharp.HLE.modules
 				// Store the result
 				if (resAddr.NotNull)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleIoWaitAsync - storing result 0x{0:X}", info.result));
+						Console.WriteLine(string.Format("hleIoWaitAsync - storing result 0x{0:X}", info.result));
 					}
 					resAddr.Value = info.result;
 				}
@@ -2085,61 +2085,61 @@ namespace pspsharp.HLE.modules
 			{
 				log.info("hleIoOpen filename = " + filename + " flags = " + flags.ToString("x") + " permissions = 0" + Integer.toOctalString(permissions));
 			}
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				if ((flags & PSP_O_RDONLY) == PSP_O_RDONLY)
 				{
-					log.debug("PSP_O_RDONLY");
+					Console.WriteLine("PSP_O_RDONLY");
 				}
 				if ((flags & PSP_O_WRONLY) == PSP_O_WRONLY)
 				{
-					log.debug("PSP_O_WRONLY");
+					Console.WriteLine("PSP_O_WRONLY");
 				}
 				if ((flags & PSP_O_NBLOCK) == PSP_O_NBLOCK)
 				{
-					log.debug("PSP_O_NBLOCK");
+					Console.WriteLine("PSP_O_NBLOCK");
 				}
 				if ((flags & PSP_O_DIROPEN) == PSP_O_DIROPEN)
 				{
-					log.debug("PSP_O_DIROPEN");
+					Console.WriteLine("PSP_O_DIROPEN");
 				}
 				if ((flags & PSP_O_APPEND) == PSP_O_APPEND)
 				{
-					log.debug("PSP_O_APPEND");
+					Console.WriteLine("PSP_O_APPEND");
 				}
 				if ((flags & PSP_O_CREAT) == PSP_O_CREAT)
 				{
-					log.debug("PSP_O_CREAT");
+					Console.WriteLine("PSP_O_CREAT");
 				}
 				if ((flags & PSP_O_TRUNC) == PSP_O_TRUNC)
 				{
-					log.debug("PSP_O_TRUNC");
+					Console.WriteLine("PSP_O_TRUNC");
 				}
 				if ((flags & PSP_O_EXCL) == PSP_O_EXCL)
 				{
-					log.debug("PSP_O_EXCL");
+					Console.WriteLine("PSP_O_EXCL");
 				}
 				if ((flags & PSP_O_NBUF) == PSP_O_NBUF)
 				{
-					log.debug("PSP_O_NBUF");
+					Console.WriteLine("PSP_O_NBUF");
 				}
 				if ((flags & PSP_O_NOWAIT) == PSP_O_NOWAIT)
 				{
-					log.debug("PSP_O_NOWAIT");
+					Console.WriteLine("PSP_O_NOWAIT");
 				}
 				if ((flags & PSP_O_PLOCK) == PSP_O_PLOCK)
 				{
-					log.debug("PSP_O_PLOCK");
+					Console.WriteLine("PSP_O_PLOCK");
 				}
 				if ((flags & PSP_O_FGAMEDATA) == PSP_O_FGAMEDATA)
 				{
-					log.debug("PSP_O_FGAMEDATA");
+					Console.WriteLine("PSP_O_FGAMEDATA");
 				}
 			}
 			string mode = getMode(flags);
 			if (string.ReferenceEquals(mode, null))
 			{
-				log.error("hleIoOpen - unhandled flags " + flags.ToString("x"));
+				Console.WriteLine("hleIoOpen - unhandled flags " + flags.ToString("x"));
 				foreach (IIoListener ioListener in ioListeners)
 				{
 					ioListener.sceIoOpen(-1, filename_addr, filename, flags, permissions, mode);
@@ -2155,7 +2155,7 @@ namespace pspsharp.HLE.modules
 			}
 			if ((flags & PSP_O_RDONLY) == PSP_O_RDONLY && (flags & PSP_O_APPEND) == PSP_O_APPEND)
 			{
-				log.warn("hleIoOpen - read and append flags both set!");
+				Console.WriteLine("hleIoOpen - read and append flags both set!");
 			}
 
 			IoInfo info = null;
@@ -2181,41 +2181,41 @@ namespace pspsharp.HLE.modules
 						info.sectorBlockMode = vFile.SectorBlockMode;
 						info.result = ERROR_KERNEL_NO_ASYNC_OP;
 						result = info.id;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("hleIoOpen assigned id = 0x" + info.id.ToString("x"));
+							Console.WriteLine("hleIoOpen assigned id = 0x" + info.id.ToString("x"));
 						}
 					}
 				}
 				else if (useVirtualFileSystem)
 				{
-					log.error(string.Format("hleIoOpen - device not found '{0}'", filename));
+					Console.WriteLine(string.Format("hleIoOpen - device not found '{0}'", filename));
 					result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 				}
 				else if (!string.ReferenceEquals(pcfilename, null))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("hleIoOpen - opening file " + pcfilename);
+						Console.WriteLine("hleIoOpen - opening file " + pcfilename);
 					}
 					if (isUmdPath(pcfilename))
 					{
 						// Check umd is mounted.
 						if (iso == null)
 						{
-							log.error("hleIoOpen - no umd mounted");
+							Console.WriteLine("hleIoOpen - no umd mounted");
 							result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 						// Check umd is activated.
 						}
 						else if (!Modules.sceUmdUserModule.UmdActivated)
 						{
-							log.warn("hleIoOpen - umd mounted but not activated");
+							Console.WriteLine("hleIoOpen - umd mounted but not activated");
 							result = ERROR_KERNEL_NO_SUCH_DEVICE;
 						// Check flags are valid.
 						}
 						else if ((flags & PSP_O_WRONLY) == PSP_O_WRONLY || (flags & PSP_O_CREAT) == PSP_O_CREAT || (flags & PSP_O_TRUNC) == PSP_O_TRUNC)
 						{
-							log.error("hleIoOpen - refusing to open umd media for write");
+							Console.WriteLine("hleIoOpen - refusing to open umd media for write");
 							result = ERROR_ERRNO_READ_ONLY;
 						}
 						else
@@ -2237,7 +2237,7 @@ namespace pspsharp.HLE.modules
 								if (!info.ValidId)
 								{
 									// Too many open files...
-									log.warn(string.Format("hleIoOpen - too many open files"));
+									Console.WriteLine(string.Format("hleIoOpen - too many open files"));
 									result = ERROR_KERNEL_TOO_MANY_OPEN_FILES;
 									// Return immediately the error, even in async mode
 									async = false;
@@ -2251,23 +2251,23 @@ namespace pspsharp.HLE.modules
 									}
 									info.result = ERROR_KERNEL_NO_ASYNC_OP;
 									result = info.id;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug("hleIoOpen assigned id = 0x" + info.id.ToString("x"));
+										Console.WriteLine("hleIoOpen assigned id = 0x" + info.id.ToString("x"));
 									}
 								}
 							}
 							catch (FileNotFoundException)
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug("hleIoOpen - umd file not found (ok to ignore this message, debug purpose only)");
+									Console.WriteLine("hleIoOpen - umd file not found (ok to ignore this message, debug purpose only)");
 								}
 								result = ERROR_ERRNO_FILE_NOT_FOUND;
 							}
 							catch (IOException e)
 							{
-								log.error("hleIoOpen - error opening umd media: " + e.Message);
+								Console.WriteLine("hleIoOpen - error opening umd media: " + e.Message);
 								result = -1;
 							}
 						}
@@ -2278,9 +2278,9 @@ namespace pspsharp.HLE.modules
 						File file = new File(pcfilename);
 						if (file.exists() && (flags & PSP_O_CREAT) == PSP_O_CREAT && (flags & PSP_O_EXCL) == PSP_O_EXCL)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug("hleIoOpen - file already exists (PSP_O_CREAT + PSP_O_EXCL)");
+								Console.WriteLine("hleIoOpen - file already exists (PSP_O_CREAT + PSP_O_EXCL)");
 							}
 							result = ERROR_ERRNO_FILE_ALREADY_EXISTS;
 						}
@@ -2307,9 +2307,9 @@ namespace pspsharp.HLE.modules
 							}
 							info.result = ERROR_KERNEL_NO_ASYNC_OP; // sceIoOpenAsync will set this properly
 							result = info.id;
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug("hleIoOpen assigned id = 0x" + info.id.ToString("x"));
+								Console.WriteLine("hleIoOpen assigned id = 0x" + info.id.ToString("x"));
 							}
 						}
 					}
@@ -2322,18 +2322,18 @@ namespace pspsharp.HLE.modules
 			catch (FileNotFoundException)
 			{
 				// To be expected under mode="r" and file doesn't exist
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("hleIoOpen - file not found (ok to ignore this message, debug purpose only)");
+					Console.WriteLine("hleIoOpen - file not found (ok to ignore this message, debug purpose only)");
 				}
 				result = ERROR_ERRNO_FILE_NOT_FOUND;
 			}
 
 			if (result == ERROR_ERRNO_FILE_NOT_FOUND && filepath.Equals("disc0/") && !filename.Contains(":") && !filename.Contains("/"))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleIoOpen - no current directory set filepath='{0}', filename='{1}'", filepath, filename));
+					Console.WriteLine(string.Format("hleIoOpen - no current directory set filepath='{0}', filename='{1}'", filepath, filename));
 				}
 				result = ERROR_KERNEL_NOCWD;
 			}
@@ -2348,7 +2348,7 @@ namespace pspsharp.HLE.modules
 				int realResult = result;
 				if (info == null)
 				{
-					log.debug("sceIoOpenAsync - file not found (ok to ignore this message, debug purpose only)");
+					Console.WriteLine("sceIoOpenAsync - file not found (ok to ignore this message, debug purpose only)");
 					// For async we still need to make and return a file handle even if we couldn't open the file,
 					// this is so the game can query on the handle (wait/async stat/io callback).
 					info = new IoInfo(this, readStringZ(filename_addr), (SeekableDataInput) null, null, flags, permissions);
@@ -2379,9 +2379,9 @@ namespace pspsharp.HLE.modules
 			{
 				// Cannot close stdin, stdout, stderr
 				result = SceKernelErrors.ERROR_KERNEL_ILLEGAL_PERMISSION;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_ILLEGAL_PERMISSION(0x{1:X8})", id, result));
+					Console.WriteLine(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_ILLEGAL_PERMISSION(0x{1:X8})", id, result));
 				}
 			}
 			else if (async)
@@ -2391,9 +2391,9 @@ namespace pspsharp.HLE.modules
 					if (info.asyncPending || info.asyncResultPending)
 					{
 						result = ERROR_KERNEL_ASYNC_BUSY;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_ASYNC_BUSY(0x{1:X8})", id, result));
+							Console.WriteLine(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_ASYNC_BUSY(0x{1:X8})", id, result));
 						}
 					}
 					else
@@ -2405,9 +2405,9 @@ namespace pspsharp.HLE.modules
 				else
 				{
 					result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_BAD_FILE_DESCRIPTOR(0x{1:X8})", id, result));
+						Console.WriteLine(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_BAD_FILE_DESCRIPTOR(0x{1:X8})", id, result));
 					}
 				}
 			}
@@ -2418,18 +2418,18 @@ namespace pspsharp.HLE.modules
 					if (info == null)
 					{
 						result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_BAD_FILE_DESCRIPTOR(0x{1:X8})", id, result));
+							Console.WriteLine(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_BAD_FILE_DESCRIPTOR(0x{1:X8})", id, result));
 						}
 					}
 					else if (info.asyncPending || info.asyncResultPending)
 					{
 						// Cannot close while an async operation is running
 						result = ERROR_KERNEL_ASYNC_BUSY;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_ASYNC_BUSY(0x{1:X8})", id, result));
+							Console.WriteLine(string.Format("sceIoClose id=0x{0:X} returning ERROR_KERNEL_ASYNC_BUSY(0x{1:X8})", id, result));
 						}
 					}
 					else
@@ -2453,7 +2453,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error("pspiofilemgr - error closing file: " + e.Message);
+					Console.WriteLine("pspiofilemgr - error closing file: " + e.Message);
 					result = -1;
 				}
 				foreach (IIoListener ioListener in ioListeners)
@@ -2496,11 +2496,11 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleIoWrite(id=0x%X, data=%s, size=0x%X) async=%b", id, dataAddr, size, async));
-					log.debug(string.Format("hleIoWrite(id=0x%X, data=%s, size=0x%X) async=%b", id, dataAddr, size, async));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleIoWrite(id=0x%X, data=%s, size=0x%X) async=%b", id, dataAddr, size, async));
+					Console.WriteLine(string.Format("hleIoWrite(id=0x%X, data=%s, size=0x%X) async=%b", id, dataAddr, size, async));
 					if (log.TraceEnabled)
 					{
 						log.trace(string.Format("hleIoWrite: {0}", Utilities.getMemoryDump(dataAddr.Address, System.Math.Min(size, 32))));
@@ -2511,17 +2511,17 @@ namespace pspsharp.HLE.modules
 					info = fileIds[id];
 					if (info == null)
 					{
-						log.warn("hleIoWrite - unknown id " + id.ToString("x"));
+						Console.WriteLine("hleIoWrite - unknown id " + id.ToString("x"));
 						result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 					}
 					else if (info.asyncPending || info.asyncResultPending)
 					{
-						log.warn("hleIoWrite - id " + id.ToString("x") + " PSP_ERROR_ASYNC_BUSY");
+						Console.WriteLine("hleIoWrite - id " + id.ToString("x") + " PSP_ERROR_ASYNC_BUSY");
 						result = ERROR_KERNEL_ASYNC_BUSY;
 					}
 					else if ((dataAddr.Address < MemoryMap.START_RAM) && (dataAddr.Address + size > MemoryMap.END_RAM))
 					{
-						log.warn("hleIoWrite - id " + id.ToString("x") + " data is outside of ram 0x" + dataAddr.Address.ToString("x") + " - 0x" + (dataAddr.Address + size).ToString("x"));
+						Console.WriteLine("hleIoWrite - id " + id.ToString("x") + " data is outside of ram 0x" + dataAddr.Address.ToString("x") + " - 0x" + (dataAddr.Address + size).ToString("x"));
 						result = -1;
 					}
 					else if ((info.flags & PSP_O_RDWR) == PSP_O_RDONLY)
@@ -2533,15 +2533,15 @@ namespace pspsharp.HLE.modules
 						timings = info.vFile.Timings;
 						if ((info.flags & PSP_O_APPEND) == PSP_O_APPEND)
 						{
-							info.vFile.ioLseek(info.vFile.length());
-							info.position = info.vFile.length();
+							info.vFile.ioLseek(info.vFile.Length());
+							info.position = info.vFile.Length();
 						}
 
-						if (info.position > info.vFile.length())
+						if (info.position > info.vFile.Length())
 						{
-							int towrite = (int)(info.position - info.vFile.length());
+							int towrite = (int)(info.position - info.vFile.Length());
 
-							info.vFile.ioLseek(info.vFile.length());
+							info.vFile.ioLseek(info.vFile.Length());
 							while (towrite > 0)
 							{
 								result = info.vFile.ioWrite(dataAddr, 1);
@@ -2563,16 +2563,16 @@ namespace pspsharp.HLE.modules
 					{
 						if ((info.flags & PSP_O_APPEND) == PSP_O_APPEND)
 						{
-							info.msFile.seek(info.msFile.length());
-							info.position = info.msFile.length();
+							info.msFile.seek(info.msFile.Length());
+							info.position = info.msFile.Length();
 						}
 
-						if (info.position > info.readOnlyFile.length())
+						if (info.position > info.readOnlyFile.Length())
 						{
 							sbyte[] junk = new sbyte[512];
-							int towrite = (int)(info.position - info.readOnlyFile.length());
+							int towrite = (int)(info.position - info.readOnlyFile.Length());
 
-							info.msFile.seek(info.msFile.length());
+							info.msFile.seek(info.msFile.Length());
 							while (towrite >= 512)
 							{
 								info.msFile.write(junk, 0, 512);
@@ -2587,7 +2587,7 @@ namespace pspsharp.HLE.modules
 						if (info.TruncateAtNextWrite)
 						{
 							// The file was open with PSP_O_TRUNC: truncate the file at the first write
-							if (info.position < info.readOnlyFile.length())
+							if (info.position < info.readOnlyFile.Length())
 							{
 								info.truncate((int) info.position);
 							}
@@ -2638,7 +2638,7 @@ namespace pspsharp.HLE.modules
 
 			if (id == STDIN_ID)
 			{ // stdin
-				log.warn("UNIMPLEMENTED:hleIoRead id = stdin");
+				Console.WriteLine("UNIMPLEMENTED:hleIoRead id = stdin");
 				result = 0;
 			}
 			else
@@ -2648,17 +2648,17 @@ namespace pspsharp.HLE.modules
 					info = fileIds[id];
 					if (info == null)
 					{
-						log.warn("hleIoRead - unknown id " + id.ToString("x"));
+						Console.WriteLine("hleIoRead - unknown id " + id.ToString("x"));
 						result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 					}
 					else if (info.asyncPending || info.asyncResultPending)
 					{
-						log.warn("hleIoRead - id " + id.ToString("x") + " PSP_ERROR_ASYNC_BUSY");
+						Console.WriteLine("hleIoRead - id " + id.ToString("x") + " PSP_ERROR_ASYNC_BUSY");
 						result = ERROR_KERNEL_ASYNC_BUSY;
 					}
 					else if ((data_addr < MemoryMap.START_RAM) && (data_addr + size > MemoryMap.END_RAM))
 					{
-						log.warn("hleIoRead - id " + id.ToString("x") + " data is outside of ram 0x" + data_addr.ToString("x") + " - 0x" + (data_addr + size).ToString("x"));
+						Console.WriteLine("hleIoRead - id " + id.ToString("x") + " data is outside of ram 0x" + data_addr.ToString("x") + " - 0x" + (data_addr + size).ToString("x"));
 						result = ERROR_KERNEL_FILE_READ_ERROR;
 					}
 					else if ((info.flags & PSP_O_RDWR) == PSP_O_WRONLY)
@@ -2675,13 +2675,13 @@ namespace pspsharp.HLE.modules
 						}
 						// Using readFully for ms/umd compatibility, but now we must
 						// manually make sure it doesn't read off the end of the file.
-						if (info.position + size > info.vFile.length())
+						if (info.position + size > info.vFile.Length())
 						{
 							int oldSize = size;
-							size = (int)(info.vFile.length() - info.position);
-							if (log.DebugEnabled)
+							size = (int)(info.vFile.Length() - info.position);
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("hleIoRead - clamping size old={0:D}, new={1:D}, position={2:D}, len={3:D}", oldSize, size, info.position, info.vFile.length()));
+								Console.WriteLine(string.Format("hleIoRead - clamping size old={0:D}, new={1:D}, position={2:D}, len={3:D}", oldSize, size, info.position, info.vFile.Length()));
 							}
 						}
 
@@ -2720,7 +2720,7 @@ namespace pspsharp.HLE.modules
 							}
 						}
 					}
-					else if ((info.readOnlyFile == null) || (info.position >= info.readOnlyFile.length()))
+					else if ((info.readOnlyFile == null) || (info.position >= info.readOnlyFile.Length()))
 					{
 						// Ignore empty handles and allow seeking off the end of the file, just return 0 bytes read/written.
 						result = 0;
@@ -2734,13 +2734,13 @@ namespace pspsharp.HLE.modules
 						}
 						// Using readFully for ms/umd compatibility, but now we must
 						// manually make sure it doesn't read off the end of the file.
-						if (info.readOnlyFile.FilePointer + size > info.readOnlyFile.length())
+						if (info.readOnlyFile.FilePointer + size > info.readOnlyFile.Length())
 						{
 							int oldSize = size;
-							size = (int)(info.readOnlyFile.length() - info.readOnlyFile.FilePointer);
-							if (log.DebugEnabled)
+							size = (int)(info.readOnlyFile.Length() - info.readOnlyFile.FilePointer);
+							//if (log.DebugEnabled)
 							{
-								log.debug("hleIoRead - clamping size old=" + oldSize + " new=" + size + " fp=" + info.readOnlyFile.FilePointer + " len=" + info.readOnlyFile.length());
+								Console.WriteLine("hleIoRead - clamping size old=" + oldSize + " new=" + size + " fp=" + info.readOnlyFile.FilePointer + " len=" + info.readOnlyFile.Length());
 							}
 						}
 
@@ -2775,12 +2775,12 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.error("hleIoRead", e);
+					Console.WriteLine("hleIoRead", e);
 					result = ERROR_KERNEL_FILE_READ_ERROR;
 				}
 				catch (Exception e)
 				{
-					log.error("hleIoRead", e);
+					Console.WriteLine("hleIoRead", e);
 					result = ERROR_KERNEL_FILE_READ_ERROR;
 				}
 			}
@@ -2813,7 +2813,7 @@ namespace pspsharp.HLE.modules
 
 			if (id == STDOUT_ID || id == STDERR_ID || id == STDIN_ID)
 			{ // stdio
-				log.error("seek - can't seek on stdio id " + id.ToString("x"));
+				Console.WriteLine("seek - can't seek on stdio id " + id.ToString("x"));
 				result = -1;
 			}
 			else
@@ -2823,12 +2823,12 @@ namespace pspsharp.HLE.modules
 					info = fileIds[id];
 					if (info == null)
 					{
-						log.warn("seek - unknown id " + id.ToString("x"));
+						Console.WriteLine("seek - unknown id " + id.ToString("x"));
 						result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 					}
 					else if (info.asyncPending || info.asyncResultPending)
 					{
-						log.warn("seek - id " + id.ToString("x") + " PSP_ERROR_ASYNC_BUSY");
+						Console.WriteLine("seek - id " + id.ToString("x") + " PSP_ERROR_ASYNC_BUSY");
 						result = ERROR_KERNEL_ASYNC_BUSY;
 					}
 					else if (info.vFile != null)
@@ -2850,10 +2850,10 @@ namespace pspsharp.HLE.modules
 								newPosition = info.position + offset;
 								break;
 							case PSP_SEEK_END:
-								newPosition = info.vFile.length() + offset;
+								newPosition = info.vFile.Length() + offset;
 								break;
 							default:
-								log.error(string.Format("seek - unhandled whence {0:D}", whence));
+								Console.WriteLine(string.Format("seek - unhandled whence {0:D}", whence));
 								// Force an invalid argument error
 								newPosition = -1;
 								break;
@@ -2863,7 +2863,7 @@ namespace pspsharp.HLE.modules
 						{
 							info.position = newPosition;
 
-							if (info.position <= info.vFile.length())
+							if (info.position <= info.vFile.Length())
 							{
 								info.vFile.ioLseek(info.position);
 							}
@@ -2898,7 +2898,7 @@ namespace pspsharp.HLE.modules
 							case PSP_SEEK_SET:
 								if (offset < 0)
 								{
-									log.warn("SEEK_SET id " + id.ToString("x") + " filename:'" + info.filename + "' offset=0x" + offset.ToString("x") + " (less than 0!)");
+									Console.WriteLine("SEEK_SET id " + id.ToString("x") + " filename:'" + info.filename + "' offset=0x" + offset.ToString("x") + " (less than 0!)");
 									// PSP returns -1 for this case
 									result = -1;
 									foreach (IIoListener ioListener in ioListeners)
@@ -2909,7 +2909,7 @@ namespace pspsharp.HLE.modules
 								}
 								info.position = offset;
 
-								if (offset <= info.readOnlyFile.length())
+								if (offset <= info.readOnlyFile.Length())
 								{
 									info.readOnlyFile.seek(offset);
 								}
@@ -2917,7 +2917,7 @@ namespace pspsharp.HLE.modules
 							case PSP_SEEK_CUR:
 								if (info.position + offset < 0)
 								{
-									log.warn("SEEK_CUR id " + id.ToString("x") + " filename:'" + info.filename + "' newposition=0x" + (info.position + offset).ToString("x") + " (less than 0!)");
+									Console.WriteLine("SEEK_CUR id " + id.ToString("x") + " filename:'" + info.filename + "' newposition=0x" + (info.position + offset).ToString("x") + " (less than 0!)");
 									// PSP returns -1 for this case
 									result = -1;
 									foreach (IIoListener ioListener in ioListeners)
@@ -2928,15 +2928,15 @@ namespace pspsharp.HLE.modules
 								}
 								info.position += offset;
 
-								if (info.position <= info.readOnlyFile.length())
+								if (info.position <= info.readOnlyFile.Length())
 								{
 									info.readOnlyFile.seek(info.position);
 								}
 								break;
 							case PSP_SEEK_END:
-								if (info.readOnlyFile.length() + offset < 0)
+								if (info.readOnlyFile.Length() + offset < 0)
 								{
-									log.warn("SEEK_END id " + id.ToString("x") + " filename:'" + info.filename + "' newposition=0x" + (info.position + offset).ToString("x") + " (less than 0!)");
+									Console.WriteLine("SEEK_END id " + id.ToString("x") + " filename:'" + info.filename + "' newposition=0x" + (info.position + offset).ToString("x") + " (less than 0!)");
 									// PSP returns -1 for this case
 									result = -1;
 									foreach (IIoListener ioListener in ioListeners)
@@ -2945,15 +2945,15 @@ namespace pspsharp.HLE.modules
 									}
 									return result;
 								}
-								info.position = info.readOnlyFile.length() + offset;
+								info.position = info.readOnlyFile.Length() + offset;
 
-								if (info.position <= info.readOnlyFile.length())
+								if (info.position <= info.readOnlyFile.Length())
 								{
 									info.readOnlyFile.seek(info.position);
 								}
 								break;
 							default:
-								log.error("seek - unhandled whence " + whence);
+								Console.WriteLine("seek - unhandled whence " + whence);
 								break;
 						}
 						result = info.position;
@@ -2987,9 +2987,9 @@ namespace pspsharp.HLE.modules
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleIoLseek returning 0x{0:X}", result));
+				Console.WriteLine(string.Format("hleIoLseek returning 0x{0:X}", result));
 			}
 
 			if (!async)
@@ -3008,23 +3008,23 @@ namespace pspsharp.HLE.modules
 			Memory mem = Memory.Instance;
 			bool needDelayIoOperation = true;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleIoIoctl(id=%x, cmd=0x%08X, indata=0x%08X, inlen=%d, outdata=0x%08X, outlen=%d, async=%b", id, cmd, indata_addr, inlen, outdata_addr, outlen, async));
-				log.debug(string.Format("hleIoIoctl(id=%x, cmd=0x%08X, indata=0x%08X, inlen=%d, outdata=0x%08X, outlen=%d, async=%b", id, cmd, indata_addr, inlen, outdata_addr, outlen, async));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleIoIoctl(id=%x, cmd=0x%08X, indata=0x%08X, inlen=%d, outdata=0x%08X, outlen=%d, async=%b", id, cmd, indata_addr, inlen, outdata_addr, outlen, async));
+				Console.WriteLine(string.Format("hleIoIoctl(id=%x, cmd=0x%08X, indata=0x%08X, inlen=%d, outdata=0x%08X, outlen=%d, async=%b", id, cmd, indata_addr, inlen, outdata_addr, outlen, async));
 				if (Memory.isAddressGood(indata_addr))
 				{
 					for (int i = 0; i < inlen; i += 4)
 					{
-						log.debug(string.Format("hleIoIoctl indata[{0:D}]=0x{1:X8}", i / 4, mem.read32(indata_addr + i)));
+						Console.WriteLine(string.Format("hleIoIoctl indata[{0:D}]=0x{1:X8}", i / 4, mem.read32(indata_addr + i)));
 					}
 				}
 				if (Memory.isAddressGood(outdata_addr))
 				{
 					for (int i = 0; i < System.Math.Min(outlen, 256); i += 4)
 					{
-						log.debug(string.Format("hleIoIoctl outdata[{0:D}]=0x{1:X8}", i / 4, mem.read32(outdata_addr + i)));
+						Console.WriteLine(string.Format("hleIoIoctl outdata[{0:D}]=0x{1:X8}", i / 4, mem.read32(outdata_addr + i)));
 					}
 				}
 			}
@@ -3043,33 +3043,33 @@ namespace pspsharp.HLE.modules
 							{
 								int fileNameFilterAddr = mem.read32(indata_addr);
 								dirInfo.fileNameFilter = Utilities.readStringZ(mem, fileNameFilterAddr);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("hleIoIoctl settings sceIoDread file name filter '{0}'", dirInfo.fileNameFilter));
+									Console.WriteLine(string.Format("hleIoIoctl settings sceIoDread file name filter '{0}'", dirInfo.fileNameFilter));
 								}
 								result = 0;
 							}
 							else
 							{
-								log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} 0x{1:X8} {2:D} unsupported parameters", cmd, indata_addr, inlen));
+								Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} 0x{1:X8} {2:D} unsupported parameters", cmd, indata_addr, inlen));
 								result = ERROR_INVALID_ARGUMENT;
 							}
 							break;
 						default:
 							result = -1;
-							log.warn(string.Format("hleIoIoctl 0x{0:X8} unknown command on IoDirInfo, inlen={1:D}, outlen={2:D}", cmd, inlen, outlen));
+							Console.WriteLine(string.Format("hleIoIoctl 0x{0:X8} unknown command on IoDirInfo, inlen={1:D}, outlen={2:D}", cmd, inlen, outlen));
 							if (Memory.isAddressGood(indata_addr))
 							{
 								for (int i = 0; i < inlen; i += 4)
 								{
-									log.warn(string.Format("hleIoIoctl indata[{0:D}]=0x{1:X8}", i / 4, mem.read32(indata_addr + i)));
+									Console.WriteLine(string.Format("hleIoIoctl indata[{0:D}]=0x{1:X8}", i / 4, mem.read32(indata_addr + i)));
 								}
 							}
 							if (Memory.isAddressGood(outdata_addr))
 							{
 								for (int i = 0; i < System.Math.Min(outlen, 256); i += 4)
 								{
-									log.warn(string.Format("hleIoIoctl outdata[{0:D}]=0x{1:X8}", i / 4, mem.read32(outdata_addr + i)));
+									Console.WriteLine(string.Format("hleIoIoctl outdata[{0:D}]=0x{1:X8}", i / 4, mem.read32(outdata_addr + i)));
 								}
 							}
 							break;
@@ -3077,14 +3077,14 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					log.warn(string.Format("hleIoIoctl - unknown id 0x{0:X}", id));
+					Console.WriteLine(string.Format("hleIoIoctl - unknown id 0x{0:X}", id));
 					result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 				}
 			}
 			else if (info.asyncPending || info.asyncResultPending)
 			{
 				// Can't execute another operation until the previous one completed
-				log.warn(string.Format("hleIoIoctl - id 0x{0:X} PSP_ERROR_ASYNC_BUSY", id));
+				Console.WriteLine(string.Format("hleIoIoctl - id 0x{0:X} PSP_ERROR_ASYNC_BUSY", id));
 				result = ERROR_KERNEL_ASYNC_BUSY;
 			}
 			else if (info.vFile != null && cmd != 0x04100001)
@@ -3106,7 +3106,7 @@ namespace pspsharp.HLE.modules
 								try
 								{
 									int offset = mem.read32(indata_addr);
-									log.debug("hleIoIoctl umd file seek set " + offset);
+									Console.WriteLine("hleIoIoctl umd file seek set " + offset);
 									info.readOnlyFile.seek(offset);
 									info.position = offset;
 									result = 0;
@@ -3114,19 +3114,19 @@ namespace pspsharp.HLE.modules
 								catch (IOException e)
 								{
 									// Should never happen?
-									log.warn("hleIoIoctl cmd=0x01010005 exception: " + e.Message);
+									Console.WriteLine("hleIoIoctl cmd=0x01010005 exception: " + e.Message);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01010005 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01010005 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01010005 " + string.Format("0x{0:X8} {1:D}", indata_addr, inlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01010005 " + string.Format("0x{0:X8} {1:D}", indata_addr, inlen) + " unsupported parameters");
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3136,16 +3136,16 @@ namespace pspsharp.HLE.modules
 					{
 						if (Memory.isAddressGood(indata_addr) && inlen >= 4)
 						{
-							int length = mem.read32(indata_addr);
+							int Length = mem.read32(indata_addr);
 							if (log.InfoEnabled)
 							{
-								log.info(string.Format("hleIoIoctl cmd=0x{0:X8} length=0x{1:X}", cmd, length));
+								log.info(string.Format("hleIoIoctl cmd=0x{0:X8} Length=0x{1:X}", cmd, Length));
 							}
 							result = 0;
 						}
 						else
 						{
-							log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} 0x{1:X8} {2:D} unsupported parameters", cmd, indata_addr, inlen));
+							Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} 0x{1:X8} {2:D} unsupported parameters", cmd, indata_addr, inlen));
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3170,19 +3170,19 @@ namespace pspsharp.HLE.modules
 								}
 								catch (IOException e)
 								{
-									log.error(e);
+									Console.WriteLine(e);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01020001 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01020001 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01020001 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01020001 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
 							result = SceKernelErrors.ERROR_ERRNO_INVALID_ARGUMENT;
 						}
 						break;
@@ -3211,19 +3211,19 @@ namespace pspsharp.HLE.modules
 								}
 								catch (IOException e)
 								{
-									log.error(e);
+									Console.WriteLine(e);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01020002 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01020002 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01020002 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01020002 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
 							result = SceKernelErrors.ERROR_ERRNO_INVALID_ARGUMENT;
 						}
 						break;
@@ -3240,13 +3240,13 @@ namespace pspsharp.HLE.modules
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01020003 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01020003 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01020003 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01020003 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
 							result = SceKernelErrors.ERROR_ERRNO_INVALID_ARGUMENT;
 						}
 						needDelayIoOperation = false;
@@ -3264,27 +3264,27 @@ namespace pspsharp.HLE.modules
 									int fPointer = (int) info.readOnlyFile.FilePointer;
 									// TODO for block files, does it return a number of blocks or a number of bytes?
 									mem.write32(outdata_addr, fPointer);
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("hleIoIoctl umd file get file pointer 0x{0:X}", fPointer));
+										Console.WriteLine(string.Format("hleIoIoctl umd file get file pointer 0x{0:X}", fPointer));
 									}
 									result = 0;
 								}
 								catch (IOException e)
 								{
-									log.warn("hleIoIoctl cmd=0x01020004 exception: " + e.Message);
+									Console.WriteLine("hleIoIoctl cmd=0x01020004 exception: " + e.Message);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01020004 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01020004 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01020004 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01020004 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3299,24 +3299,24 @@ namespace pspsharp.HLE.modules
 							{
 								UmdIsoFile file = (UmdIsoFile) info.readOnlyFile;
 								startSector = file.StartSector;
-								log.debug("hleIoIoctl umd file get start sector " + startSector);
+								Console.WriteLine("hleIoIoctl umd file get start sector " + startSector);
 								mem.write32(outdata_addr, startSector);
 								result = 0;
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01020006 only allowed on UMD files and only implemented for UmdIsoFile");
+								Console.WriteLine("hleIoIoctl cmd=0x01020006 only allowed on UMD files and only implemented for UmdIsoFile");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01020006 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01020006 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
 					}
-					// Get UMD file length in bytes.
+					// Get UMD file Length in bytes.
 					case 0x01020007:
 					{
 						if (Memory.isAddressGood(outdata_addr) && outlen >= 8)
@@ -3325,27 +3325,27 @@ namespace pspsharp.HLE.modules
 							{
 								try
 								{
-									long length = info.readOnlyFile.length();
-									mem.write64(outdata_addr, length);
-									log.debug("hleIoIoctl get file size " + length);
+									long Length = info.readOnlyFile.Length();
+									mem.write64(outdata_addr, Length);
+									Console.WriteLine("hleIoIoctl get file size " + Length);
 									result = 0;
 								}
 								catch (IOException e)
 								{
 									// Should never happen?
-									log.warn("hleIoIoctl cmd=0x01020007 exception: " + e.Message);
+									Console.WriteLine("hleIoIoctl cmd=0x01020007 exception: " + e.Message);
 									result = ERROR_KERNEL_FILE_READ_ERROR;
 								}
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01020007 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01020007 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01020007 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01020007 " + string.Format("0x{0:X8} {1:D}", outdata_addr, outlen) + " unsupported parameters");
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3355,38 +3355,38 @@ namespace pspsharp.HLE.modules
 					{
 						if (Memory.isAddressGood(indata_addr) && inlen >= 4)
 						{
-							int length = mem.read32(indata_addr);
-							if (length > 0)
+							int Length = mem.read32(indata_addr);
+							if (Length > 0)
 							{
-								if (Memory.isAddressGood(outdata_addr) && outlen >= length)
+								if (Memory.isAddressGood(outdata_addr) && outlen >= Length)
 								{
 									try
 									{
-										Utilities.readFully(info.readOnlyFile, outdata_addr, length);
-										info.position += length;
-										result = length;
+										Utilities.readFully(info.readOnlyFile, outdata_addr, Length);
+										info.position += Length;
+										result = Length;
 									}
 									catch (IOException e)
 									{
-										log.error(e);
+										Console.WriteLine(e);
 										result = ERROR_KERNEL_FILE_READ_ERROR;
 									}
 								}
 								else
 								{
-									log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} inlen={1:D} unsupported output parameters 0x{2:X8} {3:D}", cmd, inlen, outdata_addr, outlen));
+									Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} inlen={1:D} unsupported output parameters 0x{2:X8} {3:D}", cmd, inlen, outdata_addr, outlen));
 									result = ERROR_INVALID_ARGUMENT;
 								}
 							}
 							else
 							{
-								log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D}, length={3:D}", cmd, indata_addr, inlen, length));
+								Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D}, Length={3:D}", cmd, indata_addr, inlen, Length));
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D}", cmd, indata_addr, inlen));
+							Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D}", cmd, indata_addr, inlen));
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3403,32 +3403,32 @@ namespace pspsharp.HLE.modules
 								{
 									try
 									{
-										int length = numberOfSectors * UmdIsoFile.sectorLength;
-										Utilities.readFully(info.readOnlyFile, outdata_addr, length);
-										info.position += length;
-										result = length / UmdIsoFile.sectorLength;
+										int Length = numberOfSectors * UmdIsoFile.sectorLength;
+										Utilities.readFully(info.readOnlyFile, outdata_addr, Length);
+										info.position += Length;
+										result = Length / UmdIsoFile.sectorLength;
 									}
 									catch (IOException e)
 									{
-										log.error(e);
+										Console.WriteLine(e);
 										result = ERROR_KERNEL_FILE_READ_ERROR;
 									}
 								}
 								else
 								{
-									log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} inlen={1:D} unsupported output parameters 0x{2:X8} {3:D}", cmd, inlen, outdata_addr, outlen));
+									Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} inlen={1:D} unsupported output parameters 0x{2:X8} {3:D}", cmd, inlen, outdata_addr, outlen));
 									result = ERROR_ERRNO_INVALID_ARGUMENT;
 								}
 							}
 							else
 							{
-								log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D} numberOfSectors={3:D}", cmd, indata_addr, inlen, numberOfSectors));
+								Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D} numberOfSectors={3:D}", cmd, indata_addr, inlen, numberOfSectors));
 								result = ERROR_ERRNO_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D}", cmd, indata_addr, inlen));
+							Console.WriteLine(string.Format("hleIoIoctl cmd=0x{0:X8} unsupported input parameters 0x{1:X8} {2:D}", cmd, indata_addr, inlen));
 							result = ERROR_ERRNO_INVALID_ARGUMENT;
 						}
 						break;
@@ -3448,9 +3448,9 @@ namespace pspsharp.HLE.modules
 									{
 										offset *= UmdIsoFile.sectorLength;
 									}
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug("hleIoIoctl UMD file seek offset " + offset + ", whence " + whence);
+										Console.WriteLine("hleIoIoctl UMD file seek offset " + offset + ", whence " + whence);
 									}
 									switch (whence)
 									{
@@ -3470,14 +3470,14 @@ namespace pspsharp.HLE.modules
 										}
 										case PSP_SEEK_END:
 										{
-											info.position = info.readOnlyFile.length() + offset;
+											info.position = info.readOnlyFile.Length() + offset;
 											info.readOnlyFile.seek(info.position);
 											result = 0;
 											break;
 										}
 										default:
 										{
-											log.error("hleIoIoctl - unhandled whence " + whence);
+											Console.WriteLine("hleIoIoctl - unhandled whence " + whence);
 											result = -1;
 											break;
 										}
@@ -3486,19 +3486,19 @@ namespace pspsharp.HLE.modules
 								catch (IOException e)
 								{
 									// Should never happen?
-									log.warn("hleIoIoctl cmd=0x01F100A6 exception: " + e.Message);
+									Console.WriteLine("hleIoIoctl cmd=0x01F100A6 exception: " + e.Message);
 									result = -1;
 								}
 							}
 							else
 							{
-								log.warn("hleIoIoctl cmd=0x01F100A6 only allowed on UMD files");
+								Console.WriteLine("hleIoIoctl cmd=0x01F100A6 only allowed on UMD files");
 								result = ERROR_INVALID_ARGUMENT;
 							}
 						}
 						else
 						{
-							log.warn("hleIoIoctl cmd=0x01F100A6 " + string.Format("0x{0:X8} {1:D}", indata_addr, inlen) + " unsupported parameters");
+							Console.WriteLine("hleIoIoctl cmd=0x01F100A6 " + string.Format("0x{0:X8} {1:D}", indata_addr, inlen) + " unsupported parameters");
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3517,9 +3517,9 @@ namespace pspsharp.HLE.modules
 								keyHex.Append(string.Format("{0:X2}", keyBuf[i] & 0xFF));
 							}
 
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("hleIoIoctl get AES key {0}", keyHex.ToString()));
+								Console.WriteLine(string.Format("hleIoIoctl get AES key {0}", keyHex.ToString()));
 							}
 
 							IVirtualFile ioctlFile = null;
@@ -3545,7 +3545,7 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn(string.Format("hleIoIoctl cmd=0x04100001 indata=0x{0:X8} inlen={1:D} unsupported parameters", indata_addr, inlen));
+							Console.WriteLine(string.Format("hleIoIoctl cmd=0x04100001 indata=0x{0:X8} inlen={1:D} unsupported parameters", indata_addr, inlen));
 							result = ERROR_INVALID_ARGUMENT;
 						}
 						break;
@@ -3553,9 +3553,9 @@ namespace pspsharp.HLE.modules
 					// Check if LoadExec is allowed on the file
 					case 0x00208013:
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Checking if LoadExec is allowed on '{0}'", info));
+							Console.WriteLine(string.Format("Checking if LoadExec is allowed on '{0}'", info));
 						}
 						// Result == 0: LoadExec allowed
 						// Result != 0: LoadExec prohibited
@@ -3565,9 +3565,9 @@ namespace pspsharp.HLE.modules
 					// Check if LoadModule is allowed on the file
 					case 0x00208003:
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Checking if LoadModule is allowed on '{0}'", info));
+							Console.WriteLine(string.Format("Checking if LoadModule is allowed on '{0}'", info));
 						}
 						// Result == 0: LoadModule allowed
 						// Result != 0: LoadModule prohibited
@@ -3578,9 +3578,9 @@ namespace pspsharp.HLE.modules
 					case 0x00208081:
 					case 0x00208082:
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Checking if PRX type is allowed on '{0}'", info));
+							Console.WriteLine(string.Format("Checking if PRX type is allowed on '{0}'", info));
 						}
 						// Result == 0: PRX type allowed
 						// Result != 0: PRX type prohibited
@@ -3590,19 +3590,19 @@ namespace pspsharp.HLE.modules
 					default:
 					{
 						result = -1;
-						log.warn(string.Format("hleIoIoctl 0x{0:X8} unknown command, inlen={1:D}, outlen={2:D}", cmd, inlen, outlen));
+						Console.WriteLine(string.Format("hleIoIoctl 0x{0:X8} unknown command, inlen={1:D}, outlen={2:D}", cmd, inlen, outlen));
 						if (Memory.isAddressGood(indata_addr))
 						{
 							for (int i = 0; i < inlen; i += 4)
 							{
-								log.warn(string.Format("hleIoIoctl indata[{0:D}]=0x{1:X8}", i / 4, mem.read32(indata_addr + i)));
+								Console.WriteLine(string.Format("hleIoIoctl indata[{0:D}]=0x{1:X8}", i / 4, mem.read32(indata_addr + i)));
 							}
 						}
 						if (Memory.isAddressGood(outdata_addr))
 						{
 							for (int i = 0; i < System.Math.Min(outlen, 256); i += 4)
 							{
-								log.warn(string.Format("hleIoIoctl outdata[{0:D}]=0x{1:X8}", i / 4, mem.read32(outdata_addr + i)));
+								Console.WriteLine(string.Format("hleIoIoctl outdata[{0:D}]=0x{1:X8}", i / 4, mem.read32(outdata_addr + i)));
 							}
 						}
 						break;
@@ -3686,7 +3686,7 @@ namespace pspsharp.HLE.modules
 				IVirtualFileSystem newVfs = vfsManager.getVirtualFileSystem(absoluteNewFileName, localNewFileName);
 				if (oldVfs != newVfs)
 				{
-					log.error(string.Format("sceIoRename - renaming across devices not allowed '{0}' - '{1}'", oldFileName, newFileName));
+					Console.WriteLine(string.Format("sceIoRename - renaming across devices not allowed '{0}' - '{1}'", oldFileName, newFileName));
 					result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 				}
 				else
@@ -3697,7 +3697,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoRename - device not found '{0}'", oldFileName));
+				Console.WriteLine(string.Format("sceIoRename - device not found '{0}'", oldFileName));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 			}
 			else if (!string.ReferenceEquals(oldpcfilename, null))
@@ -3710,9 +3710,9 @@ namespace pspsharp.HLE.modules
 				{
 					File file = new File(oldpcfilename);
 					File newfile = new File(newpcfilename);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceIoRename: renaming file '{0}' to '{1}'", oldpcfilename, newpcfilename));
+						Console.WriteLine(string.Format("sceIoRename: renaming file '{0}' to '{1}'", oldpcfilename, newpcfilename));
 					}
 					if (file.renameTo(newfile))
 					{
@@ -3720,7 +3720,7 @@ namespace pspsharp.HLE.modules
 					}
 					else
 					{
-						log.warn(string.Format("sceIoRename failed: {0}({1}) to {2}({3})", oldFileName, oldpcfilename, newFileName, newpcfilename));
+						Console.WriteLine(string.Format("sceIoRename failed: {0}({1}) to {2}({3})", oldFileName, oldpcfilename, newFileName, newpcfilename));
 						if (file.exists())
 						{
 							result = -1;
@@ -3762,7 +3762,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoGetstat - device not found '{0}'", filename));
+				Console.WriteLine(string.Format("sceIoGetstat - device not found '{0}'", filename));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 			}
 			else
@@ -3772,9 +3772,9 @@ namespace pspsharp.HLE.modules
 				result = (stat != null) ? 0 : ERROR_ERRNO_FILE_NOT_FOUND;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceIoGetstat returning 0x{0:X8}, {1}", result, stat));
+				Console.WriteLine(string.Format("sceIoGetstat returning 0x{0:X8}, {1}", result, stat));
 			}
 
 			if (stat != null && result == 0)
@@ -3883,7 +3883,7 @@ namespace pspsharp.HLE.modules
 			IoInfo info = fileIds[id];
 			if (info == null)
 			{
-				log.warn("sceIoChangeAsyncPriority invalid fd=" + id);
+				Console.WriteLine("sceIoChangeAsyncPriority invalid fd=" + id);
 				return SceKernelErrors.ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 			}
 
@@ -3917,13 +3917,13 @@ namespace pspsharp.HLE.modules
 			IoInfo info = fileIds[id];
 			if (info == null)
 			{
-				log.warn("sceIoSetAsyncCallback - unknown id " + id.ToString("x"));
+				Console.WriteLine("sceIoSetAsyncCallback - unknown id " + id.ToString("x"));
 				return ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 			}
 
 			if (!Modules.ThreadManForUserModule.hleKernelRegisterCallback(SceKernelThreadInfo.THREAD_CALLBACK_IO, cbid))
 			{
-				log.warn("sceIoSetAsyncCallback - not a callback id " + id.ToString("x"));
+				Console.WriteLine("sceIoSetAsyncCallback - not a callback id " + id.ToString("x"));
 				return -1;
 			}
 
@@ -4168,18 +4168,18 @@ namespace pspsharp.HLE.modules
 				{
 					// Files in our iso virtual file system
 					string isofilename = trimUmdPrefix(pcfilename);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDopen - isofilename = " + isofilename);
+						Console.WriteLine("sceIoDopen - isofilename = " + isofilename);
 					}
 					if (iso == null)
 					{ // check umd is mounted
-						log.error("sceIoDopen - no umd mounted");
+						Console.WriteLine("sceIoDopen - no umd mounted");
 						result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 					}
 					else if (!Modules.sceUmdUserModule.UmdActivated)
 					{ // check umd is activated
-						log.warn("sceIoDopen - umd mounted but not activated");
+						Console.WriteLine("sceIoDopen - umd mounted but not activated");
 						result = ERROR_KERNEL_NO_SUCH_DEVICE;
 					}
 					else
@@ -4194,33 +4194,33 @@ namespace pspsharp.HLE.modules
 							}
 							else
 							{
-								log.warn("sceIoDopen '" + isofilename + "' not a umd directory!");
+								Console.WriteLine("sceIoDopen '" + isofilename + "' not a umd directory!");
 								result = ERROR_ERRNO_FILE_NOT_FOUND;
 							}
 						}
 						catch (FileNotFoundException)
 						{
-							log.warn("sceIoDopen - '" + isofilename + "' umd file not found");
+							Console.WriteLine("sceIoDopen - '" + isofilename + "' umd file not found");
 							result = ERROR_ERRNO_FILE_NOT_FOUND;
 						}
 						catch (IOException e)
 						{
-							log.warn("sceIoDopen - umd io error: " + e.Message);
+							Console.WriteLine("sceIoDopen - umd io error: " + e.Message);
 							result = ERROR_ERRNO_FILE_NOT_FOUND;
 						}
 					}
 				}
 				else if (dirname.String.StartsWith("/", StringComparison.Ordinal) && dirname.String.IndexOf(":", StringComparison.Ordinal) != -1)
 				{
-					log.warn("sceIoDopen apps running outside of ms0 dir are not fully supported, relative child paths should still work");
+					Console.WriteLine("sceIoDopen apps running outside of ms0 dir are not fully supported, relative child paths should still work");
 					result = -1;
 				}
 				else
 				{
 					// Regular apps run from inside mstick dir or absolute path given
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDopen - pcfilename = " + pcfilename);
+						Console.WriteLine("sceIoDopen - pcfilename = " + pcfilename);
 					}
 					File f = new File(pcfilename);
 					if (f.Directory)
@@ -4238,7 +4238,7 @@ namespace pspsharp.HLE.modules
 					}
 					else
 					{
-						log.warn("sceIoDopen '" + pcfilename + "' not a directory! (could be missing)");
+						Console.WriteLine("sceIoDopen '" + pcfilename + "' not a directory! (could be missing)");
 						result = ERROR_ERRNO_FILE_NOT_FOUND;
 					}
 				}
@@ -4273,7 +4273,7 @@ namespace pspsharp.HLE.modules
 			int result;
 			if (info == null)
 			{
-				log.warn("sceIoDread unknown id " + id.ToString("x"));
+				Console.WriteLine("sceIoDread unknown id " + id.ToString("x"));
 				result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 			}
 			else if (info.hasNext())
@@ -4293,9 +4293,9 @@ namespace pspsharp.HLE.modules
 					{
 						if (!info.hasNext())
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("sceIoDread id=0x{0:X} no more files matching pattern '{1}'", id, info.fileNameFilter));
+								Console.WriteLine(string.Format("sceIoDread id=0x{0:X} no more files matching pattern '{1}'", id, info.fileNameFilter));
 							}
 							filename = null;
 							break;
@@ -4326,17 +4326,17 @@ namespace pspsharp.HLE.modules
 					}
 					else
 					{
-						log.warn("sceIoDread id=" + id.ToString("x") + " stat failed (" + info.path + "/" + filename + ")");
+						Console.WriteLine("sceIoDread id=" + id.ToString("x") + " stat failed (" + info.path + "/" + filename + ")");
 						result = -1;
 					}
 				}
 
 				if (dirent != null && result > 0)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 						string type = (dirent.stat.attr & 0x10) != 0 ? "dir" : "file";
-						log.debug(string.Format("sceIoDread id=0x{0:X} #{1:D} {2}='{3}', dir='{4}'", id, info.printableposition, type, info.path, filename));
+						Console.WriteLine(string.Format("sceIoDread id=0x{0:X} #{1:D} {2}='{3}', dir='{4}'", id, info.printableposition, type, info.path, filename));
 					}
 
 					if (info.vfs == null)
@@ -4349,9 +4349,9 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceIoDread id=0x{0:X} no more files", id));
+					Console.WriteLine(string.Format("sceIoDread id=0x{0:X} no more files", id));
 				}
 				result = 0;
 			}
@@ -4380,7 +4380,7 @@ namespace pspsharp.HLE.modules
 
 			if (info == null)
 			{
-				log.warn("sceIoDclose - unknown id " + id.ToString("x"));
+				Console.WriteLine("sceIoDclose - unknown id " + id.ToString("x"));
 				result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 			}
 			else if (info.vfs != null)
@@ -4426,7 +4426,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoRemove - device not found '{0}'", filename));
+				Console.WriteLine(string.Format("sceIoRemove - device not found '{0}'", filename));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 			}
 			else if (!string.ReferenceEquals(pcfilename, null))
@@ -4493,7 +4493,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoMkdir - device not found '{0}'", dirname));
+				Console.WriteLine(string.Format("sceIoMkdir - device not found '{0}'", dirname));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 			}
 			else if (!string.ReferenceEquals(pcfilename, null))
@@ -4539,7 +4539,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoRmdir - device not found '{0}'", dirname));
+				Console.WriteLine(string.Format("sceIoRmdir - device not found '{0}'", dirname));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 			}
 			else if (!string.ReferenceEquals(pcfilename, null))
@@ -4669,7 +4669,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoChstat - device not found '{0}'", filename));
+				Console.WriteLine(string.Format("sceIoChstat - device not found '{0}'", filename));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 			}
 			else if (!string.ReferenceEquals(pcfilename, null))
@@ -4752,9 +4752,9 @@ namespace pspsharp.HLE.modules
 				ioListener.sceIoChstat(result, filename.Address, filename.String, statAddr.Address, bits);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceIoChstat returning 0x{0:X8}", result));
+				Console.WriteLine(string.Format("sceIoChstat returning 0x{0:X8}", result));
 			}
 
 			return result;
@@ -4810,7 +4810,7 @@ namespace pspsharp.HLE.modules
 			}
 			else if (useVirtualFileSystem)
 			{
-				log.error(string.Format("sceIoDevctl - device not found '{0}'", devicename));
+				Console.WriteLine(string.Format("sceIoDevctl - device not found '{0}'", devicename));
 				result = ERROR_ERRNO_DEVICE_NOT_FOUND;
 
 				foreach (IIoListener ioListener in ioListeners)
@@ -4828,9 +4828,9 @@ namespace pspsharp.HLE.modules
 			{
 				// Check disk region
 				case 0x01E18030:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceIoDevctl 0x{0:X8} check disk region", cmd));
+						Console.WriteLine(string.Format("sceIoDevctl 0x{0:X8} check disk region", cmd));
 					}
 					if (inlen >= 16)
 					{
@@ -4838,9 +4838,9 @@ namespace pspsharp.HLE.modules
 						int unknown2 = mem.read32(indataAddr + 4);
 						int unknown3 = mem.read32(indataAddr + 8);
 						int unknown4 = mem.read32(indataAddr + 12);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceIoDevctl 0x{0:X8} check disk region unknown1=0x{1:X}, unknown2=0x{2:X}, unknown3=0x{3:X}, unknown4=0x{4:X}", cmd, unknown1, unknown2, unknown3, unknown4));
+							Console.WriteLine(string.Format("sceIoDevctl 0x{0:X8} check disk region unknown1=0x{1:X}, unknown2=0x{2:X}, unknown3=0x{3:X}, unknown4=0x{4:X}", cmd, unknown1, unknown2, unknown3, unknown4));
 						}
 						// Return 0 if the disk region is not matching,
 						// return 1 if the disk region is matching.
@@ -4854,9 +4854,9 @@ namespace pspsharp.HLE.modules
 				// Get UMD disc type.
 				case 0x01F20001:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " get disc type");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " get disc type");
 					}
 					if (Memory.isAddressGood(outdataAddr) && outlen >= 8)
 					{
@@ -4879,9 +4879,9 @@ namespace pspsharp.HLE.modules
 							IVirtualFile vfsUmdData = vfsIso.ioOpen("UMD_DATA.BIN", 0, PSP_O_RDONLY);
 							if (vfsUmdData != null)
 							{
-								sbyte[] buffer = new sbyte[(int) vfsUmdData.length()];
-								int length = vfsUmdData.ioRead(buffer, 0, buffer.Length);
-								if (length > 0)
+								sbyte[] buffer = new sbyte[(int) vfsUmdData.Length()];
+								int Length = vfsUmdData.ioRead(buffer, 0, buffer.Length);
+								if (Length > 0)
 								{
 									string umdData = StringHelper.NewString(buffer);
 									string[] umdDataParts = umdData.Split("\\|", true);
@@ -4901,7 +4901,7 @@ namespace pspsharp.HLE.modules
 													break; // Video disc
 													goto default;
 												default:
-													log.warn(string.Format("Unknown disc type '{0}' in UMD_DATA.BIN", umdType));
+													Console.WriteLine(string.Format("Unknown disc type '{0}' in UMD_DATA.BIN", umdType));
 													break;
 											}
 										}
@@ -4922,9 +4922,9 @@ namespace pspsharp.HLE.modules
 				// Get UMD current LBA.
 				case 0x01F20002:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " get current LBA");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " get current LBA");
 					}
 					if (Memory.isAddressGood(outdataAddr) && outlen >= 4)
 					{
@@ -4940,16 +4940,16 @@ namespace pspsharp.HLE.modules
 				// Seek UMD disc (raw).
 				case 0x01F100A3:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " seek UMD disc");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " seek UMD disc");
 					}
 					if ((Memory.isAddressGood(indataAddr) && inlen >= 4))
 					{
 						int sector = mem.read32(indataAddr);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("sector=" + sector);
+							Console.WriteLine("sector=" + sector);
 						}
 						result = 0;
 					}
@@ -4962,9 +4962,9 @@ namespace pspsharp.HLE.modules
 				// Prepare UMD data into cache.
 				case 0x01F100A4:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " prepare UMD data to cache");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " prepare UMD data to cache");
 					}
 					if ((Memory.isAddressGood(indataAddr) && inlen >= 4))
 					{
@@ -4973,9 +4973,9 @@ namespace pspsharp.HLE.modules
 						int sector = mem.read32(indataAddr + 4); // First sector of data to read.
 						int unk2 = mem.read32(indataAddr + 8); // NULL.
 						int sectorNum = mem.read32(indataAddr + 12); // Length of data to read.
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sector={0:D}, sectorNum={1:D}, unk1={2:D}, unk2={3:D}", sector, sectorNum, unk1, unk2));
+							Console.WriteLine(string.Format("sector={0:D}, sectorNum={1:D}, unk1={2:D}, unk2={3:D}", sector, sectorNum, unk1, unk2));
 						}
 						result = 0;
 					}
@@ -4988,9 +4988,9 @@ namespace pspsharp.HLE.modules
 				// Prepare UMD data into cache and get status.
 				case 0x01F300A5:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " prepare UMD data to cache and get status");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " prepare UMD data to cache and get status");
 					}
 					if ((Memory.isAddressGood(indataAddr) && inlen >= 4) && (Memory.isAddressGood(outdataAddr) && outlen >= 4))
 					{
@@ -4999,9 +4999,9 @@ namespace pspsharp.HLE.modules
 						int sector = mem.read32(indataAddr + 4); // First sector of data to read.
 						int unk2 = mem.read32(indataAddr + 8); // NULL.
 						int sectorNum = mem.read32(indataAddr + 12); // Length of data to read.
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sector={0:D}, sectorNum={1:D}, unk1={2:D}, unk2={3:D}", sector, sectorNum, unk1, unk2));
+							Console.WriteLine(string.Format("sector={0:D}, sectorNum={1:D}, unk1={2:D}, unk2={3:D}", sector, sectorNum, unk1, unk2));
 						}
 						mem.write32(outdataAddr, 1); // Status (unitary index of the requested read, greater or equal to 1).
 						result = 0;
@@ -5015,16 +5015,16 @@ namespace pspsharp.HLE.modules
 				// Wait for the UMD data cache thread.
 				case 0x01F300A7:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " wait for the UMD data cache thread");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " wait for the UMD data cache thread");
 					}
 					if ((Memory.isAddressGood(indataAddr) && inlen >= 4))
 					{
 						int index = mem.read32(indataAddr); // Index set by command 0x01F300A5.
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("index={0:D}", index));
+							Console.WriteLine(string.Format("index={0:D}", index));
 						}
 						// Place the calling thread in wait state.
 
@@ -5044,16 +5044,16 @@ namespace pspsharp.HLE.modules
 				// Poll the UMD data cache thread.
 				case 0x01F300A8:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " poll the UMD data cache thread");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " poll the UMD data cache thread");
 					}
 					if ((Memory.isAddressGood(indataAddr) && inlen >= 4))
 					{
 						int index = mem.read32(indataAddr); // Index set by command 0x01F300A5.
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("index={0:D}", index));
+							Console.WriteLine(string.Format("index={0:D}", index));
 						}
 						// 0 - UMD data cache thread has finished.
 						// 0x10 - UMD data cache thread is waiting.
@@ -5069,16 +5069,16 @@ namespace pspsharp.HLE.modules
 				// Cancel the UMD data cache thread.
 				case 0x01F300A9:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " cancel the UMD data cache thread");
+						Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " cancel the UMD data cache thread");
 					}
 					if ((Memory.isAddressGood(indataAddr) && inlen >= 4))
 					{
 						int index = mem.read32(indataAddr); // Index set by command 0x01F300A5.
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("index={0:D}", index));
+							Console.WriteLine(string.Format("index={0:D}", index));
 						}
 						// Wake up the thread waiting for the UMD data cache handling.
 						ThreadManForUser threadMan = Modules.ThreadManForUserModule;
@@ -5102,7 +5102,7 @@ namespace pspsharp.HLE.modules
 				// Check the MemoryStick's driver status (mscmhc0).
 				case 0x02025801:
 				{
-					log.debug("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " check ms driver status");
+					Console.WriteLine("sceIoDevctl " + string.Format("0x{0:X8}", cmd) + " check ms driver status");
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
 						result = ERROR_KERNEL_UNSUPPORTED_OPERATION;
@@ -5123,7 +5123,7 @@ namespace pspsharp.HLE.modules
 				// Register MemoryStick's insert/eject callback (mscmhc0).
 				case 0x02015804:
 				{
-					log.debug("sceIoDevctl register memorystick insert/eject callback (mscmhc0)");
+					Console.WriteLine("sceIoDevctl register memorystick insert/eject callback (mscmhc0)");
 					ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
@@ -5153,7 +5153,7 @@ namespace pspsharp.HLE.modules
 				// Unregister MemoryStick's insert/eject callback (mscmhc0).
 				case 0x02015805:
 				{
-					log.debug("sceIoDevctl unregister memorystick insert/eject callback (mscmhc0)");
+					Console.WriteLine("sceIoDevctl unregister memorystick insert/eject callback (mscmhc0)");
 					ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
@@ -5180,7 +5180,7 @@ namespace pspsharp.HLE.modules
 				// ???
 				case 0x02015807:
 				{
-					log.debug("sceIoDevctl ??? (mscmhc0)");
+					Console.WriteLine("sceIoDevctl ??? (mscmhc0)");
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
 						result = ERROR_KERNEL_UNSUPPORTED_OPERATION;
@@ -5199,7 +5199,7 @@ namespace pspsharp.HLE.modules
 				// ???
 				case 0x0201580B:
 				{
-					log.debug("sceIoDevctl ??? (mscmhc0)");
+					Console.WriteLine("sceIoDevctl ??? (mscmhc0)");
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
 						result = ERROR_KERNEL_UNSUPPORTED_OPERATION;
@@ -5217,7 +5217,7 @@ namespace pspsharp.HLE.modules
 				// Check if the device is inserted (mscmhc0).
 				case 0x02025806:
 				{
-					log.debug("sceIoDevctl check ms inserted (mscmhc0)");
+					Console.WriteLine("sceIoDevctl check ms inserted (mscmhc0)");
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
 						result = ERROR_KERNEL_UNSUPPORTED_OPERATION;
@@ -5238,7 +5238,7 @@ namespace pspsharp.HLE.modules
 				// ???
 				case 0x0202580A:
 				{
-					log.debug("sceIoDevctl ??? (mscmhc0)");
+					Console.WriteLine("sceIoDevctl ??? (mscmhc0)");
 					if (!devicename.String.Equals("mscmhc0:"))
 					{
 						result = ERROR_KERNEL_UNSUPPORTED_OPERATION;
@@ -5275,7 +5275,7 @@ namespace pspsharp.HLE.modules
 				// Register memorystick insert/eject callback (fatms0).
 				case 0x02415821:
 				{
-					log.debug("sceIoDevctl register memorystick insert/eject callback (fatms0)");
+					Console.WriteLine("sceIoDevctl register memorystick insert/eject callback (fatms0)");
 					needDelayIoOperation = false;
 					ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 					if (!devicename.String.Equals("fatms0:"))
@@ -5307,7 +5307,7 @@ namespace pspsharp.HLE.modules
 				// Unregister memorystick insert/eject callback (fatms0).
 				case 0x02415822:
 				{
-					log.debug("sceIoDevctl unregister memorystick insert/eject callback (fatms0)");
+					Console.WriteLine("sceIoDevctl unregister memorystick insert/eject callback (fatms0)");
 					needDelayIoOperation = false;
 					ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 					if (!devicename.String.Equals("fatms0:"))
@@ -5329,7 +5329,7 @@ namespace pspsharp.HLE.modules
 				// Set if the device is assigned/inserted or not (fatms0).
 				case 0x02415823:
 				{
-					log.debug("sceIoDevctl set assigned device (fatms0)");
+					Console.WriteLine("sceIoDevctl set assigned device (fatms0)");
 					if (!devicename.String.Equals("fatms0:"))
 					{
 						result = ERROR_MEMSTICK_DEVCTL_BAD_PARAMS;
@@ -5367,7 +5367,7 @@ namespace pspsharp.HLE.modules
 				// Check if the device is write protected (fatms0).
 				case 0x02425824:
 				{
-					log.debug("sceIoDevctl check write protection (fatms0)");
+					Console.WriteLine("sceIoDevctl check write protection (fatms0)");
 					if (!devicename.String.Equals("fatms0:") && !devicename.String.Equals("ms0:"))
 					{ // For this command the alias "ms0:" is also supported.
 						result = ERROR_MEMSTICK_DEVCTL_BAD_PARAMS;
@@ -5388,7 +5388,7 @@ namespace pspsharp.HLE.modules
 				// Get MS capacity (fatms0).
 				case 0x02425818:
 				{
-					log.debug("sceIoDevctl get MS capacity (fatms0)");
+					Console.WriteLine("sceIoDevctl get MS capacity (fatms0)");
 					int sectorSize = 0x200;
 					int sectorCount = MemoryStick.SectorSize / sectorSize;
 					int maxClusters = (int)(MemoryStick.FreeSize / (sectorSize * sectorCount));
@@ -5399,7 +5399,7 @@ namespace pspsharp.HLE.modules
 						int addr = mem.read32(indataAddr);
 						if (Memory.isAddressGood(addr))
 						{
-							log.debug("sceIoDevctl refer ms free space");
+							Console.WriteLine("sceIoDevctl refer ms free space");
 							mem.write32(addr, maxClusters);
 							mem.write32(addr + 4, freeClusters);
 							mem.write32(addr + 8, maxSectors);
@@ -5409,13 +5409,13 @@ namespace pspsharp.HLE.modules
 						}
 						else
 						{
-							log.warn("sceIoDevctl 0x02425818 bad save address " + string.Format("0x{0:X8}", addr));
+							Console.WriteLine("sceIoDevctl 0x02425818 bad save address " + string.Format("0x{0:X8}", addr));
 							result = -1;
 						}
 					}
 					else
 					{
-						log.warn("sceIoDevctl 0x02425818 bad param address " + string.Format("0x{0:X8}", indataAddr) + " or size " + inlen);
+						Console.WriteLine("sceIoDevctl 0x02425818 bad param address " + string.Format("0x{0:X8}", indataAddr) + " or size " + inlen);
 						result = -1;
 					}
 					break;
@@ -5423,7 +5423,7 @@ namespace pspsharp.HLE.modules
 				// Check if the device is assigned/inserted (fatms0).
 				case 0x02425823:
 				{
-					log.debug("sceIoDevctl check assigned device (fatms0)");
+					Console.WriteLine("sceIoDevctl check assigned device (fatms0)");
 					needDelayIoOperation = false;
 					if (!devicename.String.Equals("fatms0:"))
 					{
@@ -5445,7 +5445,7 @@ namespace pspsharp.HLE.modules
 				// Register USB thread.
 				case 0x03415001:
 				{
-					log.debug("sceIoDevctl register usb thread");
+					Console.WriteLine("sceIoDevctl register usb thread");
 					if (Memory.isAddressGood(indataAddr) && inlen >= 4)
 					{
 						// Unknown params.
@@ -5460,7 +5460,7 @@ namespace pspsharp.HLE.modules
 				// Unregister USB thread.
 				case 0x03415002:
 				{
-					log.debug("sceIoDevctl unregister usb thread");
+					Console.WriteLine("sceIoDevctl unregister usb thread");
 					if (Memory.isAddressGood(indataAddr) && inlen >= 4)
 					{
 						// Unknown params.
@@ -5479,9 +5479,9 @@ namespace pspsharp.HLE.modules
 						// This is the value contained in the registry entry
 						//	"/CONFIG/SYSTEM/CHARACTER_SET/oem"
 						int characterSet = mem.read32(indataAddr);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceIoDevctl '{0}' set character set to 0x{1:X}", devicename.String, characterSet));
+							Console.WriteLine(string.Format("sceIoDevctl '{0}' set character set to 0x{1:X}", devicename.String, characterSet));
 						}
 						result = 0;
 					}
@@ -5498,9 +5498,9 @@ namespace pspsharp.HLE.modules
 
 						result = hleIoRename(oldFileNameAddr, devicename.String + oldFileName, newFileNameAddr, devicename.String + newFileName);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceIoDevctl file rename oldFileName='{0}', newFileName='{1}', result=0x{2:X}", oldFileName, newFileName, result));
+							Console.WriteLine(string.Format("sceIoDevctl file rename oldFileName='{0}', newFileName='{1}', result=0x{2:X}", oldFileName, newFileName, result));
 						}
 					}
 					break;
@@ -5520,9 +5520,9 @@ namespace pspsharp.HLE.modules
 				// Check if LoadExec is allowed on the device
 				case 0x00208813:
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Checking if LoadExec is allowed on '{0}'", devicename));
+						Console.WriteLine(string.Format("Checking if LoadExec is allowed on '{0}'", devicename));
 					}
 					// Result == 0: LoadExec allowed
 					// Result != 0: LoadExec prohibited
@@ -5530,10 +5530,10 @@ namespace pspsharp.HLE.modules
 					break;
 				}
 				default:
-					log.warn(string.Format("sceIoDevctl 0x{0:X8} unknown command", cmd));
+					Console.WriteLine(string.Format("sceIoDevctl 0x{0:X8} unknown command", cmd));
 					if (Memory.isAddressGood(indataAddr))
 					{
-						log.warn(string.Format("sceIoDevctl indata: {0}", Utilities.getMemoryDump(indataAddr, inlen)));
+						Console.WriteLine(string.Format("sceIoDevctl indata: {0}", Utilities.getMemoryDump(indataAddr, inlen)));
 					}
 					result = SceKernelErrors.ERROR_ERRNO_INVALID_IODEVCTL_CMD;
 					break;
@@ -5571,7 +5571,7 @@ namespace pspsharp.HLE.modules
 				IoInfo info = fileIds[id];
 				if (info == null)
 				{
-					log.warn("sceIoGetDevType - unknown id " + id.ToString("x"));
+					Console.WriteLine("sceIoGetDevType - unknown id " + id.ToString("x"));
 					result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 				}
 				else
@@ -5581,9 +5581,9 @@ namespace pspsharp.HLE.modules
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceIoGetDevType id=0x{0:X} returning 0x{1:X}", id, result));
+				Console.WriteLine(string.Format("sceIoGetDevType id=0x{0:X} returning 0x{1:X}", id, result));
 			}
 
 			return result;
@@ -5650,7 +5650,7 @@ namespace pspsharp.HLE.modules
 
 			if (info == null)
 			{
-				log.warn("sceIoCancel - unknown id " + id.ToString("x"));
+				Console.WriteLine("sceIoCancel - unknown id " + id.ToString("x"));
 				result = ERROR_KERNEL_BAD_FILE_DESCRIPTOR;
 			}
 			else

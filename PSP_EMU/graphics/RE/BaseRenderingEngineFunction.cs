@@ -290,7 +290,7 @@ namespace pspsharp.graphics.RE
 			}
 			else if (bitMask != 0x00)
 			{
-				log.warn(string.Format("Unimplemented {0} 0x{1:X2}", name, bitMask));
+				Console.WriteLine(string.Format("Unimplemented {0} 0x{1:X2}", name, bitMask));
 			}
 
 			return true;
@@ -537,9 +537,9 @@ namespace pspsharp.graphics.RE
 						maxW = System.Math.Max(maxW, w);
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("drawBoundingBox vertex#{0:D} x={1:F}, y={2:F}, w={3:F}", i, x, y, w));
+						Console.WriteLine(string.Format("drawBoundingBox vertex#{0:D} x={1:F}, y={2:F}, w={3:F}", i, x, y, w));
 					}
 				}
 
@@ -556,11 +556,11 @@ namespace pspsharp.graphics.RE
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("drawBoundingBox visible=%b", bboxVisible));
-				log.debug(string.Format("drawBoundingBox visible=%b", bboxVisible));
+//ORIGINAL LINE: Console.WriteLine(String.format("drawBoundingBox visible=%b", bboxVisible));
+				Console.WriteLine(string.Format("drawBoundingBox visible=%b", bboxVisible));
 			}
 
 			base.drawBoundingBox(values);
@@ -909,7 +909,7 @@ namespace pspsharp.graphics.RE
 
 						if (log.InfoEnabled)
 						{
-							log.warn(string.Format("UNSUPPORTED: Both different SFIX (0x{0:X6}) and DFIX (0x{1:X6}) are not supported (blend equation={2:D}), approximating with 0x{3:X6}/0x{4:X6}", context.sfix, context.dfix, context.blendEquation, getColorFromBlend(src, blendColor, oneMinusBlendColor), getColorFromBlend(dst, blendColor, oneMinusBlendColor)));
+							Console.WriteLine(string.Format("UNSUPPORTED: Both different SFIX (0x{0:X6}) and DFIX (0x{1:X6}) are not supported (blend equation={2:D}), approximating with 0x{3:X6}/0x{4:X6}", context.sfix, context.dfix, context.blendEquation, getColorFromBlend(src, blendColor, oneMinusBlendColor), getColorFromBlend(dst, blendColor, oneMinusBlendColor)));
 						}
 					}
 				}
@@ -1005,9 +1005,9 @@ namespace pspsharp.graphics.RE
 				// as we have only a single instance of the empty buffer.
 				buffer = getEmptyBuffer(textureSize * 2);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("setTexImage using an empty buffer of size 0x{0:X}", textureSize));
+					Console.WriteLine(string.Format("setTexImage using an empty buffer of size 0x{0:X}", textureSize));
 				}
 			}
 

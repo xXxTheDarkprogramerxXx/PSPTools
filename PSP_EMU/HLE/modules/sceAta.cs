@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceAta : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceAta");
+		//public static Logger log = Modules.getLogger("sceAta");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xBE6261DA, version = 150) public void sceAta_driver_BE6261DA(int unknown)
@@ -108,7 +108,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC74F04B7, version = 150) public int sceAtaExecPacketCmd(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=36, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer driveStructure, int unknown1, int unknown2, int unknown3, int unknown4, int operationCode, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=64, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer8 unknown5)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC74F04B7, version = 150) public int sceAtaExecPacketCmd(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=36, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer driveStructure, int unknown1, int unknown2, int unknown3, int unknown4, int operationCode, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=64, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer8 unknown5)
 		[HLEFunction(nid : 0xC74F04B7, version : 150)]
 		public virtual int sceAtaExecPacketCmd(TPointer driveStructure, int unknown1, int unknown2, int unknown3, int unknown4, int operationCode, TPointer8 unknown5)
 		{
@@ -508,9 +508,9 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC344D497, version = 660) public int sceAta_driver_C344D497(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=36, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer driveStructure, int unknown, int mode, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC344D497, version = 660) public int sceAta_driver_C344D497(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=36, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer driveStructure, int unknown, int mode, int Length)
 		[HLEFunction(nid : 0xC344D497, version : 660)]
-		public virtual int sceAta_driver_C344D497(TPointer driveStructure, int unknown, int mode, int length)
+		public virtual int sceAta_driver_C344D497(TPointer driveStructure, int unknown, int mode, int Length)
 		{
 			// unknown: possible values: 0x2, 0x4, 0x80
 			// mode=1: write bytes to Ata drive

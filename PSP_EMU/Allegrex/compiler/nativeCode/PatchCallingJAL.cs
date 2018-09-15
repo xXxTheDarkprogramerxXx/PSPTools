@@ -42,9 +42,9 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			int delaySlotOpcode = mem.read32(patchAddr + 4);
 			interpret(delaySlotOpcode);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("PatchCallingJAL at 0x{0:X8} to 0x{1:X8}", patchAddr, jumpAddr));
+				Console.WriteLine(string.Format("PatchCallingJAL at 0x{0:X8} to 0x{1:X8}", patchAddr, jumpAddr));
 			}
 
 			return jumpAddr;

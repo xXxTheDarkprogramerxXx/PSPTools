@@ -39,7 +39,7 @@ namespace pspsharp.network.adhoc
 //ORIGINAL LINE: @Override public void connect(java.net.SocketAddress socketAddress, int port) throws java.io.IOException
 		public override void connect(SocketAddress socketAddress, int port)
 		{
-			log.error(string.Format("Connect not supported on ServerSocket: address={0}, port={1:D}", socketAddress, port));
+			Console.WriteLine(string.Format("Connect not supported on ServerSocket: address={0}, port={1:D}", socketAddress, port));
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -67,14 +67,14 @@ namespace pspsharp.network.adhoc
 //ORIGINAL LINE: @Override public void send(java.net.SocketAddress socketAddress, AdhocMessage adhocMessage) throws java.io.IOException
 		public override void send(SocketAddress socketAddress, AdhocMessage adhocMessage)
 		{
-			log.error(string.Format("Send not supported on ServerSocket: address={0}, message={1}", socketAddress, adhocMessage));
+			Console.WriteLine(string.Format("Send not supported on ServerSocket: address={0}, message={1}", socketAddress, adhocMessage));
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
 //ORIGINAL LINE: @Override public int receive(byte[] buffer, int size) throws java.io.IOException
 		public override int receive(sbyte[] buffer, int size)
 		{
-			log.debug(string.Format("Receive not supported on ServerSocket"));
+			Console.WriteLine(string.Format("Receive not supported on ServerSocket"));
 			return -1;
 		}
 

@@ -18,13 +18,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 
 	public class sceSfmt19937 : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSfmt19937");
+		//public static Logger log = Modules.getLogger("sceSfmt19937");
 
 		protected internal const int PSP_SFMT19937_LENGTH = 156;
 		private Dictionary<TPointer, sfmt19937Ctx> ctxMap = new Dictionary<TPointer, sfmt19937Ctx>();

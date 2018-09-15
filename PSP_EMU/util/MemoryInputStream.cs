@@ -41,15 +41,15 @@ namespace pspsharp.util
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: @Override public int read(byte[] buffer, int offset, int length) throws java.io.IOException
-		public override int read(sbyte[] buffer, int offset, int length)
+//ORIGINAL LINE: @Override public int read(byte[] buffer, int offset, int Length) throws java.io.IOException
+		public override int read(sbyte[] buffer, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				buffer[offset + i] = (sbyte) memoryReader.readNext();
 			}
 
-			return length;
+			return Length;
 		}
 	}
 

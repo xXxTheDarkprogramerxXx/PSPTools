@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class InitForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("InitForKernel");
+		//public static Logger log = Modules.getLogger("InitForKernel");
 		public const int SCE_INIT_APPLICATION_VSH = 0x100;
 		public const int SCE_INIT_APPLICATION_UPDATER = 0x110;
 		public const int SCE_INIT_APPLICATION_GAME = 0x200;

@@ -20,11 +20,11 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceHttpStorage : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceHttpStorage");
+		//public static Logger log = Modules.getLogger("sceHttpStorage");
 		private const int TYPE_AUTH_DAT = 0;
 		private const int TYPE_COOKIE_DAT = 1;
 		private readonly int[] fileIds = new int[2];
@@ -100,7 +100,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x04EF00F8, version = 150) public int sceHttpStorage_04EF00F8(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 psCode)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x04EF00F8, version = 150) public int sceHttpStorage_04EF00F8(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 psCode)
 		[HLEFunction(nid : 0x04EF00F8, version : 150)]
 		public virtual int sceHttpStorage_04EF00F8(TPointer8 psCode)
 		{

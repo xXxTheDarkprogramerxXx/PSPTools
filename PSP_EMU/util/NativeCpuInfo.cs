@@ -18,7 +18,7 @@
  */
 namespace pspsharp.util
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// 
 	/// <summary>
@@ -39,7 +39,7 @@ namespace pspsharp.util
 			}
 			catch (UnsatisfiedLinkError ule)
 			{
-				log.error("Loading cpuinfo native library", ule);
+				Console.WriteLine("Loading cpuinfo native library", ule);
 			}
 		}
 

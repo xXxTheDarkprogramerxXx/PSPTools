@@ -83,16 +83,16 @@ namespace pspsharp.HLE.kernel.types
 			{
 				get
 				{
-					int length = value.Length;
+					int Length = value.Length;
 					for (int i = 0; i < value.Length; i++)
 					{
 						if (value[i] == (sbyte) 0)
 						{
-							length = i;
+							Length = i;
 							break;
 						}
 					}
-					return StringHelper.NewString(value, 0, length);
+					return StringHelper.NewString(value, 0, Length);
 				}
 			}
 
@@ -127,14 +127,14 @@ namespace pspsharp.HLE.kernel.types
 						break;
 					case PARAM_TYPE_STRING:
 					case PARAM_TYPE_STRING_ASCII:
-						int length = value.Length;
-						if (length >= 256)
+						int Length = value.Length;
+						if (Length >= 256)
 						{
-							length = 255; // PSP returns maximum 255 bytes
+							Length = 255; // PSP returns maximum 255 bytes
 						}
-						Utilities.writeBytes(buffer.Address, length, value, 0);
+						Utilities.writeBytes(buffer.Address, Length, value, 0);
 						// Add trailing 0
-						buffer.setValue8(length, (sbyte) 0);
+						buffer.setValue8(Length, (sbyte) 0);
 						break;
 					default:
 						// Copy nothing
@@ -173,9 +173,9 @@ namespace pspsharp.HLE.kernel.types
 			for (int i = 0; i < NUMBER_PARAMETERS; i++)
 			{
 				int type = endianSwap16((short) read16());
-				int length = endianSwap16((short) read16());
+				int Length = endianSwap16((short) read16());
 
-				sbyte[] value = new sbyte[length];
+				sbyte[] value = new sbyte[Length];
 				read8Array(value);
 
 				TicketParam ticketParam = new TicketParam(type, value);
@@ -227,9 +227,9 @@ namespace pspsharp.HLE.kernel.types
 			return bytes;
 		}
 
-		public virtual void read(sbyte[] bytes, int offset, int length)
+		public virtual void read(sbyte[] bytes, int offset, int Length)
 		{
-			ByteBuffer b = ByteBuffer.wrap(bytes, offset, length).order(ByteOrder.LITTLE_ENDIAN);
+			ByteBuffer b = ByteBuffer.wrap(bytes, offset, Length).order(ByteOrder.LITTLE_ENDIAN);
 
 			version = b.Int;
 			size = endianSwap32(b.Int);

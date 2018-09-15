@@ -1281,8 +1281,8 @@ namespace pspsharp.graphics.RE.software
 											//   float k  = gl_FrontMaterial.shininess;
 											//   vec3  Lu = gl_LightSource[texShade.x].position.xyz - Ve.xyz * gl_LightSource[texShade.x].position.w;
 											//   vec3  Lv = gl_LightSource[texShade.y].position.xyz - Ve.xyz * gl_LightSource[texShade.y].position.w;
-											//   float Pu = psp_lightKind[texShade.x] == 0 ? dot(Nn, normalize(Lu)) : pow(dot(Nn, normalize(Lu + vec3(0.0, 0.0, 1.0))), k);
-											//   float Pv = psp_lightKind[texShade.y] == 0 ? dot(Nn, normalize(Lv)) : pow(dot(Nn, normalize(Lv + vec3(0.0, 0.0, 1.0))), k);
+											//   float Pu = psp_lightKind[texShade.x] == 0 ? dot(Nn, normalize(Lu)) : Pow(dot(Nn, normalize(Lu + vec3(0.0, 0.0, 1.0))), k);
+											//   float Pv = psp_lightKind[texShade.y] == 0 ? dot(Nn, normalize(Lv)) : Pow(dot(Nn, normalize(Lv + vec3(0.0, 0.0, 1.0))), k);
 											//   T.xyz = vec3(0.5*vec2(1.0 + Pu, 1.0 + Pv), 1.0);
 											//
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':

@@ -22,7 +22,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 	public class VSMXArray : VSMXObject
 	{
 		private const string className = "Array";
-		private int length;
+		private int Length;
 
 		public VSMXArray(VSMXInterpreter interpreter) : base(interpreter, className)
 		{
@@ -33,7 +33,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 
 			if (size > 0)
 			{
-				length = size;
+				Length = size;
 				for (int i = 0; i < size; i++)
 				{
 					create(i);
@@ -45,7 +45,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		{
 			get
 			{
-				return length;
+				return Length;
 			}
 		}
 
@@ -61,13 +61,13 @@ namespace pspsharp.format.rco.vsmx.interpreter
 
 		private void updateLength(int index)
 		{
-			if (index >= length)
+			if (index >= Length)
 			{
-				for (int i = length; i <= index; i++)
+				for (int i = Length; i <= index; i++)
 				{
 					create(i);
 				}
-				length = index + 1;
+				Length = index + 1;
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		{
 			if (lengthName.Equals(name))
 			{
-				return new VSMXNumber(interpreter, length);
+				return new VSMXNumber(interpreter, Length);
 			}
 
 			int index = getIndex(name);
@@ -92,16 +92,16 @@ namespace pspsharp.format.rco.vsmx.interpreter
 			if (lengthName.Equals(name))
 			{
 				int newLength = value.IntValue;
-				if (newLength > length)
+				if (newLength > Length)
 				{
-					for (int i = length; i < newLength; i++)
+					for (int i = Length; i < newLength; i++)
 					{
 						create(i);
 					}
 				}
-				else if (newLength < length)
+				else if (newLength < Length)
 				{
-					for (int i = newLength; i < length; i++)
+					for (int i = newLength; i < Length; i++)
 					{
 						delete(i);
 					}
@@ -124,7 +124,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		{
 			if (lengthName.Equals(name))
 			{
-				// Cannot delete "length" property
+				// Cannot delete "Length" property
 				return;
 			}
 
@@ -164,12 +164,12 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		{
 			if (index >= 0)
 			{
-				if (index == length - 1)
+				if (index == Length - 1)
 				{ // Deleting the last element of the array?
 					delete(index);
-					length = index;
+					Length = index;
 				}
-				else if (index < length)
+				else if (index < Length)
 				{ // Deleting in the middle of the array?
 					create(index);
 				}
@@ -193,14 +193,14 @@ namespace pspsharp.format.rco.vsmx.interpreter
 				// "if" on an empty array seems to return false. E.g.
 				//     x = {};
 				//     if (x) { notexecuted; }
-				return length > 0;
+				return Length > 0;
 			}
 		}
 
 		public override string ToString()
 		{
 			StringBuilder s = new StringBuilder();
-			s.Append(string.Format("[length={0:D}", length));
+			s.Append(string.Format("[Length={0:D}", Length));
 			ToString(s);
 			s.Append("]");
 

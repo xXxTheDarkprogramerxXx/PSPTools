@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class sceNpCamp : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNpCamp");
+		//public static Logger log = Modules.getLogger("sceNpCamp");
 
 		// Init function?
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:

@@ -172,7 +172,7 @@ namespace pspsharp.HLE.modules
 	using Scheduler = pspsharp.scheduler.Scheduler;
 	using DurationStatistics = pspsharp.util.DurationStatistics;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * Thread scheduling on PSP:
@@ -209,7 +209,7 @@ namespace pspsharp.HLE.modules
 	 */
 	public class ThreadManForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("ThreadManForUser");
+		//public static Logger log = Modules.getLogger("ThreadManForUser");
 
 		private Dictionary<int, SceKernelThreadInfo> threadMap;
 		private Dictionary<int, SceKernelThreadEventHandlerInfo> threadEventHandlers;
@@ -541,11 +541,11 @@ namespace pspsharp.HLE.modules
 					{
 						doCallbacks = false;
 					}
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("AfterCallAction: restoring wait state for thread '%s' to %s, %s, doCallbacks %b", thread.toString(), pspsharp.HLE.kernel.types.SceKernelThreadInfo.getStatusName(status), pspsharp.HLE.kernel.types.SceKernelThreadInfo.getWaitName(waitType, waitId, threadWaitInfo, status), doCallbacks));
-						log.debug(string.Format("AfterCallAction: restoring wait state for thread '%s' to %s, %s, doCallbacks %b", thread.ToString(), SceKernelThreadInfo.getStatusName(status), SceKernelThreadInfo.getWaitName(waitType, waitId, threadWaitInfo, status), doCallbacks));
+//ORIGINAL LINE: Console.WriteLine(String.format("AfterCallAction: restoring wait state for thread '%s' to %s, %s, doCallbacks %b", thread.toString(), pspsharp.HLE.kernel.types.SceKernelThreadInfo.getStatusName(status), pspsharp.HLE.kernel.types.SceKernelThreadInfo.getWaitName(waitType, waitId, threadWaitInfo, status), doCallbacks));
+						Console.WriteLine(string.Format("AfterCallAction: restoring wait state for thread '%s' to %s, %s, doCallbacks %b", thread.ToString(), SceKernelThreadInfo.getStatusName(status), SceKernelThreadInfo.getWaitName(waitType, waitId, threadWaitInfo, status), doCallbacks));
 					}
 
 					// Restore the wait state of the thread
@@ -557,17 +557,17 @@ namespace pspsharp.HLE.modules
 				}
 				else if (thread.Running)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("AfterCallAction: leaving thread in RUNNING state: {0}", thread));
+						Console.WriteLine(string.Format("AfterCallAction: leaving thread in RUNNING state: {0}", thread));
 					}
 					doCallbacks = false;
 				}
 				else if (!thread.Ready)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("AfterCallAction: set thread to READY state: {0}", thread));
+						Console.WriteLine(string.Format("AfterCallAction: set thread to READY state: {0}", thread));
 					}
 
 					outerInstance.hleChangeThreadState(thread, PSP_THREAD_READY);
@@ -575,9 +575,9 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("AfterCallAction: leaving thread in READY state: {0}", thread));
+						Console.WriteLine(string.Format("AfterCallAction: leaving thread in READY state: {0}", thread));
 					}
 					doCallbacks = false;
 				}
@@ -733,9 +733,9 @@ namespace pspsharp.HLE.modules
 				int callbackReturnValue = thread.cpuContext._v0;
 				if (callbackReturnValue != 0)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Callback uid=0x{0:X} has returned value 0x{1:X8}: deleting the callback", callbackUid, callbackReturnValue));
+						Console.WriteLine(string.Format("Callback uid=0x{0:X} has returned value 0x{1:X8}: deleting the callback", callbackUid, callbackReturnValue));
 					}
 					outerInstance.hleKernelDeleteCallback(callbackUid);
 				}
@@ -764,9 +764,9 @@ namespace pspsharp.HLE.modules
 			{
 				CpuState cpu = Emulator.Processor.cpu;
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("AfterSceKernelExtendThreadStackAction savedSp=0x{0:X8}, savedRa=0x{1:X8}, $v0=0x{2:X8}", savedSp, savedRa, cpu._v0));
+					Console.WriteLine(string.Format("AfterSceKernelExtendThreadStackAction savedSp=0x{0:X8}, savedRa=0x{1:X8}, $v0=0x{2:X8}", savedSp, savedRa, cpu._v0));
 				}
 
 				cpu.pc = savedPc;
@@ -909,9 +909,9 @@ namespace pspsharp.HLE.modules
 				rootInitPriority = module.module_start_thread_priority;
 			}
 			SceKernelThreadInfo rootThread = new SceKernelThreadInfo(rootThreadName, entry_addr, rootInitPriority, rootStackSize, attr, rootMpidStack);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Creating root thread: uid=0x{0:X}, entry=0x{1:X8}, priority={2:D}, stackSize=0x{3:X}, attr=0x{4:X}", rootThread.uid, entry_addr, rootInitPriority, rootStackSize, attr));
+				Console.WriteLine(string.Format("Creating root thread: uid=0x{0:X}, entry=0x{1:X8}, priority={2:D}, stackSize=0x{3:X}, attr=0x{4:X}", rootThread.uid, entry_addr, rootInitPriority, rootStackSize, attr));
 			}
 			rootThread.moduleid = moduleid;
 			threadMap[rootThread.uid] = rootThread;
@@ -1074,7 +1074,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo internalMemInfo = Modules.SysMemUserForUserModule.malloc(SysMemUserForUser.KERNEL_PARTITION_ID, "ThreadMan-InternalHandlers", SysMemUserForUser.PSP_SMEM_Addr, INTERNAL_THREAD_ADDRESS_SIZE, INTERNAL_THREAD_ADDRESS_START);
 			if (internalMemInfo == null)
 			{
-				log.error(string.Format("Cannot reserve internal memory at 0x{0:X8}", INTERNAL_THREAD_ADDRESS_START));
+				Console.WriteLine(string.Format("Cannot reserve internal memory at 0x{0:X8}", INTERNAL_THREAD_ADDRESS_START));
 			}
 
 			// This memory is always reserved on a real PSP
@@ -1091,7 +1091,7 @@ namespace pspsharp.HLE.modules
 
 			if (freeInternalUserMemoryStart + size > freeInternalUserMemoryEnd)
 			{
-				log.error(string.Format("allocateInternalUserMemory not enough free memory available, requested size=0x{0:X}, available size=0x{1:X}", size, freeInternalUserMemoryEnd - freeInternalUserMemoryStart));
+				Console.WriteLine(string.Format("allocateInternalUserMemory not enough free memory available, requested size=0x{0:X}, available size=0x{1:X}", size, freeInternalUserMemoryEnd - freeInternalUserMemoryStart));
 				return 0;
 			}
 
@@ -1275,7 +1275,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = HLESyscallNid, version = 150) public int hleWlanIoctlCallback(pspsharp.HLE.TPointer handleAddr, int cmd, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 buffersAddr)
+//ORIGINAL LINE: @HLEFunction(nid = HLESyscallNid, version = 150) public int hleWlanIoctlCallback(pspsharp.HLE.TPointer handleAddr, int cmd, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 buffersAddr)
 		[HLEFunction(nid : HLESyscallNid, version : 150)]
 		public virtual int hleWlanIoctlCallback(TPointer handleAddr, int cmd, TPointer unknown, TPointer32 buffersAddr)
 		{
@@ -1357,7 +1357,7 @@ namespace pspsharp.HLE.modules
 			else if (!exitCalled)
 			{
 				// We always need to be in a thread! we shouldn't get here.
-				log.error("No ready threads!");
+				Console.WriteLine("No ready threads!");
 			}
 		}
 
@@ -1384,7 +1384,7 @@ namespace pspsharp.HLE.modules
 
 				if (LOG_CONTEXT_SWITCHING && log.DebugEnabled && !isIdleThread(newThread))
 				{
-					log.debug(string.Format("----- {0}, now={1:D}", newThread, Emulator.Clock.microTime()));
+					Console.WriteLine(string.Format("----- {0}, now={1:D}", newThread, Emulator.Clock.microTime()));
 				}
 			}
 			else
@@ -1410,9 +1410,9 @@ namespace pspsharp.HLE.modules
 			if (IntrManager.Instance.InsideInterrupt)
 			{
 				// No context switching inside an interrupt
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("Inside an interrupt, not context switching to " + newThread);
+					Console.WriteLine("Inside an interrupt, not context switching to " + newThread);
 				}
 				return false;
 			}
@@ -1420,9 +1420,9 @@ namespace pspsharp.HLE.modules
 			if (Emulator.Processor.InterruptsDisabled)
 			{
 				// No context switching when interrupts are disabled
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("Interrupts are disabled, not context switching to " + newThread);
+					Console.WriteLine("Interrupts are disabled, not context switching to " + newThread);
 				}
 				return false;
 			}
@@ -1449,9 +1449,9 @@ namespace pspsharp.HLE.modules
 				if (RuntimeContext.canExecuteCallback(thread))
 				{
 					Callback callback = thread.pendingCallbacks.RemoveFirst();
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Executing pending callback '{0}' for thread '{1}'", callback, thread));
+						Console.WriteLine(string.Format("Executing pending callback '{0}' for thread '{1}'", callback, thread));
 					}
 					callback.execute(thread);
 				}
@@ -1471,9 +1471,9 @@ namespace pspsharp.HLE.modules
 				if (currentThread == thread)
 				{
 					IAction action = thread.pendingActions.RemoveFirst();
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Executing pending action '{0}' for thread '{1}'", action, thread));
+						Console.WriteLine(string.Format("Executing pending action '{0}' for thread '{1}'", action, thread));
 					}
 					action.execute();
 
@@ -1533,7 +1533,7 @@ namespace pspsharp.HLE.modules
 				{
 					if (LOG_CONTEXT_SWITCHING && Modules.log.DebugEnabled)
 					{
-						log.debug("Context switching to '" + newThread + "' after reschedule");
+						Console.WriteLine("Context switching to '" + newThread + "' after reschedule");
 					}
 
 					if (contextSwitch(newThread))
@@ -1773,7 +1773,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (LOG_CONTEXT_SWITCHING && Modules.log.DebugEnabled)
 			{
-				log.debug("-------------------- block SceUID=" + currentThread.uid.ToString("x") + " name:'" + currentThread.name + "' caller:" + CallingFunction);
+				Console.WriteLine("-------------------- block SceUID=" + currentThread.uid.ToString("x") + " name:'" + currentThread.name + "' caller:" + CallingFunction);
 			}
 
 			hleBlockThread(currentThread, waitType, waitId, doCallbacks, onUnblockAction, waitStateChecker);
@@ -1820,7 +1820,7 @@ namespace pspsharp.HLE.modules
 
 				if (LOG_CONTEXT_SWITCHING && thread != null && Modules.log.DebugEnabled)
 				{
-					log.debug("-------------------- unblock SceUID=" + thread.uid.ToString("x") + " name:'" + thread.name + "' caller:" + CallingFunction);
+					Console.WriteLine("-------------------- unblock SceUID=" + thread.uid.ToString("x") + " name:'" + thread.name + "' caller:" + CallingFunction);
 				}
 			}
 		}
@@ -1835,7 +1835,7 @@ namespace pspsharp.HLE.modules
 				{
 					msg = lines[2].ToString();
 					msg = msg.Substring(0, msg.IndexOf("(", StringComparison.Ordinal));
-					//msg = "'" + msg.Substring(msg.lastIndexOf(".") + 1, msg.length()) + "'";
+					//msg = "'" + msg.Substring(msg.lastIndexOf(".") + 1, msg.Length()) + "'";
 					string[] parts = msg.Split("\\.", true);
 					msg = "'" + parts[parts.Length - 2] + "." + parts[parts.Length - 1] + "'";
 				}
@@ -2011,19 +2011,19 @@ namespace pspsharp.HLE.modules
 		{
 			if (!threadMap.ContainsKey(thread.uid))
 			{
-				log.debug(string.Format("Thread {0} already deleted", thread.ToString()));
+				Console.WriteLine(string.Format("Thread {0} already deleted", thread.ToString()));
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("really deleting thread:'{0}'", thread.name));
+				Console.WriteLine(string.Format("really deleting thread:'{0}'", thread.name));
 			}
 
 			// cleanup thread - free the stack
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("thread:'{0}' freeing stack 0x{1:X8}", thread.name, thread.StackAddr));
+				Console.WriteLine(string.Format("thread:'{0}' freeing stack 0x{1:X8}", thread.name, thread.StackAddr));
 			}
 			thread.freeStack();
 
@@ -2130,9 +2130,9 @@ namespace pspsharp.HLE.modules
 			if (thread.Ready)
 			{
 				// A ready thread is yielding when changing priority and moved to the end of the ready thread list.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("hleKernelChangeThreadPriority rescheduling ready thread");
+					Console.WriteLine("hleKernelChangeThreadPriority rescheduling ready thread");
 				}
 				removeFromReadyThreads(thread);
 				addToReadyThreads(thread, false);
@@ -2223,7 +2223,7 @@ namespace pspsharp.HLE.modules
 				// debug
 				if (thread.waitType == PSP_WAIT_NONE)
 				{
-					log.warn("changeThreadState thread '" + thread.name + "' => PSP_THREAD_WAITING. waitType should NOT be PSP_WAIT_NONE. caller:" + CallingFunction);
+					Console.WriteLine("changeThreadState thread '" + thread.name + "' => PSP_THREAD_WAITING. waitType should NOT be PSP_WAIT_NONE. caller:" + CallingFunction);
 				}
 			}
 			else if (thread.Stopped)
@@ -2258,7 +2258,7 @@ namespace pspsharp.HLE.modules
 				// debug
 				if (thread.waitType != PSP_WAIT_NONE && !isIdleThread(thread))
 				{
-					log.error(string.Format("changeThreadState thread {0} => PSP_THREAD_RUNNING. waitType should be PSP_WAIT_NONE. caller: {1}", thread, CallingFunction));
+					Console.WriteLine(string.Format("changeThreadState thread {0} => PSP_THREAD_RUNNING. waitType should be PSP_WAIT_NONE. caller: {1}", thread, CallingFunction));
 				}
 			}
 		}
@@ -2382,9 +2382,9 @@ namespace pspsharp.HLE.modules
 
 			if (!callbackCalled)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Pushing pending callback '{0}' for thread '{1}'", callback, thread));
+					Console.WriteLine(string.Format("Pushing pending callback '{0}' for thread '{1}'", callback, thread));
 				}
 				thread.pendingCallbacks.AddLast(callback);
 			}
@@ -2402,11 +2402,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="returnVoid">  the callback has a void return value, i.e. $v0/$v1 have to be restored </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, null);
@@ -2425,11 +2425,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerA0">  first parameter of the callback ($a0) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int registerA0)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, new int[]{registerA0});
@@ -2449,11 +2449,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerA1">  second parameter of the callback ($a1) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int registerA0, int registerA1)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, new int[]{registerA0, registerA1});
@@ -2474,11 +2474,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerA2">  third parameter of the callback ($a2) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int registerA0, int registerA1, int registerA2)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, new int[]{registerA0, registerA1, registerA2});
@@ -2501,11 +2501,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerA2">  third parameter of the callback ($a2) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, bool preserverCpuState, int registerA0, int registerA1, int registerA2)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b, preserverCpuState=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid, preserverCpuState));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b, preserverCpuState=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid, preserverCpuState));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b, preserverCpuState=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid, preserverCpuState));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X), afterAction=%s, returnVoid=%b, preserverCpuState=%b", address, registerA0, registerA1, registerA2, afterAction, returnVoid, preserverCpuState));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, preserverCpuState, new int[]{registerA0, registerA1, registerA2});
@@ -2527,11 +2527,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerA3">  fourth parameter of the callback ($a3) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int registerA0, int registerA1, int registerA2, int registerA3)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, new int[]{registerA0, registerA1, registerA2, registerA3});
@@ -2553,11 +2553,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerT0">  fifth parameter of the callback ($t0) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int registerA0, int registerA1, int registerA2, int registerA3, int registerT0)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, new int[]{registerA0, registerA1, registerA2, registerA3, registerT0});
@@ -2580,11 +2580,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registerT1">  sixth parameter of the callback ($t1) </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int registerA0, int registerA1, int registerA2, int registerA3, int registerT0, int registerT1)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X, $t1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, registerT1, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X, $t1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, registerT1, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X, $t1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, registerT1, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X($a0=0x%08X, $a1=0x%08X, $a2=0x%08X, $a3=0x%08X, $t0=0x%08X, $t1=0x%08X), afterAction=%s, returnVoid=%b", address, registerA0, registerA1, registerA2, registerA3, registerT0, registerT1, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, new int[]{registerA0, registerA1, registerA2, registerA3, registerT0, registerT1});
@@ -2603,11 +2603,11 @@ namespace pspsharp.HLE.modules
 		/// <param name="registers">   parameters of the callback </param>
 		public virtual void executeCallback(SceKernelThreadInfo thread, int address, IAction afterAction, bool returnVoid, int[] registers)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
-				log.debug(string.Format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
+//ORIGINAL LINE: Console.WriteLine(String.format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
+				Console.WriteLine(string.Format("Execute callback 0x%08X, afterAction=%s, returnVoid=%b", address, afterAction, returnVoid));
 			}
 
 			callAddress(thread, address, afterAction, returnVoid, false, registers);
@@ -2616,18 +2616,18 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : HLESyscallNid, version : 150)]
 		public virtual void hleKernelExitThread(int exitStatus)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Thread exit detected SceUID={0:x} name='{1}' return:0x{2:X8}", currentThread.uid, currentThread.name, exitStatus));
+				Console.WriteLine(string.Format("Thread exit detected SceUID={0:x} name='{1}' return:0x{2:X8}", currentThread.uid, currentThread.name, exitStatus));
 			}
 			sceKernelExitThread(exitStatus);
 		}
 
 		public virtual int hleKernelExitDeleteThread(int exitStatus)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelExitDeleteThread SceUID={0:x} name='{1}' return:0x{2:X8}", currentThread.uid, currentThread.name, exitStatus));
+				Console.WriteLine(string.Format("hleKernelExitDeleteThread SceUID={0:x} name='{1}' return:0x{2:X8}", currentThread.uid, currentThread.name, exitStatus));
 			}
 
 			return sceKernelExitDeleteThread(exitStatus);
@@ -2649,7 +2649,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (uid == 0)
 			{
-				log.warn("checkThreadID illegal thread uid=0");
+				Console.WriteLine("checkThreadID illegal thread uid=0");
 				throw new SceKernelErrorException(ERROR_KERNEL_ILLEGAL_THREAD);
 			}
 			return checkThreadIDAllow0(uid);
@@ -2669,7 +2669,7 @@ namespace pspsharp.HLE.modules
 			}
 			if (!threadMap.ContainsKey(uid))
 			{
-				log.warn(string.Format("checkThreadID not found thread 0x{0:X8}", uid));
+				Console.WriteLine(string.Format("checkThreadID not found thread 0x{0:X8}", uid));
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_THREAD);
 			}
 
@@ -2691,7 +2691,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (uid == 0)
 			{
-				log.warn(string.Format("checkThreadID not found thread 0x{0:X8}", uid));
+				Console.WriteLine(string.Format("checkThreadID not found thread 0x{0:X8}", uid));
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_THREAD);
 			}
 			return checkThreadIDAllow0(uid);
@@ -2746,7 +2746,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (!alarms.ContainsKey(uid))
 			{
-				log.warn(string.Format("checkAlarmID unknown uid=0x{0:x}", uid));
+				Console.WriteLine(string.Format("checkAlarmID unknown uid=0x{0:x}", uid));
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_ALARM);
 			}
 
@@ -2798,9 +2798,9 @@ namespace pspsharp.HLE.modules
 				{
 					mpidStack = sceKernelThreadOptParam.stackMpid;
 				}
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelCreateThread options: {0}", sceKernelThreadOptParam));
+					Console.WriteLine(string.Format("sceKernelCreateThread options: {0}", sceKernelThreadOptParam));
 				}
 			}
 
@@ -2813,9 +2813,9 @@ namespace pspsharp.HLE.modules
 				thread.moduleid = currentThread.moduleid;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelCreateThread SceUID=0x{0:X}, name='{1}', PC=0x{2:X8}, attr=0x{3:X}, priority=0x{4:X}, stackSize=0x{5:X}", thread.uid, thread.name, thread.cpuContext.pc, attr, initPriority, stackSize));
+				Console.WriteLine(string.Format("hleKernelCreateThread SceUID=0x{0:X}, name='{1}', PC=0x{2:X8}, attr=0x{3:X}, priority=0x{4:X}, stackSize=0x{5:X}", thread.uid, thread.name, thread.cpuContext.pc, attr, initPriority, stackSize));
 			}
 
 			return thread;
@@ -2823,9 +2823,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleKernelStartThread(SceKernelThreadInfo thread, int userDataLength, int userDataAddr, int gp)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelStartThread SceUID=0x{0:X}, name='{1}', dataLen=0x{2:X}, data=0x{3:X8}, gp=0x{4:X8}", thread.uid, thread.name, userDataLength, userDataAddr, gp));
+				Console.WriteLine(string.Format("hleKernelStartThread SceUID=0x{0:X}, name='{1}', dataLen=0x{2:X}, data=0x{3:X8}, gp=0x{4:X8}", thread.uid, thread.name, userDataLength, userDataAddr, gp));
 			}
 			// Reset all thread parameters: a thread can be restarted when it has exited.
 			thread.reset();
@@ -2855,9 +2855,9 @@ namespace pspsharp.HLE.modules
 
 			if (currentThread == null || thread.currentPriority < currentThread.currentPriority)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("hleKernelStartThread switching in thread immediately");
+					Console.WriteLine("hleKernelStartThread switching in thread immediately");
 				}
 				hleRescheduleCurrentThread();
 			}
@@ -2884,16 +2884,16 @@ namespace pspsharp.HLE.modules
 			if (!thread.Waiting || thread.waitType != PSP_WAIT_SLEEP)
 			{
 				thread.wakeupCount++;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("sceKernelWakeupThread SceUID=" + thread.uid.ToString("x") + " name:'" + thread.name + "' not sleeping/waiting (status=0x" + thread.status.ToString("x") + "), incrementing wakeupCount to " + thread.wakeupCount);
+					Console.WriteLine("sceKernelWakeupThread SceUID=" + thread.uid.ToString("x") + " name:'" + thread.name + "' not sleeping/waiting (status=0x" + thread.status.ToString("x") + "), incrementing wakeupCount to " + thread.wakeupCount);
 				}
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("sceKernelWakeupThread SceUID=" + thread.uid.ToString("x") + " name:'" + thread.name + "'");
+					Console.WriteLine("sceKernelWakeupThread SceUID=" + thread.uid.ToString("x") + " name:'" + thread.name + "'");
 				}
 				hleThreadWaitRelease(thread);
 
@@ -2905,26 +2905,26 @@ namespace pspsharp.HLE.modules
 
 		public virtual int hleKernelWaitThreadEnd(SceKernelThreadInfo waitingThread, int uid, TPointer32 timeoutAddr, bool callbacks, bool returnExitStatus)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleKernelWaitThreadEnd SceUID=0x%X, callbacks=%b", uid, callbacks));
-				log.debug(string.Format("hleKernelWaitThreadEnd SceUID=0x%X, callbacks=%b", uid, callbacks));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleKernelWaitThreadEnd SceUID=0x%X, callbacks=%b", uid, callbacks));
+				Console.WriteLine(string.Format("hleKernelWaitThreadEnd SceUID=0x%X, callbacks=%b", uid, callbacks));
 			}
 
 			SceKernelThreadInfo thread = threadMap[uid];
 			if (thread == null)
 			{
-				log.warn(string.Format("hleKernelWaitThreadEnd unknown thread 0x{0:X}", uid));
+				Console.WriteLine(string.Format("hleKernelWaitThreadEnd unknown thread 0x{0:X}", uid));
 				return ERROR_KERNEL_NOT_FOUND_THREAD;
 			}
 
 			int result = 0;
 			if (thread.Stopped)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelWaitThreadEnd {0} thread already stopped, not waiting, exitStatus=0x{1:X8}", thread, thread.exitStatus));
+					Console.WriteLine(string.Format("hleKernelWaitThreadEnd {0} thread already stopped, not waiting, exitStatus=0x{1:X8}", thread, thread.exitStatus));
 				}
 				if (returnExitStatus)
 				{
@@ -2975,7 +2975,7 @@ namespace pspsharp.HLE.modules
 
 			if (LOG_CONTEXT_SWITCHING && log.DebugEnabled && !isIdleThread(thread))
 			{
-				log.debug("-------------------- hleKernelThreadWait micros=" + micros + " forever:" + forever + " thread:'" + thread.name + "' caller:" + CallingFunction);
+				Console.WriteLine("-------------------- hleKernelThreadWait micros=" + micros + " forever:" + forever + " thread:'" + thread.name + "' caller:" + CallingFunction);
 			}
 		}
 
@@ -2991,11 +2991,11 @@ namespace pspsharp.HLE.modules
 				micros = THREAD_DELAY_MINIMUM_MICROS;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleKernelDelayThread micros=%d, callbacks=%b", micros, doCallbacks));
-				log.debug(string.Format("hleKernelDelayThread micros=%d, callbacks=%b", micros, doCallbacks));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleKernelDelayThread micros=%d, callbacks=%b", micros, doCallbacks));
+				Console.WriteLine(string.Format("hleKernelDelayThread micros=%d, callbacks=%b", micros, doCallbacks));
 			}
 
 			SceKernelThreadInfo thread = getThreadById(uid);
@@ -3009,9 +3009,9 @@ namespace pspsharp.HLE.modules
 		{
 			SceKernelCallbackInfo callback = new SceKernelCallbackInfo(name, currentThread.uid, func_addr, user_arg_addr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelCreateCallback {0}", callback));
+				Console.WriteLine(string.Format("hleKernelCreateCallback {0}", callback));
 			}
 
 			callbackMap[callback.Uid] = callback;
@@ -3023,9 +3023,9 @@ namespace pspsharp.HLE.modules
 		{
 			pspBaseCallback callback = new pspBaseCallback(callbackFunction, numberArguments);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelCreateCallback {0}", callback));
+				Console.WriteLine(string.Format("hleKernelCreateCallback {0}", callback));
 			}
 
 			callbackMap[callback.Uid] = callback;
@@ -3039,9 +3039,9 @@ namespace pspsharp.HLE.modules
 			SceKernelCallbackInfo callback = getCallbackInfo(uid);
 			if (callback != null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelDeleteCallback {0}", callback));
+					Console.WriteLine(string.Format("hleKernelDeleteCallback {0}", callback));
 				}
 				callbackMap.Remove(uid);
 				SceKernelThreadInfo thread = getThreadById(callback.ThreadId);
@@ -3052,7 +3052,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("hleKernelDeleteCallback not a callback uid 0x{0:X}", uid));
+				Console.WriteLine(string.Format("hleKernelDeleteCallback not a callback uid 0x{0:X}", uid));
 			}
 		}
 
@@ -3113,14 +3113,14 @@ namespace pspsharp.HLE.modules
 			SceKernelCallbackInfo callback = getCallbackInfo(cbid);
 			if (callback == null)
 			{
-				log.warn("hleKernelRegisterCallback(type=" + callbackType + ") unknown uid " + cbid.ToString("x"));
+				Console.WriteLine("hleKernelRegisterCallback(type=" + callbackType + ") unknown uid " + cbid.ToString("x"));
 				return false;
 			}
 
 			SceKernelThreadInfo thread = getThreadById(callback.ThreadId);
 			if (thread == null)
 			{
-				log.warn("hleKernelRegisterCallback(type=" + callbackType + ") unknown thread uid " + callback.ThreadId.ToString("x"));
+				Console.WriteLine("hleKernelRegisterCallback(type=" + callbackType + ") unknown thread uid " + callback.ThreadId.ToString("x"));
 				return false;
 			}
 			SceKernelThreadInfo.RegisteredCallbacks registeredCallbacks = thread.getRegisteredCallbacks(callbackType);
@@ -3154,7 +3154,7 @@ namespace pspsharp.HLE.modules
 					// that has been pushed but not yet executed.
 					if (registeredCallbacks.isCallbackReady(callback))
 					{
-						log.warn("hleKernelUnRegisterCallback(type=" + callbackType + ") removing pending callback");
+						Console.WriteLine("hleKernelUnRegisterCallback(type=" + callbackType + ") removing pending callback");
 					}
 
 					registeredCallbacks.removeCallback(callback);
@@ -3164,7 +3164,7 @@ namespace pspsharp.HLE.modules
 
 			if (!found)
 			{
-				log.warn("hleKernelUnRegisterCallback(type=" + callbackType + ") cbid=" + cbid.ToString("x") + " no matching callbacks found");
+				Console.WriteLine("hleKernelUnRegisterCallback(type=" + callbackType + ") cbid=" + cbid.ToString("x") + " no matching callbacks found");
 			}
 
 			return found;
@@ -3196,7 +3196,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (callback.NotifyCount > 0)
 			{
-				log.warn("hleKernelNotifyCallback(type=" + callbackType + ") thread:'" + thread.name + "' overwriting previous notifyArg 0x" + callback.NotifyArg.ToString("x") + " -> 0x" + notifyArg.ToString("x") + ", newCount=" + (callback.NotifyCount + 1));
+				Console.WriteLine("hleKernelNotifyCallback(type=" + callbackType + ") thread:'" + thread.name + "' overwriting previous notifyArg 0x" + callback.NotifyArg.ToString("x") + " -> 0x" + notifyArg.ToString("x") + ", newCount=" + (callback.NotifyCount + 1));
 			}
 
 			callback.NotifyArg = notifyArg;
@@ -3250,17 +3250,17 @@ namespace pspsharp.HLE.modules
 				// Enter callbacks immediately,
 				// except those registered to the current thread. The app must explictly
 				// call sceKernelCheckCallback or a waitCB function to do that.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("hleKernelNotifyCallback(type=" + callbackType + ") calling checkCallbacks");
+					Console.WriteLine("hleKernelNotifyCallback(type=" + callbackType + ") calling checkCallbacks");
 				}
 				checkCallbacks();
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelNotifyCallback(type={0:D}) no registered callbacks to push", callbackType));
+					Console.WriteLine(string.Format("hleKernelNotifyCallback(type={0:D}) no registered callbacks to push", callbackType));
 				}
 			}
 		}
@@ -3283,9 +3283,9 @@ namespace pspsharp.HLE.modules
 				pspBaseCallback callback = registeredCallbacks.NextReadyCallback;
 				if (callback != null)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Entering callback type {0:D} {1} for thread {2} (current thread is {3})", callbackType, callback.ToString(), thread.ToString(), currentThread.ToString()));
+						Console.WriteLine(string.Format("Entering callback type {0:D} {1} for thread {2} (current thread is {3})", callbackType, callback.ToString(), thread.ToString(), currentThread.ToString()));
 					}
 
 					CheckCallbackReturnValue checkCallbackReturnValue = new CheckCallbackReturnValue(this, thread, callback.Uid);
@@ -3316,9 +3316,9 @@ namespace pspsharp.HLE.modules
 			sceKernelAlarmInfo.schedule += delay;
 			scheduleAlarm(sceKernelAlarmInfo);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("New Schedule for Alarm uid={0:x}: {1:D}", sceKernelAlarmInfo.uid, sceKernelAlarmInfo.schedule));
+				Console.WriteLine(string.Format("New Schedule for Alarm uid={0:x}: {1:D}", sceKernelAlarmInfo.uid, sceKernelAlarmInfo.schedule));
 			}
 		}
 
@@ -3393,9 +3393,9 @@ namespace pspsharp.HLE.modules
 				Scheduler scheduler = Scheduler.Instance;
 				long schedulerSchedule = getVTimerScheduleForScheduler(sceKernelVTimerInfo);
 				scheduler.addAction(schedulerSchedule, sceKernelVTimerInfo.vtimerInterruptAction);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Scheduling VTimer {0} at {1:D}(now={2:D})", sceKernelVTimerInfo, schedulerSchedule, Scheduler.Now));
+					Console.WriteLine(string.Format("Scheduling VTimer {0} at {1:D}(now={2:D})", sceKernelVTimerInfo, schedulerSchedule, Scheduler.Now));
 				}
 			}
 		}
@@ -3418,9 +3418,9 @@ namespace pspsharp.HLE.modules
 			long schedule = sceKernelVTimerInfo.schedule + delay;
 			scheduleVTimer(sceKernelVTimerInfo, schedule);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("New Schedule for VTimer uid={0:x}: {1:D}", sceKernelVTimerInfo.uid, sceKernelVTimerInfo.schedule));
+				Console.WriteLine(string.Format("New Schedule for VTimer uid={0:x}: {1:D}", sceKernelVTimerInfo.uid, sceKernelVTimerInfo.schedule));
 			}
 		}
 
@@ -3632,9 +3632,9 @@ namespace pspsharp.HLE.modules
 		{
 			SceKernelCallbackInfo callback = getCallbackInfo(uid);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetCallbackCount returning count={0:D}", callback.NotifyCount));
+				Console.WriteLine(string.Format("sceKernelGetCallbackCount returning count={0:D}", callback.NotifyCount));
 			}
 
 			return callback.NotifyCount;
@@ -3713,9 +3713,9 @@ namespace pspsharp.HLE.modules
 			SceKernelThreadInfo thread = getThreadById(uid);
 
 			int result = thread.wakeupCount;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCancelWakeupThread thread={0} returning {1:D}", thread, result));
+				Console.WriteLine(string.Format("sceKernelCancelWakeupThread thread={0} returning {1:D}", thread, result));
 			}
 
 			thread.wakeupCount = 0;
@@ -3732,25 +3732,25 @@ namespace pspsharp.HLE.modules
 
 			if (thread.Suspended)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelSuspendThread thread already suspended: thread={0}", thread.ToString()));
+					Console.WriteLine(string.Format("sceKernelSuspendThread thread already suspended: thread={0}", thread.ToString()));
 				}
 				return ERROR_KERNEL_THREAD_ALREADY_SUSPEND;
 			}
 
 			if (thread.Stopped)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelSuspendThread thread already stopped: thread={0}", thread.ToString()));
+					Console.WriteLine(string.Format("sceKernelSuspendThread thread already stopped: thread={0}", thread.ToString()));
 				}
 				return ERROR_KERNEL_THREAD_ALREADY_DORMANT;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelSuspendThread thread before suspend: {0}", thread));
+				Console.WriteLine(string.Format("sceKernelSuspendThread thread before suspend: {0}", thread));
 			}
 
 			if (thread.Waiting)
@@ -3762,9 +3762,9 @@ namespace pspsharp.HLE.modules
 				hleChangeThreadState(thread, PSP_THREAD_SUSPEND);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelSuspendThread thread after suspend: {0}", thread));
+				Console.WriteLine(string.Format("sceKernelSuspendThread thread after suspend: {0}", thread));
 			}
 
 			return 0;
@@ -3779,13 +3779,13 @@ namespace pspsharp.HLE.modules
 
 			if (!thread.Suspended)
 			{
-				log.warn("sceKernelResumeThread SceUID=" + uid.ToString("x") + " not suspended (status=" + thread.status + ")");
+				Console.WriteLine("sceKernelResumeThread SceUID=" + uid.ToString("x") + " not suspended (status=" + thread.status + ")");
 				return ERROR_KERNEL_THREAD_IS_NOT_SUSPEND;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelResumeThread thread before resume: {0}", thread));
+				Console.WriteLine(string.Format("sceKernelResumeThread thread before resume: {0}", thread));
 			}
 
 			if (thread.Waiting)
@@ -3797,9 +3797,9 @@ namespace pspsharp.HLE.modules
 				hleChangeThreadState(thread, PSP_THREAD_READY);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelResumeThread thread after resume: {0}", thread));
+				Console.WriteLine(string.Format("sceKernelResumeThread thread after resume: {0}", thread));
 			}
 
 			return 0;
@@ -4484,9 +4484,9 @@ namespace pspsharp.HLE.modules
 		{
 			SceKernelVTimerInfo sceKernelVTimerInfo = vtimers[vtimerUid];
 			long time = sceKernelVTimerInfo.CurrentTime;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetVTimerTime returning {0:D}", time));
+				Console.WriteLine(string.Format("sceKernelGetVTimerTime returning {0:D}", time));
 			}
 			timeAddr.Value = time;
 
@@ -4506,9 +4506,9 @@ namespace pspsharp.HLE.modules
 		{
 			SceKernelVTimerInfo sceKernelVTimerInfo = vtimers[vtimerUid];
 			long time = sceKernelVTimerInfo.CurrentTime;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetVTimerTimeWide returning {0:D}", time));
+				Console.WriteLine(string.Format("sceKernelGetVTimerTimeWide returning {0:D}", time));
 			}
 
 			return time;
@@ -4688,7 +4688,7 @@ namespace pspsharp.HLE.modules
 			// Inherit kernel mode if user mode bit is not set
 			if (currentThread.KernelMode && !SceKernelThreadInfo.isUserMode(attr))
 			{
-				log.debug("sceKernelCreateThread inheriting kernel mode");
+				Console.WriteLine("sceKernelCreateThread inheriting kernel mode");
 				attr |= PSP_THREAD_ATTR_KERNEL;
 				mpidStack = KERNEL_PARTITION_ID;
 			}
@@ -4697,7 +4697,7 @@ namespace pspsharp.HLE.modules
 
 			if (thread.stackSize > 0 && thread.StackAddr == 0)
 			{
-				log.warn("sceKernelCreateThread not enough memory to create the stack");
+				Console.WriteLine("sceKernelCreateThread not enough memory to create the stack");
 				hleDeleteThread(thread);
 				return SceKernelErrors.ERROR_KERNEL_NO_MEMORY;
 			}
@@ -4707,7 +4707,7 @@ namespace pspsharp.HLE.modules
 			{
 				if (!SceKernelThreadInfo.isUserMode(thread.attr))
 				{
-					log.debug("sceKernelCreateThread inheriting user mode");
+					Console.WriteLine("sceKernelCreateThread inheriting user mode");
 				}
 				thread.attr |= PSP_THREAD_ATTR_USER;
 				// Always remove kernel mode bit
@@ -4887,9 +4887,9 @@ namespace pspsharp.HLE.modules
 		{
 			int state = DispatchThreadState;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("sceKernelSuspendDispatchThread() state=" + state);
+				Console.WriteLine("sceKernelSuspendDispatchThread() state=" + state);
 			}
 
 			if (processor.InterruptsDisabled)
@@ -4928,16 +4928,16 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xEA748E31, version : 150)]
 		public virtual int sceKernelChangeCurrentThreadAttr(int removeAttr, int addAttr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelChangeCurrentThreadAttr removeAttr=0x{0:X}, addAttr=0x{1:X}, currentAttr=0x{2:X}", removeAttr, addAttr, currentThread.attr));
+				Console.WriteLine(string.Format("sceKernelChangeCurrentThreadAttr removeAttr=0x{0:X}, addAttr=0x{1:X}, currentAttr=0x{2:X}", removeAttr, addAttr, currentThread.attr));
 			}
 
 			int newAttr = (currentThread.attr & ~removeAttr) | addAttr;
 			// Don't allow switching into kernel mode!
 			if (userCurrentThreadTryingToSwitchToKernelMode(newAttr))
 			{
-				log.debug("sceKernelChangeCurrentThreadAttr forcing user mode");
+				Console.WriteLine("sceKernelChangeCurrentThreadAttr forcing user mode");
 				newAttr |= PSP_THREAD_ATTR_USER;
 				newAttr &= ~PSP_THREAD_ATTR_KERNEL;
 			}
@@ -4961,9 +4961,9 @@ namespace pspsharp.HLE.modules
 				return ERROR_KERNEL_THREAD_ALREADY_DORMANT;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelChangeThreadPriority thread={0}, newPriority=0x{1:X}, oldPriority=0x{2:X}", thread, priority, thread.currentPriority));
+				Console.WriteLine(string.Format("sceKernelChangeThreadPriority thread={0}, newPriority=0x{1:X}, oldPriority=0x{2:X}", thread, priority, thread.currentPriority));
 			}
 			hleKernelChangeThreadPriority(thread, priority);
 
@@ -4983,9 +4983,9 @@ namespace pspsharp.HLE.modules
 				// Value priority range in user mode: [8..119]
 				if (priority < 8 || priority >= 120)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("checkThreadPriority priority:0x{0:x} is outside of valid range in user mode", priority));
+						Console.WriteLine(string.Format("checkThreadPriority priority:0x{0:x} is outside of valid range in user mode", priority));
 					}
 					throw (new SceKernelErrorException(ERROR_KERNEL_ILLEGAL_PRIORITY));
 				}
@@ -4996,9 +4996,9 @@ namespace pspsharp.HLE.modules
 				// Value priority range in kernel mode: [1..126]
 				if (priority < 1 || priority >= 127)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("checkThreadPriority priority:0x{0:x} is outside of valid range in kernel mode", priority));
+						Console.WriteLine(string.Format("checkThreadPriority priority:0x{0:x} is outside of valid range in kernel mode", priority));
 					}
 					throw (new SceKernelErrorException(ERROR_KERNEL_ILLEGAL_PRIORITY));
 				}
@@ -5064,9 +5064,9 @@ namespace pspsharp.HLE.modules
 
 			if (!thread.Waiting)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelReleaseWaitThread(0x{0:X}): thread not waiting: {1}", uid, thread));
+					Console.WriteLine(string.Format("sceKernelReleaseWaitThread(0x{0:X}): thread not waiting: {1}", uid, thread));
 				}
 				return SceKernelErrors.ERROR_KERNEL_THREAD_IS_NOT_WAIT;
 			}
@@ -5077,16 +5077,16 @@ namespace pspsharp.HLE.modules
 			//  sceKernelWaitEventFlag issued internally by a syscall).
 			if (thread.waitType >= SceKernelThreadInfo.JPCSP_FIRST_INTERNAL_WAIT_TYPE)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelReleaseWaitThread(0x{0:X}): thread waiting in privileged status: waitType=0x{1:X}", uid, thread.waitType));
+					Console.WriteLine(string.Format("sceKernelReleaseWaitThread(0x{0:X}): thread waiting in privileged status: waitType=0x{1:X}", uid, thread.waitType));
 				}
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_PERMISSION;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelReleaseWaitThread(0x{0:X}): releasing waiting thread: {1}", uid, thread));
+				Console.WriteLine(string.Format("sceKernelReleaseWaitThread(0x{0:X}): releasing waiting thread: {1}", uid, thread));
 			}
 
 			hleThreadWaitRelease(thread);
@@ -5103,9 +5103,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x293B45B8, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceKernelGetThreadId()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetThreadId returning uid=0x{0:X}", currentThread.uid));
+				Console.WriteLine(string.Format("sceKernelGetThreadId returning uid=0x{0:X}", currentThread.uid));
 			}
 
 			return currentThread.uid;
@@ -5114,9 +5114,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x94AA61EE, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceKernelGetThreadCurrentPriority()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetThreadCurrentPriority returning currentPriority={0:D}", currentThread.currentPriority));
+				Console.WriteLine(string.Format("sceKernelGetThreadCurrentPriority returning currentPriority={0:D}", currentThread.currentPriority));
 			}
 
 			return currentThread.currentPriority;
@@ -5131,16 +5131,16 @@ namespace pspsharp.HLE.modules
 			SceKernelThreadInfo thread = getThreadById(uid);
 			if (!thread.Stopped)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelGetThreadExitStatus not stopped uid=0x{0:x}", uid));
+					Console.WriteLine(string.Format("sceKernelGetThreadExitStatus not stopped uid=0x{0:x}", uid));
 				}
 				return ERROR_KERNEL_THREAD_IS_NOT_DORMANT;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetThreadExitStatus thread={0} returning exitStatus=0x{1:X8}", thread, thread.exitStatus));
+				Console.WriteLine(string.Format("sceKernelGetThreadExitStatus thread={0} returning exitStatus=0x{1:X8}", thread, thread.exitStatus));
 			}
 
 			return thread.exitStatus;
@@ -5152,9 +5152,9 @@ namespace pspsharp.HLE.modules
 		{
 			int size = getThreadCurrentStackSize(processor);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCheckThreadStack returning size=0x{0:X}", size));
+				Console.WriteLine(string.Format("sceKernelCheckThreadStack returning size=0x{0:X}", size));
 			}
 
 			return size;
@@ -5184,9 +5184,9 @@ namespace pspsharp.HLE.modules
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetThreadStackFreeSize returning size=0x{0:X}", unusedStackSize));
+				Console.WriteLine(string.Format("sceKernelGetThreadStackFreeSize returning size=0x{0:X}", unusedStackSize));
 			}
 
 			return unusedStackSize;
@@ -5245,7 +5245,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (type != SCE_KERNEL_TMID_Thread)
 			{
-				log.warn(string.Format("UNIMPLEMENTED:sceKernelGetThreadmanIdList type={0:D}", type));
+				Console.WriteLine(string.Format("UNIMPLEMENTED:sceKernelGetThreadmanIdList type={0:D}", type));
 				idCountPtr.setValue(0);
 				return 0;
 			}
@@ -5260,16 +5260,16 @@ namespace pspsharp.HLE.modules
 				{
 					if (saveCount < readBufSize)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceKernelGetThreadmanIdList adding thread {0}", thread));
+							Console.WriteLine(string.Format("sceKernelGetThreadmanIdList adding thread {0}", thread));
 						}
 						readBufPtr.setValue(saveCount << 2, thread.uid);
 						saveCount++;
 					}
 					else
 					{
-						log.warn(string.Format("sceKernelGetThreadmanIdList NOT adding thread {0} (no more space)", thread));
+						Console.WriteLine(string.Format("sceKernelGetThreadmanIdList NOT adding thread {0} (no more space)", thread));
 					}
 					fullCount++;
 				}
@@ -5533,8 +5533,8 @@ namespace pspsharp.HLE.modules
 			int alignment = 0;
 			if (optionsAddr.NotNull)
 			{
-				int length = optionsAddr.getValue32(0);
-				if (length >= 8)
+				int Length = optionsAddr.getValue32(0);
+				if (Length >= 8)
 				{
 					alignment = optionsAddr.getValue32(4);
 				}
@@ -5558,9 +5558,9 @@ namespace pspsharp.HLE.modules
 			}
 			tlsMap[tls.uid] = tls;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCreateTlspl returning 0x{0:X}, baseAddress=0x{1:X8}", tls.uid, tls.BaseAddress));
+				Console.WriteLine(string.Format("sceKernelCreateTlspl returning 0x{0:X}, baseAddress=0x{1:X8}", tls.uid, tls.BaseAddress));
 			}
 
 			return tls.uid;
@@ -5614,9 +5614,9 @@ namespace pspsharp.HLE.modules
 			{
 				if (thread != currentThread && thread.UserMode)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceKernelSuspendAllUserThreads suspending {0}", thread));
+						Console.WriteLine(string.Format("sceKernelSuspendAllUserThreads suspending {0}", thread));
 					}
 
 					if (thread.Waiting)

@@ -57,10 +57,10 @@ namespace pspsharp.state
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void writeInts(int[] a, int offset, int length) throws java.io.IOException
-		public virtual void writeInts(int[] a, int offset, int length)
+//ORIGINAL LINE: public void writeInts(int[] a, int offset, int Length) throws java.io.IOException
+		public virtual void writeInts(int[] a, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				writeInt(a[i + offset]);
 			}
@@ -109,10 +109,10 @@ namespace pspsharp.state
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void writeBytes(byte[] a, int offset, int length) throws java.io.IOException
-		public virtual void writeBytes(sbyte[] a, int offset, int length)
+//ORIGINAL LINE: public void writeBytes(byte[] a, int offset, int Length) throws java.io.IOException
+		public virtual void writeBytes(sbyte[] a, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				writeByte(a[i + offset]);
 			}

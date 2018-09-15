@@ -23,7 +23,7 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.Allegrex.Common._a3;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using CpuState = pspsharp.Allegrex.CpuState;
 	using AbstractNativeCodeSequence = pspsharp.Allegrex.compiler.nativeCode.AbstractNativeCodeSequence;
@@ -35,7 +35,7 @@ namespace pspsharp.HLE.modules
 
 	public class SysclibForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("SysclibForKernel");
+		//public static Logger log = Modules.getLogger("SysclibForKernel");
 		private const string validNumberCharactersUpperCase = "0123456789ABCDEF";
 		private const string validNumberCharactersLowerCase = "0123456789abcdef";
 
@@ -70,9 +70,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xC0AB8932, version : 150)]
 		public virtual int strcmp(TPointer src1Addr, TPointer src2Addr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("strcmp '{0}', '{1}'", Utilities.readStringZ(src1Addr.Address), Utilities.readStringZ(src2Addr.Address)));
+				Console.WriteLine(string.Format("strcmp '{0}', '{1}'", Utilities.readStringZ(src1Addr.Address), Utilities.readStringZ(src2Addr.Address)));
 			}
 			return AbstractNativeCodeSequence.strcmp(src1Addr.Address, src2Addr.Address);
 		}
@@ -173,9 +173,9 @@ namespace pspsharp.HLE.modules
 			string formattedString = Modules.SysMemUserForUserModule.hleKernelSprintf(cpu, format, _a2);
 			Utilities.writeStringZ(buffer.Memory, buffer.Address, formattedString);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sprintf returning '{0}'", formattedString));
+				Console.WriteLine(string.Format("sprintf returning '{0}'", formattedString));
 			}
 
 			return formattedString.Length;
@@ -227,9 +227,9 @@ namespace pspsharp.HLE.modules
 
 			Utilities.writeStringZ(buffer.Memory, buffer.Address, formattedString);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("snprintf returning '{0}'", formattedString));
+				Console.WriteLine(string.Format("snprintf returning '{0}'", formattedString));
 			}
 
 			return formattedString.Length;
@@ -297,15 +297,15 @@ namespace pspsharp.HLE.modules
 				result = Integer.parseInt(s, @base);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				if (@base == 10)
 				{
-					log.debug(string.Format("strtol on '{0}' returning {1:D}", s, result));
+					Console.WriteLine(string.Format("strtol on '{0}' returning {1:D}", s, result));
 				}
 				else
 				{
-					log.debug(string.Format("strtol on '{0}' returning 0x{1:X}", s, result));
+					Console.WriteLine(string.Format("strtol on '{0}' returning 0x{1:X}", s, result));
 				}
 			}
 

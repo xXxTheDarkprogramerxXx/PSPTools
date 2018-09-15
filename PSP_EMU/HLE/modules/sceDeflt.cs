@@ -26,11 +26,11 @@ namespace pspsharp.HLE.modules
 	using MemoryInputStream = pspsharp.util.MemoryInputStream;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceDeflt : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDeflt");
+		//public static Logger log = Modules.getLogger("sceDeflt");
 		protected internal const int GZIP_MAGIC = 0x8B1F;
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
@@ -71,26 +71,26 @@ namespace pspsharp.HLE.modules
 				int decompressedLength = 0;
 				while (decompressedLength < outBufferLength)
 				{
-					int length = @is.read(buffer);
-					if (length < 0)
+					int Length = @is.read(buffer);
+					if (Length < 0)
 					{
 						// End of GZIP stream
 						break;
 					}
-					if (decompressedLength + length > outBufferLength)
+					if (decompressedLength + Length > outBufferLength)
 					{
-						log.warn(string.Format("sceGzipDecompress : decompress buffer too small inBuffer={0}, outLength={1:D}", inBufferAddr, outBufferLength));
+						Console.WriteLine(string.Format("sceGzipDecompress : decompress buffer too small inBuffer={0}, outLength={1:D}", inBufferAddr, outBufferLength));
 						@is.close();
 						return SceKernelErrors.ERROR_INVALID_SIZE;
 					}
 
-					crc32.update(buffer, 0, length);
+					crc32.update(buffer, 0, Length);
 
-					for (int i = 0; i < length; i++)
+					for (int i = 0; i < Length; i++)
 					{
 						memoryWriter.writeNext(buffer[i] & 0xFF);
 					}
-					decompressedLength += length;
+					decompressedLength += Length;
 				}
 				@is.close();
 				memoryWriter.flush();
@@ -98,7 +98,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("sceGzipDecompress", e);
+				Console.WriteLine("sceGzipDecompress", e);
 				return SceKernelErrors.ERROR_INVALID_FORMAT;
 			}
 			crc32Addr.setValue((int) crc32.Value);
@@ -180,7 +180,7 @@ namespace pspsharp.HLE.modules
 
 					if (inflater.TotalOut > outBufferLength)
 					{
-						log.warn(string.Format("sceZlibDecompress : zlib decompress buffer too small inBuffer={0}, outLength={1:D}", inBufferAddr, outBufferLength));
+						Console.WriteLine(string.Format("sceZlibDecompress : zlib decompress buffer too small inBuffer={0}, outLength={1:D}", inBufferAddr, outBufferLength));
 						return SceKernelErrors.ERROR_INVALID_SIZE;
 					}
 					crc32.update(outBuffer, 0, count);
@@ -191,7 +191,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (DataFormatException)
 				{
-					log.warn(string.Format("sceZlibDecompress : malformed zlib stream inBuffer={0}", inBufferAddr));
+					Console.WriteLine(string.Format("sceZlibDecompress : malformed zlib stream inBuffer={0}", inBufferAddr));
 					return SceKernelErrors.ERROR_INVALID_FORMAT;
 				}
 			}

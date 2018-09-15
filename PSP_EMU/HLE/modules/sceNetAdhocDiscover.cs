@@ -20,11 +20,11 @@ namespace pspsharp.HLE.modules
 //	import static pspsharp.HLE.kernel.types.SceNetAdhocDiscoverParam.NET_ADHOC_DISCOVER_RESULT_PEER_FOUND;
 	using SceNetAdhocDiscoverParam = pspsharp.HLE.kernel.types.SceNetAdhocDiscoverParam;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNetAdhocDiscover : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetAdhocDiscover");
+		//public static Logger log = Modules.getLogger("sceNetAdhocDiscover");
 		protected internal const int NET_ADHOC_DISCOVER_STATUS_NONE = 0;
 		protected internal const int NET_ADHOC_DISCOVER_STATUS_IN_PROGRESS = 1;
 		protected internal const int NET_ADHOC_DISCOVER_STATUS_COMPLETED = 2;
@@ -71,9 +71,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x944DDBC6, version : 150)]
 		public virtual int sceNetAdhocDiscoverGetStatus()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocDiscoverGetStatus returning {0:D}", status));
+				Console.WriteLine(string.Format("sceNetAdhocDiscoverGetStatus returning {0:D}", status));
 			}
 
 			return status;

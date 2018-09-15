@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
 	using IMemoryReaderWriter = pspsharp.memory.IMemoryReaderWriter;
@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 	// Positional 3D Audio Library
 	public class sceP3da : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceP3da");
+		//public static Logger log = Modules.getLogger("sceP3da");
 
 		public const int PSP_P3DA_SAMPLES_NUM_STEP = 32;
 		public const int PSP_P3DA_SAMPLES_NUM_MIN = 64;
@@ -65,9 +65,9 @@ namespace pspsharp.HLE.modules
 			for (int i = 0; i < p3daCore.Length; i++)
 			{
 				p3daCore[i] = p3daCoreAddr.getValue(i << 2);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceP3daBridgeCore p3daCore[{0:D}]=0x{1:X8}", i, p3daCore[i]));
+					Console.WriteLine(string.Format("sceP3daBridgeCore p3daCore[{0:D}]=0x{1:X8}", i, p3daCore[i]));
 				}
 			}
 
@@ -75,9 +75,9 @@ namespace pspsharp.HLE.modules
 			for (int i = 0; i < channelsNum; i++)
 			{
 				int inputChannelAddr = inputAddr.getValue(i << 2);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceP3daBridgeCore channel={0:D}, inputChannelAddr=0x{1:X8}", i, inputChannelAddr));
+					Console.WriteLine(string.Format("sceP3daBridgeCore channel={0:D}, inputChannelAddr=0x{1:X8}", i, inputChannelAddr));
 				}
 				if (inputChannelAddr != 0)
 				{

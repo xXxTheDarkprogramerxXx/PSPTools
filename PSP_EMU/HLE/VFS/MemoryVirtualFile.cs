@@ -40,11 +40,11 @@ namespace pspsharp.HLE.VFS
 //JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods:
 		private readonly int length_Renamed;
 
-		public MemoryVirtualFile(int address, int length)
+		public MemoryVirtualFile(int address, int Length)
 		{
 			this.startAddress = address;
 			this.address = address;
-			this.length_Renamed = length;
+			this.length_Renamed = Length;
 		}
 
 		public virtual int ioClose()
@@ -102,7 +102,7 @@ namespace pspsharp.HLE.VFS
 			return IO_ERROR;
 		}
 
-		public virtual long length()
+		public virtual long Length()
 		{
 			return length_Renamed;
 		}
@@ -141,7 +141,7 @@ namespace pspsharp.HLE.VFS
 
 		public override string ToString()
 		{
-			return string.Format("MemoryVirtualFile 0x{0:X8}-0x{1:X8} (length=0x{2:X})", startAddress, startAddress + length_Renamed, length_Renamed);
+			return string.Format("MemoryVirtualFile 0x{0:X8}-0x{1:X8} (Length=0x{2:X})", startAddress, startAddress + length_Renamed, length_Renamed);
 		}
 	}
 

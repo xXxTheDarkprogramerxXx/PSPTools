@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 //	import static pspsharp.util.Utilities.alignUp;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
@@ -47,7 +47,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceVideocodec : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceVideocodec");
+		//public static Logger log = Modules.getLogger("sceVideocodec");
 		private const int videocodecDecodeDelay = 4000;
 		// Based on JpcspTrace tests, sceVideocodecDelete delays for 40ms
 		public const int videocodecDeleteDelay = 40000;
@@ -102,9 +102,9 @@ namespace pspsharp.HLE.modules
 					}
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("Exiting the VideocodecDecoderThread");
+					Console.WriteLine("Exiting the VideocodecDecoderThread");
 				}
 				done = true;
 			}
@@ -195,9 +195,9 @@ namespace pspsharp.HLE.modules
 			}
 
 			int result = videoCodec.decode(mp4Buffer, 0, mp4Size);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceVideocodecDecode videoCodec returned 0x{0:X} from 0x{1:X} data bytes", result, mp4Size));
+				Console.WriteLine(string.Format("sceVideocodecDecode videoCodec returned 0x{0:X} from 0x{1:X} data bytes", result, mp4Size));
 			}
 
 			releaseIntBuffer(mp4Buffer);
@@ -594,7 +594,7 @@ namespace pspsharp.HLE.modules
 					buffer2.setValue32(104, frameBufferWidthCb);
 					break;
 				default:
-					log.warn(string.Format("sceVideocodecDecode unknown type=0x{0:X}", type));
+					Console.WriteLine(string.Format("sceVideocodecDecode unknown type=0x{0:X}", type));
 					break;
 			}
 
@@ -607,17 +607,17 @@ namespace pspsharp.HLE.modules
 			long delayMicros = threadWakeupMicroTime - Emulator.Clock.microTime();
 			if (delayMicros > 0L)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Further delaying thread=0x{0:X} by {1:D} microseconds", threadUid, delayMicros));
+					Console.WriteLine(string.Format("Further delaying thread=0x{0:X} by {1:D} microseconds", threadUid, delayMicros));
 				}
 				action = new DelayThreadAction(threadUid, (int) delayMicros, false, true);
 			}
 			else
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Unblocking thread=0x{0:X}", threadUid));
+					Console.WriteLine(string.Format("Unblocking thread=0x{0:X}", threadUid));
 				}
 				action = new UnblockThreadAction(threadUid);
 			}
@@ -627,18 +627,18 @@ namespace pspsharp.HLE.modules
 			Emulator.Scheduler.addAction(action);
 		}
 
-		public static void write(int addr, int length, int[] buffer, int offset)
+		public static void write(int addr, int Length, int[] buffer, int offset)
 		{
-			length = System.Math.Min(length, buffer.Length - offset);
+			Length = System.Math.Min(Length, buffer.Length - offset);
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("write addr=0x{0:X8}, length=0x{1:X}", addr, length));
+				log.trace(string.Format("write addr=0x{0:X8}, Length=0x{1:X}", addr, Length));
 			}
 
 			// Optimize the most common case
 			if (RuntimeContext.hasMemoryInt())
 			{
-				int length4 = length >> 2;
+				int length4 = Length >> 2;
 				int addrOffset = addr >> 2;
 				int[] memoryInt = RuntimeContext.MemoryInt;
 				for (int i = 0, j = offset; i < length4; i++)
@@ -652,8 +652,8 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(addr, length, 1);
-				for (int i = 0, j = offset; i < length; i++)
+				IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(addr, Length, 1);
+				for (int i = 0, j = offset; i < Length; i++)
 				{
 					memoryWriter.writeNext(buffer[j++] & 0xFF);
 				}
@@ -662,7 +662,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xC01EC829, version = 150) public int sceVideocodecOpen(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEFunction(nid = 0xC01EC829, version = 150) public int sceVideocodecOpen(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0xC01EC829, version : 150)]
 		public virtual int sceVideocodecOpen(TPointer buffer, int type)
 		{
@@ -686,7 +686,7 @@ namespace pspsharp.HLE.modules
 					buffer.setValue32(32, VIDEOCODEC_OPEN_TYPE1_UNKNOWN32);
 					break;
 				default:
-					log.warn(string.Format("sceVideocodecOpen unknown type {0:D}", type));
+					Console.WriteLine(string.Format("sceVideocodecOpen unknown type {0:D}", type));
 					return -1;
 			}
 
@@ -702,7 +702,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA2F0564E, version = 150) public int sceVideocodecStop(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA2F0564E, version = 150) public int sceVideocodecStop(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0xA2F0564E, version : 150)]
 		public virtual int sceVideocodecStop(TPointer buffer, int type)
 		{
@@ -710,7 +710,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x17099F0A, version = 150) public int sceVideocodecInit(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEFunction(nid = 0x17099F0A, version = 150) public int sceVideocodecInit(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0x17099F0A, version : 150)]
 		public virtual int sceVideocodecInit(TPointer buffer, int type)
 		{
@@ -720,7 +720,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x2D31F5B1, version = 150) public int sceVideocodecGetEDRAM(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEFunction(nid = 0x2D31F5B1, version = 150) public int sceVideocodecGetEDRAM(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0x2D31F5B1, version : 150)]
 		public virtual int sceVideocodecGetEDRAM(TPointer buffer, int type)
 		{
@@ -739,7 +739,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x4F160BF4, version = 150) public int sceVideocodecReleaseEDRAM(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEFunction(nid = 0x4F160BF4, version = 150) public int sceVideocodecReleaseEDRAM(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x4F160BF4, version : 150)]
 		public virtual int sceVideocodecReleaseEDRAM(TPointer buffer)
 		{
@@ -756,13 +756,13 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xDBA273FA, version = 150) public int sceVideocodecDecode(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEFunction(nid = 0xDBA273FA, version = 150) public int sceVideocodecDecode(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0xDBA273FA, version : 150)]
 		public virtual int sceVideocodecDecode(TPointer buffer, int type)
 		{
 			if (type != 0 && type != 1)
 			{
-				log.warn(string.Format("sceVideocodecDecode unknown type=0x{0:X}", type));
+				Console.WriteLine(string.Format("sceVideocodecDecode unknown type=0x{0:X}", type));
 				return -1;
 			}
 
@@ -782,7 +782,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x26927D19, version = 150) public int sceVideocodecGetVersion(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x26927D19, version = 150) public int sceVideocodecGetVersion(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0x26927D19, version : 150)]
 		public virtual int sceVideocodecGetVersion(TPointer buffer, int type)
 		{
@@ -834,14 +834,14 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x627B7D42, version = 150) public int sceVideocodecGetSEI(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x627B7D42, version = 150) public int sceVideocodecGetSEI(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0x627B7D42, version : 150)]
 		public virtual int sceVideocodecGetSEI(TPointer buffer, int type)
 		{
 			TPointer decodeSEI = buffer.getPointer(80);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceVideocodecGetSEI storing decodeSEI to {0}", decodeSEI));
+				Console.WriteLine(string.Format("sceVideocodecGetSEI storing decodeSEI to {0}", decodeSEI));
 			}
 			decodeSEI.setValue32(28, 0);
 
@@ -849,7 +849,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x745A7B7A, version = 150) public int sceVideocodecSetMemory(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x745A7B7A, version = 150) public int sceVideocodecSetMemory(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int type)
 		[HLEFunction(nid : 0x745A7B7A, version : 150)]
 		public virtual int sceVideocodecSetMemory(TPointer buffer, int type)
 		{
@@ -858,9 +858,9 @@ namespace pspsharp.HLE.modules
 			int unknown3 = buffer.getValue32(72);
 			int unknown4 = buffer.getValue32(76);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceVideocodecSetMemory unknown1=0x{0:X8}, unknown2=0x{1:X8}, unknown3=0x{2:X8}, unknown4=0x{3:X8}", unknown1, unknown2, unknown3, unknown4));
+				Console.WriteLine(string.Format("sceVideocodecSetMemory unknown1=0x{0:X8}, unknown2=0x{1:X8}, unknown3=0x{2:X8}, unknown4=0x{3:X8}", unknown1, unknown2, unknown3, unknown4));
 			}
 
 			return 0;

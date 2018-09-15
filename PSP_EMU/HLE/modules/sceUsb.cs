@@ -20,7 +20,7 @@ namespace pspsharp.HLE.modules
 {
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Managers = pspsharp.HLE.kernel.Managers;
 	using SceKernelThreadInfo = pspsharp.HLE.kernel.types.SceKernelThreadInfo;
@@ -29,7 +29,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceUsb : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUsb");
+		//public static Logger log = Modules.getLogger("sceUsb");
 
 		public const string PSP_USBBUS_DRIVERNAME = "USBBusDriver";
 
@@ -156,9 +156,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xC21645A4, version : 150)]
 		public virtual int sceUsbGetState()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUsbGetState returning 0x{0:X}", UsbState));
+				Console.WriteLine(string.Format("sceUsbGetState returning 0x{0:X}", UsbState));
 			}
 
 			return UsbState;
@@ -167,7 +167,7 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x4E537366, version : 150)]
 		public virtual int sceUsbGetDrvList(int unknown1, int unknown2, int unknown3)
 		{
-			log.warn(string.Format("Unimplemented sceUsbGetDrvList unknown1=0x{0:X8}, unknown2=0x{1:X8}, unknown3=0x{2:X8}", unknown1, unknown2, unknown3));
+			Console.WriteLine(string.Format("Unimplemented sceUsbGetDrvList unknown1=0x{0:X8}, unknown2=0x{1:X8}, unknown3=0x{2:X8}", unknown1, unknown2, unknown3));
 
 			return 0;
 		}
@@ -220,15 +220,15 @@ namespace pspsharp.HLE.modules
 		{
 			if (!matchState(state, waitMode))
 			{
-				log.warn(string.Format("Unimplemented sceUsbWaitState state=0x{0:X}, waitMode=0x{1:X}, timeoutAddr={2} - non-matching state not implemented", state, waitMode, timeoutAddr));
+				Console.WriteLine(string.Format("Unimplemented sceUsbWaitState state=0x{0:X}, waitMode=0x{1:X}, timeoutAddr={2} - non-matching state not implemented", state, waitMode, timeoutAddr));
 				Modules.ThreadManForUserModule.hleBlockCurrentThread(SceKernelThreadInfo.JPCSP_WAIT_USB);
 				return 0;
 			}
 
 			int usbState = UsbState;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUsbWaitState returning 0x{0:X}", usbState));
+				Console.WriteLine(string.Format("sceUsbWaitState returning 0x{0:X}", usbState));
 			}
 			return usbState;
 		}
@@ -240,15 +240,15 @@ namespace pspsharp.HLE.modules
 		{
 			if (!matchState(state, waitMode))
 			{
-				log.warn(string.Format("Unimplemented sceUsbWaitStateCB state=0x{0:X}, waitMode=0x{1:X}, timeoutAddr={2} - non-matching state not implemented", state, waitMode, timeoutAddr));
+				Console.WriteLine(string.Format("Unimplemented sceUsbWaitStateCB state=0x{0:X}, waitMode=0x{1:X}, timeoutAddr={2} - non-matching state not implemented", state, waitMode, timeoutAddr));
 				Modules.ThreadManForUserModule.hleBlockCurrentThread(SceKernelThreadInfo.JPCSP_WAIT_USB);
 				return 0;
 			}
 
 			int usbState = UsbState;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceUsbWaitStateCB returning 0x{0:X}", usbState));
+				Console.WriteLine(string.Format("sceUsbWaitStateCB returning 0x{0:X}", usbState));
 			}
 			return usbState;
 		}

@@ -25,7 +25,7 @@ namespace pspsharp.GUI
 	using sceUtility = pspsharp.HLE.modules.sceUtility;
 	using INetworkAdapter = pspsharp.network.INetworkAdapter;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -141,9 +141,9 @@ namespace pspsharp.GUI
 		private void onSend()
 		{
 			string message = chatMessage.Text;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Sending chat message '{0}'", message));
+				Console.WriteLine(string.Format("Sending chat message '{0}'", message));
 			}
 
 			// Send the chat message to the network adapter

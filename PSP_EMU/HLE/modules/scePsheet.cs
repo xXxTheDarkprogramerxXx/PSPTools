@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class scePsheet : HLEModule
 	{
-		public static Logger log = Modules.getLogger("scePsheet");
+		//public static Logger log = Modules.getLogger("scePsheet");
 		protected internal TPointer address;
 		protected internal int size;
 

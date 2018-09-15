@@ -43,7 +43,7 @@ namespace pspsharp.HLE.VFS.local
 			}
 			catch (IOException e)
 			{
-				log.error("ioWrite", e);
+				Console.WriteLine("ioWrite", e);
 				return IO_ERROR;
 			}
 
@@ -58,7 +58,7 @@ namespace pspsharp.HLE.VFS.local
 				{
 					// The file was open with PSP_O_TRUNC: truncate the file at the first write
 					long position = Position;
-					if (position < file.length())
+					if (position < file.Length())
 					{
 						file.Length = Position;
 					}
@@ -69,7 +69,7 @@ namespace pspsharp.HLE.VFS.local
 			}
 			catch (IOException e)
 			{
-				log.error("ioWrite", e);
+				Console.WriteLine("ioWrite", e);
 				return IO_ERROR;
 			}
 
@@ -93,9 +93,9 @@ namespace pspsharp.HLE.VFS.local
 					break;
 				// Check if LoadExec is allowed on the file
 				case 0x00208013:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Checking if LoadExec is allowed on '{0}'", this));
+						Console.WriteLine(string.Format("Checking if LoadExec is allowed on '{0}'", this));
 					}
 					// Result == 0: LoadExec allowed
 					// Result != 0: LoadExec prohibited
@@ -103,9 +103,9 @@ namespace pspsharp.HLE.VFS.local
 					break;
 				// Check if LoadModule is allowed on the file
 				case 0x00208003:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Checking if LoadModule is allowed on '{0}'", this));
+						Console.WriteLine(string.Format("Checking if LoadModule is allowed on '{0}'", this));
 					}
 					// Result == 0: LoadModule allowed
 					// Result != 0: LoadModule prohibited
@@ -114,9 +114,9 @@ namespace pspsharp.HLE.VFS.local
 				// Check if PRX type is allowed on the file
 				case 0x00208081:
 				case 0x00208082:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Checking if PRX type is allowed on '{0}'", this));
+						Console.WriteLine(string.Format("Checking if PRX type is allowed on '{0}'", this));
 					}
 					// Result == 0: PRX type allowed
 					// Result != 0: PRX type prohibited

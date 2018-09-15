@@ -21,7 +21,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using IVirtualFileSystem = pspsharp.HLE.VFS.IVirtualFileSystem;
@@ -699,9 +699,9 @@ namespace pspsharp.HLE
 		/// </summary>
 		private void installDefaultModules()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Loading default HLE modules"));
+				Console.WriteLine(string.Format("Loading default HLE modules"));
 			}
 
 			foreach (ModuleInfo defaultModule in ModuleInfo.values())
@@ -853,7 +853,7 @@ namespace pspsharp.HLE
 			{
 				if (!nidMapper.addHLENid(nid, func.FunctionName, func.ModuleName, func.FirmwareVersion))
 				{
-					log.error(string.Format("Tried to register a second handler for NID 0x{0:X8} called {1}", nid, func.FunctionName));
+					Console.WriteLine(string.Format("Tried to register a second handler for NID 0x{0:X8} called {1}", nid, func.FunctionName));
 				}
 
 				nidToFunction[nid] = func;
@@ -942,23 +942,23 @@ namespace pspsharp.HLE
 			{
 				if (defaultModule.module.Started)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Module {0} already started", defaultModule.module.Name));
+						Console.WriteLine(string.Format("Module {0} already started", defaultModule.module.Name));
 					}
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Starting module {0}", defaultModule.module.Name));
+						Console.WriteLine(string.Format("Starting module {0}", defaultModule.module.Name));
 					}
 
 					defaultModule.module.start();
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Started module {0}", defaultModule.module.Name));
+						Console.WriteLine(string.Format("Started module {0}", defaultModule.module.Name));
 					}
 				}
 			}
@@ -1075,7 +1075,7 @@ namespace pspsharp.HLE
 			}
 			catch (Exception e)
 			{
-				log.error("installModuleWithAnnotations", e);
+				Console.WriteLine("installModuleWithAnnotations", e);
 			}
 
 			installedModules.Add(hleModule);
@@ -1097,7 +1097,7 @@ namespace pspsharp.HLE
 			}
 			catch (Exception e)
 			{
-				log.error("uninstallModuleWithAnnotations", e);
+				Console.WriteLine("uninstallModuleWithAnnotations", e);
 			}
 
 			installedModules.remove(hleModule);

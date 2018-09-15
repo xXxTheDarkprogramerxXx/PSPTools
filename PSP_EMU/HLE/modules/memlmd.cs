@@ -25,14 +25,14 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.writeUnaligned32;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class memlmd : HLEModule
 	{
-		public static Logger log = Modules.getLogger("memlmd");
+		//public static Logger log = Modules.getLogger("memlmd");
 
 		public static sbyte[] getKey(int[] intKey)
 		{

@@ -73,11 +73,11 @@ namespace pspsharp.network.accesspoint
 	using DNSRecord = pspsharp.network.protocols.DNS.DNSRecord;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class AccessPoint
 	{
-		public static Logger log = Logger.getLogger("accesspoint");
+		//public static Logger log = Logger.getLogger("accesspoint");
 		public const int HARDWARE_TYPE_ETHERNET = 0x0001;
 		public const int IP_ADDRESS_LENGTH = 4;
 		private const int BUFFER_SIZE = 2000;
@@ -154,10 +154,10 @@ namespace pspsharp.network.accesspoint
 			}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void write(byte[] buffer, int offset, int length) throws java.io.IOException
-			public virtual void write(sbyte[] buffer, int offset, int length)
+//ORIGINAL LINE: public void write(byte[] buffer, int offset, int Length) throws java.io.IOException
+			public virtual void write(sbyte[] buffer, int offset, int Length)
 			{
-				socketChannel.write(ByteBuffer.wrap(buffer, 0, length));
+				socketChannel.write(ByteBuffer.wrap(buffer, 0, Length));
 			}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -165,14 +165,14 @@ namespace pspsharp.network.accesspoint
 			public virtual sbyte[] read()
 			{
 				sbyte[] buffer = new sbyte[BUFFER_SIZE];
-				int length = socketChannel.read(ByteBuffer.wrap(buffer));
-				if (length <= 0)
+				int Length = socketChannel.read(ByteBuffer.wrap(buffer));
+				if (Length <= 0)
 				{
 					return null;
 				}
 
-				sbyte[] readBuffer = new sbyte[length];
-				Array.Copy(buffer, 0, readBuffer, 0, length);
+				sbyte[] readBuffer = new sbyte[Length];
+				Array.Copy(buffer, 0, readBuffer, 0, Length);
 
 				return readBuffer;
 			}
@@ -253,9 +253,9 @@ namespace pspsharp.network.accesspoint
 			apThread.Name = "Access Point Thread";
 			apThread.Start();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("AccessPoint using MAC={0}, IP={1}", apMacAddress, getIpAddressString(apIpAddress)));
+				Console.WriteLine(string.Format("AccessPoint using MAC={0}, IP={1}", apMacAddress, getIpAddressString(apIpAddress)));
 			}
 		}
 
@@ -312,7 +312,7 @@ namespace pspsharp.network.accesspoint
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("getIpAddress", e);
+				Console.WriteLine("getIpAddress", e);
 			}
 
 			return null;
@@ -347,9 +347,9 @@ namespace pspsharp.network.accesspoint
 					}
 					catch (BindException e)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("createAccessPointSocket port {0:D} already in use ({1}) - retrying with port {2:D}", apSocketPort, e, apSocketPort + 1));
+							Console.WriteLine(string.Format("createAccessPointSocket port {0:D} already in use ({1}) - retrying with port {2:D}", apSocketPort, e, apSocketPort + 1));
 						}
 						// The port is already busy, retrying with another port
 						apSocketPort++;
@@ -357,7 +357,7 @@ namespace pspsharp.network.accesspoint
 					}
 					catch (SocketException e)
 					{
-						log.error("createWlanSocket", e);
+						Console.WriteLine("createWlanSocket", e);
 					}
 				} while (retry);
 			}
@@ -379,9 +379,9 @@ namespace pspsharp.network.accesspoint
 			try
 			{
 				apSocket.receive(packet);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("receiveMessage message: {0}", Utilities.getMemoryDump(packet.Data, packet.Offset, packet.Length)));
+					Console.WriteLine(string.Format("receiveMessage message: {0}", Utilities.getMemoryDump(packet.Data, packet.Offset, packet.Length)));
 				}
 
 				packetReceived = true;
@@ -399,7 +399,7 @@ namespace pspsharp.network.accesspoint
 			}
 			catch (IOException e)
 			{
-				log.error("receiveMessage", e);
+				Console.WriteLine("receiveMessage", e);
 			}
 
 			return packetReceived;
@@ -415,9 +415,9 @@ namespace pspsharp.network.accesspoint
 
 		private void sendPacket(sbyte[] buffer, int bufferLength)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sendPacket {0}", Utilities.getMemoryDump(buffer, 0, bufferLength)));
+				Console.WriteLine(string.Format("sendPacket {0}", Utilities.getMemoryDump(buffer, 0, bufferLength)));
 			}
 
 			try
@@ -434,11 +434,11 @@ namespace pspsharp.network.accesspoint
 			}
 			catch (UnknownHostException e)
 			{
-				log.error("sendPacket", e);
+				Console.WriteLine("sendPacket", e);
 			}
 			catch (IOException e)
 			{
-				log.error("sendPacket", e);
+				Console.WriteLine("sendPacket", e);
 			}
 		}
 
@@ -468,31 +468,31 @@ namespace pspsharp.network.accesspoint
 
 			if (cmd != WLAN_CMD_DATA)
 			{
-				log.error(string.Format("processMessage unknown command 0x{0:X}", cmd));
+				Console.WriteLine(string.Format("processMessage unknown command 0x{0:X}", cmd));
 				return;
 			}
 
 			string ssid = packet.readStringNZ(32);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessage ssid='{0}'", ssid));
+				Console.WriteLine(string.Format("processMessage ssid='{0}'", ssid));
 			}
 
 			if (string.ReferenceEquals(apSsid, null))
 			{
 				apSsid = ssid;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Using ssid='{0}' for the Access Point", apSsid));
+					Console.WriteLine(string.Format("Using ssid='{0}' for the Access Point", apSsid));
 				}
 			}
 
 			EtherFrame frame = new EtherFrame();
 			frame.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessage {0}", frame));
+				Console.WriteLine(string.Format("processMessage {0}", frame));
 			}
 
 			switch (frame.type)
@@ -504,7 +504,7 @@ namespace pspsharp.network.accesspoint
 					processMessageDatagram(packet, frame);
 					break;
 				default:
-					log.warn(string.Format("Unknow message of type 0x{0:X4}", frame.type));
+					Console.WriteLine(string.Format("Unknow message of type 0x{0:X4}", frame.type));
 					break;
 			}
 		}
@@ -518,37 +518,37 @@ namespace pspsharp.network.accesspoint
 
 			if (arp.hardwareType != HARDWARE_TYPE_ETHERNET)
 			{
-				log.warn(string.Format("processMessageARP unknown hardwareType=0x{0:X}", arp.hardwareType));
+				Console.WriteLine(string.Format("processMessageARP unknown hardwareType=0x{0:X}", arp.hardwareType));
 				return;
 			}
 
 			if (arp.protocolType != ETHER_TYPE_IPv4)
 			{
-				log.warn(string.Format("processMessageARP unknown protocolType=0x{0:X}", arp.protocolType));
+				Console.WriteLine(string.Format("processMessageARP unknown protocolType=0x{0:X}", arp.protocolType));
 				return;
 			}
 
 			if (arp.hardwareAddressLength != MAC_ADDRESS_LENGTH)
 			{
-				log.warn(string.Format("processMessageARP unknown hardwareAddressLength=0x{0:X}", arp.protocolType));
+				Console.WriteLine(string.Format("processMessageARP unknown hardwareAddressLength=0x{0:X}", arp.protocolType));
 				return;
 			}
 
 			if (arp.protocolAddressLength != IP_ADDRESS_LENGTH)
 			{
-				log.warn(string.Format("processMessageARP unknown protocolAddressLength=0x{0:X}", arp.protocolType));
+				Console.WriteLine(string.Format("processMessageARP unknown protocolAddressLength=0x{0:X}", arp.protocolType));
 				return;
 			}
 
 			if (arp.operation != ARP_OPERATION_REQUEST && arp.operation != ARP_OPERATION_REPLY)
 			{
-				log.warn(string.Format("processMessageARP unknown operation=0x{0:X}", arp.operation));
+				Console.WriteLine(string.Format("processMessageARP unknown operation=0x{0:X}", arp.operation));
 				return;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageARP {0}", arp));
+				Console.WriteLine(string.Format("processMessageARP {0}", arp));
 			}
 
 			if (arp.targetHardwareAddress.EmptyMacAddress)
@@ -595,9 +595,9 @@ namespace pspsharp.network.accesspoint
 			IPv4 ipv4 = new IPv4();
 			ipv4.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageDatagram IPv4 {0}", ipv4));
+				Console.WriteLine(string.Format("processMessageDatagram IPv4 {0}", ipv4));
 			}
 
 			switch (ipv4.protocol)
@@ -612,7 +612,7 @@ namespace pspsharp.network.accesspoint
 					processMessageUDP(packet, frame, ipv4);
 					break;
 				default:
-					log.warn(string.Format("processMessageDatagram unknown protocol {0:D}", ipv4.protocol));
+					Console.WriteLine(string.Format("processMessageDatagram unknown protocol {0:D}", ipv4.protocol));
 					break;
 			}
 		}
@@ -624,9 +624,9 @@ namespace pspsharp.network.accesspoint
 			UDP udp = new UDP();
 			udp.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageUDP {0}", udp));
+				Console.WriteLine(string.Format("processMessageUDP {0}", udp));
 			}
 
 			switch (udp.destinationPort)
@@ -638,7 +638,7 @@ namespace pspsharp.network.accesspoint
 					processMessageDHCP(packet, frame, ipv4, udp);
 					break;
 				default:
-					log.warn(string.Format("processMessageUDP unknown destination port 0x{0:X}", udp.destinationPort));
+					Console.WriteLine(string.Format("processMessageUDP unknown destination port 0x{0:X}", udp.destinationPort));
 					break;
 			}
 		}
@@ -650,9 +650,9 @@ namespace pspsharp.network.accesspoint
 			DNS dns = new DNS();
 			dns.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageDNS {0}", dns));
+				Console.WriteLine(string.Format("processMessageDNS {0}", dns));
 			}
 
 			if (!dns.isResponseFlag && dns.questionCount == 1)
@@ -664,9 +664,9 @@ namespace pspsharp.network.accesspoint
 				try
 				{
 					InetAddress inetAddress = InetAddress.getByName(hostName);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("DNS response '{0}'={1}", hostName, inetAddress));
+						Console.WriteLine(string.Format("DNS response '{0}'={1}", hostName, inetAddress));
 					}
 
 					DNS.DNSAnswerRecord answer = new DNS.DNSAnswerRecord();
@@ -682,9 +682,9 @@ namespace pspsharp.network.accesspoint
 				catch (UnknownHostException e)
 				{
 					answerDns.responseCode = DNS_RESPONSE_CODE_NAME_ERROR;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("processMessageDNS unknown host '{0}'({1})", hostName, e.ToString()));
+						Console.WriteLine(string.Format("processMessageDNS unknown host '{0}'({1})", hostName, e.ToString()));
 					}
 				}
 
@@ -701,9 +701,9 @@ namespace pspsharp.network.accesspoint
 				answerUdp.swapSourceAndDestination();
 
 				// Update lengths and checksums
-				answerUdp.length = answerUdp.sizeOf() + answerDns.sizeOf();
+				answerUdp.Length = answerUdp.sizeOf() + answerDns.sizeOf();
 				answerUdp.computeChecksum();
-				answerIPv4.totalLength = answerIPv4.sizeOf() + answerUdp.length;
+				answerIPv4.totalLength = answerIPv4.sizeOf() + answerUdp.Length;
 				answerIPv4.computeChecksum();
 
 				// Write the different headers in sequence
@@ -724,9 +724,9 @@ namespace pspsharp.network.accesspoint
 			ICMP icmp = new ICMP();
 			icmp.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageDatagramICMP {0}", icmp));
+				Console.WriteLine(string.Format("processMessageDatagramICMP {0}", icmp));
 			}
 
 			switch (icmp.type)
@@ -735,7 +735,7 @@ namespace pspsharp.network.accesspoint
 					sendICMPEchoResponse(packet, frame, ipv4, icmp);
 					break;
 				default:
-					log.warn(string.Format("processMessageDatagramICMP unknown type=0x{0:X}, code=0x{1:X}", icmp.type, icmp.code));
+					Console.WriteLine(string.Format("processMessageDatagramICMP unknown type=0x{0:X}, code=0x{1:X}", icmp.type, icmp.code));
 					break;
 			}
 		}
@@ -789,7 +789,7 @@ namespace pspsharp.network.accesspoint
 		{
 			foreach (TcpConnectionState tcpConnectionState in tcpConnectionStates)
 			{
-				if (tcp.sourcePort == tcpConnectionState.sourcePort && tcp.destinationPort == tcpConnectionState.destinationPort && Arrays.Equals(ipv4.sourceIPAddress, tcpConnectionState.sourceIPAddress) && Arrays.Equals(ipv4.destinationIPAddress, tcpConnectionState.destinationIPAddress))
+				if (tcp.sourcePort == tcpConnectionState.sourcePort && tcp.destinationPort == tcpConnectionState.destinationPort && Array.Equals(ipv4.sourceIPAddress, tcpConnectionState.sourceIPAddress) && Array.Equals(ipv4.destinationIPAddress, tcpConnectionState.destinationIPAddress))
 				{
 					return tcpConnectionState;
 				}
@@ -806,9 +806,9 @@ namespace pspsharp.network.accesspoint
 			TCP tcp = new TCP();
 			tcp.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageTCP {0}", tcp));
+				Console.WriteLine(string.Format("processMessageTCP {0}", tcp));
 			}
 
 			TcpConnectionState tcpConnectionState = getTcpConnectionState(ipv4, tcp);
@@ -818,13 +818,13 @@ namespace pspsharp.network.accesspoint
 				{
 					if (!tcpConnectionState.pendingConnection)
 					{
-						log.error(string.Format("processMessageTCP SYN received but connection already exists: {0}", tcpConnectionState));
+						Console.WriteLine(string.Format("processMessageTCP SYN received but connection already exists: {0}", tcpConnectionState));
 						return;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("processMessageTCP SYN received for a connection still pending ({0}), retrying the connection", tcpConnectionState));
+						Console.WriteLine(string.Format("processMessageTCP SYN received for a connection still pending ({0}), retrying the connection", tcpConnectionState));
 					}
 
 					try
@@ -833,9 +833,9 @@ namespace pspsharp.network.accesspoint
 					}
 					catch (IOException e)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("error while closing connection", e);
+							Console.WriteLine("error while closing connection", e);
 						}
 					}
 					tcpConnectionStates.Remove(tcpConnectionState);
@@ -858,9 +858,9 @@ namespace pspsharp.network.accesspoint
 				if (tcpConnectionState == null)
 				{
 					// Acknowledge to an unknown connection, ignore
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("processMessageTCP ACK received for unknown connection: {0}", tcp));
+						Console.WriteLine(string.Format("processMessageTCP ACK received for unknown connection: {0}", tcp));
 					}
 					return;
 				}
@@ -885,7 +885,7 @@ namespace pspsharp.network.accesspoint
 				}
 				catch (IOException e)
 				{
-					log.error("processMessageTCP", e);
+					Console.WriteLine("processMessageTCP", e);
 				}
 			}
 		}
@@ -923,11 +923,11 @@ namespace pspsharp.network.accesspoint
 			answerIPv4.write(answerPacket);
 			answerTcp.write(answerPacket);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sendAcknowledgeTCP frame={0}", answerFrame));
-				log.debug(string.Format("sendAcknowledgeTCP IPv4={0}", answerIPv4));
-				log.debug(string.Format("sendAcknowledgeTCP TCP={0}", answerTcp));
+				Console.WriteLine(string.Format("sendAcknowledgeTCP frame={0}", answerFrame));
+				Console.WriteLine(string.Format("sendAcknowledgeTCP IPv4={0}", answerIPv4));
+				Console.WriteLine(string.Format("sendAcknowledgeTCP TCP={0}", answerTcp));
 			}
 
 			sendPacket(answerPacket);
@@ -968,11 +968,11 @@ namespace pspsharp.network.accesspoint
 			answerIPv4.write(answerPacket);
 			answerTcp.write(answerPacket);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sendTcpData frame={0}", answerFrame));
-				log.debug(string.Format("sendTcpData IPv4={0}", answerIPv4));
-				log.debug(string.Format("sendTcpData TCP={0}", answerTcp));
+				Console.WriteLine(string.Format("sendTcpData frame={0}", answerFrame));
+				Console.WriteLine(string.Format("sendTcpData IPv4={0}", answerIPv4));
+				Console.WriteLine(string.Format("sendTcpData TCP={0}", answerTcp));
 			}
 
 			sendPacket(answerPacket);
@@ -1009,9 +1009,9 @@ namespace pspsharp.network.accesspoint
 					{
 						// connect failed, do not send any TCP SYN-ACK, forget the connection state
 						tcpConnectionStatesToBeDeleted.Add(tcpConnectionState);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Pending TCP connection {0} failed: {1}", tcpConnectionState, e.ToString()));
+							Console.WriteLine(string.Format("Pending TCP connection {0} failed: {1}", tcpConnectionState, e.ToString()));
 						}
 					}
 				}
@@ -1026,9 +1026,9 @@ namespace pspsharp.network.accesspoint
 						{
 							tcpConnectionState.pendingWriteData = null;
 
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("receiveTcpMessages sending pending write data: {0}", Utilities.getMemoryDump(pendingWriteData)));
+								Console.WriteLine(string.Format("receiveTcpMessages sending pending write data: {0}", Utilities.getMemoryDump(pendingWriteData)));
 							}
 							tcpConnectionState.write(pendingWriteData);
 						}
@@ -1045,7 +1045,7 @@ namespace pspsharp.network.accesspoint
 				catch (IOException e)
 				{
 					// Ignore exceptions
-					log.error("receiveTcpMessages", e);
+					Console.WriteLine("receiveTcpMessages", e);
 				}
 			}
 
@@ -1093,9 +1093,9 @@ namespace pspsharp.network.accesspoint
 			answerDhcp.addOption(new DHCP.DHCPOption(DHCP.DHCP_OPTION_BROADCAST_ADDRESS, DHCP.broadcastIPAddress));
 
 			// Update lengths and checksums
-			answerUdp.length = answerUdp.sizeOf() + answerDhcp.sizeOf();
+			answerUdp.Length = answerUdp.sizeOf() + answerDhcp.sizeOf();
 			answerUdp.computeChecksum();
-			answerIPv4.totalLength = answerIPv4.sizeOf() + answerUdp.length;
+			answerIPv4.totalLength = answerIPv4.sizeOf() + answerUdp.Length;
 			answerIPv4.computeChecksum();
 
 			// Write the different headers in sequence
@@ -1105,12 +1105,12 @@ namespace pspsharp.network.accesspoint
 			answerUdp.write(answerPacket);
 			answerDhcp.write(answerPacket);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sendDHCPReply frame={0}", answerFrame));
-				log.debug(string.Format("sendDHCPReply IPv4={0}", answerIPv4));
-				log.debug(string.Format("sendDHCPReply UDP={0}", answerUdp));
-				log.debug(string.Format("sendDHCPReply messageType={0:D}, DHCP={1}", messageType, answerDhcp));
+				Console.WriteLine(string.Format("sendDHCPReply frame={0}", answerFrame));
+				Console.WriteLine(string.Format("sendDHCPReply IPv4={0}", answerIPv4));
+				Console.WriteLine(string.Format("sendDHCPReply UDP={0}", answerUdp));
+				Console.WriteLine(string.Format("sendDHCPReply messageType={0:D}, DHCP={1}", messageType, answerDhcp));
 			}
 
 			sendPacket(answerPacket);
@@ -1123,9 +1123,9 @@ namespace pspsharp.network.accesspoint
 			DHCP dhcp = new DHCP();
 			dhcp.read(packet);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("processMessageDHCP {0}", dhcp));
+				Console.WriteLine(string.Format("processMessageDHCP {0}", dhcp));
 			}
 
 			if (dhcp.isDiscovery(udp, ipv4))
@@ -1140,7 +1140,7 @@ namespace pspsharp.network.accesspoint
 			}
 			else
 			{
-				log.warn(string.Format("Unknown DHCP request {0}", dhcp));
+				Console.WriteLine(string.Format("Unknown DHCP request {0}", dhcp));
 			}
 		}
 	}

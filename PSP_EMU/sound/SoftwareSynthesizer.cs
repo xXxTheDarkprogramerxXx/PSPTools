@@ -19,14 +19,14 @@ namespace pspsharp.sound
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.modules.sceSasCore.PSP_SAS_OUTPUTMODE_STEREO;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using sceSasCore = pspsharp.HLE.modules.sceSasCore;
 
 	public class SoftwareSynthesizer
 	{
-		public static Logger log = Logger.getLogger("sound");
+		//public static Logger log = Logger.getLogger("sound");
 		private SoundVoice voice;
 		private ISampleSource sampleSource;
 		private const int defaultDelay = 32;

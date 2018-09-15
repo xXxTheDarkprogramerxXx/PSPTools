@@ -1,7 +1,7 @@
 ﻿namespace pspsharp.graphics.RE
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using BufferManagerFactory = pspsharp.graphics.RE.buffer.BufferManagerFactory;
 	using IREBufferManager = pspsharp.graphics.RE.buffer.IREBufferManager;

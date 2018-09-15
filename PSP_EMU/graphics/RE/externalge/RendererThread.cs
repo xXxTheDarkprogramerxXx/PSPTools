@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.graphics.RE.externalge
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -49,9 +49,9 @@ namespace pspsharp.graphics.RE.externalge
 				{
 					if (lineMask != 0)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Starting async rendering lineMask=0x{0:X8}", lineMask));
+							Console.WriteLine(string.Format("Starting async rendering lineMask=0x{0:X8}", lineMask));
 						}
 						NativeUtils.rendererRender(lineMask);
 					}

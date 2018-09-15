@@ -63,7 +63,7 @@ namespace pspsharp.network.pspsharp
 			gameModeMacs = null;
 		}
 
-		public JpcspAdhocctlMessage(sbyte[] message, int length)
+		public JpcspAdhocctlMessage(sbyte[] message, int Length)
 		{
 			int offset = 0;
 			nickName = copyFromMessage(message, offset, NICK_NAME_LENGTH);
@@ -104,10 +104,10 @@ namespace pspsharp.network.pspsharp
 			}
 		}
 
-		private string copyFromMessage(sbyte[] message, int offset, int length)
+		private string copyFromMessage(sbyte[] message, int offset, int Length)
 		{
 			StringBuilder s = new StringBuilder();
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				sbyte b = message[offset + i];
 				if (b == 0)
@@ -159,8 +159,8 @@ namespace pspsharp.network.pspsharp
 		{
 			if (!string.ReferenceEquals(s, null))
 			{
-				int length = s.Length;
-				for (int i = 0; i < length; i++)
+				int Length = s.Length;
+				for (int i = 0; i < Length; i++)
 				{
 					message[offset + i] = (sbyte) s[i];
 				}

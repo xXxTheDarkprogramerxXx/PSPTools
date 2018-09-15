@@ -26,9 +26,9 @@ namespace pspsharp.format.rco.anim
 
 		protected internal override long doPlay(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("DelayAnim {0:D}", time.IntValue));
+				Console.WriteLine(string.Format("DelayAnim {0:D}", time.IntValue));
 			}
 
 			return time.IntValue;

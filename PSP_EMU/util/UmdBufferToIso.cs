@@ -19,7 +19,7 @@ namespace pspsharp.util
 				int numSectors = inToc.readInt();
 				Console.WriteLine(string.Format("numSectors={0:D}", numSectors));
 				sbyte[] buffer = new sbyte[sectorLength];
-				for (int i = 4; i < inToc.length(); i += 8)
+				for (int i = 4; i < inToc.Length(); i += 8)
 				{
 					int sectorNumber = inToc.readInt();
 					int bufferedSectorNumber = inToc.readInt();

@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceKernelLMOption = pspsharp.HLE.kernel.types.SceKernelLMOption;
 	using LoadModuleContext = pspsharp.HLE.modules.ModuleMgrForUser.LoadModuleContext;
@@ -24,7 +24,7 @@ namespace pspsharp.HLE.modules
 
 	public class KUBridge : HLEModule
 	{
-		public static Logger log = Modules.getLogger("KUBridge");
+		//public static Logger log = Modules.getLogger("KUBridge");
 
 		/*
 		 * Equivalent to sceKernelLoadModule()
@@ -63,9 +63,9 @@ namespace pspsharp.HLE.modules
 		{
 			int result = Model.Model;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("kuKernelGetModel returning {0:D}({1})", result, Model.getModelName(result)));
+				Console.WriteLine(string.Format("kuKernelGetModel returning {0:D}({1})", result, Model.getModelName(result)));
 			}
 
 			return result;

@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.VFS
 {
 
-	using Logger = org.apache.log4j.Logger;
+	////using Logger = org.apache.log4j.Logger;
 
 	using IoOperation = pspsharp.HLE.modules.IoFileMgrForUser.IoOperation;
 	using IoOperationTiming = pspsharp.HLE.modules.IoFileMgrForUser.IoOperationTiming;
@@ -33,7 +33,7 @@ namespace pspsharp.HLE.VFS
 	/// </summary>
 	public abstract class AbstractProxyVirtualFile : IVirtualFile
 	{
-		protected internal static Logger log = AbstractVirtualFileSystem.log;
+		//protected internal static Logger log = AbstractVirtualFileSystem.log;
 		protected internal IVirtualFile vFile;
 
 		protected internal AbstractProxyVirtualFile()
@@ -105,9 +105,9 @@ namespace pspsharp.HLE.VFS
 			return vFile.ioIoctl(command, inputPointer, inputLength, outputPointer, outputLength);
 		}
 
-		public virtual long length()
+		public virtual long Length()
 		{
-			return vFile.length();
+			return vFile.Length();
 		}
 
 		public virtual bool SectorBlockMode

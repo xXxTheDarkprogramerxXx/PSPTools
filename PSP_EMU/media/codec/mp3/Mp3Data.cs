@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.media.codec.mp3
 {
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.pow;
+//	import static Math.Pow;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.media.codec.mp3.Mp3Decoder.FRAC_BITS;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
@@ -294,7 +294,7 @@ namespace pspsharp.media.codec.mp3
 			for (int i = 1; i < TABLE_4_3_SIZE; i++)
 			{
 				double value = i / 4;
-				double f = value / IMDCT_SCALAR * pow(value, 1.0 / 3.0) * pow(2, (i & 3) * 0.25);
+				double f = value / IMDCT_SCALAR * Pow(value, 1.0 / 3.0) * Pow(2, (i & 3) * 0.25);
 
 				// double fm = frexp(f, &e);
 				int e = 0;
@@ -332,7 +332,7 @@ namespace pspsharp.media.codec.mp3
 			{
 				for (int value = 0; value < 16; value++)
 				{
-					double f = (double) value * pow(value, 1.0 / 3.0) * pow(2, (exponent - 400) * 0.25 + FRAC_BITS + 5) / IMDCT_SCALAR;
+					double f = (double) value * Pow(value, 1.0 / 3.0) * Pow(2, (exponent - 400) * 0.25 + FRAC_BITS + 5) / IMDCT_SCALAR;
 					expval_table[exponent][value] = (float) f;
 				}
 				exp_table[exponent] = expval_table[exponent][1];

@@ -38,7 +38,7 @@ namespace pspsharp.memory
 			catch (System.OutOfMemoryException)
 			{
 				// Not enough memory provided for this VM, cannot use FastMemory model
-				Memory.log.warn("Cannot allocate DirectBufferMemory: add the option '-Xmx256m' to the Java Virtual Machine startup command to improve Performance");
+				Memory.Console.WriteLine("Cannot allocate DirectBufferMemory: add the option '-Xmx256m' to the Java Virtual Machine startup command to improve Performance");
 				Memory.log.info("The current Java Virtual Machine has been started using '-Xmx" + (Runtime.Runtime.maxMemory() / (1024 * 1024)) + "m'");
 				return false;
 			}
@@ -73,28 +73,28 @@ namespace pspsharp.memory
 			return buffer.slice().order(buffer.order());
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
 			address &= addressMask;
 			source = slice(source);
-			source.limit(length);
+			source.limit(Length);
 			ByteBuffer mem = slice(byteBuffer);
 			mem.position(address);
 			mem.put(source);
 		}
 
-		protected internal virtual ByteBuffer getByteBuffer(int address, int length)
+		protected internal virtual ByteBuffer getByteBuffer(int address, int Length)
 		{
 			address &= addressMask;
 			ByteBuffer mem = slice(byteBuffer);
 			mem.position(address);
-			mem.limit(address + length);
+			mem.limit(address + Length);
 			return slice(mem);
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
-			return getByteBuffer(address, length);
+			return getByteBuffer(address, Length);
 		}
 
 		public override Buffer MainMemoryByteBuffer
@@ -105,33 +105,33 @@ namespace pspsharp.memory
 			}
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
 			destination = normalizeAddress(destination);
 			source = normalizeAddress(source);
 
-			if (checkOverlap || !areOverlapping(destination, source, length))
+			if (checkOverlap || !areOverlapping(destination, source, Length))
 			{
 				// Direct copy if buffers do not overlap.
 				// ByteBuffer operations are handling correctly overlapping buffers.
-				ByteBuffer destinationBuffer = getByteBuffer(destination, length);
-				ByteBuffer sourceBuffer = getByteBuffer(source, length);
+				ByteBuffer destinationBuffer = getByteBuffer(destination, Length);
+				ByteBuffer sourceBuffer = getByteBuffer(source, Length);
 				destinationBuffer.put(sourceBuffer);
 			}
 			else
 			{
 				// Buffers are overlapping and we have to copy them as they would not overlap.
-				IMemoryReader sourceReader = MemoryReader.getMemoryReader(source, length, 1);
-				for (int i = 0; i < length; i++)
+				IMemoryReader sourceReader = MemoryReader.getMemoryReader(source, Length, 1);
+				for (int i = 0; i < Length; i++)
 				{
 					write8(destination + i, (sbyte) sourceReader.readNext());
 				}
 			}
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
-			ByteBuffer destination = getByteBuffer(address, length);
+			ByteBuffer destination = getByteBuffer(address, Length);
 			ByteBuffer source;
 			if (data == 0)
 			{
@@ -147,16 +147,16 @@ namespace pspsharp.memory
 				source.clear();
 			}
 
-			while (length >= clearBufferSize)
+			while (Length >= clearBufferSize)
 			{
 				destination.put(source);
 				source.clear();
-				length -= clearBufferSize;
+				Length -= clearBufferSize;
 			}
 
-			if (length > 0)
+			if (Length > 0)
 			{
-				source.limit(length);
+				source.limit(Length);
 				destination.put(source);
 			}
 		}

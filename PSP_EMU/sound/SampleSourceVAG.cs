@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.sound
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
 	using MemoryReader = pspsharp.memory.MemoryReader;
@@ -106,9 +106,9 @@ namespace pspsharp.sound
 				int sampleRate = Integer.reverseBytes(mem.read32(address + 16));
 //JAVA TO C# CONVERTER TODO TASK: There is no .NET StringBuilder equivalent to the Java 'reverse' method:
 				string dataName = (new StringBuilder(Utilities.readStringNZ(address + 32, 16))).reverse().ToString();
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("SampleSourceVAG found VAG/ADPCM data: version={0:D}, size={1:D}, sampleRate={2:D}, dataName='{3}'", version, dataSize, sampleRate, dataName));
+					Console.WriteLine(string.Format("SampleSourceVAG found VAG/ADPCM data: version={0:D}, size={1:D}, sampleRate={2:D}, dataName='{3}'", version, dataSize, sampleRate, dataName));
 				}
 				address += 0x30;
 			}

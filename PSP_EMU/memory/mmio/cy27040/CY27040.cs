@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio.cy27040
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IState = pspsharp.state.IState;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -25,7 +25,7 @@ namespace pspsharp.memory.mmio.cy27040
 
 	public class CY27040 : IState
 	{
-		public static Logger log = Logger.getLogger("CY27040");
+		//public static Logger log = Logger.getLogger("CY27040");
 		private const int STATE_VERSION = 0;
 		private static CY27040 instance;
 		// In clock register, used to manage the audio frequency
@@ -80,9 +80,9 @@ namespace pspsharp.memory.mmio.cy27040
 		{
 			int command = transmitData[0] & 0xFF;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("executeTransmitReceiveCommand command=0x{0:X2} on {1}", command, this));
+				Console.WriteLine(string.Format("executeTransmitReceiveCommand command=0x{0:X2} on {1}", command, this));
 			}
 
 			switch (command)
@@ -103,7 +103,7 @@ namespace pspsharp.memory.mmio.cy27040
 					receiveData[0] = spreadSpectrum;
 					break;
 				default:
-					log.error(string.Format("executeTransmitReceiveCommand unknown command 0x{0:X}", command));
+					Console.WriteLine(string.Format("executeTransmitReceiveCommand unknown command 0x{0:X}", command));
 					break;
 			}
 		}
@@ -123,13 +123,13 @@ namespace pspsharp.memory.mmio.cy27040
 					spreadSpectrum = transmitData[1] & 0xFF;
 					break;
 				default:
-					log.error(string.Format("executeTransmitCommand unknown command 0x{0:X}", command));
+					Console.WriteLine(string.Format("executeTransmitCommand unknown command 0x{0:X}", command));
 					break;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("executeTransmitCommand command=0x{0:X2} on {1}", command, this));
+				Console.WriteLine(string.Format("executeTransmitCommand command=0x{0:X2} on {1}", command, this));
 			}
 		}
 

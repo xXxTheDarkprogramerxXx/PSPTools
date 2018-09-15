@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class sceSuspendForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSuspendForKernel");
+		//public static Logger log = Modules.getLogger("sceSuspendForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x98A1D061, version = 150) public int sceKernelPowerRebootStart(int unknown)

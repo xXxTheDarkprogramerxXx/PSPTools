@@ -239,7 +239,7 @@ namespace pspsharp.graphics.RE
 					bool compiled = re.compilerShader(shaderId, fragmentShaderSource);
 					if (!compiled)
 					{
-						log.error(string.Format("Cannot compile shader required for storing stencil information into the GE texture: {0}", re.getShaderInfoLog(shaderId)));
+						Console.WriteLine(string.Format("Cannot compile shader required for storing stencil information into the GE texture: {0}", re.getShaderInfoLog(shaderId)));
 						return false;
 					}
 
@@ -248,7 +248,7 @@ namespace pspsharp.graphics.RE
 					bool linked = re.linkProgram(stencilShaderProgramId);
 					if (!linked)
 					{
-						log.error(string.Format("Cannot link shader required for storing stencil information into the GE texture: {0}", re.getProgramInfoLog(stencilShaderProgramId)));
+						Console.WriteLine(string.Format("Cannot link shader required for storing stencil information into the GE texture: {0}", re.getProgramInfoLog(stencilShaderProgramId)));
 						return false;
 					}
 

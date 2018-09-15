@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IAction = pspsharp.HLE.kernel.types.IAction;
 	using sceDdr = pspsharp.HLE.modules.sceDdr;
@@ -88,9 +88,9 @@ namespace pspsharp.memory.mmio
 		{
 			flushDone[value] = true;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("MMIOHandlerDdr.doFlush 0x{0:X1}", value));
+				Console.WriteLine(string.Format("MMIOHandlerDdr.doFlush 0x{0:X1}", value));
 			}
 
 			if (flushActions[value] != null)

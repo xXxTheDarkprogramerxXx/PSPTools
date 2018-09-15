@@ -23,7 +23,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.scheduler.Scheduler.getNow;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using IAction = pspsharp.HLE.kernel.types.IAction;
@@ -144,9 +144,9 @@ namespace pspsharp.memory.mmio
 		{
 			if (maxVblankInterrupts == 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Skipping Vblank interrupt {0}", this));
+					Console.WriteLine(string.Format("Skipping Vblank interrupt {0}", this));
 				}
 				return;
 			}
@@ -156,9 +156,9 @@ namespace pspsharp.memory.mmio
 			}
 
 			long schedule = NextVblankSchedule;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Scheduling next Vblank at 0x{0:X}, {1}", schedule, this));
+				Console.WriteLine(string.Format("Scheduling next Vblank at 0x{0:X}, {1}", schedule, this));
 			}
 			Scheduler.addAction(schedule, triggerVblankInterruptAction);
 		}

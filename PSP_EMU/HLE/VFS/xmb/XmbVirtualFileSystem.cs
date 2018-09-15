@@ -97,9 +97,9 @@ namespace pspsharp.HLE.VFS.xmb
 				umdFiles.Add(virtualPBP);
 				fileNames[i] = string.Format("@UMD{0:D}", umdIndex);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("{0}={1}", fileNames[i], files[i].AbsolutePath));
+					Console.WriteLine(string.Format("{0}={1}", fileNames[i], files[i].AbsolutePath));
 				}
 			}
 
@@ -291,14 +291,14 @@ namespace pspsharp.HLE.VFS.xmb
 				{
 					virtualPBP.vFile = new XmbIsoVirtualFile(umdFileName);
 				}
-				if (virtualPBP.vFile.length() > 0)
+				if (virtualPBP.vFile.Length() > 0)
 				{
 					return virtualPBP.vFile;
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("XmbVirtualFileSystem.ioOpen could not open UMD file '{0}'", umdFileName));
+					Console.WriteLine(string.Format("XmbVirtualFileSystem.ioOpen could not open UMD file '{0}'", umdFileName));
 				}
 			}
 

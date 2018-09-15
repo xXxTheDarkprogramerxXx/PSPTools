@@ -20,7 +20,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
 	using IMemoryWriter = pspsharp.memory.IMemoryWriter;
@@ -29,7 +29,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceCcc : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceCcc");
+		//public static Logger log = Modules.getLogger("sceCcc");
 
 		protected internal static readonly Charset charsetUTF8 = getCharset("UTF-8");
 		protected internal static readonly Charset charsetUTF16 = getCharset("UTF-16LE");
@@ -51,7 +51,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (!Charset.isSupported(charsetName))
 			{
-				log.warn(string.Format("Charset not supported by this JVM: {0}", charsetName));
+				Console.WriteLine(string.Format("Charset not supported by this JVM: {0}", charsetName));
 				if (log.InfoEnabled)
 				{
 					SortedDictionary<string, Charset> availableCharsets = Charset.availableCharsets();
@@ -133,12 +133,12 @@ namespace pspsharp.HLE.modules
 			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(addr, 1);
 			if (bytes != null)
 			{
-				int length = System.Math.Min(bytes.Length, maxSize - 1);
-				for (int i = 0; i < length; i++)
+				int Length = System.Math.Min(bytes.Length, maxSize - 1);
+				for (int i = 0; i < Length; i++)
 				{
 					memoryWriter.writeNext(bytes[i] & 0xFF);
 				}
-				bytesWritten += length;
+				bytesWritten += Length;
 			}
 
 			// write trailing '\0'
@@ -172,12 +172,12 @@ namespace pspsharp.HLE.modules
 			string s = new string(chars);
 			sbyte[] bytes = s.GetBytes(charsetSJIS);
 			int addr = dstAddr.getValue();
-			int length = writeStringBytes(bytes, addr, 100, 0);
-			dstAddr.setValue(addr + length);
+			int Length = writeStringBytes(bytes, addr, 100, 0);
+			dstAddr.setValue(addr + Length);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccEncodeSJIS encoding '{0}' into {1:D} bytes", s, length));
+				Console.WriteLine(string.Format("sceCccEncodeSJIS encoding '{0}' into {1:D} bytes", s, Length));
 			}
 
 			return 0;
@@ -212,9 +212,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccUTF16toUTF8(TPointer dstAddr, int dstSize, TPointer srcAddr)
 		{
 			string dstString = getStringUTF16(srcAddr.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccUTF16toUTF8 string='{0}'", dstString));
+				Console.WriteLine(string.Format("sceCccUTF16toUTF8 string='{0}'", dstString));
 			}
 			sbyte[] dstBytes = dstString.GetBytes(charsetUTF8);
 			return writeStringBytes(dstBytes, dstAddr.Address, dstSize, 1);
@@ -224,9 +224,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccStrlenUTF16(TPointer strUTF16)
 		{
 			string str = getStringUTF16(strUTF16.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccStrlenUTF16 str='{0}'", str));
+				Console.WriteLine(string.Format("sceCccStrlenUTF16 str='{0}'", str));
 			}
 
 			return str.Length;
@@ -252,9 +252,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccUTF8toSJIS(TPointer dstAddr, int dstSize, TPointer srcAddr)
 		{
 			string dstString = getStringUTF8(srcAddr.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccUTF8toSJIS string='{0}'", dstString));
+				Console.WriteLine(string.Format("sceCccUTF8toSJIS string='{0}'", dstString));
 			}
 			sbyte[] dstBytes = dstString.GetBytes(charsetSJIS);
 			return writeStringBytes(dstBytes, dstAddr.Address, dstSize, 1);
@@ -288,12 +288,12 @@ namespace pspsharp.HLE.modules
 			string s = new string(chars);
 			sbyte[] bytes = s.GetBytes(charsetUTF16);
 			int addr = dstAddr.getValue();
-			int length = writeStringBytes(bytes, addr, 100, 0);
-			dstAddr.setValue(addr + length);
+			int Length = writeStringBytes(bytes, addr, 100, 0);
+			dstAddr.setValue(addr + Length);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccEncodeUTF16 encoding '{0}' into {1:D} bytes", s, length));
+				Console.WriteLine(string.Format("sceCccEncodeUTF16 encoding '{0}' into {1:D} bytes", s, Length));
 			}
 
 			return 0;
@@ -319,12 +319,12 @@ namespace pspsharp.HLE.modules
 			string s = new string(chars);
 			sbyte[] bytes = s.GetBytes(charsetUTF8);
 			int addr = dstAddr.getValue();
-			int length = writeStringBytes(bytes, addr, 100, 0);
-			dstAddr.setValue(addr + length);
+			int Length = writeStringBytes(bytes, addr, 100, 0);
+			dstAddr.setValue(addr + Length);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccEncodeUTF8 encoding '{0}' into {1:D} bytes", s, length));
+				Console.WriteLine(string.Format("sceCccEncodeUTF8 encoding '{0}' into {1:D} bytes", s, Length));
 			}
 
 			return 0;
@@ -350,9 +350,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccSJIStoUTF8(TPointer dstUTF8, int dstSize, TPointer srcSJIS)
 		{
 			string str = getStringSJIS(srcSJIS.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccSJIStoUTF8 str='{0}'", str));
+				Console.WriteLine(string.Format("sceCccSJIStoUTF8 str='{0}'", str));
 			}
 			sbyte[] bytesUTF8 = str.GetBytes(charsetUTF8);
 			return writeStringBytes(bytesUTF8, dstUTF8.Address, dstSize, 1);
@@ -373,9 +373,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccStrlenUTF8(TPointer strUTF8)
 		{
 			string str = getStringUTF16(strUTF8.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccStrlenUTF8 str='{0}'", str));
+				Console.WriteLine(string.Format("sceCccStrlenUTF8 str='{0}'", str));
 			}
 
 			return str.Length;
@@ -410,9 +410,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccSJIStoUTF16(TPointer dstUTF16, int dstSize, TPointer srcSJIS)
 		{
 			string str = getStringSJIS(srcSJIS.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccSJIStoUTF16 str='{0}'", str));
+				Console.WriteLine(string.Format("sceCccSJIStoUTF16 str='{0}'", str));
 			}
 			sbyte[] bytesUTF16 = str.GetBytes(charsetUTF16);
 			return writeStringBytes(bytesUTF16, dstUTF16.Address, dstSize, 2);
@@ -435,9 +435,9 @@ namespace pspsharp.HLE.modules
 			string srcString = getStringUTF8(srcAddrUTF8.getValue());
 			int codePoint = char.ConvertToUtf32(srcString, 0);
 			int codePointSize = Character.charCount(codePoint);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccDecodeUTF8 string='{0}'(0x{1:X8}), codePoint=0x{2:X}(size={3:D})", srcString, srcAddrUTF8.getValue(), codePoint, codePointSize));
+				Console.WriteLine(string.Format("sceCccDecodeUTF8 string='{0}'(0x{1:X8}), codePoint=0x{2:X}(size={3:D})", srcString, srcAddrUTF8.getValue(), codePoint, codePointSize));
 			}
 
 			srcAddrUTF8.setValue(srcAddrUTF8.getValue() + codePointSize);
@@ -467,9 +467,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCccStrlenSJIS(TPointer strSJIS)
 		{
 			string str = getStringUTF16(strSJIS.Address);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccStrlenSJIS str='{0}'", str));
+				Console.WriteLine(string.Format("sceCccStrlenSJIS str='{0}'", str));
 			}
 
 			return str.Length;
@@ -481,9 +481,9 @@ namespace pspsharp.HLE.modules
 			string srcString = getStringUTF16(srcAddrUTF16.getValue());
 			int codePoint = char.ConvertToUtf32(srcString, 0);
 			int codePointSize = Character.charCount(codePoint);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCccDecodeUTF16 string='{0}'(0x{1:X8}), codePoint=0x{2:X}(size={3:D})", srcString, srcAddrUTF16.getValue(), codePoint, codePointSize));
+				Console.WriteLine(string.Format("sceCccDecodeUTF16 string='{0}'(0x{1:X8}), codePoint=0x{2:X}(size={3:D})", srcString, srcAddrUTF16.getValue(), codePoint, codePointSize));
 			}
 
 			srcAddrUTF16.setValue(srcAddrUTF16.getValue() + (codePointSize << 1));

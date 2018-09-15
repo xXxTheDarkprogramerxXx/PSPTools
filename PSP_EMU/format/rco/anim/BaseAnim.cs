@@ -35,20 +35,20 @@ namespace pspsharp.format.rco.anim
 		{
 			internal BaseAnim[] children;
 			internal int index;
-			internal int length;
+			internal int Length;
 			internal VSMXBaseObject @object;
 
-			public PlayAnimAction(BaseAnim[] children, int index, int length, VSMXBaseObject @object)
+			public PlayAnimAction(BaseAnim[] children, int index, int Length, VSMXBaseObject @object)
 			{
 				this.children = children;
 				this.index = index;
-				this.length = length;
+				this.Length = Length;
 				this.@object = @object;
 			}
 
 			public virtual void execute()
 			{
-				while (index < length)
+				while (index < Length)
 				{
 					long delay = children[index++].doPlay(@object);
 					if (delay > 0)
@@ -114,9 +114,9 @@ namespace pspsharp.format.rco.anim
 
 		protected internal virtual long doPlay(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("BaseAnim play on {0}", @object));
+				Console.WriteLine(string.Format("BaseAnim play on {0}", @object));
 			}
 
 			return 0;
@@ -124,9 +124,9 @@ namespace pspsharp.format.rco.anim
 
 		public virtual void play(VSMXBaseObject thisObject, VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("BaseAnim.play {0}, {1}", thisObject, @object));
+				Console.WriteLine(string.Format("BaseAnim.play {0}, {1}", thisObject, @object));
 			}
 
 			if (thisObject.hasPropertyValue(Resource.childrenName))

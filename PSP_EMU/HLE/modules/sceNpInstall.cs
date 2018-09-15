@@ -19,14 +19,14 @@ namespace pspsharp.HLE.modules
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNpInstall : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNpInstall");
+		//public static Logger log = Modules.getLogger("sceNpInstall");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0B039B36, version = 150) public int sceNpInstallActivation(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, int size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=64, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0B039B36, version = 150) public int sceNpInstallActivation(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, int size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=64, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0x0B039B36, version : 150)]
 		public virtual int sceNpInstallActivation(TPointer unknown1, int size, TPointer unknown2)
 		{
@@ -36,7 +36,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5847D8C7, version = 150) public int sceNpInstallGetChallenge(int unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inputKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer challenge, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=64, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown4)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5847D8C7, version = 150) public int sceNpInstallGetChallenge(int unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer inputKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer challenge, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=64, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown4)
 		[HLEFunction(nid : 0x5847D8C7, version : 150)]
 		public virtual int sceNpInstallGetChallenge(int unknown1, TPointer inputKey, TPointer challenge, TPointer unknown4)
 		{

@@ -29,32 +29,32 @@ namespace pspsharp.memory
 	{
 		private static int getMaxLength(int rawAddress)
 		{
-			int length;
+			int Length;
 
 			int address = rawAddress & Memory.addressMask;
 
 			if (address >= MemoryMap.START_RAM && address <= MemoryMap.END_RAM)
 			{
-				length = MemoryMap.END_RAM - address + 1;
+				Length = MemoryMap.END_RAM - address + 1;
 			}
 			else if (address >= MemoryMap.START_VRAM && address <= MemoryMap.END_VRAM)
 			{
-				length = MemoryMap.END_VRAM - address + 1;
+				Length = MemoryMap.END_VRAM - address + 1;
 			}
 			else if (address >= MemoryMap.START_SCRATCHPAD && address <= MemoryMap.END_SCRATCHPAD)
 			{
-				length = MemoryMap.END_SCRATCHPAD - address + 1;
+				Length = MemoryMap.END_SCRATCHPAD - address + 1;
 			}
 			else if (rawAddress >= MemoryMap.START_IO_0 && rawAddress <= MemoryMap.END_IO_1)
 			{
-				length = MemoryMap.END_IO_1 - rawAddress + 1;
+				Length = MemoryMap.END_IO_1 - rawAddress + 1;
 			}
 			else
 			{
-				length = 0;
+				Length = 0;
 			}
 
-			return length;
+			return Length;
 		}
 
 		private static IMemoryReader getFastMemoryReader(int address, int step)
@@ -81,13 +81,13 @@ namespace pspsharp.memory
 		/// <param name="address"> the address where to start reading.
 		///                When step == 2, the address has to be 16-bit aligned ((address & 1) == 0).
 		///                When step == 4, the address has to be 32-bit aligned ((address & 3) == 0). </param>
-		/// <param name="length">  the maximum number of bytes that can be read. </param>
+		/// <param name="Length">  the maximum number of bytes that can be read. </param>
 		/// <param name="step">    when step == 1, read 8-bit values
 		///                when step == 2, read 16-bit values
 		///                when step == 4, read 32-bit values
 		///                other value for step are not allowed. </param>
 		/// <returns>        the MemoryReader </returns>
-		public static IMemoryReader getMemoryReader(int address, int length, int step)
+		public static IMemoryReader getMemoryReader(int address, int Length, int step)
 		{
 			if (Memory.isAddressGood(address))
 			{
@@ -99,7 +99,7 @@ namespace pspsharp.memory
 
 				if (!DebuggerMemory.Installed)
 				{
-					Buffer buffer = Memory.Instance.getBuffer(address, length);
+					Buffer buffer = Memory.Instance.getBuffer(address, Length);
 
 					if (buffer is IntBuffer)
 					{
@@ -131,7 +131,7 @@ namespace pspsharp.memory
 			}
 
 			// Default (generic) MemoryReader
-			return new MemoryReaderGeneric(address, length, step);
+			return new MemoryReaderGeneric(address, Length, step);
 		}
 
 		/// <summary>
@@ -141,37 +141,37 @@ namespace pspsharp.memory
 		/// <param name="address"> the address where to start reading.
 		///                When step == 2, the address has to be 16-bit aligned ((address & 1) == 0).
 		///                When step == 4, the address has to be 32-bit aligned ((address & 3) == 0). </param>
-		/// <param name="length">  the maximum number of bytes that can be read. </param>
+		/// <param name="Length">  the maximum number of bytes that can be read. </param>
 		/// <param name="step">    when step == 1, read 8-bit values
 		///                when step == 2, read 16-bit values
 		///                when step == 4, read 32-bit values
 		///                other value for step are not allowed. </param>
 		/// <returns>        the MemoryReader </returns>
-		public static IMemoryReader getMemoryReader(Memory mem, int address, int length, int step)
+		public static IMemoryReader getMemoryReader(Memory mem, int address, int Length, int step)
 		{
 			// Use the optimized version if we are just using the standard memory
 			if (mem == RuntimeContext.memory)
 			{
-				return getMemoryReader(address, length, step);
+				return getMemoryReader(address, Length, step);
 			}
 
 			// Default (generic) MemoryReader
-			return new MemoryReaderGeneric(mem, address, length, step);
+			return new MemoryReaderGeneric(mem, address, Length, step);
 		}
 
 		/// <summary>
 		/// Creates a MemoryReader to read values from memory.
 		/// </summary>
 		/// <param name="address"> the address and memory where to start reading. </param>
-		/// <param name="length">  the maximum number of bytes that can be read. </param>
+		/// <param name="Length">  the maximum number of bytes that can be read. </param>
 		/// <param name="step">    when step == 1, read 8-bit values
 		///                when step == 2, read 16-bit values
 		///                when step == 4, read 32-bit values
 		///                other value for step are not allowed. </param>
 		/// <returns>        the MemoryReader </returns>
-		public static IMemoryReader getMemoryReader(TPointer address, int length, int step)
+		public static IMemoryReader getMemoryReader(TPointer address, int Length, int step)
 		{
-			return getMemoryReader(address.Memory, address.Address, length, step);
+			return getMemoryReader(address.Memory, address.Address, Length, step);
 		}
 
 		/// <summary>
@@ -195,23 +195,23 @@ namespace pspsharp.memory
 			return getMemoryReader(address, getMaxLength(address), step);
 		}
 
-		public static IMemoryReader getMemoryReader(int address, sbyte[] bytes, int offset, int length, int step)
+		public static IMemoryReader getMemoryReader(int address, sbyte[] bytes, int offset, int Length, int step)
 		{
 			switch (step)
 			{
 			case 1:
-				return new MemoryReaderBytes8(address, bytes, offset, length);
+				return new MemoryReaderBytes8(address, bytes, offset, Length);
 			case 2:
-				return new MemoryReaderBytes16(address, bytes, offset, length);
+				return new MemoryReaderBytes16(address, bytes, offset, Length);
 			case 4:
-				return new MemoryReaderBytes32(address, bytes, offset, length);
+				return new MemoryReaderBytes32(address, bytes, offset, Length);
 			}
 			return null;
 		}
 
-		public static IMemoryReader getMemoryReader(int address, int[] ints, int offset, int length)
+		public static IMemoryReader getMemoryReader(int address, int[] ints, int offset, int Length)
 		{
-			return new MemoryReaderInts32(address, ints, offset, length);
+			return new MemoryReaderInts32(address, ints, offset, Length);
 
 		}
 
@@ -222,21 +222,21 @@ namespace pspsharp.memory
 		{
 			internal readonly Memory mem;
 			internal int address;
-			internal int length;
+			internal int Length;
 			internal readonly int step;
 
-			public MemoryReaderGeneric(Memory mem, int address, int length, int step)
+			public MemoryReaderGeneric(Memory mem, int address, int Length, int step)
 			{
 				this.mem = mem;
 				this.address = address;
-				this.length = length;
+				this.Length = Length;
 				this.step = step;
 			}
 
-			public MemoryReaderGeneric(int address, int length, int step)
+			public MemoryReaderGeneric(int address, int Length, int step)
 			{
 				this.address = address;
-				this.length = length;
+				this.Length = Length;
 				this.step = step;
 				if (Memory.isAddressGood(address) || RuntimeContextLLE.MMIO == null)
 				{
@@ -252,7 +252,7 @@ namespace pspsharp.memory
 			{
 				int n;
 
-				if (length <= 0)
+				if (Length <= 0)
 				{
 					return 0;
 				}
@@ -274,7 +274,7 @@ namespace pspsharp.memory
 				}
 
 				address += step;
-				length -= step;
+				Length -= step;
 
 				return n;
 			}
@@ -282,7 +282,7 @@ namespace pspsharp.memory
 			public void skip(int n)
 			{
 				address += n * step;
-				length -= n * step;
+				Length -= n * step;
 			}
 
 			public int CurrentAddress
@@ -690,12 +690,12 @@ namespace pspsharp.memory
 			internal int offset;
 			internal int maxOffset;
 
-			public MemoryReaderBytes8(int address, sbyte[] bytes, int offset, int length)
+			public MemoryReaderBytes8(int address, sbyte[] bytes, int offset, int Length)
 			{
 				this.address = address;
 				this.bytes = bytes;
 				this.offset = offset;
-				maxOffset = offset + length;
+				maxOffset = offset + Length;
 			}
 
 			public int readNext()
@@ -730,12 +730,12 @@ namespace pspsharp.memory
 			internal int offset;
 			internal int maxOffset;
 
-			public MemoryReaderBytes16(int address, sbyte[] bytes, int offset, int length)
+			public MemoryReaderBytes16(int address, sbyte[] bytes, int offset, int Length)
 			{
 				this.address = address;
 				this.bytes = bytes;
 				this.offset = offset;
-				maxOffset = offset + length;
+				maxOffset = offset + Length;
 			}
 
 			public int readNext()
@@ -770,12 +770,12 @@ namespace pspsharp.memory
 			internal int offset;
 			internal int maxOffset;
 
-			public MemoryReaderBytes32(int address, sbyte[] bytes, int offset, int length)
+			public MemoryReaderBytes32(int address, sbyte[] bytes, int offset, int Length)
 			{
 				this.address = address;
 				this.bytes = bytes;
 				this.offset = offset;
-				maxOffset = offset + length;
+				maxOffset = offset + Length;
 			}
 
 			public int readNext()
@@ -810,12 +810,12 @@ namespace pspsharp.memory
 			internal int offset;
 			internal int maxOffset;
 
-			public MemoryReaderInts32(int address, int[] ints, int offset, int length)
+			public MemoryReaderInts32(int address, int[] ints, int offset, int Length)
 			{
 				this.address = address;
 				this.ints = ints;
 				this.offset = offset;
-				maxOffset = offset + (length >> 2);
+				maxOffset = offset + (Length >> 2);
 			}
 
 			public int readNext()

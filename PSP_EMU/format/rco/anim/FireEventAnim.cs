@@ -26,9 +26,9 @@ namespace pspsharp.format.rco.anim
 
 		protected internal override long doPlay(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("FireEventAnim {0}", @event.Event));
+				Console.WriteLine(string.Format("FireEventAnim {0}", @event.Event));
 			}
 
 			@object.Interpreter.interpretScript(@object, @event.Event);

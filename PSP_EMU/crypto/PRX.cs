@@ -36,7 +36,7 @@ namespace pspsharp.crypto
 //	import static pspsharp.util.Utilities.writeUnaligned32;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Utilities = pspsharp.util.Utilities;
 
@@ -211,7 +211,7 @@ namespace pspsharp.crypto
 			};
 		}
 
-		public static Logger log = CryptoEngine.log;
+		//public static Logger log = CryptoEngine.log;
 		// enum SceExecFileAttr
 		public const int SCE_EXEC_FILE_COMPRESSED = 0x001;
 		public const int SCE_EXEC_FILE_ELF = 0x002;
@@ -314,7 +314,7 @@ namespace pspsharp.crypto
 			int result = semaphoreModule.hleUtilsBufferCopyWithRange(buf, offset, size, buf, offset, size + 0x14, KIRK.PSP_KIRK_CMD_DECRYPT);
 			if (result != 0)
 			{
-				log.error(string.Format("ScramblePRX returning 0x{0:X}", result));
+				Console.WriteLine(string.Format("ScramblePRX returning 0x{0:X}", result));
 			}
 
 			return result;
@@ -375,9 +375,9 @@ namespace pspsharp.crypto
 				case DECRYPT_MODE_VSH_MODULE:
 				case DECRYPT_MODE_USER_MODULE:
 					int result = memlmdModule.hleMemlmd_6192F715(resultBuffer, size);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("DecryptPRX: memlmd_6192F715 returning 0x{0:X}: {1}", result, Utilities.getMemoryDump(resultBuffer, 0, 0x80 + 0xD0)));
+						Console.WriteLine(string.Format("DecryptPRX: memlmd_6192F715 returning 0x{0:X}: {1}", result, Utilities.getMemoryDump(resultBuffer, 0, 0x80 + 0xD0)));
 					}
 					type = 9;
 					break;
@@ -398,7 +398,7 @@ namespace pspsharp.crypto
 					type = 5;
 					break;
 				default:
-					log.error(string.Format("DecryptAndUncompressPRX unknown decryptMode={0:D}", decryptMode));
+					Console.WriteLine(string.Format("DecryptAndUncompressPRX unknown decryptMode={0:D}", decryptMode));
 					type = 2;
 					break;
 			}
@@ -421,12 +421,12 @@ namespace pspsharp.crypto
 						int elfOffset = 0;
 						while (elfOffset < elfSize)
 						{
-							int length = @in.read(elfBuffer, elfOffset, elfSize - elfOffset);
-							if (length <= 0)
+							int Length = @in.read(elfBuffer, elfOffset, elfSize - elfOffset);
+							if (Length <= 0)
 							{
 								break;
 							}
-							elfOffset += length;
+							elfOffset += Length;
 						}
 						@in.close();
 
@@ -436,12 +436,12 @@ namespace pspsharp.crypto
 					}
 					catch (IOException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 					}
 				}
 				else
 				{
-					log.error(string.Format("KL4E decompression unimplemented, compAttribute=0x{0:X}", compAttribute));
+					Console.WriteLine(string.Format("KL4E decompression unimplemented, compAttribute=0x{0:X}", compAttribute));
 				}
 			}
 
@@ -520,7 +520,7 @@ namespace pspsharp.crypto
 				result = semaphoreModule.hleUtilsBufferCopyWithRange(oldbuf, 0x2C, 0x70, oldbuf, 0x2C, 0x70, KIRK.PSP_KIRK_CMD_DECRYPT);
 				if (result != 0)
 				{
-					log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT returned error {0:D}", result));
+					Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT returned error {0:D}", result));
 				}
 
 				for (int iXOR = 0x6F; iXOR >= 0; iXOR--)
@@ -546,7 +546,7 @@ namespace pspsharp.crypto
 				result = semaphoreModule.hleUtilsBufferCopyWithRange(buf, 0, size, oldbuf, 0x40, size - 0x40, KIRK.PSP_KIRK_CMD_DECRYPT_PRIVATE);
 				if (result != 0)
 				{
-					log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT_PRIVATE returned error {0:D}", result));
+					Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT_PRIVATE returned error {0:D}", result));
 				}
 			}
 			else
@@ -616,7 +616,7 @@ namespace pspsharp.crypto
 					result = semaphoreModule.hleUtilsBufferCopyWithRange(buf, 0, size, buf, 0, size, KIRK.PSP_KIRK_CMD_SHA1_HASH);
 					if (result != 0)
 					{
-						log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_SHA1_HASH returned error {0:D}", result));
+						Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_SHA1_HASH returned error {0:D}", result));
 					}
 
 					Array.Copy(buf, 0, sha1buf, 0, sha1buf.Length);
@@ -647,7 +647,7 @@ namespace pspsharp.crypto
 					result = semaphoreModule.hleUtilsBufferCopyWithRange(null, 0, 0, buf4, 0, 100, KIRK.PSP_KIRK_CMD_ECDSA_VERIFY);
 					if (result != 0)
 					{
-						log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_ECDSA_VERIFY returned error {0:D}", result));
+						Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_ECDSA_VERIFY returned error {0:D}", result));
 					}
 				}
 
@@ -681,7 +681,7 @@ namespace pspsharp.crypto
 					result = semaphoreModule.hleUtilsBufferCopyWithRange(buf4, 0, 0xB4, buf2, 0, 0x150, KIRK.PSP_KIRK_CMD_DECRYPT_SIGN);
 					if (result != 0)
 					{
-						log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT_SIGN returned error {0:D}", result));
+						Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT_SIGN returned error {0:D}", result));
 					}
 
 					// Regenerate signature.
@@ -841,7 +841,7 @@ namespace pspsharp.crypto
 				result = semaphoreModule.hleUtilsBufferCopyWithRange(buf2, 0, 0x150, buf2, 0, 0x150, KIRK.PSP_KIRK_CMD_SHA1_HASH);
 				if (result != 0)
 				{
-					log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_SHA1_HASH returned error {0:D}", result));
+					Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_SHA1_HASH returned error {0:D}", result));
 				}
 
 				if ((type >= 2 && type <= 7) || type == 9 || type == 10)
@@ -955,7 +955,7 @@ namespace pspsharp.crypto
 				result = semaphoreModule.hleUtilsBufferCopyWithRange(buf, 0, size, buf, 0x40, size, KIRK.PSP_KIRK_CMD_DECRYPT_PRIVATE);
 				if (result != 0)
 				{
-					log.error(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT_PRIVATE returned error {0:D}", result));
+					Console.WriteLine(string.Format("DecryptPRX: KIRK command PSP_KIRK_CMD_DECRYPT_PRIVATE returned error {0:D}", result));
 				}
 
 				if (retsize < 0x150)

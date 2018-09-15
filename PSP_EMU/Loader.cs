@@ -57,7 +57,7 @@ namespace pspsharp
 //	import static pspsharp.util.Utilities.writeUnaligned32;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Common = pspsharp.Allegrex.Common;
 	using Opcodes = pspsharp.Allegrex.Opcodes;
@@ -162,7 +162,7 @@ namespace pspsharp
 
 			if (f.capacity() - f.position() == 0)
 			{
-				log.error("LoadModule: no data.");
+				Console.WriteLine("LoadModule: no data.");
 				return module;
 			}
 
@@ -423,7 +423,7 @@ namespace pspsharp
 			int magicEDAT = Utilities.readWord(f);
 			if ((magicPSP == PSP_MAGIC) && (magicEDAT == EDAT_MAGIC))
 			{
-				log.warn("Encrypted file detected! (.PSPEDAT)");
+				Console.WriteLine("Encrypted file detected! (.PSPEDAT)");
 				// Skip the EDAT header and load as a regular ~PSP prx.
 				f.position(0x90);
 				LoadPSP(f.slice(), module, baseAddress, analyzeOnly, allocMem, fromSyscall);
@@ -442,7 +442,7 @@ namespace pspsharp
 			if (magic == SCE_MAGIC)
 			{
 				module.fileFormat |= FORMAT_SCE;
-				log.warn("Encrypted file not supported! (~SCE)");
+				Console.WriteLine("Encrypted file not supported! (~SCE)");
 				return true;
 			}
 			// Not a valid PSP
@@ -471,9 +471,9 @@ namespace pspsharp
 				return false;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Called crypto engine for PRX (duration={0:D} ms)", end - start));
+				Console.WriteLine(string.Format("Called crypto engine for PRX (duration={0:D} ms)", end - start));
 			}
 
 			return LoadELF(decryptedPrx, module, baseAddress, analyzeOnly, allocMem, fromSyscall);
@@ -492,7 +492,7 @@ namespace pspsharp
 
 				if (!elf.Header.MIPSExecutable)
 				{
-					log.error("Loader NOT a MIPS executable");
+					Console.WriteLine("Loader NOT a MIPS executable");
 					return false;
 				}
 
@@ -508,7 +508,7 @@ namespace pspsharp
 
 				if (elf.Header.PRXDetected)
 				{
-					log.debug("Loader: Relocation required (PRX)");
+					Console.WriteLine("Loader: Relocation required (PRX)");
 					module.fileFormat |= FORMAT_PRX;
 				}
 				else if (elf.Header.requiresRelocation())
@@ -523,7 +523,7 @@ namespace pspsharp
 					// relocatable modules (PRX's) after the user loaded app.
 					if (baseAddress > 0x08900000)
 					{
-						log.warn("Loader: Probably trying to load PBP ELF while another PBP ELF is already loaded");
+						Console.WriteLine("Loader: Probably trying to load PBP ELF while another PBP ELF is already loaded");
 					}
 
 					baseAddress = 0;
@@ -551,7 +551,7 @@ namespace pspsharp
 
 				if (module.loadAddressLow > module.loadAddressHigh)
 				{
-					log.error(string.Format("Incorrect ELF module address: loadAddressLow=0x{0:X8}, loadAddressHigh=0x{1:X8}", module.loadAddressLow, module.loadAddressHigh));
+					Console.WriteLine(string.Format("Incorrect ELF module address: loadAddressLow=0x{0:X8}, loadAddressHigh=0x{1:X8}", module.loadAddressLow, module.loadAddressHigh));
 					module.loadAddressHigh = module.loadAddressLow;
 				}
 
@@ -609,7 +609,7 @@ namespace pspsharp
 				return true;
 			}
 			// Not a valid ELF
-			log.debug("Loader: Not a ELF");
+			Console.WriteLine("Loader: Not a ELF");
 			return false;
 		}
 
@@ -658,7 +658,7 @@ namespace pspsharp
 				{
 					log.info("Unrecognized file format");
 					log.info(string.Format("File magic {0:X2} {1:X2} {2:X2} {3:X2}", m0, m1, m2, m3));
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 						sbyte[] buffer = new sbyte[256];
 						buffer[0] = m0;
@@ -666,7 +666,7 @@ namespace pspsharp
 						buffer[2] = m2;
 						buffer[3] = m3;
 						f.get(buffer, 4, buffer.Length - 4);
-						log.debug(string.Format("File header: {0}", Utilities.getMemoryDump(buffer, 0, buffer.Length)));
+						Console.WriteLine(string.Format("File header: {0}", Utilities.getMemoryDump(buffer, 0, buffer.Length)));
 					}
 				}
 			}
@@ -706,23 +706,23 @@ namespace pspsharp
 						memOffset = (int)phdr.P_vaddr;
 						if (!Memory.isAddressGood(memOffset))
 						{
-							log.warn(string.Format("Program header has invalid memory offset 0x{0:X8}!", memOffset));
+							Console.WriteLine(string.Format("Program header has invalid memory offset 0x{0:X8}!", memOffset));
 						}
 					}
 					int fileLen = (int)phdr.P_filesz;
 					int memLen = (int)phdr.P_memsz;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("PH#{0:D}: loading program {1:X8} - file {2:X8} - mem {3:X8}", i, memOffset, memOffset + fileLen, memOffset + memLen));
-						log.debug(string.Format("PH#{0:D}:\n{1}", i, phdr));
+						Console.WriteLine(string.Format("PH#{0:D}: loading program {1:X8} - file {2:X8} - mem {3:X8}", i, memOffset, memOffset + fileLen, memOffset + memLen));
+						Console.WriteLine(string.Format("PH#{0:D}:\n{1}", i, phdr));
 					}
 
 					f.position(elfOffset + fileOffset);
 					if (f.position() + fileLen > f.limit())
 					{
 						int newLen = f.limit() - f.position();
-						log.warn(string.Format("PH#{0:D}: program overflow clamping len {1:X8} to {2:X8}", i, fileLen, newLen));
+						Console.WriteLine(string.Format("PH#{0:D}: program overflow clamping len {1:X8} to {2:X8}", i, fileLen, newLen));
 						fileLen = newLen;
 					}
 					if (!analyzeOnly)
@@ -762,9 +762,9 @@ namespace pspsharp
 					if (memOffset < module.loadAddressLow)
 					{
 						module.loadAddressLow = memOffset;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("PH#{0:D}: new loadAddressLow {1:X8}", i, module.loadAddressLow));
+							Console.WriteLine(string.Format("PH#{0:D}: new loadAddressLow {1:X8}", i, module.loadAddressLow));
 						}
 					}
 					if (memOffset + memLen > module.loadAddressHigh)
@@ -802,9 +802,9 @@ namespace pspsharp
 				i++;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("PH alloc consumption {0:X8} (mem {1:X8})", (module.loadAddressHigh - module.loadAddressLow), module.bss_size));
+				Console.WriteLine(string.Format("PH alloc consumption {0:X8} (mem {1:X8})", (module.loadAddressHigh - module.loadAddressLow), module.bss_size));
 			}
 		}
 
@@ -849,26 +849,26 @@ namespace pspsharp
 							// now loaded using program header type 1
 							if (len == 0)
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("{0}: ignoring zero-length type 1 section {1:X8}", shdr.Sh_namez, memOffset));
+									Console.WriteLine(string.Format("{0}: ignoring zero-Length type 1 section {1:X8}", shdr.Sh_namez, memOffset));
 								}
 							}
 							else if (!Memory.isAddressGood(memOffset))
 							{
-								log.error(string.Format("Section header (type 1) has invalid memory offset 0x{0:X8}!", memOffset));
+								Console.WriteLine(string.Format("Section header (type 1) has invalid memory offset 0x{0:X8}!", memOffset));
 							}
 							else
 							{
 								// Update memory area consumed by the module
 								if (memOffset < module.loadAddressLow)
 								{
-									log.warn(string.Format("{0}: section allocates more than program {1:X8} - {2:X8}", shdr.Sh_namez, memOffset, (memOffset + len)));
+									Console.WriteLine(string.Format("{0}: section allocates more than program {1:X8} - {2:X8}", shdr.Sh_namez, memOffset, (memOffset + len)));
 									module.loadAddressLow = memOffset;
 								}
 								if (memOffset + len > module.loadAddressHigh)
 								{
-									log.warn(string.Format("{0}: section allocates more than program {1:X8} - {2:X8}", shdr.Sh_namez, memOffset, (memOffset + len)));
+									Console.WriteLine(string.Format("{0}: section allocates more than program {1:X8} - {2:X8}", shdr.Sh_namez, memOffset, (memOffset + len)));
 									module.loadAddressHigh = memOffset + len;
 								}
 
@@ -895,20 +895,20 @@ namespace pspsharp
 							// Zero out this portion of memory
 							if (len == 0)
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("{0}: ignoring zero-length type 8 section {1:X8}", shdr.Sh_namez, memOffset));
+									Console.WriteLine(string.Format("{0}: ignoring zero-Length type 8 section {1:X8}", shdr.Sh_namez, memOffset));
 								}
 							}
 							else if (!Memory.isAddressGood(memOffset))
 							{
-								log.error(string.Format("Section header (type 8) has invalid memory offset 0x{0:X8}!", memOffset));
+								Console.WriteLine(string.Format("Section header (type 8) has invalid memory offset 0x{0:X8}!", memOffset));
 							}
 							else
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("{0}: clearing section {1:X8} - {2:X8} (len {3:X8})", shdr.Sh_namez, memOffset, (memOffset + len), len));
+									Console.WriteLine(string.Format("{0}: clearing section {1:X8} - {2:X8} (len {3:X8})", shdr.Sh_namez, memOffset, (memOffset + len), len));
 								}
 
 								if (!analyzeOnly)
@@ -920,17 +920,17 @@ namespace pspsharp
 								if (memOffset < module.loadAddressLow)
 								{
 									module.loadAddressLow = memOffset;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("{0}: new loadAddressLow {1:X8} (+{2:X8})", shdr.Sh_namez, module.loadAddressLow, len));
+										Console.WriteLine(string.Format("{0}: new loadAddressLow {1:X8} (+{2:X8})", shdr.Sh_namez, module.loadAddressLow, len));
 									}
 								}
 								if (memOffset + len > module.loadAddressHigh)
 								{
 									module.loadAddressHigh = memOffset + len;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("{0}: new loadAddressHigh {1:X8} (+{2:X8})", shdr.Sh_namez, module.loadAddressHigh, len));
+										Console.WriteLine(string.Format("{0}: new loadAddressHigh {1:X8} (+{2:X8})", shdr.Sh_namez, module.loadAddressHigh, len));
 									}
 								}
 							}
@@ -949,9 +949,9 @@ namespace pspsharp
 		private void LoadELFReserveMemory(SceModule module)
 		{
 			// Mark the area of memory the module loaded into as used
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Reserving 0x{0:X} bytes at 0x{1:X8} for module '{2}'", module.loadAddressHigh - module.loadAddressLow, module.loadAddressLow, module.pspfilename));
+				Console.WriteLine(string.Format("Reserving 0x{0:X} bytes at 0x{1:X8} for module '{2}'", module.loadAddressHigh - module.loadAddressLow, module.loadAddressLow, module.pspfilename));
 			}
 
 			int address = module.loadAddressLow & ~(SysMemUserForUser.defaultSizeAlignment - 1); // Round down to match sysmem allocations
@@ -961,7 +961,7 @@ namespace pspsharp
 			SysMemUserForUser.SysMemInfo info = Modules.SysMemUserForUserModule.malloc(partition, module.modname, SysMemUserForUser.PSP_SMEM_Addr, size, address);
 			if (info == null || info.addr != (address & Memory.addressMask))
 			{
-				log.warn(string.Format("Failed to properly reserve memory consumed by module {0} at address 0x{1:X8}, size 0x{2:X}: allocated {3}", module.modname, address, size, info));
+				Console.WriteLine(string.Format("Failed to properly reserve memory consumed by module {0} at address 0x{1:X8}, size 0x{2:X}: allocated {3}", module.modname, address, size, info));
 			}
 			module.addAllocatedMemory(info);
 		}
@@ -986,9 +986,9 @@ namespace pspsharp
 				}
 				else
 				{
-					log.warn("ELF is not PRX, but has no section headers!");
+					Console.WriteLine("ELF is not PRX, but has no section headers!");
 					moduleInfoAddr = phdr.P_vaddr + (phdr.P_paddr & Memory.addressMask) - phdr.P_offset;
-					log.warn("Manually locating ModuleInfo at address: 0x" + moduleInfoAddr.ToString("x"));
+					Console.WriteLine("Manually locating ModuleInfo at address: 0x" + moduleInfoAddr.ToString("x"));
 				}
 			}
 			else if (elf.Header.PRXDetected)
@@ -1022,7 +1022,7 @@ namespace pspsharp
 			}
 			else
 			{
-				log.error("ModuleInfo not found!");
+				Console.WriteLine("ModuleInfo not found!");
 				return;
 			}
 
@@ -1035,11 +1035,11 @@ namespace pspsharp
 
 				if ((module.attribute & SceModule.PSP_MODULE_KERNEL) != 0)
 				{
-					log.debug("Kernel mode module detected");
+					Console.WriteLine("Kernel mode module detected");
 				}
 				if ((module.attribute & SceModule.PSP_MODULE_VSH) != 0)
 				{
-					log.debug("VSH mode module detected");
+					Console.WriteLine("VSH mode module detected");
 				}
 			}
 		}
@@ -1202,7 +1202,7 @@ namespace pspsharp
 						break;
 
 					default:
-						log.warn(string.Format("Unhandled relocation type {0:D} at 0x{1:X8}", R_TYPE, data_addr));
+						Console.WriteLine(string.Format("Unhandled relocation type {0:D} at 0x{1:X8}", R_TYPE, data_addr));
 						break;
 				}
 
@@ -1340,7 +1340,7 @@ namespace pspsharp
 					}
 					else
 					{
-						log.warn("PH Relocation type 0x700000A1: Invalid size flag!");
+						Console.WriteLine("PH Relocation type 0x700000A1: Invalid size flag!");
 						R_BASE = 0;
 					}
 				}
@@ -1379,7 +1379,7 @@ namespace pspsharp
 					}
 					else
 					{
-						log.warn("PH Relocation type 0x700000A1: Invalid relocation size flag!");
+						Console.WriteLine("PH Relocation type 0x700000A1: Invalid relocation size flag!");
 					}
 
 					// Process lo16.
@@ -1403,20 +1403,20 @@ namespace pspsharp
 					}
 					else if ((R_FLAG & 0x38) == 0x18)
 					{
-						log.warn("PH Relocation type 0x700000A1: Invalid lo16 setup!");
+						Console.WriteLine("PH Relocation type 0x700000A1: Invalid lo16 setup!");
 					}
 					else
 					{
-						log.warn("PH Relocation type 0x700000A1: Invalid lo16 setup!");
+						Console.WriteLine("PH Relocation type 0x700000A1: Invalid lo16 setup!");
 					}
 
 					// Read the data.
 					data_addr = R_BASE + baseAddress + elf.getProgramHeader(OFS_BASE).P_vaddr;
 					data = readUnaligned32(mem, data_addr);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Relocation #{0:D} type={1:D}, Offset PH#{2:D}, Base Offset PH#{3:D}, Offset 0x{4:X8}", r, R_TYPE, OFS_BASE, ADDR_BASE, R_OFFSET));
+						Console.WriteLine(string.Format("Relocation #{0:D} type={1:D}, Offset PH#{2:D}, Base Offset PH#{3:D}, Offset 0x{4:X8}", r, R_TYPE, OFS_BASE, ADDR_BASE, R_OFFSET));
 					}
 
 					int previousData = data;
@@ -1507,9 +1507,9 @@ namespace pspsharp
 				if (phdr.P_type == 0x700000A0L)
 				{
 					int RelCount = phdr.P_filesz / Elf32Relocate.@sizeof();
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("PH#{0:D}: relocating {1:D} entries", i, RelCount));
+						Console.WriteLine(string.Format("PH#{0:D}: relocating {1:D} entries", i, RelCount));
 					}
 
 					f.position(elfOffset + phdr.P_offset);
@@ -1518,9 +1518,9 @@ namespace pspsharp
 				}
 				else if (phdr.P_type == 0x700000A1L)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Type 0x700000A1 PH#{0:D}: relocating A1 entries, size=0x{1:X}", i, phdr.P_filesz));
+						Console.WriteLine(string.Format("Type 0x700000A1 PH#{0:D}: relocating A1 entries, size=0x{1:X}", i, phdr.P_filesz));
 					}
 					f.position(elfOffset + phdr.P_offset);
 					relocateFromBufferA1(f, module, elf, baseAddress, i, phdr.P_filesz);
@@ -1535,9 +1535,9 @@ namespace pspsharp
 				if (mustRelocate(elf, shdr))
 				{
 					int RelCount = shdr.Sh_size / Elf32Relocate.@sizeof();
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(shdr.Sh_namez + ": relocating " + RelCount + " entries");
+						Console.WriteLine(shdr.Sh_namez + ": relocating " + RelCount + " entries");
 					}
 
 					f.position(elfOffset + shdr.Sh_offset);
@@ -1573,15 +1573,15 @@ namespace pspsharp
 						sourceModule.resolvedImports.Add(deferredStub);
 						numberofmappedNIDS++;
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Mapped import at 0x{0:X8} to export at 0x{1:X8} [0x{2:X8}] (attempt {3:D})", importAddress, exportAddress, nid, module.importFixupAttempts));
+							Console.WriteLine(string.Format("Mapped import at 0x{0:X8} to export at 0x{1:X8} [0x{2:X8}] (attempt {3:D})", importAddress, exportAddress, nid, module.importFixupAttempts));
 						}
 					}
 					else if (nid == 0)
 					{
 						// Ignore patched nids
-						log.warn(string.Format("Ignoring import at 0x{0:X8} [0x{1:X8}] (attempt {2:D})", importAddress, nid, module.importFixupAttempts));
+						Console.WriteLine(string.Format("Ignoring import at 0x{0:X8} [0x{1:X8}] (attempt {2:D})", importAddress, nid, module.importFixupAttempts));
 
 						it.remove();
 						// This is an import to be ignored, implement it with the following
@@ -1613,12 +1613,12 @@ namespace pspsharp
 
 							if (fromSyscall && log.DebugEnabled)
 							{
-								log.debug(string.Format("Mapped import at 0x{0:X8} to syscall 0x{1:X5} [0x{2:X8}] (attempt {3:D})", importAddress, code, nid, module.importFixupAttempts));
+								Console.WriteLine(string.Format("Mapped import at 0x{0:X8} to syscall 0x{1:X5} [0x{2:X8}] (attempt {3:D})", importAddress, code, nid, module.importFixupAttempts));
 							}
 						}
 						else
 						{
-							log.warn(string.Format("Failed to map import at 0x{0:X8} [0x{1:X8}] Module '{2}'(attempt {3:D})", importAddress, nid, moduleName, module.importFixupAttempts));
+							Console.WriteLine(string.Format("Failed to map import at 0x{0:X8} [0x{1:X8}] Module '{2}'(attempt {3:D})", importAddress, nid, moduleName, module.importFixupAttempts));
 							numberoffailedNIDS++;
 						}
 					}
@@ -1650,7 +1650,7 @@ namespace pspsharp
 				// Skip 0 sized entries.
 				if (stubHeader.Size <= 0)
 				{
-					log.warn("Skipping dummy entry with size " + stubHeader.Size);
+					Console.WriteLine("Skipping dummy entry with size " + stubHeader.Size);
 					stubHeadersAddress += Elf32StubHeader.@sizeof() / 2;
 				}
 				else
@@ -1666,24 +1666,24 @@ namespace pspsharp
 					}
 					stubHeader.ModuleNamez = moduleName;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Processing Import #{0:D}: {1}", i, stubHeader.ToString()));
+						Console.WriteLine(string.Format("Processing Import #{0:D}: {1}", i, stubHeader.ToString()));
 					}
 
 					if (stubHeader.hasVStub())
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("'{0}': Header with VStub has size {1:D}: {2}", stubHeader.ModuleNamez, stubHeader.Size, Utilities.getMemoryDump(stubHeadersAddress, stubHeader.Size * 4, 4, 16)));
+							Console.WriteLine(string.Format("'{0}': Header with VStub has size {1:D}: {2}", stubHeader.ModuleNamez, stubHeader.Size, Utilities.getMemoryDump(stubHeadersAddress, stubHeader.Size * 4, 4, 16)));
 						}
 						int vStub = (int) stubHeader.VStub;
 						if (vStub != 0)
 						{
 							int vStubSize = stubHeader.VStubSize;
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("VStub has size {0:D}: {1}", vStubSize, Utilities.getMemoryDump(vStub, vStubSize * 8, 4, 16)));
+								Console.WriteLine(string.Format("VStub has size {0:D}: {1}", vStubSize, Utilities.getMemoryDump(vStub, vStubSize * 8, 4, 16)));
 							}
 							IMemoryReader vstubReader = MemoryReader.getMemoryReader(vStub, vStubSize * 8, 4);
 							for (int j = 0; j < vStubSize; j++)
@@ -1715,15 +1715,15 @@ namespace pspsharp
 											deferredStub = new DeferredVStub32(module, stubHeader.ModuleNamez, address, nid);
 											break;
 										default:
-											log.warn(string.Format("Unknown Vstub relocation nid 0x{0:X8}, reloc=0x{1:X8}", nid, reloc));
+											Console.WriteLine(string.Format("Unknown Vstub relocation nid 0x{0:X8}, reloc=0x{1:X8}", nid, reloc));
 											break;
 									}
 
 									if (deferredStub != null)
 									{
-										if (log.DebugEnabled)
+										//if (log.DebugEnabled)
 										{
-											log.debug(string.Format("Vstub reloc {0}", deferredStub));
+											Console.WriteLine(string.Format("Vstub reloc {0}", deferredStub));
 										}
 										module.unresolvedImports.Add(deferredStub);
 									}
@@ -1735,7 +1735,7 @@ namespace pspsharp
 
 					if (!Memory.isAddressGood((int) stubHeader.OffsetNid) || !Memory.isAddressGood((int) stubHeader.OffsetText))
 					{
-						log.warn(string.Format("Incorrect s_nid or s_text address in StubHeader #{0:D}: {1}", i, stubHeader.ToString()));
+						Console.WriteLine(string.Format("Incorrect s_nid or s_text address in StubHeader #{0:D}: {1}", i, stubHeader.ToString()));
 					}
 					else
 					{
@@ -1783,7 +1783,7 @@ namespace pspsharp
 				if ((entHeader.Size <= 0))
 				{
 					// Skip 0 sized entries.
-					log.warn("Skipping dummy entry with size " + entHeader.Size);
+					Console.WriteLine("Skipping dummy entry with size " + entHeader.Size);
 					entHeadersAddress += Elf32EntHeader.@sizeof() / 2;
 				}
 				else
@@ -1799,16 +1799,16 @@ namespace pspsharp
 					}
 					entHeader.ModuleNamez = moduleName;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Processing header #{0:D} at 0x{1:X8}: {2}", i, entHeadersAddress, entHeader.ToString()));
+						Console.WriteLine(string.Format("Processing header #{0:D} at 0x{1:X8}: {2}", i, entHeadersAddress, entHeader.ToString()));
 					}
 
 					if (entHeader.Size > 4)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("'{0}': Header has size {1:D}: {2}", entHeader.ModuleNamez, entHeader.Size, Utilities.getMemoryDump(entHeadersAddress, entHeader.Size * 4, 4, 16)));
+							Console.WriteLine(string.Format("'{0}': Header has size {1:D}: {2}", entHeader.ModuleNamez, entHeader.Size, Utilities.getMemoryDump(entHeadersAddress, entHeader.Size * 4, 4, 16)));
 						}
 						entHeadersAddress += entHeader.Size * 4;
 					}
@@ -1844,9 +1844,9 @@ namespace pspsharp
 							{
 								nidMapper.addModuleNid(module, moduleName, nid, exportAddress, false);
 								entCount++;
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("Export found at 0x{0:X8} [0x{1:X8}]", exportAddress, nid));
+									Console.WriteLine(string.Format("Export found at 0x{0:X8} [0x{1:X8}]", exportAddress, nid));
 								}
 							}
 						}
@@ -1862,37 +1862,37 @@ namespace pspsharp
 							{
 								case 0xD632ACDB: // module_start
 									module.module_start_func = exportAddress;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("module_start found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
+										Console.WriteLine(string.Format("module_start found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
 									}
 									break;
 								case 0xCEE8593C: // module_stop
 									module.module_stop_func = exportAddress;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("module_stop found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
+										Console.WriteLine(string.Format("module_stop found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
 									}
 									break;
 								case 0x2F064FA6: // module_reboot_before
 									module.module_reboot_before_func = exportAddress;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("module_reboot_before found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
+										Console.WriteLine(string.Format("module_reboot_before found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
 									}
 									break;
 								case 0xADF12745: // module_reboot_phase
 									module.module_reboot_phase_func = exportAddress;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("module_reboot_phase found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
+										Console.WriteLine(string.Format("module_reboot_phase found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
 									}
 									break;
 								case 0xD3744BE0: // module_bootstart
 									module.module_bootstart_func = exportAddress;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("module_bootstart found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
+										Console.WriteLine(string.Format("module_bootstart found: nid=0x{0:X8}, function=0x{1:X8}", nid, exportAddress));
 									}
 									break;
 								default:
@@ -1901,9 +1901,9 @@ namespace pspsharp
 									{
 										nidMapper.addModuleNid(module, moduleName, nid, exportAddress, false);
 										entCount++;
-										if (log.DebugEnabled)
+										//if (log.DebugEnabled)
 										{
-											log.debug(string.Format("Export found at 0x{0:X8} [0x{1:X8}]", exportAddress, nid));
+											Console.WriteLine(string.Format("Export found at 0x{0:X8} [0x{1:X8}]", exportAddress, nid));
 										}
 									}
 									break;
@@ -1922,44 +1922,44 @@ namespace pspsharp
 						{
 							case 0xF01D73A7: // module_info
 								// Seems to be ignored by the PSP
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("module_info found: nid=0x{0:X8}, addr=0x{1:X8}", nid, variableAddr));
+									Console.WriteLine(string.Format("module_info found: nid=0x{0:X8}, addr=0x{1:X8}", nid, variableAddr));
 								}
 								break;
 							case 0x0F7C276C: // module_start_thread_parameter
 								module.module_start_thread_priority = mem.read32(variableAddr + 4);
 								module.module_start_thread_stacksize = mem.read32(variableAddr + 8);
 								module.module_start_thread_attr = mem.read32(variableAddr + 12);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("module_start_thread_parameter found: nid=0x{0:X8}, priority={1:D}, stacksize={2:D}, attr=0x{3:X8}", nid, module.module_start_thread_priority, module.module_start_thread_stacksize, module.module_start_thread_attr));
+									Console.WriteLine(string.Format("module_start_thread_parameter found: nid=0x{0:X8}, priority={1:D}, stacksize={2:D}, attr=0x{3:X8}", nid, module.module_start_thread_priority, module.module_start_thread_stacksize, module.module_start_thread_attr));
 								}
 								break;
 							case 0xCF0CC697: // module_stop_thread_parameter
 								module.module_stop_thread_priority = mem.read32(variableAddr + 4);
 								module.module_stop_thread_stacksize = mem.read32(variableAddr + 8);
 								module.module_stop_thread_attr = mem.read32(variableAddr + 12);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("module_stop_thread_parameter found: nid=0x{0:X8}, priority={1:D}, stacksize={2:D}, attr=0x{3:X8}", nid, module.module_stop_thread_priority, module.module_stop_thread_stacksize, module.module_stop_thread_attr));
+									Console.WriteLine(string.Format("module_stop_thread_parameter found: nid=0x{0:X8}, priority={1:D}, stacksize={2:D}, attr=0x{3:X8}", nid, module.module_stop_thread_priority, module.module_stop_thread_stacksize, module.module_stop_thread_attr));
 								}
 								break;
 							case 0xF4F4299D: // module_reboot_before_thread_parameter
 								module.module_reboot_before_thread_priority = mem.read32(variableAddr + 4);
 								module.module_reboot_before_thread_stacksize = mem.read32(variableAddr + 8);
 								module.module_reboot_before_thread_attr = mem.read32(variableAddr + 12);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("module_reboot_before_thread_parameter found: nid=0x{0:X8}, priority={1:D}, stacksize={2:D}, attr=0x{3:X8}", nid, module.module_reboot_before_thread_priority, module.module_reboot_before_thread_stacksize, module.module_reboot_before_thread_attr));
+									Console.WriteLine(string.Format("module_reboot_before_thread_parameter found: nid=0x{0:X8}, priority={1:D}, stacksize={2:D}, attr=0x{3:X8}", nid, module.module_reboot_before_thread_priority, module.module_reboot_before_thread_stacksize, module.module_reboot_before_thread_attr));
 								}
 								break;
 							case 0x11B97506: // module_sdk_version
 								// Currently ignored
 								int sdk_version = mem.read32(variableAddr);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.warn(string.Format("module_sdk_version found: nid=0x{0:X8}, sdk_version=0x{1:X8}", nid, sdk_version));
+									Console.WriteLine(string.Format("module_sdk_version found: nid=0x{0:X8}, sdk_version=0x{1:X8}", nid, sdk_version));
 								}
 								break;
 							default:
@@ -1968,14 +1968,14 @@ namespace pspsharp
 								{
 									nidMapper.addModuleNid(module, moduleName, nid, variableAddr, true);
 									entCount++;
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("Export found at 0x{0:X8} [0x{1:X8}]", variableAddr, nid));
+										Console.WriteLine(string.Format("Export found at 0x{0:X8} [0x{1:X8}]", variableAddr, nid));
 									}
 								}
 								else
 								{
-									log.warn(string.Format("Unknown variable entry found: nid=0x{0:X8}, addr=0x{1:X8}", nid, variableAddr));
+									Console.WriteLine(string.Format("Unknown variable entry found: nid=0x{0:X8}, addr=0x{1:X8}", nid, variableAddr));
 								}
 								break;
 						}

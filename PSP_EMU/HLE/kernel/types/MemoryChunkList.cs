@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.kernel.types
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SysMemUserForUser = pspsharp.HLE.modules.SysMemUserForUser;
 	using Utilities = pspsharp.util.Utilities;
@@ -367,7 +367,7 @@ namespace pspsharp.HLE.kernel.types
 				{
 					if (memoryChunk.addr < addr)
 					{
-						log.error(string.Format("MemoryChunkList has overlapping memory chunks at 0x{0:X8}: {1}", addr, memoryChunk));
+						Console.WriteLine(string.Format("MemoryChunkList has overlapping memory chunks at 0x{0:X8}: {1}", addr, memoryChunk));
 					}
 					addr = memoryChunk.addr + memoryChunk.size;
 				}

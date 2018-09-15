@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -24,7 +24,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceMScm : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMScm");
+		//public static Logger log = Modules.getLogger("sceMScm");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0128147B, version = 150) public int sceMScmWriteMSReg()
@@ -236,9 +236,9 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x907D7766, version = 150) public int sceMScmSendTPC(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 internalStructure, int command, int length, int timeout)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x907D7766, version = 150) public int sceMScmSendTPC(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 internalStructure, int command, int Length, int timeout)
 		[HLEFunction(nid : 0x907D7766, version : 150)]
-		public virtual int sceMScmSendTPC(TPointer32 internalStructure, int command, int length, int timeout)
+		public virtual int sceMScmSendTPC(TPointer32 internalStructure, int command, int Length, int timeout)
 		{
 			return 0;
 		}

@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using pspUsbMicInputInitExParam = pspsharp.HLE.kernel.types.pspUsbMicInputInitExParam;
 
 	public class sceUsbMic : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUsbMic");
+		//public static Logger log = Modules.getLogger("sceUsbMic");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x06128E42, version = 260) public int sceUsbMicPollInputEnd()

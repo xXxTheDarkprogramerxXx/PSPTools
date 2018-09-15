@@ -171,10 +171,10 @@ namespace pspsharp.sound
 		/// <param name="samples">   the number of stereo samples </param>
 		public static void mixStereoInMemory(int inAddr, int inOutAddr, int samples)
 		{
-			int length = samples << 2;
-			IMemoryReader inReader = MemoryReader.getMemoryReader(inAddr, length, 4);
-			IMemoryReader inOutReader = MemoryReader.getMemoryReader(inOutAddr, length, 4);
-			IMemoryWriter inOutWriter = MemoryWriter.getMemoryWriter(inOutAddr, length, 4);
+			int Length = samples << 2;
+			IMemoryReader inReader = MemoryReader.getMemoryReader(inAddr, Length, 4);
+			IMemoryReader inOutReader = MemoryReader.getMemoryReader(inOutAddr, Length, 4);
+			IMemoryWriter inOutWriter = MemoryWriter.getMemoryWriter(inOutAddr, Length, 4);
 
 			for (int i = 0; i < samples; i++)
 			{
@@ -234,21 +234,21 @@ namespace pspsharp.sound
 			{
 				if (Modules.log.isEnabledFor(Level.WARN))
 				{
-					Modules.log.warn(string.Format("Utils.mixStereoInMemory left volume outside range {0:F}", inLeftVolume));
+					Modules.Console.WriteLine(string.Format("Utils.mixStereoInMemory left volume outside range {0:F}", inLeftVolume));
 				}
 			}
 			if (inRightVolume < 0.0f || inRightVolume > 1.0f)
 			{
 				if (Modules.log.isEnabledFor(Level.WARN))
 				{
-					Modules.log.warn(string.Format("Utils.mixStereoInMemory right volume outside range {0:F}", inRightVolume));
+					Modules.Console.WriteLine(string.Format("Utils.mixStereoInMemory right volume outside range {0:F}", inRightVolume));
 				}
 			}
 
-			int length = samples << 2;
-			IMemoryReader inReader = MemoryReader.getMemoryReader(inAddr, length, 4);
-			IMemoryReader inOutReader = MemoryReader.getMemoryReader(inOutAddr, length, 4);
-			IMemoryWriter inOutWriter = MemoryWriter.getMemoryWriter(inOutAddr, length, 4);
+			int Length = samples << 2;
+			IMemoryReader inReader = MemoryReader.getMemoryReader(inAddr, Length, 4);
+			IMemoryReader inOutReader = MemoryReader.getMemoryReader(inOutAddr, Length, 4);
+			IMemoryWriter inOutWriter = MemoryWriter.getMemoryWriter(inOutAddr, Length, 4);
 
 			for (int i = 0; i < samples; i++)
 			{

@@ -13,7 +13,7 @@ namespace pspsharp.GUI
 
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IVirtualFile = pspsharp.HLE.VFS.IVirtualFile;
 	using UmdIsoVirtualFile = pspsharp.HLE.VFS.iso.UmdIsoVirtualFile;
@@ -56,8 +56,8 @@ namespace pspsharp.GUI
 			{
 				@is = new DataInputStream(new System.IO.FileStream(file, System.IO.FileMode.Open, System.IO.FileAccess.Read));
 				sbyte[] header = new sbyte[0x24];
-				int length = @is.read(header);
-				if (length != header.Length)
+				int Length = @is.read(header);
+				if (Length != header.Length)
 				{
 					return false;
 				}
@@ -142,7 +142,7 @@ namespace pspsharp.GUI
 				{
 					if (!path.Directory)
 					{
-						log.error("'" + path + "' is not a directory.");
+						Console.WriteLine("'" + path + "' is not a directory.");
 						return;
 					}
 
@@ -157,7 +157,7 @@ namespace pspsharp.GUI
 
 					File[] pathPrograms = path.listFiles(new UmdFileFilter());
 
-					((List<File>)programList).AddRange(Arrays.asList(pathPrograms));
+					((List<File>)programList).AddRange(Array.asList(pathPrograms));
 				}
 
 				// Sort the programs based on their file name
@@ -305,7 +305,7 @@ namespace pspsharp.GUI
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 				return null;
 			}
@@ -492,11 +492,11 @@ namespace pspsharp.GUI
 			}
 			catch (FileNotFoundException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 		}
 
@@ -531,7 +531,7 @@ namespace pspsharp.GUI
 					if (sfoFile.canRead())
 					{
 						// Read the param.sfo and ICON0.PNG from the UmdBrowserCache
-						sbyte[] sfo = new sbyte[(int) sfoFile.length()];
+						sbyte[] sfo = new sbyte[(int) sfoFile.Length()];
 						System.IO.Stream @is = new System.IO.FileStream(sfoFile, System.IO.FileMode.Open, System.IO.FileAccess.Read);
 						@is.Read(sfo, 0, sfo.Length);
 						@is.Close();
@@ -598,7 +598,7 @@ namespace pspsharp.GUI
 					umdDataFile.readFully(umdDataId, 0, 9);
 					string umdDataIdString = StringHelper.NewString(umdDataId);
 
-					sbyte[] sfo = new sbyte[(int) paramSfo.length()];
+					sbyte[] sfo = new sbyte[(int) paramSfo.Length()];
 					paramSfo.read(sfo);
 					paramSfo.Dispose();
 					ByteBuffer buf = ByteBuffer.wrap(sfo);
@@ -607,7 +607,7 @@ namespace pspsharp.GUI
 					psfs[rowIndex].put("DISC_ID", umdDataIdString);
 
 					UmdIsoFile icon0umd = iso.getFile("UMD_VIDEO/ICON0.PNG");
-					sbyte[] icon0 = new sbyte[(int) icon0umd.length()];
+					sbyte[] icon0 = new sbyte[(int) icon0umd.Length()];
 					icon0umd.read(icon0);
 					icon0umd.Dispose();
 					icons[rowIndex] = new ImageIcon(icon0);
@@ -619,12 +619,12 @@ namespace pspsharp.GUI
 				}
 				catch (IOException ve)
 				{
-					log.error(ve);
+					Console.WriteLine(ve);
 				}
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 
 			umdInfoLoaded[rowIndex] = true;
@@ -655,7 +655,7 @@ namespace pspsharp.GUI
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 
 				// Read PIC1.PNG
@@ -672,7 +672,7 @@ namespace pspsharp.GUI
 						try
 						{
 							UmdIsoFile pic1umd = iso.getFile("UMD_VIDEO/PIC1.PNG");
-							pic1 = new sbyte[(int) pic1umd.length()];
+							pic1 = new sbyte[(int) pic1umd.Length()];
 							pic1umd.read(pic1);
 							pic1umd.Dispose();
 							pic1Icon = new ImageIcon(pic1);
@@ -688,7 +688,7 @@ namespace pspsharp.GUI
 				}
 				catch (IOException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 
 				icon0Icon = icons[rowIndex];
@@ -731,7 +731,7 @@ namespace pspsharp.GUI
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 			pic0Label.Icon = pic0Icon;
 			pic1Label.Icon = pic1Icon;
@@ -930,9 +930,9 @@ namespace pspsharp.GUI
 		{
 			string filter = Filter;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("onFilterChanged '{0}'", filter));
+				Console.WriteLine(string.Format("onFilterChanged '{0}'", filter));
 			}
 
 			if (filterItems(filter))

@@ -17,14 +17,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.state
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using HLEModuleManager = pspsharp.HLE.HLEModuleManager;
 
 	public class State : IState
 	{
-		public static Logger log = Logger.getLogger("state");
+		//public static Logger log = Logger.getLogger("state");
 		private const int STATE_VERSION = 0;
 
 		public State()
@@ -50,7 +50,7 @@ namespace pspsharp.state
 				read(stream);
 				if (stream.read() >= 0)
 				{
-					log.error(string.Format("State file '{0}' containing too much data", fileName));
+					Console.WriteLine(string.Format("State file '{0}' containing too much data", fileName));
 				}
 			}
 			finally
@@ -58,9 +58,9 @@ namespace pspsharp.state
 				stream.close();
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Done reading state from file '{0}'", fileName));
+				Console.WriteLine(string.Format("Done reading state from file '{0}'", fileName));
 			}
 		}
 
@@ -87,9 +87,9 @@ namespace pspsharp.state
 				stream.close();
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Done writing state to file '{0}'", fileName));
+				Console.WriteLine(string.Format("Done writing state to file '{0}'", fileName));
 			}
 		}
 

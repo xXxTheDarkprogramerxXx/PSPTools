@@ -23,20 +23,20 @@ namespace pspsharp.network.protocols
 	 */
 	public class InternetChecksum
 	{
-		public static int computeInternetChecksum(sbyte[] buffer, int offset, int length)
+		public static int computeInternetChecksum(sbyte[] buffer, int offset, int Length)
 		{
-			NetPacket packet = new NetPacket(buffer, offset, length);
+			NetPacket packet = new NetPacket(buffer, offset, Length);
 			int sum = 0;
 			try
 			{
-				while (length > 1)
+				while (Length > 1)
 				{
 					sum += packet.read16();
-					length -= 2;
+					Length -= 2;
 				}
 
 				// Add left-over byte, if any
-				if (length > 0)
+				if (Length > 0)
 				{
 					sum += packet.read8() << 8;
 				}

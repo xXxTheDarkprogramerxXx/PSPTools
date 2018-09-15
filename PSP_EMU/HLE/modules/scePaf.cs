@@ -19,14 +19,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using CpuState = pspsharp.Allegrex.CpuState;
 	using SysMemInfo = pspsharp.HLE.modules.SysMemUserForUser.SysMemInfo;
 
 	public class scePaf : HLEModule
 	{
-		public static Logger log = Modules.getLogger("scePaf");
+		//public static Logger log = Modules.getLogger("scePaf");
 		private Dictionary<int, SysMemInfo> allocated = new Dictionary<int, SysMemInfo>();
 
 		[HLEFunction(nid : 0xA138A376, version : 660)]

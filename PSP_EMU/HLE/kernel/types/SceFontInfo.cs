@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.kernel.types
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using PGF = pspsharp.format.PGF;
 	using Debug = pspsharp.util.Debug;
@@ -104,10 +104,10 @@ namespace pspsharp.HLE.kernel.types
 			}
 		}
 
-		private int[] getTable(int[] rawTable, int bpe, int length)
+		private int[] getTable(int[] rawTable, int bpe, int Length)
 		{
-			int[] table = new int[length];
-			for (int i = 0, bitPtr = 0; i < length; i++, bitPtr += bpe)
+			int[] table = new int[Length];
+			for (int i = 0, bitPtr = 0; i < Length; i++, bitPtr += bpe)
 			{
 				table[i] = getBits(bpe, rawTable, bitPtr);
 			}
@@ -158,9 +158,9 @@ namespace pspsharp.HLE.kernel.types
 				{
 					charmap_compr[i++] = charmapCompressionTable1[0][j];
 					charmap_compr[i++] = charmapCompressionTable1[1][j];
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("CharMap Compression Table #{0:D}: 0x{1:X}, length={2:D}", j, charmapCompressionTable1[0][j], charmapCompressionTable1[1][j]));
+						Console.WriteLine(string.Format("CharMap Compression Table #{0:D}: 0x{1:X}, Length={2:D}", j, charmapCompressionTable1[0][j], charmapCompressionTable1[1][j]));
 					}
 				}
 

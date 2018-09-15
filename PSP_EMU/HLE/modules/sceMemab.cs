@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
@@ -25,7 +25,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceMemab : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMemab");
+		//public static Logger log = Modules.getLogger("sceMemab");
 		private System.Random random = new System.Random();
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
@@ -47,7 +47,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF742F283, version = 150) public int sceMemab_F742F283(int unknown1, int unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3, int unknown4)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF742F283, version = 150) public int sceMemab_F742F283(int unknown1, int unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3, int unknown4)
 		[HLEFunction(nid : 0xF742F283, version : 150)]
 		public virtual int sceMemab_F742F283(int unknown1, int unknown2, TPointer unknown3, int unknown4)
 		{
@@ -57,7 +57,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4B54EAAD, version = 150) public int sceMemab_4B54EAAD(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=160, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4B54EAAD, version = 150) public int sceMemab_4B54EAAD(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=160, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput2)
 		[HLEFunction(nid : 0x4B54EAAD, version : 150)]
 		public virtual int sceMemab_4B54EAAD(TPointer unknownOutput1, TPointer unknownOutput2)
 		{
@@ -70,7 +70,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9BF0C95D, version = 150) public int sceMemab_9BF0C95D(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=160, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=272, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9BF0C95D, version = 150) public int sceMemab_9BF0C95D(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=160, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=272, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput2)
 		[HLEFunction(nid : 0x9BF0C95D, version : 150)]
 		public virtual int sceMemab_9BF0C95D(TPointer unknownOutput1, TPointer unknownInput, TPointer unknownOutput2)
 		{
@@ -84,7 +84,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC3981EE1, version = 150) public int sceMemab_C3981EE1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOuput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=272, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC3981EE1, version = 150) public int sceMemab_C3981EE1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOuput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=272, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput)
 		[HLEFunction(nid : 0xC3981EE1, version : 150)]
 		public virtual int sceMemab_C3981EE1(TPointer unknownInputOuput, TPointer unknownInput, TPointer unknownOutput)
 		{
@@ -98,7 +98,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8ABE3445, version = 150) public int sceMemab_8ABE3445(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8ABE3445, version = 150) public int sceMemab_8ABE3445(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput)
 		[HLEFunction(nid : 0x8ABE3445, version : 150)]
 		public virtual int sceMemab_8ABE3445(TPointer unknownOutput, TPointer unknownInput)
 		{
@@ -110,7 +110,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x23E4659B, version = 150) public int sceMemab_23E4659B(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x23E4659B, version = 150) public int sceMemab_23E4659B(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=192, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput)
 		[HLEFunction(nid : 0x23E4659B, version : 150)]
 		public virtual int sceMemab_23E4659B(TPointer unknownInputOutput1, TPointer unknownInputOutput2, TPointer unknownOutput)
 		{
@@ -125,7 +125,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xCB5D3916, version = 150) public int sceMemab_CB5D3916(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=60, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, int inputLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput, int unknown1, int unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xCB5D3916, version = 150) public int sceMemab_CB5D3916(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=60, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, int inputLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput, int unknown1, int unknown2)
 		[HLEFunction(nid : 0xCB5D3916, version : 150)]
 		public virtual int sceMemab_CB5D3916(TPointer unknownInputOutput, TPointer unknownInput, int inputLength, TPointer unknownOutput, int unknown1, int unknown2)
 		{
@@ -139,7 +139,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD47A50B1, version = 150) public int sceMemab_D47A50B1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=76, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, int inputLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput, int unknown1, int unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xD47A50B1, version = 150) public int sceMemab_D47A50B1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=76, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, int inputLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknownOutput, int unknown1, int unknown2)
 		[HLEFunction(nid : 0xD47A50B1, version : 150)]
 		public virtual int sceMemab_D47A50B1(TPointer unknownInputOutput, TPointer unknownInput, int inputLength, TPointer unknownOutput, int unknown1, int unknown2)
 		{
@@ -153,7 +153,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3C15BC8C, version = 150) public int sceMemab_3C15BC8C(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=68, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, int inputLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput2, int unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3C15BC8C, version = 150) public int sceMemab_3C15BC8C(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=68, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknownInputOutput, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput, int inputLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknownInput2, int unknown2)
 		[HLEFunction(nid : 0x3C15BC8C, version : 150)]
 		public virtual int sceMemab_3C15BC8C(TPointer unknownInputOutput, TPointer unknownInput, int inputLength, TPointer unknownInput2, int unknown2)
 		{
@@ -166,7 +166,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x16594684, version = 150) public int sceMemab_16594684(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x16594684, version = 150) public int sceMemab_16594684(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x16594684, version : 150)]
 		public virtual int sceMemab_16594684(TPointer buffer)
 		{
@@ -180,7 +180,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9DE8C8CD, version = 150) public int sceMemab_9DE8C8CD(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer xorKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int bufferLength)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9DE8C8CD, version = 150) public int sceMemab_9DE8C8CD(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer xorKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int bufferLength)
 		[HLEFunction(nid : 0x9DE8C8CD, version : 150)]
 		public virtual int sceMemab_9DE8C8CD(TPointer xorKey, TPointer buffer, int bufferLength)
 		{
@@ -191,7 +191,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9BF1A0A4, version = 150) public int sceMemab_9BF1A0A4(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer xorKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int bufferLength)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9BF1A0A4, version = 150) public int sceMemab_9BF1A0A4(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer xorKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer, int bufferLength)
 		[HLEFunction(nid : 0x9BF1A0A4, version : 150)]
 		public virtual int sceMemab_9BF1A0A4(TPointer xorKey, TPointer buffer, int bufferLength)
 		{

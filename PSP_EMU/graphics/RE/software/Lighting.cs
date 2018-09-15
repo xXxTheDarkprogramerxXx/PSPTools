@@ -51,12 +51,12 @@ namespace pspsharp.graphics.RE.software
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.normalize3;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.util.Utilities.pow;
+//	import static pspsharp.util.Utilities.Pow;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.vectorMult34;
 	using EnableDisableFlag = pspsharp.graphics.GeContext.EnableDisableFlag;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -179,7 +179,7 @@ namespace pspsharp.graphics.RE.software
 				{
 					normalize3(nSD, ecSpotDirection[l]);
 					float spot = dot3(nSD, -L[0], -L[1], -L[2]);
-					att *= spot < spotCosCutoff[l] ? 0.0f : pow(spot, spotExponent[l]);
+					att *= spot < spotCosCutoff[l] ? 0.0f : Pow(spot, spotExponent[l]);
 				}
 			}
 
@@ -193,8 +193,8 @@ namespace pspsharp.graphics.RE.software
 				normalize3(nH, H);
 				float NdotH = max(dot3(nH, Ne), 0.0f);
 				float k = shininess;
-				float Dk = lightKind[l] == LIGHT_POWER_DIFFUSE_SPECULAR ? max(pow(NdotL, k), 0.0f) : NdotL;
-				float Sk = lightKind[l] != LIGHT_AMBIENT_DIFFUSE ? max(pow(NdotH, k), 0.0f) : 0.0f;
+				float Dk = lightKind[l] == LIGHT_POWER_DIFFUSE_SPECULAR ? max(Pow(NdotL, k), 0.0f) : NdotL;
+				float Sk = lightKind[l] != LIGHT_AMBIENT_DIFFUSE ? max(Pow(NdotH, k), 0.0f) : 0.0f;
 
 				Dl = addBGR(Dl, multiplyBGR(lightDiffuseColor[l], att * Dk));
 				Sl = addBGR(Sl, multiplyBGR(lightSpecularColor[l], att * Sk));

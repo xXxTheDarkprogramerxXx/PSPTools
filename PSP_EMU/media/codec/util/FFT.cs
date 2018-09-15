@@ -23,10 +23,10 @@ namespace pspsharp.media.codec.util
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static Math.sin;
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.sqrt;
+//	import static Math.Sqrt;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class FFT
 	{
@@ -40,7 +40,7 @@ namespace pspsharp.media.codec.util
 		// pre/post rotation tables
 		internal float[] tcos = new float[0];
 		internal float[] tsin = new float[0];
-		public const double M_SQRT1_2 = 0.70710678118654752440; // 1/sqrt(2)
+		public const double M_SQRT1_2 = 0.70710678118654752440; // 1/Sqrt(2)
 		private static readonly float sqrthalf = (float) M_SQRT1_2;
 		private static readonly float[] ff_cos_16 = new float[16 / 2];
 		private static readonly float[] ff_cos_32 = new float[32 / 2];
@@ -137,7 +137,7 @@ namespace pspsharp.media.codec.util
 			tsin = new float[n4];
 
 			double theta = 1.0 / 8.0 + (scale < 0 ? n4 : 0);
-			scale = sqrt(abs(scale));
+			scale = Sqrt(abs(scale));
 			for (int i = 0; i < n4; i++)
 			{
 				double alpha = 2 * Math.PI * (i + theta) / n;
@@ -472,7 +472,7 @@ namespace pspsharp.media.codec.util
 					fft512(z, 0);
 					break;
 				default:
-					log.error(string.Format("FFT nbits={0:D} not implemented", nbits));
+					Console.WriteLine(string.Format("FFT nbits={0:D} not implemented", nbits));
 					break;
 			}
 		}

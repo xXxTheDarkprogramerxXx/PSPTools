@@ -31,7 +31,7 @@ namespace pspsharp.util
 //	import static org.objectweb.asm.tree.AbstractInsnNode.TABLESWITCH_INSN;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using ClassReader = org.objectweb.asm.ClassReader;
 	using ClassVisitor = org.objectweb.asm.ClassVisitor;
 	using ClassWriter = org.objectweb.asm.ClassWriter;
@@ -143,7 +143,7 @@ namespace pspsharp.util
 
 				log.trace(string.Format("Specializing class {0}", name));
 				string[] variableNames = variables.Keys.toArray(new string[variables.Count]);
-				Arrays.sort(variableNames);
+				Array.Sort(variableNames);
 				foreach (string variableName in variableNames)
 				{
 					log.trace(string.Format("Variable {0}={1}", variableName, variables[variableName]));
@@ -165,7 +165,7 @@ namespace pspsharp.util
 			}
 			catch (IOException e)
 			{
-				log.error("Cannot read class", e);
+				Console.WriteLine("Cannot read class", e);
 			}
 
 			if (debugOutput != null)
@@ -180,7 +180,7 @@ namespace pspsharp.util
 			}
 			catch (ClassFormatError e)
 			{
-				log.error("Error while defining specialized class", e);
+				Console.WriteLine("Error while defining specialized class", e);
 			}
 
 			return specializedClass;

@@ -4,9 +4,9 @@
 
 	public class SafeNativeMemory : NativeMemory
 	{
-		private bool isAddressGood(int address, int length)
+		private bool isAddressGood(int address, int Length)
 		{
-			return isAddressGood(address) && isAddressGood(address + length - 1);
+			return isAddressGood(address) && isAddressGood(address + Length - 1);
 		}
 
 		public override int read8(int address)
@@ -127,40 +127,40 @@
 
 			base.write32(address, data);
 		}
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
 
-			if (!isAddressGood(address, length))
+			if (!isAddressGood(address, Length))
 			{
 				invalidMemoryAddress(address, "memset", Emulator.EMU_STATUS_MEM_WRITE);
 				return;
 			}
 
-			base.memset(address, data, length);
+			base.memset(address, data, Length);
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
-			if (!isAddressGood(address, length))
+			if (!isAddressGood(address, Length))
 			{
 				invalidMemoryAddress(address, "copyToMemory", Emulator.EMU_STATUS_MEM_WRITE);
 				return;
 			}
 
-			base.copyToMemory(address, source, length);
+			base.copyToMemory(address, source, Length);
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
-			if (!isAddressGood(address, length))
+			if (!isAddressGood(address, Length))
 			{
 				if (isAddressGood(address) && address >= MemoryMap.START_VRAM && address <= MemoryMap.END_VRAM)
 				{
-					// Accept loading a texture e.g. at address 0x4154000 with length 0x100000
+					// Accept loading a texture e.g. at address 0x4154000 with Length 0x100000
 					// The address 0x42xxxxx should map to 0x40xxxxx but we ignore this here
 					// because we cannot build a buffer starting at 0x4154000 and ending
 					// at 0x4054000.
@@ -172,28 +172,28 @@
 				}
 			}
 
-			return base.getBuffer(address, length);
+			return base.getBuffer(address, Length);
 		}
 
-		public override void memcpy(int destination, int source, int length, bool checkOverlap)
+		public override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
 
-			if (!isAddressGood(destination, length))
+			if (!isAddressGood(destination, Length))
 			{
-				invalidMemoryAddress(destination, length, "memcpy", Emulator.EMU_STATUS_MEM_WRITE);
+				invalidMemoryAddress(destination, Length, "memcpy", Emulator.EMU_STATUS_MEM_WRITE);
 				return;
 			}
-			if (!isAddressGood(source, length))
+			if (!isAddressGood(source, Length))
 			{
-				invalidMemoryAddress(source, length, "memcpy", Emulator.EMU_STATUS_MEM_READ);
+				invalidMemoryAddress(source, Length, "memcpy", Emulator.EMU_STATUS_MEM_READ);
 				return;
 			}
 
-			base.memcpy(destination, source, length, checkOverlap);
+			base.memcpy(destination, source, Length, checkOverlap);
 		}
 	}
 

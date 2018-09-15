@@ -65,11 +65,11 @@ namespace pspsharp.HLE.VFS.fat
 			return Utilities.read8(sector, offset);
 		}
 
-		public static string readSectorString(sbyte[] sector, int offset, int length)
+		public static string readSectorString(sbyte[] sector, int offset, int Length)
 		{
 			string s = "";
 			// Skip any trailing spaces
-			for (int i = length - 1; i >= 0; i--)
+			for (int i = Length - 1; i >= 0; i--)
 			{
 				if (sector[offset + i] != (sbyte) ' ')
 				{
@@ -81,13 +81,13 @@ namespace pspsharp.HLE.VFS.fat
 			return s;
 		}
 
-		public static void storeSectorString(sbyte[] sector, int offset, string value, int length)
+		public static void storeSectorString(sbyte[] sector, int offset, string value, int Length)
 		{
-			int stringLength = System.Math.Min(value.Length, length);
+			int stringLength = System.Math.Min(value.Length, Length);
 			Utilities.writeStringNZ(sector, offset, stringLength, value);
 
 			// Fill rest with spaces
-			for (int i = stringLength; i < length; i++)
+			for (int i = stringLength; i < Length; i++)
 			{
 				sector[offset + i] = (sbyte) ' ';
 			}

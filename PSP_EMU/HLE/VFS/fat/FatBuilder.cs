@@ -30,7 +30,7 @@ namespace pspsharp.HLE.VFS.fat
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.kernel.types.pspAbstractMemoryMappedStructure.charset16;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceIoDirent = pspsharp.HLE.kernel.types.SceIoDirent;
 	using SceIoStat = pspsharp.HLE.kernel.types.SceIoStat;
@@ -67,15 +67,15 @@ namespace pspsharp.HLE.VFS.fat
 
 			vFile.RootDirectory = rootDirectory;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Using 0x{0:X} clusters out of 0x{1:X}", firstFreeCluster, maxNumberClusters));
+				Console.WriteLine(string.Format("Using 0x{0:X} clusters out of 0x{1:X}", firstFreeCluster, maxNumberClusters));
 				debugScan(rootDirectory);
 			}
 
 			if (firstFreeCluster > maxNumberClusters)
 			{
-				log.error(string.Format("Too many files in the Fat partition: required clusters=0x{0:X}, max clusters=0x{1:X}", firstFreeCluster, maxNumberClusters));
+				Console.WriteLine(string.Format("Too many files in the Fat partition: required clusters=0x{0:X}, max clusters=0x{1:X}", firstFreeCluster, maxNumberClusters));
 			}
 
 			return rootDirectory;
@@ -83,7 +83,7 @@ namespace pspsharp.HLE.VFS.fat
 
 		private void debugScan(FatFileInfo fileInfo)
 		{
-			log.debug(string.Format("scan {0}", fileInfo));
+			Console.WriteLine(string.Format("scan {0}", fileInfo));
 			IList<FatFileInfo> children = fileInfo.Children;
 			if (children != null)
 			{

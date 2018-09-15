@@ -38,11 +38,11 @@ namespace pspsharp.network.pspsharp
 		{
 		}
 
-		public JpcspAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int address, int length, sbyte[] toMacAddress) : base(matchingObject, @event, address, length, toMacAddress)
+		public JpcspAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, @event, address, Length, toMacAddress)
 		{
 		}
 
-		public JpcspAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int length) : base(matchingObject, message, length)
+		public JpcspAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int Length) : base(matchingObject, message, Length)
 		{
 		}
 
@@ -61,15 +61,15 @@ namespace pspsharp.network.pspsharp
 			}
 		}
 
-		public override void setMessage(sbyte[] message, int length)
+		public override void setMessage(sbyte[] message, int Length)
 		{
-			if (length >= HEADER_SIZE)
+			if (Length >= HEADER_SIZE)
 			{
 				offset = 0;
 				copyFromBytes(message, fromMacAddress);
 				copyFromBytes(message, toMacAddress);
 				Event = copyByteFromBytes(message);
-				data = new sbyte[length - HEADER_SIZE];
+				data = new sbyte[Length - HEADER_SIZE];
 				copyFromBytes(message, data);
 			}
 		}

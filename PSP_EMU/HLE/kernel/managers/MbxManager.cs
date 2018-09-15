@@ -42,7 +42,7 @@ namespace pspsharp.HLE.kernel.managers
 	using ThreadWaitInfo = pspsharp.HLE.kernel.types.ThreadWaitInfo;
 	using ThreadManForUser = pspsharp.HLE.modules.ThreadManForUser;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class MbxManager
 	{
@@ -83,7 +83,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("Mbx deleted while we were waiting for it! (timeout expired)");
+				Console.WriteLine("Mbx deleted while we were waiting for it! (timeout expired)");
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
 		}
@@ -98,7 +98,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("EventFlag deleted while we were waiting for it!");
+				Console.WriteLine("EventFlag deleted while we were waiting for it!");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -148,7 +148,7 @@ namespace pspsharp.HLE.kernel.managers
 		{
 			if (!mbxMap.ContainsKey(uid))
 			{
-				log.warn(string.Format("checkMbxID unknown uid=0x{0:X}", uid));
+				Console.WriteLine(string.Format("checkMbxID unknown uid=0x{0:X}", uid));
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_MESSAGE_BOX);
 			}
 
@@ -160,13 +160,13 @@ namespace pspsharp.HLE.kernel.managers
 			if (option.NotNull)
 			{
 				int optionSize = option.getValue32();
-				log.warn(string.Format("sceKernelCreateMbx option at {0}: size={1:D}", option, optionSize));
+				Console.WriteLine(string.Format("sceKernelCreateMbx option at {0}: size={1:D}", option, optionSize));
 			}
 
 			SceKernelMbxInfo info = new SceKernelMbxInfo(name, attr);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCreateMbx returning {0}", info));
+				Console.WriteLine(string.Format("sceKernelCreateMbx returning {0}", info));
 			}
 			mbxMap[info.uid] = info;
 
@@ -194,9 +194,9 @@ namespace pspsharp.HLE.kernel.managers
 				SceKernelThreadInfo thread = info.threadWaitingList.FirstWaitingThread;
 				if (thread != null)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceKernelSendMbx waking thread {0}", thread));
+						Console.WriteLine(string.Format("sceKernelSendMbx waking thread {0}", thread));
 					}
 					thread.wait.Mbx_resultAddr.setValue(msgAddr.Address);
 					info.threadWaitingList.removeWaitingThread(thread);
@@ -234,9 +234,9 @@ namespace pspsharp.HLE.kernel.managers
 			{
 				if (!poll)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleKernelReceiveMbx - {0} (waiting)", info));
+						Console.WriteLine(string.Format("hleKernelReceiveMbx - {0} (waiting)", info));
 					}
 					SceKernelThreadInfo currentThread = threadMan.CurrentThread;
 					info.threadWaitingList.addWaitingThread(currentThread);
@@ -246,9 +246,9 @@ namespace pspsharp.HLE.kernel.managers
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("hleKernelReceiveMbx has no messages.");
+						Console.WriteLine("hleKernelReceiveMbx has no messages.");
 					}
 					return ERROR_KERNEL_MESSAGEBOX_NO_MESSAGE;
 				}
@@ -256,9 +256,9 @@ namespace pspsharp.HLE.kernel.managers
 			else
 			{
 				// Success, do not reschedule the current thread.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelReceiveMbx - {0} fast check succeeded", info));
+					Console.WriteLine(string.Format("hleKernelReceiveMbx - {0} fast check succeeded", info));
 				}
 				int msgAddr = info.removeMsg(Memory.Instance);
 				addrMsgAddr.setValue(msgAddr);

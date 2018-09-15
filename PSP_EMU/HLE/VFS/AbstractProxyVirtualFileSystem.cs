@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.VFS
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceIoDirent = pspsharp.HLE.kernel.types.SceIoDirent;
 	using SceIoStat = pspsharp.HLE.kernel.types.SceIoStat;

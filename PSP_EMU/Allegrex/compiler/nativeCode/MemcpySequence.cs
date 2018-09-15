@@ -27,13 +27,13 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int dstAddr = getRegisterValue(dstAddrReg);
 			int srcAddr = getRegisterValue(srcAddrReg);
-			int length = getRegisterValue(lengthReg);
+			int Length = getRegisterValue(lengthReg);
 
-			Memory.memcpy(dstAddr, srcAddr, length);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 			setRegisterValue(lengthReg, 0);
 		}
 
@@ -41,13 +41,13 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int dstAddr = getRegisterValue(dstAddrReg);
 			int srcAddr = getRegisterValue(srcAddrReg);
-			int length = getRegisterValue(lengthReg);
+			int Length = getRegisterValue(lengthReg);
 
-			Memory.memcpy(dstAddr + dstOffset, srcAddr + srcOffset, length);
+			Memory.memcpy(dstAddr + dstOffset, srcAddr + srcOffset, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 			setRegisterValue(lengthReg, 0);
 		}
 
@@ -57,12 +57,12 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			int srcAddr = getRegisterValue(srcAddrReg);
 			int targetAddr = getRegisterValue(targetAddrReg);
 
-			int length = targetAddr - getRegisterValue(targetReg);
-			Memory.memcpy(dstAddr, srcAddr, length);
+			int Length = targetAddr - getRegisterValue(targetReg);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 		}
 
 		public static void call(int dstAddrReg, int srcAddrReg, int targetAddrReg, int targetReg, int dstOffset, int srcOffset, int valueReg, int valueBytes)
@@ -71,15 +71,15 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			int srcAddr = getRegisterValue(srcAddrReg);
 			int targetAddr = getRegisterValue(targetAddrReg);
 
-			int length = targetAddr - getRegisterValue(targetReg);
-			Memory.memcpy(dstAddr + dstOffset, srcAddr + srcOffset, length);
+			int Length = targetAddr - getRegisterValue(targetReg);
+			Memory.memcpy(dstAddr + dstOffset, srcAddr + srcOffset, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 
 			// Update the register "valueReg" with the last value processed by the memcpy loop
-			int valueAddr = srcAddr + length - valueBytes;
+			int valueAddr = srcAddr + Length - valueBytes;
 			int value;
 			switch (valueBytes)
 			{
@@ -94,7 +94,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 				break;
 			default:
 				value = 0;
-				Compiler.log.error("MemcpySequence.call(): Unimplemented valueBytes=" + valueBytes);
+				Compiler.Console.WriteLine("MemcpySequence.call(): Unimplemented valueBytes=" + valueBytes);
 				break;
 			}
 			setRegisterValue(valueReg, value);
@@ -104,13 +104,13 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int dstAddr = getRegisterValue(dstAddrReg);
 			int srcAddr = getRegisterValue(srcAddrReg);
-			int length = (getRegisterValue(lengthReg) + lengthOffset) * step;
+			int Length = (getRegisterValue(lengthReg) + lengthOffset) * step;
 
-			Memory.memcpy(dstAddr, srcAddr, length);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 			setRegisterValue(lengthReg, 0);
 		}
 
@@ -118,30 +118,30 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int dstAddr = getRegisterValue(dstAddrReg);
 			int srcAddr = getRegisterValue(srcAddrReg);
-			int length = (count - getRegisterValue(lengthReg)) * step;
+			int Length = (count - getRegisterValue(lengthReg)) * step;
 
-			Memory.memcpy(dstAddr, srcAddr, length);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 			setRegisterValue(lengthReg, count);
 		}
 
-		public static void callFixedLength(int dstAddrReg, int srcAddrReg, int dstOffset, int srcOffset, int length)
+		public static void callFixedLength(int dstAddrReg, int srcAddrReg, int dstOffset, int srcOffset, int Length)
 		{
 			int dstAddr = getRegisterValue(dstAddrReg) + dstOffset;
 			int srcAddr = getRegisterValue(srcAddrReg) + srcOffset;
 
-			Memory.memcpy(dstAddr, srcAddr, length);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 		}
 
-		public static void callFixedLength(int dstAddrReg, int srcAddrReg, int dstOffset, int srcOffset, int length, int updatedSrcAddrReg)
+		public static void callFixedLength(int dstAddrReg, int srcAddrReg, int dstOffset, int srcOffset, int Length, int updatedSrcAddrReg)
 		{
 			int dstAddr = getRegisterValue(dstAddrReg) + dstOffset;
 			int srcAddr = getRegisterValue(srcAddrReg) + srcOffset;
 
-			Memory.memcpy(dstAddr, srcAddr, length);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 
 			setRegisterValue(updatedSrcAddrReg, srcAddr);
 		}
@@ -150,13 +150,13 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int dstAddr = getRegisterValue(dstAddrReg);
 			int srcAddr = getRegisterValue(srcAddrReg);
-			int length = Memory.read32(getRegisterValue(lengthAddrReg) + lengthAddrOffset);
+			int Length = Memory.read32(getRegisterValue(lengthAddrReg) + lengthAddrOffset);
 
-			Memory.memcpy(dstAddr, srcAddr, length);
+			Memory.memcpy(dstAddr, srcAddr, Length);
 
 			// Update registers
-			setRegisterValue(dstAddrReg, dstAddr + length);
-			setRegisterValue(srcAddrReg, srcAddr + length);
+			setRegisterValue(dstAddrReg, dstAddr + Length);
+			setRegisterValue(srcAddrReg, srcAddr + Length);
 		}
 	}
 

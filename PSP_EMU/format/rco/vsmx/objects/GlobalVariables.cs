@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.format.rco.vsmx.objects
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using VSMXArray = pspsharp.format.rco.vsmx.interpreter.VSMXArray;
 	using VSMXBaseObject = pspsharp.format.rco.vsmx.interpreter.VSMXBaseObject;
@@ -78,9 +78,9 @@ namespace pspsharp.format.rco.vsmx.objects
 			{
 				writeBuffer.Append(strings[i].StringValue);
 			}
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("write: '{0}'", writeBuffer.ToString()));
+				Console.WriteLine(string.Format("write: '{0}'", writeBuffer.ToString()));
 			}
 		}
 
@@ -126,9 +126,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject parseFloat(VSMXBaseObject @object, VSMXBaseObject value)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("parseFloat: {0}", value));
+				Console.WriteLine(string.Format("parseFloat: {0}", value));
 			}
 
 			return new VSMXNumber(@object.Interpreter, value.FloatValue);
@@ -136,9 +136,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject parseInt(VSMXBaseObject @object, VSMXBaseObject value)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("parseInt: {0}", value));
+				Console.WriteLine(string.Format("parseInt: {0}", value));
 			}
 
 			return new VSMXNumber(@object.Interpreter, value.IntValue);
@@ -146,9 +146,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject isNaN(VSMXBaseObject @object, VSMXBaseObject value)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("isNaN: {0}", value));
+				Console.WriteLine(string.Format("isNaN: {0}", value));
 			}
 
 			bool isNaN = float.IsNaN(value.FloatValue);
@@ -158,9 +158,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject Float(VSMXBaseObject @object, VSMXBaseObject value)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Float: {0}", value));
+				Console.WriteLine(string.Format("Float: {0}", value));
 			}
 
 			return new VSMXNumber(@object.Interpreter, value.FloatValue);
@@ -168,9 +168,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject Int(VSMXBaseObject @object, VSMXBaseObject value)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Int: {0}", value));
+				Console.WriteLine(string.Format("Int: {0}", value));
 			}
 
 			return new VSMXNumber(@object.Interpreter, value.IntValue);

@@ -36,11 +36,11 @@ namespace pspsharp.HLE.modules
 	using MemoryReader = pspsharp.memory.MemoryReader;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class LoadExecForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("LoadExecForUser");
+		//public static Logger log = Modules.getLogger("LoadExecForUser");
 		protected internal int registeredExitCallbackUid;
 		protected internal const string encryptedBootPath = "disc0:/PSP_GAME/SYSDIR/EBOOT.BIN";
 		protected internal const string unencryptedBootPath = "disc0:/PSP_GAME/SYSDIR/BOOT.BIN";
@@ -95,7 +95,7 @@ namespace pspsharp.HLE.modules
 
 					if ((module.fileFormat & Loader.FORMAT_ELF) != Loader.FORMAT_ELF)
 					{
-						log.warn("sceKernelLoadExec - failed, target is not an ELF");
+						Console.WriteLine("sceKernelLoadExec - failed, target is not an ELF");
 						throw new SceKernelErrorException(ERROR_KERNEL_ILLEGAL_LOADEXEC_FILENAME);
 					}
 
@@ -116,12 +116,12 @@ namespace pspsharp.HLE.modules
 			}
 			catch (GeneralJpcspException e)
 			{
-				log.error("General Error", e);
+				Console.WriteLine("General Error", e);
 				Emulator.PauseEmu();
 			}
 			catch (IOException e)
 			{
-				log.error(string.Format("sceKernelLoadExec - Error while loading module '{0}'", moduleFileName), e);
+				Console.WriteLine(string.Format("sceKernelLoadExec - Error while loading module '{0}'", moduleFileName), e);
 				return ERROR_KERNEL_PROHIBIT_LOADEXEC_DEVICE;
 			}
 
@@ -158,7 +158,7 @@ namespace pspsharp.HLE.modules
 				}
 				catch (IOException e)
 				{
-					log.debug("hleKernelLoadExec", e);
+					Console.WriteLine("hleKernelLoadExec", e);
 				}
 			}
 
@@ -178,14 +178,14 @@ namespace pspsharp.HLE.modules
 				{
 					try
 					{
-						sbyte[] moduleBytes = new sbyte[(int) moduleInput.length()];
+						sbyte[] moduleBytes = new sbyte[(int) moduleInput.Length()];
 						moduleInput.readFully(moduleBytes);
 						moduleInput.Dispose();
 						moduleBuffer = ByteBuffer.wrap(moduleBytes);
 					}
 					catch (IOException e)
 					{
-						log.error(string.Format("sceKernelLoadExec - Error while loading module '{0}'", name), e);
+						Console.WriteLine(string.Format("sceKernelLoadExec - Error while loading module '{0}'", name), e);
 						return ERROR_KERNEL_PROHIBIT_LOADEXEC_DEVICE;
 					}
 				}
@@ -210,9 +210,9 @@ namespace pspsharp.HLE.modules
 					argAddr = optionAddr.getValue(8); // Arguments (memory area of size argSize).
 					int keyAddr = optionAddr.getValue(12); // Pointer to an encryption key (may not be used).
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceKernelLoadExec params: optSize={0:D}, argSize={1:D}, argAddr=0x{2:X8}, keyAddr=0x{3:X8}: {4}", optSize, argSize, argAddr, keyAddr, Utilities.getMemoryDump(argAddr, argSize)));
+						Console.WriteLine(string.Format("sceKernelLoadExec params: optSize={0:D}, argSize={1:D}, argAddr=0x{2:X8}, keyAddr=0x{3:X8}: {4}", optSize, argSize, argAddr, keyAddr, Utilities.getMemoryDump(argAddr, argSize)));
 					}
 
 				}
@@ -255,26 +255,26 @@ namespace pspsharp.HLE.modules
 		[HLELogging(level:"info"), HLEFunction(nid : 0x362A956B, version : 500)]
 		public virtual int LoadExecForUser_362A956B()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("LoadExecForUser_362A956B registeredExitCallbackUid=0x{0:X}", registeredExitCallbackUid));
+				Console.WriteLine(string.Format("LoadExecForUser_362A956B registeredExitCallbackUid=0x{0:X}", registeredExitCallbackUid));
 			}
 
 			SceKernelCallbackInfo callbackInfo = Modules.ThreadManForUserModule.getCallbackInfo(registeredExitCallbackUid);
 			if (callbackInfo == null)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("LoadExecForUser_362A956B registeredExitCallbackUid=0x{0:x} callback not found", registeredExitCallbackUid));
+					Console.WriteLine(string.Format("LoadExecForUser_362A956B registeredExitCallbackUid=0x{0:x} callback not found", registeredExitCallbackUid));
 				}
 				return SceKernelErrors.ERROR_KERNEL_NOT_FOUND_CALLBACK;
 			}
 			int callbackArgument = callbackInfo.CallbackArgument;
 			if (!Memory.isAddressGood(callbackArgument))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("LoadExecForUser_362A956B invalid address for callbackArgument=0x{0:X8}", callbackArgument));
+					Console.WriteLine(string.Format("LoadExecForUser_362A956B invalid address for callbackArgument=0x{0:X8}", callbackArgument));
 				}
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_ADDR;
 			}
@@ -284,9 +284,9 @@ namespace pspsharp.HLE.modules
 			int unknown1 = mem.read32(callbackArgument - 8);
 			if (unknown1 < 0 || unknown1 >= 4)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("LoadExecForUser_362A956B invalid value unknown1=0x{0:X8}", unknown1));
+					Console.WriteLine(string.Format("LoadExecForUser_362A956B invalid value unknown1=0x{0:X8}", unknown1));
 				}
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_ARGUMENT;
 			}
@@ -294,9 +294,9 @@ namespace pspsharp.HLE.modules
 			int parameterArea = mem.read32(callbackArgument - 4);
 			if (!Memory.isAddressGood(parameterArea))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("LoadExecForUser_362A956B invalid address for parameterArea=0x{0:X8}", parameterArea));
+					Console.WriteLine(string.Format("LoadExecForUser_362A956B invalid address for parameterArea=0x{0:X8}", parameterArea));
 				}
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_ADDR;
 			}
@@ -304,9 +304,9 @@ namespace pspsharp.HLE.modules
 			int size = mem.read32(parameterArea);
 			if (size < 12)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("LoadExecForUser_362A956B invalid parameter area size {0:D}", size));
+					Console.WriteLine(string.Format("LoadExecForUser_362A956B invalid parameter area size {0:D}", size));
 				}
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_SIZE;
 			}

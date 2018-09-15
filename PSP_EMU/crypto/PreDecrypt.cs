@@ -21,7 +21,7 @@ namespace pspsharp.crypto
 {
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using Document = org.w3c.dom.Document;
 	using Element = org.w3c.dom.Element;
 	using Node = org.w3c.dom.Node;
@@ -36,7 +36,7 @@ namespace pspsharp.crypto
 	/// </summary>
 	public class PreDecrypt
 	{
-		public static Logger log = CryptoEngine.log;
+		//public static Logger log = CryptoEngine.log;
 		private static PreDecryptInfo[] preDecrypts;
 
 		private class PreDecryptInfo
@@ -179,15 +179,15 @@ namespace pspsharp.crypto
 			}
 			catch (ParserConfigurationException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 			catch (SAXException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 			catch (IOException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 			}
 		}
 
@@ -267,7 +267,7 @@ namespace pspsharp.crypto
 			{
 				if (info.Equals(preDecrypts[i]))
 				{
-					log.warn(string.Format("PreDecrypt.xml: duplicate entry {0}", info));
+					Console.WriteLine(string.Format("PreDecrypt.xml: duplicate entry {0}", info));
 					return;
 				}
 			}

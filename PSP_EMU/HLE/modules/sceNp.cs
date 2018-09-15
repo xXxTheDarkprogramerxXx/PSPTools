@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNp : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNp");
+		//public static Logger log = Modules.getLogger("sceNp");
 		public const int PARENTAL_CONTROL_DISABLED = 0;
 		public const int PARENTAL_CONTROL_ENABLED = 1;
 		public int parentalControl = PARENTAL_CONTROL_ENABLED;
@@ -94,7 +94,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x633B5F71, version = 150) public int sceNpGetNpId(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=36, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x633B5F71, version = 150) public int sceNpGetNpId(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=36, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x633B5F71, version : 150)]
 		public virtual int sceNpGetNpId(TPointer buffer)
 		{
@@ -133,7 +133,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7E0864DF, version = 150) public int sceNpGetUserProfile(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=216, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7E0864DF, version = 150) public int sceNpGetUserProfile(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=216, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x7E0864DF, version : 150)]
 		public virtual int sceNpGetUserProfile(TPointer buffer)
 		{
@@ -151,7 +151,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4B5C71C8, version = 150) public int sceNpGetOnlineId(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4B5C71C8, version = 150) public int sceNpGetOnlineId(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x4B5C71C8, version : 150)]
 		public virtual int sceNpGetOnlineId(TPointer buffer)
 		{
@@ -233,7 +233,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5FA879D8, version = 150) public int sceNp_5FA879D8(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown1, pspsharp.HLE.PspString unknown2, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3, int unknown4, @CanBeNull pspsharp.HLE.TPointer32 unknown5)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5FA879D8, version = 150) public int sceNp_5FA879D8(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown1, pspsharp.HLE.PspString unknown2, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3, int unknown4, @CanBeNull pspsharp.HLE.TPointer32 unknown5)
 		[HLEFunction(nid : 0x5FA879D8, version : 150)]
 		public virtual int sceNp_5FA879D8(TPointer unknown1, PspString unknown2, TPointer unknown3, int unknown4, TPointer32 unknown5)
 		{
@@ -321,7 +321,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB819A0C8, version = 150) public int sceNp_B819A0C8(pspsharp.HLE.TPointer unknown1, pspsharp.HLE.TPointer unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB819A0C8, version = 150) public int sceNp_B819A0C8(pspsharp.HLE.TPointer unknown1, pspsharp.HLE.TPointer unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3)
 		[HLEFunction(nid : 0xB819A0C8, version : 150)]
 		public virtual int sceNp_B819A0C8(TPointer unknown1, TPointer unknown2, TPointer unknown3)
 		{
@@ -329,7 +329,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC0B3616C, version = 150) public int sceNp_C0B3616C(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC0B3616C, version = 150) public int sceNp_C0B3616C(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2)
 		[HLEFunction(nid : 0xC0B3616C, version : 150)]
 		public virtual int sceNp_C0B3616C(TPointer unknown1, TPointer unknown2)
 		{

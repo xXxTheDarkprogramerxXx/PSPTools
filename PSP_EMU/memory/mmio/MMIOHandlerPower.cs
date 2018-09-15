@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using scePower = pspsharp.HLE.modules.scePower;
 	using StateInputStream = pspsharp.state.StateInputStream;

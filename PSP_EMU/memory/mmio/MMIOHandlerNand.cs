@@ -29,7 +29,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.lineSeparator;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using TPointer = pspsharp.HLE.TPointer;
@@ -172,14 +172,14 @@ namespace pspsharp.memory.mmio
 					break;
 				case PSP_NAND_COMMAND_ERASE_BLOCK_CONFIRM:
 					// We don't need to erase blocks...
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("PSP_NAND_COMMAND_ERASE_BLOCK ppn=0x{0:X}", pageAddress >> 10));
+						Console.WriteLine(string.Format("PSP_NAND_COMMAND_ERASE_BLOCK ppn=0x{0:X}", pageAddress >> 10));
 					}
 	//				triggerInterrupt(PSP_NAND_INTR_WRITE_COMPLETED); // TODO Unknown value
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerNand.startCommand unknown command 0x{0:X}", command));
+					Console.WriteLine(string.Format("MMIOHandlerNand.startCommand unknown command 0x{0:X}", command));
 					break;
 			}
 		}
@@ -295,9 +295,9 @@ namespace pspsharp.memory.mmio
 				scramble = getScrambleDataSector(fuseId, 3); // flash3
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("getScramble ppn=0x{0:X}, lbn=0x{1:X}, sector=0x{2:X}, scramble=0x{3:X}", ppn, lbn, sector, scramble));
+				Console.WriteLine(string.Format("getScramble ppn=0x{0:X}, lbn=0x{1:X}, sector=0x{2:X}, scramble=0x{3:X}", ppn, lbn, sector, scramble));
 			}
 
 			return scramble;
@@ -318,9 +318,9 @@ namespace pspsharp.memory.mmio
 					int lbn = endianSwap16(pageEccMemory.read16(6) & 0xFFFF);
 					if (lbn == 0xFFFF)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("writing to ppn=0x{0:X} with lbn=0x{1:X} ignored", ppn, lbn));
+							Console.WriteLine(string.Format("writing to ppn=0x{0:X} with lbn=0x{1:X} ignored", ppn, lbn));
 						}
 					}
 					else
@@ -340,7 +340,7 @@ namespace pspsharp.memory.mmio
 
 						sceNandModule.hleNandWriteUserPages(ppn, user, 1, true, true);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
 							sbyte[] userBytes = new sbyte[sceNand.pageSize];
 							user = scramble != 0 ? scrambleBufferMemory.Pointer : pageDataMemory.Pointer;
@@ -354,7 +354,7 @@ namespace pspsharp.memory.mmio
 							{
 								spareBytes[i] = spare.getValue8(i);
 							}
-							log.debug(string.Format("hleNandWritePages ppn=0x{0:X}, lbn=0x{1:X}, scramble=0x{2:X}: {3}{4}Spare: {5}", ppn, lbn, scramble, Utilities.getMemoryDump(userBytes), lineSeparator, Utilities.getMemoryDump(spareBytes)));
+							Console.WriteLine(string.Format("hleNandWritePages ppn=0x{0:X}, lbn=0x{1:X}, scramble=0x{2:X}: {3}{4}Spare: {5}", ppn, lbn, scramble, Utilities.getMemoryDump(userBytes), lineSeparator, Utilities.getMemoryDump(spareBytes)));
 						}
 					}
 
@@ -366,7 +366,7 @@ namespace pspsharp.memory.mmio
 					TPointer spare = pageEccMemory.Pointer;
 					sceNandModule.hleNandReadPages(ppn, user, spare, 1, true, true, true);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 						sbyte[] bytes = new sbyte[sceNand.pageSize];
 						user = scramble != 0 ? scrambleBufferMemory.Pointer : pageDataMemory.Pointer;
@@ -374,7 +374,7 @@ namespace pspsharp.memory.mmio
 						{
 							bytes[i] = user.getValue8(i);
 						}
-						log.debug(string.Format("hleNandReadPages ppn=0x{0:X}, scramble=0x{1:X}: {2}", ppn, scramble, Utilities.getMemoryDump(bytes)));
+						Console.WriteLine(string.Format("hleNandReadPages ppn=0x{0:X}, scramble=0x{1:X}: {2}", ppn, scramble, Utilities.getMemoryDump(bytes)));
 					}
 
 					if (scramble != 0)

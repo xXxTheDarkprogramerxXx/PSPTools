@@ -43,11 +43,11 @@ namespace pspsharp
 	using StateInputStream = pspsharp.state.StateInputStream;
 	using StateOutputStream = pspsharp.state.StateOutputStream;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public abstract class Memory : IState
 	{
-		public static Logger log = Logger.getLogger("memory");
+		//public static Logger log = Logger.getLogger("memory");
 		private static Memory instance = null;
 		public static bool useNativeMemory = false;
 		public static bool useDirectBufferMemory = false;
@@ -104,7 +104,7 @@ namespace pspsharp
 						}
 						catch (UnsatisfiedLinkError e)
 						{
-							log.error("Cannot load memory library", e);
+							Console.WriteLine("Cannot load memory library", e);
 							useNativeMemory = false;
 						}
 					}
@@ -163,7 +163,7 @@ namespace pspsharp
     
 								if (!instance.allocate())
 								{
-									log.warn(string.Format("Cannot allocate native memory"));
+									Console.WriteLine(string.Format("Cannot allocate native memory"));
 									instance = null;
 								}
 							}
@@ -189,10 +189,10 @@ namespace pspsharp
 						DebuggerMemory.install();
 					}
     
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
 	//JAVA TO C# CONVERTER WARNING: The .NET Type.FullName property will not always yield results identical to the Java Class.getName method:
-						log.debug(string.Format("Using {0}", instance.GetType().FullName));
+						Console.WriteLine(string.Format("Using {0}", instance.GetType().FullName));
 					}
 				}
     
@@ -232,26 +232,26 @@ namespace pspsharp
 
 			if (ignoreInvalidMemoryAccess)
 			{
-				log.warn("IGNORED: " + message);
+				Console.WriteLine("IGNORED: " + message);
 			}
 			else
 			{
-				log.error(message);
+				Console.WriteLine(message);
 				Emulator.PauseEmuWithStatus(status);
 			}
 		}
 
-		public virtual void invalidMemoryAddress(int address, int length, string prefix, int status)
+		public virtual void invalidMemoryAddress(int address, int Length, string prefix, int status)
 		{
-			string message = string.Format("{0} - Invalid memory address: 0x{1:X8}-0x{2:X8}(length=0x{3:X}) PC=0x{4:X8}", prefix, address, address + length, length, Pc);
+			string message = string.Format("{0} - Invalid memory address: 0x{1:X8}-0x{2:X8}(Length=0x{3:X}) PC=0x{4:X8}", prefix, address, address + Length, Length, Pc);
 
 			if (ignoreInvalidMemoryAccess)
 			{
-				log.warn("IGNORED: " + message);
+				Console.WriteLine("IGNORED: " + message);
 			}
 			else
 			{
-				log.error(message);
+				Console.WriteLine(message);
 				Emulator.PauseEmuWithStatus(status);
 			}
 		}
@@ -317,7 +317,7 @@ namespace pspsharp
 			//
 			if ((address >= unchecked((int)0x8f800020) && address <= unchecked((int)0x8f8001ac)) || (address >= 0x0f800020 && address <= 0x0f8001ac))
 			{ // Accept also masked address
-				log.debug("read32 - ignoring pspSdkInstallNoPlainModuleCheckPatch");
+				Console.WriteLine("read32 - ignoring pspSdkInstallNoPlainModuleCheckPatch");
 				return true;
 			}
 
@@ -338,15 +338,15 @@ namespace pspsharp
 
 		public abstract void write32(int address, int data);
 
-		public abstract void memset(int address, sbyte data, int length);
+		public abstract void memset(int address, sbyte data, int Length);
 
 		public abstract Buffer MainMemoryByteBuffer {get;}
 
-		public abstract Buffer getBuffer(int address, int length);
+		public abstract Buffer getBuffer(int address, int Length);
 
-		public abstract void copyToMemory(int address, ByteBuffer source, int length);
+		public abstract void copyToMemory(int address, ByteBuffer source, int Length);
 
-		protected internal abstract void memcpy(int destination, int source, int length, bool checkOverlap);
+		protected internal abstract void memcpy(int destination, int source, int Length, bool checkOverlap);
 
 		public static bool isAddressGood(int address)
 		{
@@ -403,9 +403,9 @@ namespace pspsharp
 		}
 
 		// memcpy does not check overlapping source and destination areas
-		public virtual void memcpy(int destination, int source, int length)
+		public virtual void memcpy(int destination, int source, int Length)
 		{
-			memcpy(destination, source, length, false);
+			memcpy(destination, source, Length, false);
 		}
 
 		/// <summary>
@@ -413,11 +413,11 @@ namespace pspsharp
 		/// </summary>
 		/// <param name="destination">   destination address </param>
 		/// <param name="source">        source address </param>
-		/// <param name="length">        length in bytes to be copied </param>
-		public virtual void memcpyWithVideoCheck(int destination, int source, int length)
+		/// <param name="Length">        Length in bytes to be copied </param>
+		public virtual void memcpyWithVideoCheck(int destination, int source, int Length)
 		{
 			// As an optimization, do not perform the video check if we are copying only a small memory area.
-			if (length >= MINIMUM_LENGTH_FOR_VIDEO_CHECK)
+			if (Length >= MINIMUM_LENGTH_FOR_VIDEO_CHECK)
 			{
 				// If copying to the VRAM or the frame buffer, do not cache the texture
 				if (isVRAM(destination) || Modules.sceDisplayModule.isFbAddress(destination))
@@ -426,12 +426,12 @@ namespace pspsharp
 					// before performing the memcpy.
 					Modules.sceDisplayModule.waitForRenderingCompletion(destination);
 
-					VideoEngine.Instance.addVideoTexture(destination, source, length);
+					VideoEngine.Instance.addVideoTexture(destination, source, Length);
 				}
 				// If copying from the VRAM, force the saving of the GE to memory
 				if (isVRAM(source) && Modules.sceDisplayModule.SaveGEToTexture)
 				{
-					VideoEngine.Instance.addVideoTexture(source, source + length);
+					VideoEngine.Instance.addVideoTexture(source, source + Length);
 				}
 				if (isVRAM(source))
 				{
@@ -443,7 +443,7 @@ namespace pspsharp
 				Modules.sceDisplayModule.waitForRenderingCompletion(destination);
 			}
 
-			memcpy(destination, source, length);
+			memcpy(destination, source, Length);
 		}
 
 		/// <summary>
@@ -451,11 +451,11 @@ namespace pspsharp
 		/// </summary>
 		/// <param name="address">   destination address </param>
 		/// <param name="data">      byte to be set in memory </param>
-		/// <param name="length">    length in bytes to be set </param>
-		public virtual void memsetWithVideoCheck(int address, sbyte data, int length)
+		/// <param name="Length">    Length in bytes to be set </param>
+		public virtual void memsetWithVideoCheck(int address, sbyte data, int Length)
 		{
 			// As an optimization, do not perform the video check if we are setting only a small memory area.
-			if (length >= MINIMUM_LENGTH_FOR_VIDEO_CHECK)
+			if (Length >= MINIMUM_LENGTH_FOR_VIDEO_CHECK)
 			{
 				// If changing the VRAM or the frame buffer, do not cache the texture
 				if (isVRAM(address) || Modules.sceDisplayModule.isFbAddress(address))
@@ -464,7 +464,7 @@ namespace pspsharp
 					// before performing the memcpy.
 					Modules.sceDisplayModule.waitForRenderingCompletion(address);
 
-					VideoEngine.Instance.addVideoTexture(address, address + length);
+					VideoEngine.Instance.addVideoTexture(address, address + Length);
 				}
 			}
 			else if (isVRAM(address))
@@ -472,13 +472,13 @@ namespace pspsharp
 				Modules.sceDisplayModule.waitForRenderingCompletion(address);
 			}
 
-			memset(address, data, length);
+			memset(address, data, Length);
 		}
 
 		// memmove reproduces the bytes correctly at destination even if the two areas overlap
-		public virtual void memmove(int destination, int source, int length)
+		public virtual void memmove(int destination, int source, int Length)
 		{
-			memcpy(destination, source, length, true);
+			memcpy(destination, source, Length, true);
 		}
 
 		public virtual int normalize(int address)
@@ -499,9 +499,9 @@ namespace pspsharp
 			return address;
 		}
 
-		protected internal virtual bool areOverlapping(int destination, int source, int length)
+		protected internal virtual bool areOverlapping(int destination, int source, int Length)
 		{
-			if (source + length <= destination || destination + length <= source)
+			if (source + Length <= destination || destination + Length <= source)
 			{
 				return false;
 			}
@@ -536,11 +536,11 @@ namespace pspsharp
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: protected void read(pspsharp.state.StateInputStream stream, int address, int length) throws java.io.IOException
-		protected internal virtual void read(StateInputStream stream, int address, int length)
+//ORIGINAL LINE: protected void read(pspsharp.state.StateInputStream stream, int address, int Length) throws java.io.IOException
+		protected internal virtual void read(StateInputStream stream, int address, int Length)
 		{
-			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(this, address, length, 4);
-			for (int i = 0; i < length; i += 4)
+			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(this, address, Length, 4);
+			for (int i = 0; i < Length; i += 4)
 			{
 				memoryWriter.writeNext(stream.readInt());
 			}
@@ -548,11 +548,11 @@ namespace pspsharp
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: protected void write(pspsharp.state.StateOutputStream stream, int address, int length) throws java.io.IOException
-		protected internal virtual void write(StateOutputStream stream, int address, int length)
+//ORIGINAL LINE: protected void write(pspsharp.state.StateOutputStream stream, int address, int Length) throws java.io.IOException
+		protected internal virtual void write(StateOutputStream stream, int address, int Length)
 		{
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(this, address, length, 4);
-			for (int i = 0; i < length; i += 4)
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(this, address, Length, 4);
+			for (int i = 0; i < Length; i += 4)
 			{
 				stream.writeInt(memoryReader.readNext());
 			}

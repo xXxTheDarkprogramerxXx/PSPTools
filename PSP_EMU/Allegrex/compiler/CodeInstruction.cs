@@ -33,7 +33,7 @@ namespace pspsharp.Allegrex.compiler
 	using NativeCodeInstruction = pspsharp.Allegrex.compiler.nativeCode.NativeCodeInstruction;
 	using NativeCodeSequence = pspsharp.Allegrex.compiler.nativeCode.NativeCodeSequence;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using Label = org.objectweb.asm.Label;
 	using MethodVisitor = org.objectweb.asm.MethodVisitor;
 	using Opcodes = org.objectweb.asm.Opcodes;
@@ -231,9 +231,9 @@ namespace pspsharp.Allegrex.compiler
 
 		protected internal virtual void startCompile(CompilerContext context, MethodVisitor mv)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(ToString());
+				Console.WriteLine(ToString());
 			}
 
 			context.CodeInstruction = this;
@@ -331,9 +331,9 @@ namespace pspsharp.Allegrex.compiler
 						NativeCodeSequence nativeCodeSequence = ((NativeCodeInstruction) nativeCodeInstruction).NativeCodeSequence;
 						if (getDelaySlotCodeInstruction(context).Opcode == nativeCodeSequence.FirstOpcode)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("0x{0:X8}: branching to the 2nd instruction of a native code sequence, assuming the 1st instruction", Address));
+								Console.WriteLine(string.Format("0x{0:X8}: branching to the 2nd instruction of a native code sequence, assuming the 1st instruction", Address));
 							}
 							branchingToCodeInstruction = nativeCodeInstruction;
 						}
@@ -360,9 +360,9 @@ namespace pspsharp.Allegrex.compiler
 						CodeInstruction beforeBranchingToCodeInstruction = context.CodeBlock.getCodeInstruction(BranchingTo - 4);
 						if (beforeBranchingToCodeInstruction != null && beforeBranchingToCodeInstruction.hasFlags(Instruction.FLAG_HAS_DELAY_SLOT))
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("0x{0:X8}: branching to a NOP in a delay slot, correcting to the next instruction", Address));
+								Console.WriteLine(string.Format("0x{0:X8}: branching to a NOP in a delay slot, correcting to the next instruction", Address));
 							}
 							branchingToCodeInstruction = context.CodeBlock.getCodeInstruction(BranchingTo + 4);
 						}
@@ -396,7 +396,7 @@ namespace pspsharp.Allegrex.compiler
 		{
 			if (delaySlotCodeInstruction == null)
 			{
-				log.error(string.Format("Cannot find delay slot instruction at 0x{0:X8}", Address + 4));
+				Console.WriteLine(string.Format("Cannot find delay slot instruction at 0x{0:X8}", Address + 4));
 				return;
 			}
 
@@ -405,7 +405,7 @@ namespace pspsharp.Allegrex.compiler
 				// Issue a warning when compiling an instruction having a delay slot inside a delay slot.
 				// See http://code.google.com/p/pcsx2/source/detail?r=5541
 				string lineSeparator = System.getProperty("line.separator");
-				log.warn(string.Format("Instruction in a delay slot having a delay slot:{0}{1}{2}{3}", lineSeparator, this, lineSeparator, delaySlotCodeInstruction));
+				Console.WriteLine(string.Format("Instruction in a delay slot having a delay slot:{0}{1}{2}{3}", lineSeparator, this, lineSeparator, delaySlotCodeInstruction));
 			}
 
 			delaySlotCodeInstruction.IsDelaySlot = true;
@@ -598,7 +598,7 @@ namespace pspsharp.Allegrex.compiler
 				//    jr  $ra
 				//    nop
 				string lineSeparator = System.getProperty("line.separator");
-				log.warn(string.Format("Instruction in a delay slot having a delay slot:{0}{1}{2}{3}", lineSeparator, this, lineSeparator, delaySlotCodeInstruction));
+				Console.WriteLine(string.Format("Instruction in a delay slot having a delay slot:{0}{1}{2}{3}", lineSeparator, this, lineSeparator, delaySlotCodeInstruction));
 			}
 			else
 			{
@@ -800,7 +800,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 			else
 			{
-				log.error("CodeInstruction.getBranchingOpcode: unknown instruction " + insn.disasm(Address, Opcode));
+				Console.WriteLine("CodeInstruction.getBranchingOpcode: unknown instruction " + insn.disasm(Address, Opcode));
 			}
 
 			return branchingOpcode;

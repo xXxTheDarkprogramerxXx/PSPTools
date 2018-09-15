@@ -25,8 +25,8 @@ namespace pspsharp.filesystems
 	{
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public long length() throws java.io.IOException;
-		long length();
+//ORIGINAL LINE: public long Length() throws java.io.IOException;
+		long Length();
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
 //ORIGINAL LINE: public void seek(long position) throws java.io.IOException;

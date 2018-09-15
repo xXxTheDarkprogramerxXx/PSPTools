@@ -815,7 +815,7 @@ namespace pspsharp.Allegrex
 		}
 		catch (Exception e)
 		{
-			log.error("syscall", e);
+			Console.WriteLine("syscall", e);
 		}
 	}
 	public override void compile(ICompilerContext context, int insn)
@@ -886,7 +886,7 @@ namespace pspsharp.Allegrex
 		}
 		else
 		{
-			log.error(string.Format("0x{0:X8} - Allegrex break 0x{1:X5}", processor.cpu.pc, imm20));
+			Console.WriteLine(string.Format("0x{0:X8} - Allegrex break 0x{1:X5}", processor.cpu.pc, imm20));
 
 			// Pause the emulator only if not ignoring invalid memory accesses
 			// (I'm too lazy to introduce a new configuration flag to ignore "break" instructions).
@@ -966,7 +966,7 @@ namespace pspsharp.Allegrex
 		}
 		catch (StopThreadException)
 		{
-			log.error("Exception catched while interpreting the halt instruction");
+			Console.WriteLine("Exception catched while interpreting the halt instruction");
 		}
 	}
 	public override void compile(ICompilerContext context, int insn)
@@ -1067,7 +1067,7 @@ namespace pspsharp.Allegrex
 			}
 			catch (StopThreadException e)
 			{
-				log.error("Catched exception while executing mtic instruction", e);
+				Console.WriteLine("Catched exception while executing mtic instruction", e);
 			}
 		}
 	}
@@ -5449,7 +5449,7 @@ namespace pspsharp.Allegrex
 					{
 						CodeInstruction sequence = new SequenceLWCodeInstruction(rs, offsets, registers);
 						sequence.Address = context.CodeInstruction.Address;
-						Compiler.log.debug(sequence);
+						Compiler.Console.WriteLine(sequence);
 					}
 
 					// Skip the next lw instructions
@@ -5731,7 +5731,7 @@ namespace pspsharp.Allegrex
 				{
 					CodeInstruction sequence = new SequenceSWCodeInstruction(rs, offsets, registers);
 					sequence.Address = context.CodeInstruction.Address;
-					Compiler.log.debug(sequence);
+					Compiler.Console.WriteLine(sequence);
 				}
 
 				// Skip the next sw instructions
@@ -6127,7 +6127,7 @@ namespace pspsharp.Allegrex
 			{
 				if (Compiler.log.DebugEnabled)
 				{
-					Compiler.log.debug(string.Format("lv.q sequence 0x{0:X8}-0x{1:X8}", address, address + countSequence * 4 - 4));
+					Compiler.Console.WriteLine(string.Format("lv.q sequence 0x{0:X8}-0x{1:X8}", address, address + countSequence * 4 - 4));
 				}
 
 				// Skip the next lv.q instructions
@@ -6457,7 +6457,7 @@ namespace pspsharp.Allegrex
 			{
 				if (Compiler.log.DebugEnabled)
 				{
-					Compiler.log.debug(string.Format("   sv.q sequence 0x{0:X8}-0x{1:X8}", address, address + countSequence * 4 - 4));
+					Compiler.Console.WriteLine(string.Format("   sv.q sequence 0x{0:X8}-0x{1:X8}", address, address + countSequence * 4 - 4));
 				}
 
 				// Skip the next sv.q instructions
@@ -6714,7 +6714,7 @@ namespace pspsharp.Allegrex
 
 	public override sealed string name()
 	{
-		return "SQRT.S";
+		return "Sqrt.S";
 	}
 	public override sealed string category()
 	{
@@ -6734,7 +6734,7 @@ namespace pspsharp.Allegrex
 		context.prepareFdForStore();
 		context.loadFs();
 		context.MethodVisitor.visitInsn(Opcodes.F2D);
-		context.MethodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(typeof(Math)), "sqrt", "(D)D");
+		context.MethodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(typeof(Math)), "Sqrt", "(D)D");
 		context.MethodVisitor.visitInsn(Opcodes.D2F);
 		context.storeFd();
 	}
@@ -6743,7 +6743,7 @@ namespace pspsharp.Allegrex
 		int fd = (insn >> 6) & 31;
 		int fs = (insn >> 11) & 31;
 
-	return Common.disasmFDFS("sqrt.s", fd, fs);
+	return Common.disasmFDFS("Sqrt.s", fd, fs);
 	}
 	}
 	public static readonly Instruction ABS_S = new InstructionAnonymousInnerClass134();
@@ -9303,7 +9303,7 @@ namespace pspsharp.Allegrex
 	}
 	public override void compile(ICompilerContext context, int insn)
 	{
-		context.compileVFPUInstr(1.0f, Opcodes.FDIV, "sqrt");
+		context.compileVFPUInstr(1.0f, Opcodes.FDIV, "Sqrt");
 	}
 	public override string disasm(int address, int insn)
 	{
@@ -9513,7 +9513,7 @@ namespace pspsharp.Allegrex
 	}
 	public override void compile(ICompilerContext context, int insn)
 	{
-		context.compileVFPUInstr(null, Opcodes.NOP, "sqrt");
+		context.compileVFPUInstr(null, Opcodes.NOP, "Sqrt");
 	}
 	public override string disasm(int address, int insn)
 	{
@@ -11172,7 +11172,7 @@ namespace pspsharp.Allegrex
 			mv.visitJumpInsn(Opcodes.GOTO, afterLabel);
 			mv.visitLabel(notNaNValueLabel);
 			mv.visitInsn(Opcodes.F2D);
-			mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(typeof(Math)), "rint", "(D)D");
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, Type.getInternalName(typeof(Math)), "Round", "(D)D");
 			mv.visitInsn(Opcodes.D2I);
 			mv.visitLabel(afterLabel);
 			context.storeVdInt(n);

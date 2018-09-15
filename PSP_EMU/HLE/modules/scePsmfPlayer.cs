@@ -57,7 +57,7 @@ namespace pspsharp.HLE.modules
 	using Atrac3plusDecoder = pspsharp.media.codec.atrac3plus.Atrac3plusDecoder;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class scePsmfPlayer : HLEModule
 	{
@@ -77,7 +77,7 @@ namespace pspsharp.HLE.modules
 			audioSamplesBytes = audioSamples * 4;
 		}
 
-		public static Logger log = Modules.getLogger("scePsmfPlayer");
+		//public static Logger log = Modules.getLogger("scePsmfPlayer");
 
 		// PSMF Player timing management.
 		protected internal const int psmfPlayerVideoTimestampStep = sceMpeg.videoTimestampStep;
@@ -175,9 +175,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (psmfPlayerStatus == PSMF_PLAYER_STATUS_NONE)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("checkPlayerInitialized player not initialized (status=0x{0:X})", psmfPlayerStatus));
+					Console.WriteLine(string.Format("checkPlayerInitialized player not initialized (status=0x{0:X})", psmfPlayerStatus));
 				}
 				throw new SceKernelErrorException(ERROR_PSMFPLAYER_NOT_INITIALIZED);
 			}
@@ -190,9 +190,9 @@ namespace pspsharp.HLE.modules
 			psmfPlayer = checkPlayerInitialized(psmfPlayer);
 			if (psmfPlayerStatus != PSMF_PLAYER_STATUS_PLAYING && psmfPlayerStatus != PSMF_PLAYER_STATUS_PLAYING_FINISHED && psmfPlayerStatus != PSMF_PLAYER_STATUS_ERROR)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("checkPlayerInitialized player not playing (status=0x{0:X})", psmfPlayerStatus));
+					Console.WriteLine(string.Format("checkPlayerInitialized player not playing (status=0x{0:X})", psmfPlayerStatus));
 				}
 				throw new SceKernelErrorException(ERROR_PSMFPLAYER_NOT_INITIALIZED);
 			}
@@ -242,7 +242,7 @@ namespace pspsharp.HLE.modules
 
 			if (offset != 0)
 			{
-				log.warn(string.Format("hlePsmfPlayerSetPsmf unimplemented offset=0x{0:X}", offset));
+				Console.WriteLine(string.Format("hlePsmfPlayerSetPsmf unimplemented offset=0x{0:X}", offset));
 			}
 
 			pmfFilePath = fileAddr.String;
@@ -258,30 +258,30 @@ namespace pspsharp.HLE.modules
 				SeekableDataInput psmfFile = Modules.IoFileMgrForUserModule.getFile(pmfFilePath, 0);
 				psmfFile.seek(offset);
 
-				int length = (int) psmfFile.length() - offset;
+				int Length = (int) psmfFile.Length() - offset;
 				// Some PSMF files have an incorrect size stored into their header.
 				// It seems that the PSP is ignoring this size when using scePsmfPlayerSetPsmf().
 				// However, the size is probably not ignored when using scePsmfPlayerSetPsmfOffset().
 				if (useSizeFromPsmfHeader)
 				{
-					// Try to find the length of the PSMF file by reading the PSMF header
+					// Try to find the Length of the PSMF file by reading the PSMF header
 					sbyte[] header = new sbyte[pspsharp.filesystems.umdiso.ISectorDevice_Fields.sectorLength];
 					psmfFile.readFully(header);
 					int psmfMagic = read32(null, 0, header, PSMF_MAGIC_OFFSET);
 					if (psmfMagic == PSMF_MAGIC)
 					{
 						// Found the PSMF header, extract the file size from the stream size and offset.
-						length = endianSwap32(read32(null, 0, header, PSMF_STREAM_SIZE_OFFSET));
-						length += endianSwap32(read32(null, 0, header, PSMF_STREAM_OFFSET_OFFSET));
-						if (log.DebugEnabled)
+						Length = endianSwap32(read32(null, 0, header, PSMF_STREAM_SIZE_OFFSET));
+						Length += endianSwap32(read32(null, 0, header, PSMF_STREAM_OFFSET_OFFSET));
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("PSMF length=0x{0:X}, header: {1}", length, Utilities.getMemoryDump(header, 0, header.Length)));
+							Console.WriteLine(string.Format("PSMF Length=0x{0:X}, header: {1}", Length, Utilities.getMemoryDump(header, 0, header.Length)));
 						}
 					}
 				}
 
 				psmfFile.seek(offset);
-				pmfFileData = new sbyte[length];
+				pmfFileData = new sbyte[Length];
 				psmfFile.readFully(pmfFileData);
 				psmfFile.Dispose();
 
@@ -290,11 +290,11 @@ namespace pspsharp.HLE.modules
 			}
 			catch (System.OutOfMemoryException e)
 			{
-				log.error("hlePsmfPlayerSetPsmf", e);
+				Console.WriteLine("hlePsmfPlayerSetPsmf", e);
 			}
 			catch (IOException e)
 			{
-				log.error("hlePsmfPlayerSetPsmf", e);
+				Console.WriteLine("hlePsmfPlayerSetPsmf", e);
 			}
 
 			// Switch to STANDBY.
@@ -339,7 +339,7 @@ namespace pspsharp.HLE.modules
 				if (log.TraceEnabled)
 				{
 					log.trace(string.Format("Filling ringbuffer at 0x{0:X8}, size=0x{1:X} with file data from offset 0x{2:X}", addr, size, pmfFileDataRingbufferPosition));
-					log.trace(string.Format("Ringbuffer putSequentialPackets={0:D}, file data length=0x{1:X}, position=0x{2:X}", ringbuffer.PutSequentialPackets, pmfFileData.Length, pmfFileDataRingbufferPosition));
+					log.trace(string.Format("Ringbuffer putSequentialPackets={0:D}, file data Length=0x{1:X}, position=0x{2:X}", ringbuffer.PutSequentialPackets, pmfFileData.Length, pmfFileDataRingbufferPosition));
 				}
 				for (int i = 0; i < size; i++)
 				{
@@ -371,7 +371,7 @@ namespace pspsharp.HLE.modules
 			int result = Modules.sceMpegModule.hleMpegCreate(TPointer.NULL, new TPointer(mem, mpegMem.addr), MPEG_MEMSIZE, null, Screen.width, 0, 0);
 			if (result < 0)
 			{
-				log.error(string.Format("scePsmfPlayerCreate: error 0x{0:X8} while calling hleMpegCreate", result));
+				Console.WriteLine(string.Format("scePsmfPlayerCreate: error 0x{0:X8} while calling hleMpegCreate", result));
 			}
 
 			// Allocate memory for the ringbuffer, scePsmfPlayer creates a ringbuffer with 581 packets
@@ -517,9 +517,9 @@ namespace pspsharp.HLE.modules
 			// Can be called from interrupt.
 			// Check playback status.
 			int remainingFileData = RemainingFileData;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePsmfPlayerUpdate remainingFileData=0x{0:X}", remainingFileData));
+				Console.WriteLine(string.Format("scePsmfPlayerUpdate remainingFileData=0x{0:X}", remainingFileData));
 			}
 
 			if (remainingFileData <= 0)
@@ -547,9 +547,9 @@ namespace pspsharp.HLE.modules
 
 			if (playMode == PSMF_PLAYER_MODE_PAUSE)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("scePsmfPlayerGetVideoData in pause mode, returning 0x{0:X8}", result));
+					Console.WriteLine(string.Format("scePsmfPlayerGetVideoData in pause mode, returning 0x{0:X8}", result));
 				}
 				return result;
 			}
@@ -559,9 +559,9 @@ namespace pspsharp.HLE.modules
 				videoDataFrameWidth = videoDataAddr.getValue(0);
 				videoDataDisplayBuffer = videoDataAddr.getValue(4) & Memory.addressMask;
 				videoDataDisplayPts = videoDataAddr.getValue(8);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("scePsmfPlayerGetVideoData videoDataFrameWidth={0:D}, videoDataDisplayBuffer=0x{1:X8}, videoDataDisplayPts={2:D}", videoDataFrameWidth, videoDataDisplayBuffer, videoDataDisplayPts));
+					Console.WriteLine(string.Format("scePsmfPlayerGetVideoData videoDataFrameWidth={0:D}, videoDataDisplayBuffer=0x{1:X8}, videoDataDisplayPts={2:D}", videoDataFrameWidth, videoDataDisplayBuffer, videoDataDisplayPts));
 				}
 			}
 
@@ -616,9 +616,9 @@ namespace pspsharp.HLE.modules
 			// Return updated timestamp
 			videoDataAddr.setValue(8, (int) CurrentVideoTimestamp);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePsmfPlayerGetVideoData currentVideoTimestamp={0:D}, returning 0x{1:X8}", CurrentVideoTimestamp, result));
+				Console.WriteLine(string.Format("scePsmfPlayerGetVideoData currentVideoTimestamp={0:D}, returning 0x{1:X8}", CurrentVideoTimestamp, result));
 			}
 
 			return result;
@@ -633,9 +633,9 @@ namespace pspsharp.HLE.modules
 
 			if (playMode == PSMF_PLAYER_MODE_PAUSE)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("scePsmfPlayerGetAudioData in pause mode, returning 0x{0:X8}", result));
+					Console.WriteLine(string.Format("scePsmfPlayerGetAudioData in pause mode, returning 0x{0:X8}", result));
 				}
 				// Clear the audio buffer (silent audio returned)
 				audioDataAddr.clear(audioSamplesBytes);
@@ -659,9 +659,9 @@ namespace pspsharp.HLE.modules
 				result = Modules.sceMpegModule.hleMpegAtracDecode(null, audioDataAddr, audioSamplesBytes);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePsmfPlayerGetAudioData currentAudioTimestamp={0:D}, returning 0x{1:X8}", CurrentAudioTimestamp, result));
+				Console.WriteLine(string.Format("scePsmfPlayerGetAudioData currentAudioTimestamp={0:D}, returning 0x{1:X8}", CurrentAudioTimestamp, result));
 			}
 
 			return result;
@@ -673,9 +673,9 @@ namespace pspsharp.HLE.modules
 		public virtual int scePsmfPlayerGetCurrentStatus(int psmfPlayer)
 		{
 			// scePsmfPlayerGetCurrentStatus can be called from an interrupt
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePsmfPlayerGetCurrentStatus returning status 0x{0:X}", psmfPlayerStatus));
+				Console.WriteLine(string.Format("scePsmfPlayerGetCurrentStatus returning status 0x{0:X}", psmfPlayerStatus));
 			}
 
 			return psmfPlayerStatus;
@@ -733,7 +733,7 @@ namespace pspsharp.HLE.modules
 						break;
 					case 4:
 						// This value is accepted, but its function is unknown
-						log.warn(string.Format("scePsmfPlayerConfigPlayer unknown pixelMode={0:D}", configAttr));
+						Console.WriteLine(string.Format("scePsmfPlayerConfigPlayer unknown pixelMode={0:D}", configAttr));
 						break;
 					default:
 						return SceKernelErrors.ERROR_PSMFPLAYER_INVALID_CONFIG_VALUE;
@@ -741,7 +741,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("scePsmfPlayerConfigPlayer invalid configMode={0:D}, configAttr={1:D}", configMode, configAttr));
+				Console.WriteLine(string.Format("scePsmfPlayerConfigPlayer invalid configMode={0:D}, configAttr={1:D}", configMode, configAttr));
 				return SceKernelErrors.ERROR_PSMFPLAYER_INVALID_CONFIG_MODE;
 			}
 

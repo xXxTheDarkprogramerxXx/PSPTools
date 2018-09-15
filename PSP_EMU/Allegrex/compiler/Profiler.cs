@@ -24,7 +24,7 @@ namespace pspsharp.Allegrex.compiler
 	using AbstractBoolSettingsListener = pspsharp.settings.AbstractBoolSettingsListener;
 	using Settings = pspsharp.settings.Settings;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/// <summary>
 	/// @author gid15
@@ -33,7 +33,7 @@ namespace pspsharp.Allegrex.compiler
 	public class Profiler
 	{
 
-		public static Logger log = Logger.getLogger("profiler");
+		//public static Logger log = Logger.getLogger("profiler");
 		private static bool profilerEnabled = false;
 		private static readonly Dictionary<int, long> callCounts = new Dictionary<int, long>();
 		private static readonly Dictionary<int, long> instructionCounts = new Dictionary<int, long>();
@@ -147,15 +147,15 @@ namespace pspsharp.Allegrex.compiler
 			}
 			int lowestAddress = codeBlock.LowestAddress;
 			int highestAddress = codeBlock.HighestAddress;
-			int length = (highestAddress - lowestAddress) / 4 + 1;
+			int Length = (highestAddress - lowestAddress) / 4 + 1;
 			double percentage = 0;
 			if (allCycles != 0)
 			{
 				percentage = (instructionCount / (double) allCycles) * 100;
 			}
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.info(String.format("%s %,d instructions (%2.3f%%), %,d calls (%08X - %08X, length %d)", name, instructionCount, percentage, callCount, lowestAddress, highestAddress, length));
-			log.info(string.Format("%s %,d instructions (%2.3f%%), %,d calls (%08X - %08X, length %d)", name, instructionCount, percentage, callCount, lowestAddress, highestAddress, length));
+//ORIGINAL LINE: log.info(String.format("%s %,d instructions (%2.3f%%), %,d calls (%08X - %08X, Length %d)", name, instructionCount, percentage, callCount, lowestAddress, highestAddress, Length));
+			log.info(string.Format("%s %,d instructions (%2.3f%%), %,d calls (%08X - %08X, Length %d)", name, instructionCount, percentage, callCount, lowestAddress, highestAddress, Length));
 			if (count < detailedCodeBlockLogThreshold && codeBlock.Length <= codeLogMaxLength)
 			{
 				logCode(codeBlock);
@@ -175,8 +175,8 @@ namespace pspsharp.Allegrex.compiler
 				// Add 2 for branch instruction itself and delay slot
 				int backBranchLength = (address - branchingToAddress) / 4 + 2;
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.info(String.format("  Back Branch %08X %,d times (length %d)", address, backBranchCounts.get(address), backBranchLength));
-				log.info(string.Format("  Back Branch %08X %,d times (length %d)", address, backBranchCounts[address], backBranchLength));
+//ORIGINAL LINE: log.info(String.format("  Back Branch %08X %,d times (Length %d)", address, backBranchCounts.get(address), backBranchLength));
+				log.info(string.Format("  Back Branch %08X %,d times (Length %d)", address, backBranchCounts[address], backBranchLength));
 				if (count < detailedCodeBlockLogThreshold && backBranchLength <= backBranchMaxLength)
 				{
 					logCode(codeBlock, branchingToAddress, backBranchLength, backBranchContextBefore, backBranchContextAfter, address);
@@ -220,9 +220,9 @@ namespace pspsharp.Allegrex.compiler
 			}
 		}
 
-		private static void logCode(CodeBlock codeBlock, int startAddress, int length, int contextBefore, int contextAfter, int highlightAddress)
+		private static void logCode(CodeBlock codeBlock, int startAddress, int Length, int contextBefore, int contextAfter, int highlightAddress)
 		{
-			for (int i = -contextBefore; i < length + contextAfter; i++)
+			for (int i = -contextBefore; i < Length + contextAfter; i++)
 			{
 				int address = startAddress + (i * 4);
 				CodeInstruction codeInstruction = codeBlock.getCodeInstruction(address);

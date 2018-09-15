@@ -60,7 +60,7 @@ namespace pspsharp.HLE.kernel.types
 			if (dataUpperBound > data + size)
 			{
 				dataUpperBound = data + size;
-				Modules.log.warn("SceMpegRingbuffer clamping dataUpperBound to " + dataUpperBound);
+				Modules.Console.WriteLine("SceMpegRingbuffer clamping dataUpperBound to " + dataUpperBound);
 			}
 
 			reset();
@@ -235,9 +235,9 @@ namespace pspsharp.HLE.kernel.types
 			}
 		}
 
-		public virtual int getTmpAddress(int length)
+		public virtual int getTmpAddress(int Length)
 		{
-			return dataUpperBound - length;
+			return dataUpperBound - Length;
 		}
 
 		public virtual int Mpeg

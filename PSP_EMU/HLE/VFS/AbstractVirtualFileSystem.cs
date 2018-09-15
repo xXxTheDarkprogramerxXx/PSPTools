@@ -22,7 +22,7 @@ namespace pspsharp.HLE.VFS
 //	import static pspsharp.HLE.kernel.types.SceKernelErrors.ERROR_KERNEL_UNSUPPORTED_OPERATION;
 
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceIoDirent = pspsharp.HLE.kernel.types.SceIoDirent;
 	using SceIoStat = pspsharp.HLE.kernel.types.SceIoStat;
@@ -158,14 +158,14 @@ namespace pspsharp.HLE.VFS
 		{
 			if (log.isEnabledFor(Level.WARN))
 			{
-				log.warn(string.Format("ioDevctl on '{0}', 0x{1:X8} unsupported command, inlen={2:D}, outlen={3:D}", deviceName, command, inputLength, outputLength));
+				Console.WriteLine(string.Format("ioDevctl on '{0}', 0x{1:X8} unsupported command, inlen={2:D}, outlen={3:D}", deviceName, command, inputLength, outputLength));
 				if (inputPointer.AddressGood)
 				{
-					log.warn(string.Format("ioDevctl indata: {0}", Utilities.getMemoryDump(inputPointer.Address, inputLength)));
+					Console.WriteLine(string.Format("ioDevctl indata: {0}", Utilities.getMemoryDump(inputPointer.Address, inputLength)));
 				}
 				if (outputPointer.AddressGood)
 				{
-					log.warn(string.Format("ioDevctl outdata: {0}", Utilities.getMemoryDump(outputPointer.Address, outputLength)));
+					Console.WriteLine(string.Format("ioDevctl outdata: {0}", Utilities.getMemoryDump(outputPointer.Address, outputLength)));
 				}
 			}
 

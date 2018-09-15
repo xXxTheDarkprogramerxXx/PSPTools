@@ -28,11 +28,11 @@ namespace pspsharp.HLE.modules
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using SysMemInfo = pspsharp.HLE.modules.SysMemUserForUser.SysMemInfo;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceHeap : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceHeap");
+		//public static Logger log = Modules.getLogger("sceHeap");
 
 		protected internal const int PSP_HEAP_ATTR_ADDR_HIGH = 0x4000; // Create the heap in high memory.
 		protected internal const int PSP_HEAP_ATTR_EXT = 0x8000; // Automatically extend the heap's memory.
@@ -179,14 +179,14 @@ namespace pspsharp.HLE.modules
 				if (paramSize == 8)
 				{
 					alignment = paramAddr.getValue(4);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceHeapAllocHeapMemoryWithOption options: struct size={0:D}, alignment=0x{1:X}", paramSize, alignment));
+						Console.WriteLine(string.Format("sceHeapAllocHeapMemoryWithOption options: struct size={0:D}, alignment=0x{1:X}", paramSize, alignment));
 					}
 				}
 				else
 				{
-					log.warn(string.Format("sceHeapAllocHeapMemoryWithOption option at {0}(size={1:D})", paramAddr, paramSize));
+					Console.WriteLine(string.Format("sceHeapAllocHeapMemoryWithOption option at {0}(size={1:D})", paramAddr, paramSize));
 				}
 			}
 
@@ -251,7 +251,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (paramAddr.NotNull)
 			{
-				log.warn(string.Format("sceHeapCreateHeap unknown option at {0}", paramAddr));
+				Console.WriteLine(string.Format("sceHeapCreateHeap unknown option at {0}", paramAddr));
 			}
 
 			int memType = PSP_SMEM_Low;
@@ -272,7 +272,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("sceHeapCreateHeap not enough free mem (want={0:D}, free={1:D}, diff={2:D})", totalHeapSize, maxFreeSize, totalHeapSize - maxFreeSize));
+				Console.WriteLine(string.Format("sceHeapCreateHeap not enough free mem (want={0:D}, free={1:D}, diff={2:D})", totalHeapSize, maxFreeSize, totalHeapSize - maxFreeSize));
 			}
 			if (info == null)
 			{

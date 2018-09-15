@@ -63,7 +63,7 @@ namespace pspsharp.media.codec.atrac3plus
 	using BitReader = pspsharp.media.codec.util.BitReader;
 	using VLC = pspsharp.media.codec.util.VLC;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * Based on the FFmpeg version from Maxim Poliakovski.
@@ -155,8 +155,8 @@ namespace pspsharp.media.codec.atrac3plus
 			int cbIndex = 0;
 			int index = 0;
 			int code = 0;
-			int minLen = cb[cbIndex++]; // get shortest codeword length
-			int maxLen = cb[cbIndex++]; // get longest  codeword length
+			int minLen = cb[cbIndex++]; // get shortest codeword Length
+			int maxLen = cb[cbIndex++]; // get longest  codeword Length
 
 			for (int b = minLen; b <= maxLen; b++)
 			{
@@ -203,7 +203,7 @@ namespace pspsharp.media.codec.atrac3plus
 			ctx.numQuantUnits = br.read(5) + 1;
 			if (ctx.numQuantUnits > 28 && ctx.numQuantUnits < 32)
 			{
-				log.error(string.Format("Invalid number of quantization units: {0:D}", ctx.numQuantUnits));
+				Console.WriteLine(string.Format("Invalid number of quantization units: {0:D}", ctx.numQuantUnits));
 				return AT3P_ERROR;
 			}
 
@@ -279,7 +279,7 @@ namespace pspsharp.media.codec.atrac3plus
 				chan.numCodedVals = br.read(5);
 				if (chan.numCodedVals > ctx.numQuantUnits)
 				{
-					log.error(string.Format("Invalid number of transmitted units"));
+					Console.WriteLine(string.Format("Invalid number of transmitted units"));
 					return AT3P_ERROR;
 				}
 
@@ -326,7 +326,7 @@ namespace pspsharp.media.codec.atrac3plus
 		}
 
 		/// <summary>
-		/// Add weighting coefficients to the decoded word-length information.
+		/// Add weighting coefficients to the decoded word-Length information.
 		/// 
 		/// @param[in,out] chan          ptr to the channel parameters
 		/// @param[in]     wtab_idx      index of the table of weights </summary>
@@ -340,7 +340,7 @@ namespace pspsharp.media.codec.atrac3plus
 				chan.quWordlen[i] += weigthsTab[i];
 				if (chan.quWordlen[i] < 0 || chan.quWordlen[i] > 7)
 				{
-					log.error(string.Format("WL index out of range pos={0:D}, val={1:D}", i, chan.quWordlen[i]));
+					Console.WriteLine(string.Format("WL index out of range pos={0:D}, val={1:D}", i, chan.quWordlen[i]));
 					return AT3P_ERROR;
 				}
 			}
@@ -349,7 +349,7 @@ namespace pspsharp.media.codec.atrac3plus
 		}
 
 		/// <summary>
-		/// Decode word length for each quantization unit of a channel.
+		/// Decode word Length for each quantization unit of a channel.
 		/// 
 		/// @param[in]     chNum        channel to process </summary>
 		/// <returns> result code: 0 = OK, otherwise - error code </returns>
@@ -404,7 +404,7 @@ namespace pspsharp.media.codec.atrac3plus
 							int pos = br.read(5);
 							if (pos > chan.numCodedVals)
 							{
-								log.error(string.Format("WL mode 1: invalid position {0:D}", pos));
+								Console.WriteLine(string.Format("WL mode 1: invalid position {0:D}", pos));
 								return AT3P_ERROR;
 							}
 
@@ -541,7 +541,7 @@ namespace pspsharp.media.codec.atrac3plus
 				chan.quSfIdx[i] -= weigthsTab[i];
 				if (chan.quSfIdx[i] < 0 || chan.quSfIdx[i] > 63)
 				{
-					log.error(string.Format("SF index out of range pos={0:D}, val={1:D}", i, chan.quSfIdx[i]));
+					Console.WriteLine(string.Format("SF index out of range pos={0:D}, val={1:D}", i, chan.quSfIdx[i]));
 					return AT3P_ERROR;
 				}
 			}
@@ -610,7 +610,7 @@ namespace pspsharp.media.codec.atrac3plus
 							int minVal = br.read(6);
 							if (numLongVals > ctx.usedQuantUnits || deltaBits == 7)
 							{
-								log.error(string.Format("SF mode 1: invalid parameters"));
+								Console.WriteLine(string.Format("SF mode 1: invalid parameters"));
 								return AT3P_ERROR;
 							}
 
@@ -711,14 +711,14 @@ namespace pspsharp.media.codec.atrac3plus
 		}
 
 		/// <summary>
-		/// Decode word length information for each channel.
+		/// Decode word Length information for each channel.
 		/// </summary>
 		/// <returns> result code: 0 = OK, otherwise - error code </returns>
 		private int decodeQuantWordlen()
 		{
 			for (int chNum = 0; chNum < numChannels; chNum++)
 			{
-				Arrays.fill(ctx.channels[chNum].quWordlen, 0);
+				Arrays.Fill(ctx.channels[chNum].quWordlen, 0);
 
 				int ret = decodeChannelWordlen(chNum);
 				if (ret < 0)
@@ -751,7 +751,7 @@ namespace pspsharp.media.codec.atrac3plus
 
 			for (int chNum = 0; chNum < numChannels; chNum++)
 			{
-				Arrays.fill(ctx.channels[chNum].quSfIdx, 0);
+				Arrays.Fill(ctx.channels[chNum].quSfIdx, 0);
 
 				int ret = decodeChannelSfIdx(chNum);
 				if (ret < 0)
@@ -779,7 +779,7 @@ namespace pspsharp.media.codec.atrac3plus
 				int numCodedVals = br.read(5);
 				if (numCodedVals > ctx.usedQuantUnits)
 				{
-					log.error(string.Format("Invalid number of code table indexes: {0:D}", numCodedVals));
+					Console.WriteLine(string.Format("Invalid number of code table indexes: {0:D}", numCodedVals));
 					return AT3P_ERROR;
 				}
 				return numCodedVals;
@@ -918,7 +918,7 @@ namespace pspsharp.media.codec.atrac3plus
 
 			for (int chNum = 0; chNum < numChannels; chNum++)
 			{
-				Arrays.fill(ctx.channels[chNum].quTabIdx, 0);
+				Arrays.Fill(ctx.channels[chNum].quTabIdx, 0);
 
 				int ret = decodeChannelCodeTab(chNum);
 				if (ret < 0)
@@ -978,9 +978,9 @@ namespace pspsharp.media.codec.atrac3plus
 			{
 				Channel chan = ctx.channels[chNum];
 
-				Arrays.fill(chan.spectrum, 0);
+				Arrays.Fill(chan.spectrum, 0);
 
-				Arrays.fill(chan.powerLevs, ATRAC3P_POWER_COMP_OFF);
+				Arrays.Fill(chan.powerLevs, ATRAC3P_POWER_COMP_OFF);
 
 				for (int qu = 0; qu < ctx.usedQuantUnits; qu++)
 				{
@@ -1077,13 +1077,13 @@ namespace pspsharp.media.codec.atrac3plus
 
 			switch (br.read(2))
 			{ // switch according to coding mode
-				case 0: // fixed-length coding
+				case 0: // fixed-Length coding
 					for (int i = 0; i < codedSubbands; i++)
 					{
 						chan.gainData[i].numPoints = br.read(3);
 					}
 					break;
-				case 1: // variable-length coding
+				case 1: // variable-Length coding
 					for (int i = 0; i < codedSubbands; i++)
 					{
 						chan.gainData[i].numPoints = gain_vlc_tabs[0].getVLC2(br);
@@ -1183,7 +1183,7 @@ namespace pspsharp.media.codec.atrac3plus
 
 			switch (br.read(2))
 			{ // switch according to coding mode
-				case 0: // fixed-length coding
+				case 0: // fixed-Length coding
 					for (int sb = 0; sb < codedSubbands; sb++)
 					{
 						for (int i = 0; i < chan.gainData[sb].numPoints; i++)
@@ -1519,7 +1519,7 @@ namespace pspsharp.media.codec.atrac3plus
 				{
 					if (dst.locCode[i] < 0 || dst.locCode[i] > 31 || (i > 0 && dst.locCode[i] <= dst.locCode[i - 1]))
 					{
-						log.error(string.Format("Invalid gain location: ch={0:D}, sb={1:D}, pos={2:D}, val={3:D}", chNum, sb, i, dst.locCode[i]));
+						Console.WriteLine(string.Format("Invalid gain location: ch={0:D}, sb={1:D}, pos={2:D}, val={3:D}", chNum, sb, i, dst.locCode[i]));
 						return AT3P_ERROR;
 					}
 				}
@@ -1601,7 +1601,7 @@ namespace pspsharp.media.codec.atrac3plus
 			WavesData[] @ref = ctx.channels[0].tonesInfo;
 
 			if (chNum == 0 || !br.readBool())
-			{ // mode 0: fixed-length coding
+			{ // mode 0: fixed-Length coding
 				for (int sb = 0; sb < ctx.wavesInfo.numToneBands; sb++)
 				{
 					if (!bandHasTones[sb])
@@ -1642,7 +1642,7 @@ namespace pspsharp.media.codec.atrac3plus
 			int mode = br.read(chNum + 1);
 			switch (mode)
 			{
-				case 0: // fixed-length coding
+				case 0: // fixed-Length coding
 					for (int sb = 0; sb < ctx.wavesInfo.numToneBands; sb++)
 					{
 						if (bandHasTones[sb])
@@ -1651,7 +1651,7 @@ namespace pspsharp.media.codec.atrac3plus
 						}
 					}
 					break;
-				case 1: // variable-length coding
+				case 1: // variable-Length coding
 					for (int sb = 0; sb < ctx.wavesInfo.numToneBands; sb++)
 					{
 						if (bandHasTones[sb])
@@ -1689,7 +1689,7 @@ namespace pspsharp.media.codec.atrac3plus
 				{
 					if (ctx.wavesInfo.tonesIndex + dst[sb].numWavs > 48)
 					{
-						log.error(string.Format("Too many tones: {0:D} (max. 48)", ctx.wavesInfo.tonesIndex + dst[sb].numWavs));
+						Console.WriteLine(string.Format("Too many tones: {0:D} (max. 48)", ctx.wavesInfo.tonesIndex + dst[sb].numWavs));
 						return AT3P_ERROR;
 					}
 					dst[sb].startIndex = ctx.wavesInfo.tonesIndex;
@@ -1713,7 +1713,7 @@ namespace pspsharp.media.codec.atrac3plus
 			WavesData[] @ref = ctx.channels[0].tonesInfo;
 
 			if (chNum == 0 || !br.readBool())
-			{ // mode 0: fixed-length coding
+			{ // mode 0: fixed-Length coding
 				for (int sb = 0; sb < ctx.wavesInfo.numToneBands; sb++)
 				{
 					if (!bandHasTones[sb] || dst[sb].numWavs == 0)
@@ -1831,7 +1831,7 @@ namespace pspsharp.media.codec.atrac3plus
 
 			switch (mode)
 			{
-				case 0: // fixed-length coding
+				case 0: // fixed-Length coding
 					for (int sb = 0; sb < ctx.wavesInfo.numToneBands; sb++)
 					{
 						if (!bandHasTones[sb] || dst[sb].numWavs == 0)
@@ -1956,7 +1956,7 @@ namespace pspsharp.media.codec.atrac3plus
 			ctx.wavesInfo.amplitudeMode = br.read1();
 			if (ctx.wavesInfo.amplitudeMode == 0)
 			{
-				log.error(string.Format("GHA amplitude mode 0"));
+				Console.WriteLine(string.Format("GHA amplitude mode 0"));
 				return AT3P_ERROR;
 			}
 
@@ -1968,7 +1968,7 @@ namespace pspsharp.media.codec.atrac3plus
 				getSubbandFlags(ctx.wavesInfo.toneMaster, ctx.wavesInfo.numToneBands);
 				if (getSubbandFlags(ctx.wavesInfo.phaseShift, ctx.wavesInfo.numToneBands))
 				{
-					log.warn(string.Format("GHA Phase shifting"));
+					Console.WriteLine(string.Format("GHA Phase shifting"));
 				}
 			}
 
@@ -2029,7 +2029,7 @@ namespace pspsharp.media.codec.atrac3plus
 			{
 				for (int ch = 0; ch < numChannels; ch++)
 				{
-					Arrays.fill(@out[ch], 0f);
+					Arrays.Fill(@out[ch], 0f);
 				}
 				return;
 			}
@@ -2049,7 +2049,7 @@ namespace pspsharp.media.codec.atrac3plus
 			for (int ch = 0; ch < numChannels; ch++)
 			{
 				// clear channel's residual spectrum
-				Arrays.fill(@out[ch], 0, ATRAC3P_FRAME_SAMPLES, 0f);
+				Arrays.Fill(@out[ch], 0, ATRAC3P_FRAME_SAMPLES, 0f);
 
 				for (int qu = 0; qu < ctx.usedQuantUnits; qu++)
 				{
@@ -2114,8 +2114,8 @@ namespace pspsharp.media.codec.atrac3plus
 				}
 
 				// zero unused subbands in both output and overlapping buffers
-				Arrays.fill(ctx.prevBuf[ch], ctx.numSubbands * ATRAC3P_SUBBAND_SAMPLES, ctx.prevBuf[ch].Length, 0f);
-				Arrays.fill(at3pContext.timeBuf[ch], ctx.numSubbands * ATRAC3P_SUBBAND_SAMPLES, at3pContext.timeBuf[ch].Length, 0f);
+				Arrays.Fill(ctx.prevBuf[ch], ctx.numSubbands * ATRAC3P_SUBBAND_SAMPLES, ctx.prevBuf[ch].Length, 0f);
+				Arrays.Fill(at3pContext.timeBuf[ch], ctx.numSubbands * ATRAC3P_SUBBAND_SAMPLES, at3pContext.timeBuf[ch].Length, 0f);
 
 				// resynthesize and add tonal signal
 				if (ctx.wavesInfo.tonesPresent || ctx.wavesInfoPrev.tonesPresent)

@@ -19,7 +19,7 @@ namespace pspsharp.network.proonline
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.modules.sceNet.convertMacAddressToString;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using AdhocMatchingEventMessage = pspsharp.network.adhoc.AdhocMatchingEventMessage;
 	using MatchingObject = pspsharp.network.adhoc.MatchingObject;
@@ -29,7 +29,7 @@ namespace pspsharp.network.proonline
 	/// 
 	/// A generic ProOnlineAdhocMatchingEventMessage is consisting of:
 	/// - 1 byte for the event
-	/// - 4 bytes for the message data length
+	/// - 4 bytes for the message data Length
 	/// - n bytes for the message data
 	/// </summary>
 	public class ProOnlineAdhocMatchingEventMessage : AdhocMatchingEventMessage
@@ -43,12 +43,12 @@ namespace pspsharp.network.proonline
 			this.packetOpcode = packetOpcode;
 		}
 
-		public ProOnlineAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int packetOpcode, int address, int length, sbyte[] toMacAddress) : base(matchingObject, @event, address, length, toMacAddress)
+		public ProOnlineAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int packetOpcode, int address, int Length, sbyte[] toMacAddress) : base(matchingObject, @event, address, Length, toMacAddress)
 		{
 			this.packetOpcode = packetOpcode;
 		}
 
-		public ProOnlineAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, sbyte[] message, int length) : base(matchingObject, message, length)
+		public ProOnlineAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, sbyte[] message, int Length) : base(matchingObject, message, Length)
 		{
 			Event = @event;
 		}
@@ -67,14 +67,14 @@ namespace pspsharp.network.proonline
 			}
 		}
 
-		public override void setMessage(sbyte[] message, int length)
+		public override void setMessage(sbyte[] message, int Length)
 		{
-			if (length >= HEADER_SIZE)
+			if (Length >= HEADER_SIZE)
 			{
 				offset = 0;
 				PacketOpcode = copyByteFromBytes(message);
 				int dataLength = copyInt32FromBytes(message);
-				data = new sbyte[System.Math.Min(dataLength, length - HEADER_SIZE)];
+				data = new sbyte[System.Math.Min(dataLength, Length - HEADER_SIZE)];
 				copyFromBytes(message, data);
 			}
 		}

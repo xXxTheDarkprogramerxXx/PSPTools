@@ -104,7 +104,7 @@ namespace pspsharp.format.rco
 					return new UButtonObject();
 			}
 
-			RCO.log.warn(string.Format("ObjectFactory.newObject unknown type 0x{0:X}", type));
+			RCO.Console.WriteLine(string.Format("ObjectFactory.newObject unknown type 0x{0:X}", type));
 
 			return null;
 		}

@@ -31,8 +31,8 @@ namespace pspsharp.filesystems
 		public override abstract void seek(long position);
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: @Override public abstract long length() throws java.io.IOException;
-		public override abstract long length();
+//ORIGINAL LINE: @Override public abstract long Length() throws java.io.IOException;
+		public override abstract long Length();
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
 //ORIGINAL LINE: @Override public abstract int read() throws java.io.IOException;

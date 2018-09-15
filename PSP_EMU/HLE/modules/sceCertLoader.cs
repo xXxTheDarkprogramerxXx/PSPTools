@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceCertLoader : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceCertLoader");
+		//public static Logger log = Modules.getLogger("sceCertLoader");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xDD629A24, version = 150) public int sceLoadCertFromFlash(int unknown1, int unknown2, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown3, int unknown4, int unknown5, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 unknown6)

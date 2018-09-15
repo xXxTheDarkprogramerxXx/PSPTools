@@ -25,7 +25,7 @@ namespace pspsharp.HLE.modules
 //	import static pspsharp.HLE.modules.sceNetAdhocctl.fillNextPointersInLinkedList;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 	using SceUidManager = pspsharp.HLE.kernel.managers.SceUidManager;
@@ -36,7 +36,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceNetApctl : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetApctl");
+		//public static Logger log = Modules.getLogger("sceNetApctl");
 
 		public const int PSP_NET_APCTL_STATE_DISCONNECTED = 0;
 		public const int PSP_NET_APCTL_STATE_SCANNING = 1;
@@ -142,9 +142,9 @@ namespace pspsharp.HLE.modules
 				SceKernelThreadInfo thread = Modules.ThreadManForUserModule.CurrentThread;
 				if (thread != null)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Triggering hanlder 0x{0:X8}, oldState={1:D}, newState={2:D}, event={3:D}, error=0x{4:X8}", addr, oldState, newState, @event, error));
+						Console.WriteLine(string.Format("Triggering hanlder 0x{0:X8}, oldState={1:D}, newState={2:D}, event={3:D}, error=0x{4:X8}", addr, oldState, newState, @event, error));
 					}
 					Modules.ThreadManForUserModule.executeCallback(thread, addr, null, true, oldState, newState, @event, error, pArg);
 				}
@@ -239,11 +239,11 @@ namespace pspsharp.HLE.modules
 				}
 				catch (SocketException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 				catch (UnknownHostException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
     
 				return ssid;
@@ -339,9 +339,9 @@ namespace pspsharp.HLE.modules
 						InetAddress[] allLocalIPs = InetAddress.getAllByName(localHostAddress.HostName);
 						for (int i = 0; allLocalIPs != null && i < allLocalIPs.Length; i++)
 						{
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("IP address of local host: {0}", allLocalIPs[i].HostAddress));
+								Console.WriteLine(string.Format("IP address of local host: {0}", allLocalIPs[i].HostAddress));
 							}
 							sbyte[] bytes = allLocalIPs[i].Address;
 							if (bytes != null && bytes.Length == 4 && bytes[3] != 1)
@@ -349,14 +349,14 @@ namespace pspsharp.HLE.modules
 								localHostIP = allLocalIPs[i].HostAddress;
 							}
 						}
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Using IP address of local host: {0}, Subnet Mask {1}", localHostIP, SubnetMask));
+							Console.WriteLine(string.Format("Using IP address of local host: {0}, Subnet Mask {1}", localHostIP, SubnetMask));
 						}
 					}
 					catch (UnknownHostException e)
 					{
-						log.error(e);
+						Console.WriteLine(e);
 					}
 				}
     
@@ -366,9 +366,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleNetApctlConnect(int index)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleNetApctlConnect index={0:D}", index));
+				Console.WriteLine(string.Format("hleNetApctlConnect index={0:D}", index));
 			}
 			connectionIndex = index;
 
@@ -390,9 +390,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleNetApctlThread(Processor processor)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleNetApctlThread state={0:D}", state));
+				Console.WriteLine(string.Format("hleNetApctlThread state={0:D}", state));
 			}
 
 			if (sceNetApctlThreadTerminate)
@@ -441,9 +441,9 @@ namespace pspsharp.HLE.modules
 
 				if (stateTransitionCompleted)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleNetApctlThread sleeping with state={0:D}", state));
+						Console.WriteLine(string.Format("hleNetApctlThread sleeping with state={0:D}", state));
 					}
 
 					// Wait for a new state reset... wakeup is done by triggerNetApctlThread()
@@ -451,9 +451,9 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleNetApctlThread waiting for {0:D} us with state={1:D}", stateTransitionDelay, state));
+						Console.WriteLine(string.Format("hleNetApctlThread waiting for {0:D} us with state={1:D}", stateTransitionDelay, state));
 					}
 
 					// Wait a little bit before moving to the next state...
@@ -512,7 +512,7 @@ namespace pspsharp.HLE.modules
 		//		        char name[64];                  /* Name of the config used */
 		//		        unsigned char bssid[6];         /* MAC address of the access point */
 		//		        unsigned char ssid[32];         /* ssid */                     
-		//		        unsigned int ssidLength;        /* ssid string length*/
+		//		        unsigned int ssidLength;        /* ssid string Length*/
 		//		        unsigned int securityType;      /* 0 for none, 1 for WEP, 2 for WPA) */
 		//		        unsigned char strength;         /* Signal strength in % */
 		//		        unsigned char channel;          /* Channel */
@@ -533,9 +533,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x2BEFDF23, version : 150)]
 		public virtual int sceNetApctlGetInfo(int code, TPointer pInfo)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetApctlGetInfo code=0x{0:X}({1})", code, getApctlInfoName(code)));
+				Console.WriteLine(string.Format("sceNetApctlGetInfo code=0x{0:X}({1})", code, getApctlInfoName(code)));
 			}
 
 			switch (code)
@@ -544,9 +544,9 @@ namespace pspsharp.HLE.modules
 				{
 					string name = sceUtility.getNetParamName(connectionIndex);
 					pInfo.setStringNZ(128, name);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetApctlGetInfo returning Profile name '{0}'", name));
+						Console.WriteLine(string.Format("sceNetApctlGetInfo returning Profile name '{0}'", name));
 					}
 					break;
 				}
@@ -554,9 +554,9 @@ namespace pspsharp.HLE.modules
 				{
 					string ip = LocalHostIP;
 					pInfo.setStringNZ(16, ip);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetApctlGetInfo returning IP address '{0}'", ip));
+						Console.WriteLine(string.Format("sceNetApctlGetInfo returning IP address '{0}'", ip));
 					}
 					break;
 				}
@@ -568,9 +568,9 @@ namespace pspsharp.HLE.modules
 						return -1;
 					}
 					pInfo.setStringNZ(SSID_NAME_LENGTH, ssid);
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetApctlGetInfo returning SSID '{0}'", ssid));
+						Console.WriteLine(string.Format("sceNetApctlGetInfo returning SSID '{0}'", ssid));
 					}
 					break;
 				}
@@ -635,7 +635,7 @@ namespace pspsharp.HLE.modules
 				}
 				default:
 				{
-					log.warn(string.Format("sceNetApctlGetInfo unimplemented code=0x{0:X}({1})", code, getApctlInfoName(code)));
+					Console.WriteLine(string.Format("sceNetApctlGetInfo unimplemented code=0x{0:X}({1})", code, getApctlInfoName(code)));
 					return -1;
 				}
 			}
@@ -673,7 +673,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (!apctlHandlers.ContainsKey(handlerId))
 			{
-				log.warn(string.Format("sceNetApctlDelHandler unknown handlerId=0x{0:X}", handlerId));
+				Console.WriteLine(string.Format("sceNetApctlDelHandler unknown handlerId=0x{0:X}", handlerId));
 				return -1;
 			}
 			SceUidManager.releaseUid(handlerId, uidPurpose);
@@ -779,9 +779,9 @@ namespace pspsharp.HLE.modules
 						break;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetApctlGetBSSDescIDListUser returning {0:D} at 0x{1:X8}", i, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetApctlGetBSSDescIDListUser returning {0:D} at 0x{1:X8}", i, buf.Address + offset));
 					}
 
 					/// <summary>
@@ -816,8 +816,8 @@ namespace pspsharp.HLE.modules
 					break;
 				case PSP_NET_APCTL_DESC_SSID_NAME_LENGTH:
 					// Return one 32-bit value
-					int length = System.Math.Min(SSID.Length, SSID_NAME_LENGTH);
-					result.setValue32(length);
+					int Length = System.Math.Min(SSID.Length, SSID_NAME_LENGTH);
+					result.setValue32(Length);
 					break;
 				case PSP_NET_APCTL_DESC_SIGNAL_STRENGTH:
 					// Return 1 byte
@@ -828,7 +828,7 @@ namespace pspsharp.HLE.modules
 					result.setValue32(PSP_NET_APCTL_INFO_SECURITY_TYPE_WPA_AES);
 					break;
 				default:
-					log.warn(string.Format("sceNetApctlGetBSSDescEntryUser unknown id {0:D}", infoId));
+					Console.WriteLine(string.Format("sceNetApctlGetBSSDescEntryUser unknown id {0:D}", infoId));
 					return -1;
 			}
 

@@ -22,11 +22,11 @@ namespace pspsharp.HLE.modules
 	using Battery = pspsharp.hardware.Battery;
 	using Model = pspsharp.hardware.Model;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class scePower : HLEModule
 	{
-		public static Logger log = Modules.getLogger("scePower");
+		//public static Logger log = Modules.getLogger("scePower");
 
 		/// <summary>
 		/// Power callback flags
@@ -133,9 +133,9 @@ namespace pspsharp.HLE.modules
 		public virtual int scePowerGetForceSuspendCapacity()
 		{
 			int forceSuspendCapacity = (Battery.ForceSuspendPercent * Battery.FullCapacity) / 100;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetForceSuspendCapacity returning {0:D} mAh", forceSuspendCapacity));
+				Console.WriteLine(string.Format("scePowerGetForceSuspendCapacity returning {0:D} mAh", forceSuspendCapacity));
 			}
 
 			return forceSuspendCapacity;
@@ -145,9 +145,9 @@ namespace pspsharp.HLE.modules
 		public virtual int scePowerGetLowBatteryCapacity()
 		{
 			int lowBatteryCapacity = (Battery.LowPercent * Battery.FullCapacity) / 100;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetLowBatteryCapacity returning {0:D} mAh", lowBatteryCapacity));
+				Console.WriteLine(string.Format("scePowerGetLowBatteryCapacity returning {0:D} mAh", lowBatteryCapacity));
 			}
 
 			return lowBatteryCapacity;
@@ -156,11 +156,11 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x87440F5E, version : 150)]
 		public virtual bool scePowerIsPowerOnline()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("scePowerIsPowerOnline returning %b", pspsharp.hardware.Battery.isPluggedIn()));
-				log.debug(string.Format("scePowerIsPowerOnline returning %b", Battery.PluggedIn));
+//ORIGINAL LINE: Console.WriteLine(String.format("scePowerIsPowerOnline returning %b", pspsharp.hardware.Battery.isPluggedIn()));
+				Console.WriteLine(string.Format("scePowerIsPowerOnline returning %b", Battery.PluggedIn));
 			}
 
 			return Battery.PluggedIn;
@@ -169,11 +169,11 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x0AFD0D8B, version : 150)]
 		public virtual bool scePowerIsBatteryExist()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("scePowerIsBatteryExist returning %b", pspsharp.hardware.Battery.isPresent()));
-				log.debug(string.Format("scePowerIsBatteryExist returning %b", Battery.Present));
+//ORIGINAL LINE: Console.WriteLine(String.format("scePowerIsBatteryExist returning %b", pspsharp.hardware.Battery.isPresent()));
+				Console.WriteLine(string.Format("scePowerIsBatteryExist returning %b", Battery.Present));
 			}
 
 			return Battery.Present;
@@ -182,11 +182,11 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x1E490401, version : 150)]
 		public virtual bool scePowerIsBatteryCharging()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("scePowerIsBatteryCharging returning %b", pspsharp.hardware.Battery.isCharging()));
-				log.debug(string.Format("scePowerIsBatteryCharging returning %b", Battery.Charging));
+//ORIGINAL LINE: Console.WriteLine(String.format("scePowerIsBatteryCharging returning %b", pspsharp.hardware.Battery.isCharging()));
+				Console.WriteLine(string.Format("scePowerIsBatteryCharging returning %b", Battery.Charging));
 			}
 
 			return Battery.Charging;
@@ -210,9 +210,9 @@ namespace pspsharp.HLE.modules
 				status |= PSP_POWER_CB_BATTPOWER;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryChargingStatus returning 0x{0:X}", status));
+				Console.WriteLine(string.Format("scePowerGetBatteryChargingStatus returning 0x{0:X}", status));
 			}
 
 			return status;
@@ -222,11 +222,11 @@ namespace pspsharp.HLE.modules
 		public virtual bool scePowerIsLowBattery()
 		{
 			bool isLow = Battery.CurrentPowerPercent <= Battery.LowPercent;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("scePowerIsLowBattery returning %b", isLow));
-				log.debug(string.Format("scePowerIsLowBattery returning %b", isLow));
+//ORIGINAL LINE: Console.WriteLine(String.format("scePowerIsLowBattery returning %b", isLow));
+				Console.WriteLine(string.Format("scePowerIsLowBattery returning %b", isLow));
 			}
 
 			return isLow;
@@ -244,11 +244,11 @@ namespace pspsharp.HLE.modules
 		public virtual bool scePowerIsSuspendRequired()
 		{
 			bool isSuspendRequired = Battery.CurrentPowerPercent <= Battery.ForceSuspendPercent;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("scePowerIsSuspendRequired returning %b", isSuspendRequired));
-				log.debug(string.Format("scePowerIsSuspendRequired returning %b", isSuspendRequired));
+//ORIGINAL LINE: Console.WriteLine(String.format("scePowerIsSuspendRequired returning %b", isSuspendRequired));
+				Console.WriteLine(string.Format("scePowerIsSuspendRequired returning %b", isSuspendRequired));
 			}
 
 			return isSuspendRequired;
@@ -258,9 +258,9 @@ namespace pspsharp.HLE.modules
 		public virtual int scePowerGetBatteryRemainCapacity()
 		{
 			int batteryRemainCapacity = (Battery.CurrentPowerPercent * Battery.FullCapacity) / 100;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryRemainCapacity returning {0:D} mAh", batteryRemainCapacity));
+				Console.WriteLine(string.Format("scePowerGetBatteryRemainCapacity returning {0:D} mAh", batteryRemainCapacity));
 			}
 
 			return batteryRemainCapacity;
@@ -269,9 +269,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xFD18A0FF, version : 150)]
 		public virtual int scePowerGetBatteryFullCapacity()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryFullCapacity returning {0:D} mAh", Battery.FullCapacity));
+				Console.WriteLine(string.Format("scePowerGetBatteryFullCapacity returning {0:D} mAh", Battery.FullCapacity));
 			}
 
 			return Battery.FullCapacity;
@@ -280,9 +280,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x2085D15D, version : 150)]
 		public virtual int scePowerGetBatteryLifePercent()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryLifePercent returning {0:D} %", Battery.CurrentPowerPercent));
+				Console.WriteLine(string.Format("scePowerGetBatteryLifePercent returning {0:D} %", Battery.CurrentPowerPercent));
 			}
 
 			return Battery.CurrentPowerPercent;
@@ -291,9 +291,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x8EFB3FA2, version : 150)]
 		public virtual int scePowerGetBatteryLifeTime()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryLifeTime returning {0:D}", Battery.LifeTime));
+				Console.WriteLine(string.Format("scePowerGetBatteryLifeTime returning {0:D}", Battery.LifeTime));
 			}
 
 			return Battery.LifeTime;
@@ -302,9 +302,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x28E12023, version : 150)]
 		public virtual int scePowerGetBatteryTemp()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryTemp returning {0:D} C", Battery.Temperature));
+				Console.WriteLine(string.Format("scePowerGetBatteryTemp returning {0:D} C", Battery.Temperature));
 			}
 
 			return Battery.Temperature;
@@ -321,9 +321,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x483CE86B, version : 150)]
 		public virtual int scePowerGetBatteryVolt()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBatteryVolt {0:D}", Battery.Voltage));
+				Console.WriteLine(string.Format("scePowerGetBatteryVolt {0:D}", Battery.Voltage));
 			}
 
 			return Battery.Voltage;
@@ -548,9 +548,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xFEE03A2F, version : 150)]
 		public virtual int scePowerGetCpuClockFrequency()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetCpuClockFrequency returning 0x{0:X}", cpuClock));
+				Console.WriteLine(string.Format("scePowerGetCpuClockFrequency returning 0x{0:X}", cpuClock));
 			}
 
 			return cpuClock;
@@ -559,9 +559,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x478FE6F5, version : 150)]
 		public virtual int scePowerGetBusClockFrequency()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBusClockFrequency returning 0x{0:X}", busClock));
+				Console.WriteLine(string.Format("scePowerGetBusClockFrequency returning 0x{0:X}", busClock));
 			}
 
 			return busClock;
@@ -570,9 +570,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xFDB5BFE9, version : 150)]
 		public virtual int scePowerGetCpuClockFrequencyInt()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetCpuClockFrequencyInt returning 0x{0:X}", cpuClock));
+				Console.WriteLine(string.Format("scePowerGetCpuClockFrequencyInt returning 0x{0:X}", cpuClock));
 			}
 
 			return cpuClock;
@@ -581,9 +581,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xBD681969, version : 150)]
 		public virtual int scePowerGetBusClockFrequencyInt()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBusClockFrequencyInt returning 0x{0:X}", busClock));
+				Console.WriteLine(string.Format("scePowerGetBusClockFrequencyInt returning 0x{0:X}", busClock));
 			}
 
 			return busClock;
@@ -592,9 +592,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x34F9C463, version : 150)]
 		public virtual int scePowerGetPllClockFrequencyInt()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetPllClockFrequencyInt returning 0x{0:X}", pllClock));
+				Console.WriteLine(string.Format("scePowerGetPllClockFrequencyInt returning 0x{0:X}", pllClock));
 			}
 
 			return pllClock;
@@ -603,9 +603,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xB1A52C83, version : 150)]
 		public virtual float scePowerGetCpuClockFrequencyFloat()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetCpuClockFrequencyFloat returning {0:F}", (float) cpuClock));
+				Console.WriteLine(string.Format("scePowerGetCpuClockFrequencyFloat returning {0:F}", (float) cpuClock));
 			}
 
 			return (float) cpuClock;
@@ -614,9 +614,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x9BADB3EB, version : 150)]
 		public virtual float scePowerGetBusClockFrequencyFloat()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetBusClockFrequencyFloat returning {0:F}", (float) busClock));
+				Console.WriteLine(string.Format("scePowerGetBusClockFrequencyFloat returning {0:F}", (float) busClock));
 			}
 
 			return (float) busClock;
@@ -625,9 +625,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xEA382A27, version : 150)]
 		public virtual float scePowerGetPllClockFrequencyFloat()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("scePowerGetPllClockFrequencyFloat returning {0:F}", (float) pllClock));
+				Console.WriteLine(string.Format("scePowerGetPllClockFrequencyFloat returning {0:F}", (float) pllClock));
 			}
 
 			return (float) pllClock;
@@ -638,7 +638,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (cpuClock == 0 || cpuClock > 333)
 			{
-				log.warn(string.Format("scePowerSetClockFrequency invalid frequency pllClock {0:D} cpuClock {1:D} busClock {2:D}",pllClock,cpuClock,busClock));
+				Console.WriteLine(string.Format("scePowerSetClockFrequency invalid frequency pllClock {0:D} cpuClock {1:D} busClock {2:D}",pllClock,cpuClock,busClock));
 				return SceKernelErrors.ERROR_INVALID_VALUE;
 			}
 
@@ -660,7 +660,7 @@ namespace pspsharp.HLE.modules
 			// Identical to scePowerSetClockFrequency.
 			if (cpuClock == 0 || cpuClock > 333)
 			{
-				log.warn(string.Format("scePower_EBD177D6 invalid frequency pllClock {0:D} cpuClock {1:D} busClock {2:D}",pllClock,cpuClock,busClock));
+				Console.WriteLine(string.Format("scePower_EBD177D6 invalid frequency pllClock {0:D} cpuClock {1:D} busClock {2:D}",pllClock,cpuClock,busClock));
 				return SceKernelErrors.ERROR_INVALID_VALUE;
 			}
 
@@ -682,7 +682,7 @@ namespace pspsharp.HLE.modules
 			// Identical to scePowerSetClockFrequency.
 			if (cpuClock == 0 || cpuClock > 333)
 			{
-				log.warn(string.Format("scePower_469989AD invalid frequency pllClock {0:D} cpuClock {1:D} busClock {2:D}",pllClock,cpuClock,busClock));
+				Console.WriteLine(string.Format("scePower_469989AD invalid frequency pllClock {0:D} cpuClock {1:D} busClock {2:D}",pllClock,cpuClock,busClock));
 				return SceKernelErrors.ERROR_INVALID_VALUE;
 			}
 
@@ -706,11 +706,11 @@ namespace pspsharp.HLE.modules
 			// Returning 0 for a PSP fat, 1 otherwise
 			bool result = model != Model.MODEL_PSP_FAT;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("scePower_A85880D0 returning %b", result));
-				log.debug(string.Format("scePower_A85880D0 returning %b", result));
+//ORIGINAL LINE: Console.WriteLine(String.format("scePower_A85880D0 returning %b", result));
+				Console.WriteLine(string.Format("scePower_A85880D0 returning %b", result));
 			}
 
 			return result;

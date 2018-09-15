@@ -21,7 +21,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using SceModule = pspsharp.HLE.kernel.types.SceModule;
@@ -505,7 +505,7 @@ namespace pspsharp
 
 			if (!string.ReferenceEquals(moduleName, null) && !info.isFromModule(moduleName))
 			{
-				log.debug(string.Format("Trying to resolve {0} from module '{1}'", info, moduleName));
+				Console.WriteLine(string.Format("Trying to resolve {0} from module '{1}'", info, moduleName));
 			}
 
 			return info.Address;
@@ -548,7 +548,7 @@ namespace pspsharp
 
 			if (!string.ReferenceEquals(moduleName, null) && !info.isFromModule(moduleName))
 			{
-				log.debug(string.Format("Trying to resolve {0} from module '{1}'", info, moduleName));
+				Console.WriteLine(string.Format("Trying to resolve {0} from module '{1}'", info, moduleName));
 			}
 
 			return info.Syscall;

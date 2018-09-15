@@ -25,11 +25,11 @@ namespace pspsharp.HLE.modules
 
 	using SceKernelThreadInfo = pspsharp.HLE.kernel.types.SceKernelThreadInfo;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceHttps : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceHttps");
+		//public static Logger log = Modules.getLogger("sceHttps");
 
 		// Certificate related statics (guessed from a PSP's certificates' list).
 		// The PSP currently handles certificates for the following issuers:

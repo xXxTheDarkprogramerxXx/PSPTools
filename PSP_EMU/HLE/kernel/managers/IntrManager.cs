@@ -31,7 +31,7 @@ namespace pspsharp.HLE.kernel.managers
 	using VBlankInterruptHandler = pspsharp.HLE.kernel.types.interrupts.VBlankInterruptHandler;
 	using Scheduler = pspsharp.scheduler.Scheduler;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class IntrManager
 	{
@@ -181,11 +181,11 @@ namespace pspsharp.HLE.kernel.managers
 
 		public virtual void addDeferredInterrupt(AbstractInterruptHandler interruptHandler)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("addDeferredInterrupt insideInterrupt=%b, interruptsEnabled=%b", isInsideInterrupt(), pspsharp.Emulator.getProcessor().isInterruptsEnabled()));
-				log.debug(string.Format("addDeferredInterrupt insideInterrupt=%b, interruptsEnabled=%b", InsideInterrupt, Emulator.Processor.InterruptsEnabled));
+//ORIGINAL LINE: Console.WriteLine(String.format("addDeferredInterrupt insideInterrupt=%b, interruptsEnabled=%b", isInsideInterrupt(), pspsharp.Emulator.getProcessor().isInterruptsEnabled()));
+				Console.WriteLine(string.Format("addDeferredInterrupt insideInterrupt=%b, interruptsEnabled=%b", InsideInterrupt, Emulator.Processor.InterruptsEnabled));
 			}
 			deferredInterrupts.Add(interruptHandler);
 		}
@@ -199,9 +199,9 @@ namespace pspsharp.HLE.kernel.managers
 		{
 			if (deferredInterrupts.Count > 0 && canExecuteInterruptNow())
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("Executing deferred interrupts");
+					Console.WriteLine("Executing deferred interrupts");
 				}
 
 				IList<AbstractInterruptHandler> copyDeferredInterrupts = new LinkedList<AbstractInterruptHandler>(deferredInterrupts);
@@ -257,9 +257,9 @@ namespace pspsharp.HLE.kernel.managers
 
 		protected internal virtual void onEndOfInterrupt()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("End of Interrupt");
+				Console.WriteLine("End of Interrupt");
 			}
 
 			allegrexInterruptHandlers.Clear();
@@ -286,9 +286,9 @@ namespace pspsharp.HLE.kernel.managers
 					AbstractAllegrexInterruptHandler allegrexInterruptHandler = allegrexInterruptHandlersIterator.next();
 					if (allegrexInterruptHandler != null)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug("Calling InterruptHandler " + allegrexInterruptHandler.ToString());
+							Console.WriteLine("Calling InterruptHandler " + allegrexInterruptHandler.ToString());
 						}
 						allegrexInterruptHandler.copyArgumentsToCpu(Emulator.Processor.cpu);
 						Modules.ThreadManForUserModule.callAddress(allegrexInterruptHandler.Address, continueAction, true);
@@ -351,9 +351,9 @@ namespace pspsharp.HLE.kernel.managers
 
 		public virtual void triggerInterrupt(int interruptNumber, IAction afterInterruptAction, IAction afterHandlerAction)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Triggering Interrupt {0}(0x{1:X})", getInterruptName(interruptNumber), interruptNumber));
+				Console.WriteLine(string.Format("Triggering Interrupt {0}(0x{1:X})", getInterruptName(interruptNumber), interruptNumber));
 			}
 
 			executeInterrupts(getInterruptHandlers(interruptNumber), afterInterruptAction, afterHandlerAction);
@@ -361,9 +361,9 @@ namespace pspsharp.HLE.kernel.managers
 
 		public virtual void triggerInterrupt(int interruptNumber, IAction afterInterruptAction, IAction afterHandlerAction, AbstractAllegrexInterruptHandler allegrexInterruptHandler)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Triggering Interrupt {0}(0x{1:X}) at 0x{2:X8}", getInterruptName(interruptNumber), interruptNumber, allegrexInterruptHandler.Address));
+				Console.WriteLine(string.Format("Triggering Interrupt {0}(0x{1:X}) at 0x{2:X8}", getInterruptName(interruptNumber), interruptNumber, allegrexInterruptHandler.Address));
 			}
 
 			// Trigger only this interrupt handler
@@ -431,9 +431,9 @@ namespace pspsharp.HLE.kernel.managers
 
 		public virtual int sceKernelReleaseSubIntrHandler(int intrNumber, int subIntrNumber)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelReleaseSubIntrHandler({0:D}, {1:D})", intrNumber, subIntrNumber));
+				Console.WriteLine(string.Format("sceKernelReleaseSubIntrHandler({0:D}, {1:D})", intrNumber, subIntrNumber));
 			}
 
 			if (intrNumber < 0 || intrNumber >= IntrManager.PSP_NUMBER_INTERRUPTS || subIntrNumber < 0)
@@ -456,9 +456,9 @@ namespace pspsharp.HLE.kernel.managers
 
 		protected internal virtual int hleKernelEnableDisableSubIntr(int intrNumber, int subIntrNumber, bool enabled)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernel{0}SubIntr({1:D}, {2:D})", enabled ? "Enable" : "Disable", intrNumber, subIntrNumber));
+				Console.WriteLine(string.Format("sceKernel{0}SubIntr({1:D}, {2:D})", enabled ? "Enable" : "Disable", intrNumber, subIntrNumber));
 			}
 
 			if (intrNumber < 0 || intrNumber >= IntrManager.PSP_NUMBER_INTERRUPTS)

@@ -52,22 +52,22 @@ namespace pspsharp.state
 //ORIGINAL LINE: public int[] readIntsWithLength() throws java.io.IOException
 		public virtual int[] readIntsWithLength()
 		{
-			int length = readInt();
-			if (length == NULL_ARRAY_LENGTH)
+			int Length = readInt();
+			if (Length == NULL_ARRAY_LENGTH)
 			{
 				return null;
 			}
-			int[] a = new int[length];
+			int[] a = new int[Length];
 			readInts(a);
 
 			return a;
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void readInts(int[] a, int offset, int length) throws java.io.IOException
-		public virtual void readInts(int[] a, int offset, int length)
+//ORIGINAL LINE: public void readInts(int[] a, int offset, int Length) throws java.io.IOException
+		public virtual void readInts(int[] a, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				a[i + offset] = readInt();
 			}
@@ -101,10 +101,10 @@ namespace pspsharp.state
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public void readBytes(byte[] a, int offset, int length) throws java.io.IOException
-		public virtual void readBytes(sbyte[] a, int offset, int length)
+//ORIGINAL LINE: public void readBytes(byte[] a, int offset, int Length) throws java.io.IOException
+		public virtual void readBytes(sbyte[] a, int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				a[i + offset] = readByte();
 			}
@@ -114,12 +114,12 @@ namespace pspsharp.state
 //ORIGINAL LINE: public byte[] readBytesWithLength() throws java.io.IOException
 		public virtual sbyte[] readBytesWithLength()
 		{
-			int length = readInt();
-			if (length == NULL_ARRAY_LENGTH)
+			int Length = readInt();
+			if (Length == NULL_ARRAY_LENGTH)
 			{
 				return null;
 			}
-			sbyte[] a = new sbyte[length];
+			sbyte[] a = new sbyte[Length];
 			readBytes(a);
 
 			return a;
@@ -140,7 +140,7 @@ namespace pspsharp.state
 			}
 			catch (ClassNotFoundException e)
 			{
-				Emulator.log.error("readString", e);
+				Emulator.Console.WriteLine("readString", e);
 				return null;
 			}
 		}

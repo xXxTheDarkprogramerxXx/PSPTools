@@ -196,7 +196,7 @@ namespace pspsharp.graphics.capture
 			Emulator.PauseEmu();
 		}
 
-		public static void captureRAM(int address, int length)
+		public static void captureRAM(int address, int Length)
 		{
 			if (!captureInProgress)
 			{
@@ -215,7 +215,7 @@ namespace pspsharp.graphics.capture
 				CaptureHeader header = new CaptureHeader(CaptureHeader.PACKET_TYPE_RAM);
 				header.write(@out);
 
-				CaptureRAM captureRAM = new CaptureRAM(address, length);
+				CaptureRAM captureRAM = new CaptureRAM(address, Length);
 				captureRAM.write(@out);
 			}
 			catch (Exception e)

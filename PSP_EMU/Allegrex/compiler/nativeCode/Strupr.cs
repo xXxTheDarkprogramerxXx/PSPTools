@@ -31,17 +31,17 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		{
 			int srcAddr = GprA0;
 			int dstAddr = GprA1;
-			int length = GprA2;
+			int Length = GprA2;
 
 			int lengthSrc = getStrlen(srcAddr);
-			if (lengthSrc > length)
+			if (lengthSrc > Length)
 			{
 				GprV0 = (errorCode1 << 16) | errorCode2;
 				return;
 			}
 
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(srcAddr, length, 1);
-			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(dstAddr, length, 1);
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(srcAddr, Length, 1);
+			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(dstAddr, Length, 1);
 			for (int i = 0; i < lengthSrc; i++)
 			{
 				int c = toUpperCase[memoryReader.readNext()];

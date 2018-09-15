@@ -53,31 +53,31 @@ namespace pspsharp.network
 		/// <summary>
 		/// Create an Adhoc Pdp message from PSP memory data </summary>
 		/// <param name="address">        the address for the data part of the Pdp message </param>
-		/// <param name="length">         the length of the data part of the Pdp message </param>
+		/// <param name="Length">         the Length of the data part of the Pdp message </param>
 		/// <param name="destMacAddress"> the destination MAC address </param>
 		/// <returns>               an AdhocMessage </returns>
-		AdhocMessage createAdhocPdpMessage(int address, int length, sbyte[] destMacAddress);
+		AdhocMessage createAdhocPdpMessage(int address, int Length, sbyte[] destMacAddress);
 
 		/// <summary>
 		/// Create an Adhoc Pdp message from a network packet </summary>
 		/// <param name="message">  the network packet received </param>
-		/// <param name="length">   the length of the message </param>
+		/// <param name="Length">   the Length of the message </param>
 		/// <returns>         an AdhocMessage </returns>
-		AdhocMessage createAdhocPdpMessage(sbyte[] message, int length);
+		AdhocMessage createAdhocPdpMessage(sbyte[] message, int Length);
 
 		/// <summary>
 		/// Create an Adhoc Ptp message from PSP memory data </summary>
 		/// <param name="address"> the address for the data part of the Pdp message </param>
-		/// <param name="length">  the length of the data part of the Pdp message </param>
+		/// <param name="Length">  the Length of the data part of the Pdp message </param>
 		/// <returns>        an AdhocMessage </returns>
-		AdhocMessage createAdhocPtpMessage(int address, int length);
+		AdhocMessage createAdhocPtpMessage(int address, int Length);
 
 		/// <summary>
 		/// Create an Adhoc Ptp message from a network packet </summary>
 		/// <param name="message">  the network packet received </param>
-		/// <param name="length">   the length of the message </param>
+		/// <param name="Length">   the Length of the message </param>
 		/// <returns>         an AdhocMessage </returns>
-		AdhocMessage createAdhocPtpMessage(sbyte[] message, int length);
+		AdhocMessage createAdhocPtpMessage(sbyte[] message, int Length);
 
 		/// <summary>
 		/// Create an Adhoc GameMode message from a PSP GameModeArea </summary>
@@ -88,9 +88,9 @@ namespace pspsharp.network
 		/// <summary>
 		/// Create an Adhoc GameMode message from a network packet </summary>
 		/// <param name="message">  the network packet received </param>
-		/// <param name="length">   the length of the message </param>
+		/// <param name="Length">   the Length of the message </param>
 		/// <returns>         an AdhocMessage </returns>
-		AdhocMessage createAdhocGameModeMessage(sbyte[] message, int length);
+		AdhocMessage createAdhocGameModeMessage(sbyte[] message, int Length);
 
 		/// <summary>
 		/// Get the SocketAddress for the given MAC address and port. </summary>
@@ -126,7 +126,7 @@ namespace pspsharp.network
 		/// Create an Adhoc Matching message for an event with additional data. </summary>
 		/// <param name="event">      the event </param>
 		/// <param name="data">       the address of the additional data </param>
-		/// <param name="dataLength"> the length of the additional data </param>
+		/// <param name="dataLength"> the Length of the additional data </param>
 		/// <param name="macAddress"> the destination MAC address </param>
 		/// <returns>           the new Adhoc Matching message </returns>
 		AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, int @event, int data, int dataLength, sbyte[] macAddress);
@@ -134,9 +134,9 @@ namespace pspsharp.network
 		/// <summary>
 		/// Create an Adhoc Matching message from a network packet </summary>
 		/// <param name="message">  the network packet received </param>
-		/// <param name="length">   the length of the message </param>
+		/// <param name="Length">   the Length of the message </param>
 		/// <returns>         an Adhoc Matching </returns>
-		AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int length);
+		AdhocMatchingEventMessage createAdhocMatchingEventMessage(MatchingObject matchingObject, sbyte[] message, int Length);
 
 		/// <summary>
 		/// When connecting or joining to a group, check when the CONNECTED state can be reached. </summary>

@@ -20,7 +20,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio.wm8750
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IState = pspsharp.state.IState;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -35,7 +35,7 @@ namespace pspsharp.memory.mmio.wm8750
 	/// </summary>
 	public class WM8750 : IState
 	{
-		public static Logger log = Logger.getLogger("WM8750");
+		//public static Logger log = Logger.getLogger("WM8750");
 		private const int STATE_VERSION = 0;
 		private static WM8750 instance;
 		private const int NUMBER_REGISTERS = 43;
@@ -84,7 +84,7 @@ namespace pspsharp.memory.mmio.wm8750
 		public virtual void executeTransmitReceiveCommand(int[] transmitData, int[] receiveData)
 		{
 			// This seems to not be used for WM8750
-			log.error(string.Format("Unimplemented executeTransmitReceiveCommand transmitData: 0x{0:X2} 0x{1:X2}", transmitData[0], transmitData[1]));
+			Console.WriteLine(string.Format("Unimplemented executeTransmitReceiveCommand transmitData: 0x{0:X2} 0x{1:X2}", transmitData[0], transmitData[1]));
 		}
 
 		public virtual void executeTransmitCommand(int[] transmitData)
@@ -98,12 +98,12 @@ namespace pspsharp.memory.mmio.wm8750
 			}
 			else
 			{
-				log.error(string.Format("executeTransmitCommand unknown register {0:D}", register));
+				Console.WriteLine(string.Format("executeTransmitCommand unknown register {0:D}", register));
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("executeTransmitCommand register={0:D}, value=0x{1:X3} on {2}", register, value, this));
+				Console.WriteLine(string.Format("executeTransmitCommand register={0:D}, value=0x{1:X3} on {2}", register, value, this));
 			}
 		}
 

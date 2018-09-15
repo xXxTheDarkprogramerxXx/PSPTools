@@ -31,11 +31,11 @@ namespace pspsharp.HLE.modules
 	using pspNetMacAddress = pspsharp.HLE.kernel.types.pspNetMacAddress;
 	using SysMemInfo = pspsharp.HLE.modules.SysMemUserForUser.SysMemInfo;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNetIfhandle : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetIfhandle");
+		//public static Logger log = Modules.getLogger("sceNetIfhandle");
 		protected internal Dictionary<int, SysMemInfo> allocatedMemory;
 		protected internal int unknownCallback1;
 		protected internal int unknownCallback2;
@@ -249,7 +249,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC5623112, version = 150) public int sceNetIfhandle_driver_C5623112(@CheckArgument(value="checkHandleAddr") @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer handleAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 macAddress)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC5623112, version = 150) public int sceNetIfhandle_driver_C5623112(@CheckArgument(value="checkHandleAddr") @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=44, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer handleAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 macAddress)
 		[HLEFunction(nid : 0xC5623112, version : 150)]
 		public virtual int sceNetIfhandle_driver_C5623112(TPointer handleAddr, TPointer8 macAddress)
 		{
@@ -261,7 +261,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x16042084, version = 150) public int sceNetCreateIfhandleEther(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=44, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer handleAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x16042084, version = 150) public int sceNetCreateIfhandleEther(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=44, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer handleAddr)
 		[HLEFunction(nid : 0x16042084, version : 150)]
 		public virtual int sceNetCreateIfhandleEther(TPointer handleAddr)
 		{
@@ -269,7 +269,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAE81C0CB, version = 150) public int sceNetAttachIfhandleEther(@CheckArgument("checkHandleAddr") pspsharp.HLE.TPointer handleAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 macAddress, pspsharp.HLE.PspString interfaceName)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAE81C0CB, version = 150) public int sceNetAttachIfhandleEther(@CheckArgument("checkHandleAddr") pspsharp.HLE.TPointer handleAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=6, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 macAddress, pspsharp.HLE.PspString interfaceName)
 		[HLEFunction(nid : 0xAE81C0CB, version : 150)]
 		public virtual int sceNetAttachIfhandleEther(TPointer handleAddr, TPointer8 macAddress, PspString interfaceName)
 		{
@@ -375,15 +375,15 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0296C7D6, version = 150) public void sceNetIfhandleIfIoctl(@CanBeNull @CheckArgument("checkHandleInternalAddr") @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=320, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer handleInternalAddr, int cmd, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0296C7D6, version = 150) public void sceNetIfhandleIfIoctl(@CanBeNull @CheckArgument("checkHandleInternalAddr") @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=320, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer handleInternalAddr, int cmd, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0x0296C7D6, version : 150)]
 		public virtual void sceNetIfhandleIfIoctl(TPointer handleInternalAddr, int cmd, TPointer unknown)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				string interfaceName = unknown.getStringNZ(16);
 				int flags = unknown.getValue16(16);
-				log.debug(string.Format("sceNetIfhandleIfIoctl interfaceName='{0}' flags=0x{1:X}", interfaceName, flags));
+				Console.WriteLine(string.Format("sceNetIfhandleIfIoctl interfaceName='{0}' flags=0x{1:X}", interfaceName, flags));
 			}
 		}
 
@@ -508,7 +508,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8FCB05A1, version = 150) public int sceNetIfhandleIfUp(@CheckArgument("checkHandleInternalAddr") @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=320, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer handleInternalAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8FCB05A1, version = 150) public int sceNetIfhandleIfUp(@CheckArgument("checkHandleInternalAddr") @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=320, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer handleInternalAddr)
 		[HLEFunction(nid : 0x8FCB05A1, version : 150)]
 		public virtual int sceNetIfhandleIfUp(TPointer handleInternalAddr)
 		{
@@ -516,9 +516,9 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9A6261EC, version = 150) public int sceNetMCopydata(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=76, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer messageAddr, int dataOffset, int length, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.previousParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer destinationAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9A6261EC, version = 150) public int sceNetMCopydata(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=76, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer messageAddr, int dataOffset, int Length, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.previousParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer destinationAddr)
 		[HLEFunction(nid : 0x9A6261EC, version : 150)]
-		public virtual int sceNetMCopydata(TPointer messageAddr, int dataOffset, int length, TPointer destinationAddr)
+		public virtual int sceNetMCopydata(TPointer messageAddr, int dataOffset, int Length, TPointer destinationAddr)
 		{
 			if (destinationAddr.NotNull)
 			{
@@ -535,12 +535,12 @@ namespace pspsharp.HLE.modules
 					messageAddr.Address = message.nextDataAddr;
 				}
 
-				while (length > 0 && messageAddr.NotNull)
+				while (Length > 0 && messageAddr.NotNull)
 				{
 					message.read(messageAddr);
-					int copyLength = System.Math.Min(length, message.dataLength - dataOffset);
+					int copyLength = System.Math.Min(Length, message.dataLength - dataOffset);
 					destinationAddr.memcpy(message.dataAddr + dataOffset, copyLength);
-					length -= copyLength;
+					Length -= copyLength;
 					destinationAddr.add(copyLength);
 					dataOffset = 0;
 				}

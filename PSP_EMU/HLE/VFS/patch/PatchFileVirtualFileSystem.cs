@@ -97,13 +97,13 @@ namespace pspsharp.HLE.VFS.patch
 					int checkValue = readUnaligned32(buffer, offset);
 					if (checkValue != oldValue)
 					{
-						log.error(string.Format("Patching of file '{0}' failed at offset 0x{1:X8}, 0x{2:X8} found instead of 0x{3:X8}", fileName, offset, checkValue, oldValue));
+						Console.WriteLine(string.Format("Patching of file '{0}' failed at offset 0x{1:X8}, 0x{2:X8} found instead of 0x{3:X8}", fileName, offset, checkValue, oldValue));
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Patching file '{0}' at offset 0x{1:X8}: 0x{2:X8} -> 0x{3:X8}", fileName, offset, oldValue, newValue));
+							Console.WriteLine(string.Format("Patching file '{0}' at offset 0x{1:X8}: 0x{2:X8} -> 0x{3:X8}", fileName, offset, oldValue, newValue));
 						}
 						writeUnaligned32(buffer, offset, newValue);
 					}
@@ -122,13 +122,13 @@ namespace pspsharp.HLE.VFS.patch
 					int checkValue = readUnaligned16(buffer, offset);
 					if (checkValue != oldValue)
 					{
-						log.error(string.Format("Patching of file '{0}' failed at offset 0x{1:X8}, 0x{2:X4} found instead of 0x{3:X4}", fileName, offset, checkValue, oldValue));
+						Console.WriteLine(string.Format("Patching of file '{0}' failed at offset 0x{1:X8}, 0x{2:X4} found instead of 0x{3:X4}", fileName, offset, checkValue, oldValue));
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Patching file '{0}' at offset 0x{1:X8}: 0x{2:X4} -> 0x{3:X4}", fileName, offset, oldValue, newValue));
+							Console.WriteLine(string.Format("Patching file '{0}' at offset 0x{1:X8}: 0x{2:X4} -> 0x{3:X4}", fileName, offset, oldValue, newValue));
 						}
 						writeUnaligned16(buffer, offset, newValue);
 					}
@@ -182,12 +182,12 @@ namespace pspsharp.HLE.VFS.patch
 					segmentOffset -= phEntMemSize;
 					if (segmentOffset < 0)
 					{
-						log.error(string.Format("Patching of file '{0}' failed: incorrect offset 0x{1:X8} outside of program header segment #{2:D}", fileName, offset, i));
+						Console.WriteLine(string.Format("Patching of file '{0}' failed: incorrect offset 0x{1:X8} outside of program header segment #{2:D}", fileName, offset, i));
 						return -1;
 					}
 				}
 
-				log.error(string.Format("Patching of file '{0}' failed: incorrect offset 0x{1:X8} outside of all program header segments", fileName, offset));
+				Console.WriteLine(string.Format("Patching of file '{0}' failed: incorrect offset 0x{1:X8} outside of all program header segments", fileName, offset));
 				return -1;
 			}
 
@@ -340,7 +340,7 @@ namespace pspsharp.HLE.VFS.patch
 							}
 							else
 							{
-								log.error(string.Format("Unsupported relocation patch at 0x{0:X8}, R_FLAG=0x{1:X}", R_BASE, R_FLAG));
+								Console.WriteLine(string.Format("Unsupported relocation patch at 0x{0:X8}, R_FLAG=0x{1:X}", R_BASE, R_FLAG));
 								return;
 							}
 							int newCmd = (flagIndex << flagShift) | (OFS_BASE << segmentShift) | (typeIndex << typeShift) | (newOffset << offsetShift);
@@ -360,7 +360,7 @@ namespace pspsharp.HLE.VFS.patch
 							}
 							else
 							{
-								log.error(string.Format("Unsupported relocation patch at 0x{0:X8}, R_CMD=0x{1:X4}, nextCmd=0x{2:X4}", R_BASE, R_CMD, nextCmd));
+								Console.WriteLine(string.Format("Unsupported relocation patch at 0x{0:X8}, R_CMD=0x{1:X4}, nextCmd=0x{2:X4}", R_BASE, R_CMD, nextCmd));
 								return;
 							}
 							int newNextCmd = (nextFlagIndex << flagShift) | (nextSegment << segmentShift) | (nextTypeIndex << typeShift) | (newNextOffset << offsetShift);
@@ -385,9 +385,9 @@ namespace pspsharp.HLE.VFS.patch
 
 				if (fileOffset >= 0)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Patching file '{0}' at PRX offset 0x{1:X8}: 0x{2:X8} -> 0x{3:X8}", fileName, offset, oldValue, newValue));
+						Console.WriteLine(string.Format("Patching file '{0}' at PRX offset 0x{1:X8}: 0x{2:X8} -> 0x{3:X8}", fileName, offset, oldValue, newValue));
 					}
 					base.apply(buffer, fileOffset);
 
@@ -409,9 +409,9 @@ namespace pspsharp.HLE.VFS.patch
 
 			public override void apply(sbyte[] buffer)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Patching file '{0}' at PRX offset 0x{1:X8}: {2}", fileName, offset, functionName));
+					Console.WriteLine(string.Format("Patching file '{0}' at PRX offset 0x{1:X8}: {2}", fileName, offset, functionName));
 				}
 				base.apply(buffer);
 				patchInfo2.apply(buffer);

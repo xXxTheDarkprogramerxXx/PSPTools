@@ -103,13 +103,13 @@ namespace pspsharp.HLE.VFS.xmb
 						IVirtualFile vFile = vfs.ioOpen(section.umdFilename, IoFileMgrForUser.PSP_O_RDONLY, 0);
 						if (vFile != null)
 						{
-							section.size = (int) vFile.length();
+							section.size = (int) vFile.Length();
 							sbyte[] buffer = new sbyte[section.size];
-							int length = vFile.ioRead(buffer, 0, buffer.Length);
+							int Length = vFile.ioRead(buffer, 0, buffer.Length);
 							vFile.ioClose();
 
 							System.IO.Stream os = new System.IO.FileStream(cacheFile, System.IO.FileMode.Create, System.IO.FileAccess.Write);
-							os.Write(buffer, 0, length);
+							os.Write(buffer, 0, Length);
 							os.Close();
 						}
 					}
@@ -146,11 +146,11 @@ namespace pspsharp.HLE.VFS.xmb
 			}
 			catch (FileNotFoundException e)
 			{
-				log.debug("XmbIsoVirtualFile", e);
+				Console.WriteLine("XmbIsoVirtualFile", e);
 			}
 			catch (IOException e)
 			{
-				log.debug("XmbIsoVirtualFile", e);
+				Console.WriteLine("XmbIsoVirtualFile", e);
 			}
 		}
 
@@ -175,9 +175,9 @@ namespace pspsharp.HLE.VFS.xmb
 				{
 					if (section.cacheFile != null)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("XmbIsoVirtualFile.readSection from Cache {0}", section.cacheFile));
+							Console.WriteLine(string.Format("XmbIsoVirtualFile.readSection from Cache {0}", section.cacheFile));
 						}
 
 						System.IO.Stream @is = new System.IO.FileStream(section.cacheFile, System.IO.FileMode.Open, System.IO.FileAccess.Read);
@@ -186,9 +186,9 @@ namespace pspsharp.HLE.VFS.xmb
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("XmbIsoVirtualFile.readSection from UMD {0}", section.umdFilename));
+							Console.WriteLine(string.Format("XmbIsoVirtualFile.readSection from UMD {0}", section.umdFilename));
 						}
 
 						UmdIsoReader iso = new UmdIsoReader(umdFilename);
@@ -204,7 +204,7 @@ namespace pspsharp.HLE.VFS.xmb
 				}
 				catch (IOException e)
 				{
-					log.debug("readSection", e);
+					Console.WriteLine("readSection", e);
 				}
 
 				// PARAM.SFO?
@@ -241,25 +241,25 @@ namespace pspsharp.HLE.VFS.xmb
 			section.availableInContents = true;
 		}
 
-		protected internal virtual int ioRead(PbpSection section, TPointer outputPointer, int offset, int length)
+		protected internal virtual int ioRead(PbpSection section, TPointer outputPointer, int offset, int Length)
 		{
 			if (filePointer < section.offset || filePointer >= section.offset + section.size)
 			{
 				return 0;
 			}
 
-			length = System.Math.Min(length, section.size - (int)(filePointer - section.offset));
-			if (length > 0)
+			Length = System.Math.Min(Length, section.size - (int)(filePointer - section.offset));
+			if (Length > 0)
 			{
 				if (!section.availableInContents)
 				{
 					readSection(section);
 				}
 
-				outputPointer.setArray(offset, contents, (int) filePointer, length);
+				outputPointer.setArray(offset, contents, (int) filePointer, Length);
 			}
 
-			return length;
+			return Length;
 		}
 
 		public override int ioRead(TPointer outputPointer, int outputLength)
@@ -268,10 +268,10 @@ namespace pspsharp.HLE.VFS.xmb
 			int offset = 0;
 			for (int i = 0; remaining > 0 && i < sections.Length; i++)
 			{
-				int length = ioRead(sections[i], outputPointer, offset, remaining);
-				filePointer += length;
-				offset += length;
-				remaining -= length;
+				int Length = ioRead(sections[i], outputPointer, offset, remaining);
+				filePointer += Length;
+				offset += Length;
+				remaining -= Length;
 			}
 
 			return offset;
@@ -282,7 +282,7 @@ namespace pspsharp.HLE.VFS.xmb
 			return base.ioRead(outputBuffer, outputOffset, outputLength);
 		}
 
-		public override long length()
+		public override long Length()
 		{
 			return totalLength;
 		}

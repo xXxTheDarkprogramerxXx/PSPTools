@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class sceMePower : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMePower");
+		//public static Logger log = Modules.getLogger("sceMePower");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1862B784, version = 150) public int sceMePower_driver_1862B784(int unknown1, int unknown2)

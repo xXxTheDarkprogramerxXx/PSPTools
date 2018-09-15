@@ -356,9 +356,9 @@ namespace pspsharp.graphics.RE
 						shaderUniformInfo.setUnused();
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Uniform {0}", shaderUniformInfo));
+						Console.WriteLine(string.Format("Uniform {0}", shaderUniformInfo));
 					}
 
 					previousOffset = offset;
@@ -382,9 +382,9 @@ namespace pspsharp.graphics.RE
 				}
 				bufferSize = lastOffset + 4;
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("UBO Structure size: {0:D} (including endOfUBO)", bufferSize));
+					Console.WriteLine(string.Format("UBO Structure size: {0:D} (including endOfUBO)", bufferSize));
 				}
 
 				buffer = re.genBuffer();
@@ -425,7 +425,7 @@ namespace pspsharp.graphics.RE
 			setUniformsSamplers(re, shaderProgram);
 		}
 
-		protected internal virtual void prepareCopy(int offset, int length)
+		protected internal virtual void prepareCopy(int offset, int Length)
 		{
 			data.position(offset);
 
@@ -433,9 +433,9 @@ namespace pspsharp.graphics.RE
 			{
 				startUpdate = offset;
 			}
-			if (offset + length > endUpdate)
+			if (offset + Length > endUpdate)
 			{
-				endUpdate = offset + length;
+				endUpdate = offset + Length;
 			}
 		}
 
@@ -532,10 +532,10 @@ namespace pspsharp.graphics.RE
 //ORIGINAL LINE: final float[] previousBoneMatrix = getBoneMatrix();
 				float[] previousBoneMatrix = BoneMatrix;
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int length = 16 * count;
-				int length = 16 * count;
+//ORIGINAL LINE: final int Length = 16 * count;
+				int Length = 16 * count;
 				int start = -1;
-				for (int i = 0; i < length; i++)
+				for (int i = 0; i < Length; i++)
 				{
 					if (previousBoneMatrix[i] != boneMatrix[i])
 					{
@@ -547,7 +547,7 @@ namespace pspsharp.graphics.RE
 				if (start >= 0)
 				{
 					int end = start + 1;
-					for (int i = length - 1; i > start; i--)
+					for (int i = Length - 1; i > start; i--)
 					{
 						if (previousBoneMatrix[i] != boneMatrix[i])
 						{

@@ -16,14 +16,14 @@
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceDNASCore : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceDNASCore");
+		//public static Logger log = Modules.getLogger("sceDNASCore");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xFA571A75, version = 150) public int sceDNASCoreInit()
@@ -42,7 +42,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x15096ECD, version = 150) public int sceDNASCoreGetHostname(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer hostname)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x15096ECD, version = 150) public int sceDNASCoreGetHostname(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer hostname)
 		[HLEFunction(nid : 0x15096ECD, version : 150)]
 		public virtual int sceDNASCoreGetHostname(TPointer hostname)
 		{
@@ -155,15 +155,15 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF0EB4367, version = 150) public int sceDNASCoreGetConnect(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.returnValue, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer connectAddr, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF0EB4367, version = 150) public int sceDNASCoreGetConnect(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.returnValue, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer connectAddr, int Length)
 		[HLEFunction(nid : 0xF0EB4367, version : 150)]
-		public virtual int sceDNASCoreGetConnect(TPointer connectAddr, int length)
+		public virtual int sceDNASCoreGetConnect(TPointer connectAddr, int Length)
 		{
 			return 0;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF479F616, version = 150) public int sceDNASCoreGetHostnameBase(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer hostnameBase)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF479F616, version = 150) public int sceDNASCoreGetHostnameBase(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer hostnameBase)
 		[HLEFunction(nid : 0xF479F616, version : 150)]
 		public virtual int sceDNASCoreGetHostnameBase(TPointer hostnameBase)
 		{

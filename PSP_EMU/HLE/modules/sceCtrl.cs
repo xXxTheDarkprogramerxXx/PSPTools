@@ -28,11 +28,11 @@ namespace pspsharp.HLE.modules
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using SceKernelThreadInfo = pspsharp.HLE.kernel.types.SceKernelThreadInfo;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceCtrl : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceCtrl");
+		//public static Logger log = Modules.getLogger("sceCtrl");
 
 		private int cycle;
 		private int mode;
@@ -279,11 +279,11 @@ namespace pspsharp.HLE.modules
 		/// (currentSamplingIndex or currentReadingIndex).
 		/// </summary>
 		/// <param name="index"> the current index value
-		///              0 <= index < samples.length </param>
+		///              0 <= index < samples.Length </param>
 		/// <param name="count"> the increment (or decrement) value.
-		///              -samples.length <= count <= samples.length </param>
+		///              -samples.Length <= count <= samples.Length </param>
 		/// <returns>      the incremented index value
-		///              0 <= returned value < samples.length </returns>
+		///              0 <= returned value < samples.Length </returns>
 		protected internal virtual int incrementSampleIndex(int index, int count)
 		{
 			index += count;
@@ -304,9 +304,9 @@ namespace pspsharp.HLE.modules
 		/// (currentSamplingIndex or currentReadingIndex).
 		/// </summary>
 		/// <param name="index"> the current index value
-		///              0 <= index < samples.length </param>
+		///              0 <= index < samples.Length </param>
 		/// <returns>      the index value incremented by 1
-		///              0 <= returned value < samples.length </returns>
+		///              0 <= returned value < samples.Length </returns>
 		protected internal virtual int incrementSampleIndex(int index)
 		{
 			return incrementSampleIndex(index, 1);
@@ -357,9 +357,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleCtrlExecuteSampling()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("hleCtrlExecuteSampling");
+				Console.WriteLine("hleCtrlExecuteSampling");
 			}
 
 			Controller controller = State.controller;
@@ -383,18 +383,18 @@ namespace pspsharp.HLE.modules
 				ThreadWaitingForSampling wait = threadsWaitingForSampling.RemoveAt(0);
 				if (wait.thread.isWaitingForType(SceKernelThreadInfo.JPCSP_WAIT_CTRL))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug("hleExecuteSampling waiting up thread " + wait.thread);
+						Console.WriteLine("hleExecuteSampling waiting up thread " + wait.thread);
 					}
 					wait.thread.cpuContext._v0 = hleCtrlReadBufferImmediately(wait.readAddr, wait.readCount, wait.readPositive, false);
 					Modules.ThreadManForUserModule.hleUnblockThread(wait.thread.uid);
 					break;
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("hleExecuteSampling thread " + wait.thread + " was no longer blocked");
+					Console.WriteLine("hleExecuteSampling thread " + wait.thread + " was no longer blocked");
 				}
 			}
 		}
@@ -437,11 +437,11 @@ namespace pspsharp.HLE.modules
 				readIndex = incrementSampleIndex(readIndex);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("hleCtrlReadBufferImmediately(positive=%b, peek=%b) returning %d", positive, peek, count));
-				log.debug(string.Format("hleCtrlReadBufferImmediately(positive=%b, peek=%b) returning %d", positive, peek, count));
+//ORIGINAL LINE: Console.WriteLine(String.format("hleCtrlReadBufferImmediately(positive=%b, peek=%b) returning %d", positive, peek, count));
+				Console.WriteLine(string.Format("hleCtrlReadBufferImmediately(positive=%b, peek=%b) returning %d", positive, peek, count));
 			}
 
 			return count;
@@ -468,9 +468,9 @@ namespace pspsharp.HLE.modules
 			threadsWaitingForSampling.Add(threadWaitingForSampling);
 			threadMan.hleBlockCurrentThread(SceKernelThreadInfo.JPCSP_WAIT_CTRL);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("hleCtrlReadBuffer waiting for sample");
+				Console.WriteLine("hleCtrlReadBuffer waiting for sample");
 			}
 
 			return 0;
@@ -484,9 +484,9 @@ namespace pspsharp.HLE.modules
 			int oldCycle = cycle;
 			this.cycle = newCycle;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCtrlSetSamplingCycle cycle={0:D} returning {1:D}", newCycle, oldCycle));
+				Console.WriteLine(string.Format("sceCtrlSetSamplingCycle cycle={0:D} returning {1:D}", newCycle, oldCycle));
 			}
 
 			return oldCycle;
@@ -508,9 +508,9 @@ namespace pspsharp.HLE.modules
 			int oldMode = mode;
 			SamplingMode = newMode;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCtrlSetSamplingMode mode={0:D} returning {1:D}", newMode, oldMode));
+				Console.WriteLine(string.Format("sceCtrlSetSamplingMode mode={0:D} returning {1:D}", newMode, oldMode));
 			}
 
 			return oldMode;
@@ -525,7 +525,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x3A622550, version = 150) public int sceCtrlPeekBufferPositive(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
+//ORIGINAL LINE: @HLEFunction(nid = 0x3A622550, version = 150) public int sceCtrlPeekBufferPositive(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
 		[HLEFunction(nid : 0x3A622550, version : 150)]
 		public virtual int sceCtrlPeekBufferPositive(TPointer dataAddr, int numBuf)
 		{
@@ -533,7 +533,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xC152080A, version = 150) public int sceCtrlPeekBufferNegative(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
+//ORIGINAL LINE: @HLEFunction(nid = 0xC152080A, version = 150) public int sceCtrlPeekBufferNegative(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
 		[HLEFunction(nid : 0xC152080A, version : 150)]
 		public virtual int sceCtrlPeekBufferNegative(TPointer dataAddr, int numBuf)
 		{
@@ -541,7 +541,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x1F803938, version = 150, checkInsideInterrupt = true) public int sceCtrlReadBufferPositive(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
+//ORIGINAL LINE: @HLEFunction(nid = 0x1F803938, version = 150, checkInsideInterrupt = true) public int sceCtrlReadBufferPositive(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
 		[HLEFunction(nid : 0x1F803938, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceCtrlReadBufferPositive(TPointer dataAddr, int numBuf)
 		{
@@ -549,7 +549,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x60B81F86, version = 150, checkInsideInterrupt = true) public int sceCtrlReadBufferNegative(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
+//ORIGINAL LINE: @HLEFunction(nid = 0x60B81F86, version = 150, checkInsideInterrupt = true) public int sceCtrlReadBufferNegative(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dataAddr, int numBuf)
 		[HLEFunction(nid : 0x60B81F86, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceCtrlReadBufferNegative(TPointer dataAddr, int numBuf)
 		{
@@ -575,9 +575,9 @@ namespace pspsharp.HLE.modules
 			latchAddr.setValue(8, uiPress);
 			latchAddr.setValue(12, uiRelease);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceCtrlReadLatch uiMake=0x{0:X6}, uiBreak=0x{1:X6}, uiPress=0x{2:X6}, uiRelease=0x{3:X6}, returning {4:D}", uiMake, uiBreak, uiPress, uiRelease, latchSamplingCount));
+				Console.WriteLine(string.Format("sceCtrlReadLatch uiMake=0x{0:X6}, uiBreak=0x{1:X6}, uiPress=0x{2:X6}, uiRelease=0x{3:X6}, returning {4:D}", uiMake, uiBreak, uiPress, uiRelease, latchSamplingCount));
 			}
 
 			uiMake = 0;

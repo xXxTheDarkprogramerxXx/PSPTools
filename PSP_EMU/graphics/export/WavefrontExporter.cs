@@ -22,7 +22,7 @@ namespace pspsharp.graphics.export
 //	import static pspsharp.graphics.GeCommands.PRIM_TRIANGLE_STRIPS;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	/// <summary>
@@ -56,7 +56,7 @@ namespace pspsharp.graphics.export
 				}
 				catch (IOException e)
 				{
-					log.error("Error writing export.obj file", e);
+					Console.WriteLine("Error writing export.obj file", e);
 				}
 			}
 		}
@@ -72,7 +72,7 @@ namespace pspsharp.graphics.export
 				}
 				catch (IOException e)
 				{
-					log.error("Error writing export.mtl file", e);
+					Console.WriteLine("Error writing export.mtl file", e);
 				}
 			}
 		}
@@ -104,7 +104,7 @@ namespace pspsharp.graphics.export
 			}
 			catch (IOException e)
 			{
-				log.error("Error creating the export files", e);
+				Console.WriteLine("Error creating the export files", e);
 			}
 			exportVertexCount = 1;
 			exportModelCount = 1;

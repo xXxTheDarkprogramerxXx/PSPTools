@@ -19,13 +19,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SysMemInfo = pspsharp.HLE.modules.SysMemUserForUser.SysMemInfo;
 
 	public class sceMeMemory : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMeMemory");
+		//public static Logger log = Modules.getLogger("sceMeMemory");
 		private IDictionary<int, SysMemInfo> allocated;
 
 		public override void start()

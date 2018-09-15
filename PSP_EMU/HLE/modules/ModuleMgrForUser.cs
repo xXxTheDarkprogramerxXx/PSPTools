@@ -70,11 +70,11 @@ namespace pspsharp.HLE.modules
 	using MemoryWriter = pspsharp.memory.MemoryWriter;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class ModuleMgrForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("ModuleMgrForUser");
+		//public static Logger log = Modules.getLogger("ModuleMgrForUser");
 		public const int SCE_HEADER_LENGTH = 0x40;
 
 		public class LoadModuleContext
@@ -288,9 +288,9 @@ namespace pspsharp.HLE.modules
 					{
 						// We could extract the library name from the file
 						loadModuleContext.moduleName = libName;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("getModuleNameFromFileContent {0}", loadModuleContext));
+							Console.WriteLine(string.Format("getModuleNameFromFileContent {0}", loadModuleContext));
 						}
 					}
 				}
@@ -377,7 +377,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException e)
 			{
-				log.error("getModuleRequiredMemorySize", e);
+				Console.WriteLine("getModuleRequiredMemorySize", e);
 			}
 
 			return module;
@@ -416,9 +416,9 @@ namespace pspsharp.HLE.modules
 				// Load the module in analyze mode to find out its required memory size
 				SceModule testModule = getModuleInfo(loadModuleContext.fileName, loadModuleContext.moduleBuffer, mpidText, mpidData);
 				int totalAllocSize = moduleHeaderSize + getModuleRequiredMemorySize(testModule);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Module '{0}' requires {1:D} bytes memory", loadModuleContext.fileName, totalAllocSize));
+					Console.WriteLine(string.Format("Module '{0}' requires {1:D} bytes memory", loadModuleContext.fileName, totalAllocSize));
 				}
 
 				// Take the partition IDs from the module information, if available
@@ -440,7 +440,7 @@ namespace pspsharp.HLE.modules
 				SysMemInfo testInfo = Modules.SysMemUserForUserModule.malloc(mpidText, "ModuleMgr-TestInfo", allocType, totalAllocSize, 0);
 				if (testInfo == null)
 				{
-					log.error(string.Format("Failed module allocation of size 0x{0:X8} for '{1}' (maxFreeMemSize=0x{2:X8})", totalAllocSize, loadModuleContext.fileName, Modules.SysMemUserForUserModule.maxFreeMemSize(mpidText)));
+					Console.WriteLine(string.Format("Failed module allocation of size 0x{0:X8} for '{1}' (maxFreeMemSize=0x{2:X8})", totalAllocSize, loadModuleContext.fileName, Modules.SysMemUserForUserModule.maxFreeMemSize(mpidText)));
 					return -1;
 				}
 				int testBase = testInfo.addr;
@@ -453,12 +453,12 @@ namespace pspsharp.HLE.modules
 					moduleInfo = Modules.SysMemUserForUserModule.malloc(mpidText, "ModuleMgr", SysMemUserForUser.PSP_SMEM_Addr, moduleHeaderSize, testBase);
 					if (moduleInfo == null)
 					{
-						log.error(string.Format("Failed module allocation 0x{0:X8} != null for '{1}'", testBase, loadModuleContext.fileName));
+						Console.WriteLine(string.Format("Failed module allocation 0x{0:X8} != null for '{1}'", testBase, loadModuleContext.fileName));
 						return -1;
 					}
 					if (moduleInfo.addr != testBase)
 					{
-						log.error(string.Format("Failed module allocation 0x{0:X8} != 0x{1:X8} for '{2}'", testBase, moduleInfo.addr, loadModuleContext.fileName));
+						Console.WriteLine(string.Format("Failed module allocation 0x{0:X8} != 0x{1:X8} for '{2}'", testBase, moduleInfo.addr, loadModuleContext.fileName));
 						return -1;
 					}
 					moduleBase = moduleInfo.addr + moduleHeaderSize;
@@ -488,9 +488,9 @@ namespace pspsharp.HLE.modules
 			{
 				module.addAllocatedMemory(moduleInfo);
 				result = module.modid;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelLoadModule returning uid=0x{0:X}", result));
+					Console.WriteLine(string.Format("hleKernelLoadModule returning uid=0x{0:X}", result));
 				}
 			}
 			else if ((module.fileFormat & (Loader.FORMAT_SCE | Loader.FORMAT_PSP)) != 0)
@@ -563,7 +563,7 @@ namespace pspsharp.HLE.modules
 							}
 						}
 
-						sbyte[] moduleBytes = new sbyte[(int) moduleInput.length()];
+						sbyte[] moduleBytes = new sbyte[(int) moduleInput.Length()];
 						moduleInput.readFully(moduleBytes);
 						moduleInput.Dispose();
 						loadModuleContext.moduleBuffer = ByteBuffer.wrap(moduleBytes);
@@ -576,13 +576,13 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					log.warn(string.Format("hleKernelLoadModule(path='{0}') can't find file", loadModuleContext.fileName));
+					Console.WriteLine(string.Format("hleKernelLoadModule(path='{0}') can't find file", loadModuleContext.fileName));
 					return ERROR_ERRNO_FILE_NOT_FOUND;
 				}
 			}
 			catch (IOException e)
 			{
-				log.error(string.Format("hleKernelLoadModule - Error while loading module {0}", loadModuleContext.fileName), e);
+				Console.WriteLine(string.Format("hleKernelLoadModule - Error while loading module {0}", loadModuleContext.fileName), e);
 				return -1;
 			}
 
@@ -601,13 +601,13 @@ namespace pspsharp.HLE.modules
 
 			if (sceModule == null)
 			{
-				log.warn(string.Format("sceKernelStartModule - unknown module UID 0x{0:X}", uid));
+				Console.WriteLine(string.Format("sceKernelStartModule - unknown module UID 0x{0:X}", uid));
 				return ERROR_KERNEL_UNKNOWN_MODULE;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelStartModule starting module '{0}'", sceModule.modname));
+				Console.WriteLine(string.Format("sceKernelStartModule starting module '{0}'", sceModule.modname));
 			}
 
 			statusAddr.setValue(0);
@@ -622,7 +622,7 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					log.warn(string.Format("IGNORING:sceKernelStartModule flash module '{0}'", sceModule.modname));
+					Console.WriteLine(string.Format("IGNORING:sceKernelStartModule flash module '{0}'", sceModule.modname));
 				}
 				sceModule.start();
 				return sceModule.modid; // return the module id
@@ -724,9 +724,9 @@ namespace pspsharp.HLE.modules
 
 					RuntimeContext.invalidateRange(newEntryAddr, numberInstructions * 4);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceKernelStartModule installed hook to call startModuleHandler 0x{0:X8} from 0x{1:X8} for sceModule 0x{2:X8}", startModuleHandler, newEntryAddr, sceModule.address));
+						Console.WriteLine(string.Format("sceKernelStartModule installed hook to call startModuleHandler 0x{0:X8} from 0x{1:X8} for sceModule 0x{2:X8}", startModuleHandler, newEntryAddr, sceModule.address));
 					}
 				}
 
@@ -748,7 +748,7 @@ namespace pspsharp.HLE.modules
 			}
 			else
 			{
-				log.warn(string.Format("sceKernelStartModule - invalid entry address 0x{0:X8}", entryAddr));
+				Console.WriteLine(string.Format("sceKernelStartModule - invalid entry address 0x{0:X8}", entryAddr));
 				return -1;
 			}
 
@@ -768,18 +768,18 @@ namespace pspsharp.HLE.modules
 			SceModule sceModule = Managers.modules.getModuleByUID(uid);
 			if (sceModule == null)
 			{
-				log.warn(string.Format("hleKernelUnloadModule unknown module UID 0x{0:X}", uid));
+				Console.WriteLine(string.Format("hleKernelUnloadModule unknown module UID 0x{0:X}", uid));
 				return -1;
 			}
 			if (sceModule.ModuleStarted && !sceModule.ModuleStopped)
 			{
-				log.warn(string.Format("hleKernelUnloadModule module 0x{0:X} is still running!", uid));
+				Console.WriteLine(string.Format("hleKernelUnloadModule module 0x{0:X} is still running!", uid));
 				return SceKernelErrors.ERROR_KERNEL_MODULE_CANNOT_REMOVE;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelUnloadModule '{0}'", sceModule.modname));
+				Console.WriteLine(string.Format("hleKernelUnloadModule '{0}'", sceModule.modname));
 			}
 
 			sceModule.unload();
@@ -795,9 +795,9 @@ namespace pspsharp.HLE.modules
 		{
 			string name = Modules.IoFileMgrForUserModule.getFileFilename(uid);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelLoadModuleByID name='{0}'", name));
+				Console.WriteLine(string.Format("sceKernelLoadModuleByID name='{0}'", name));
 			}
 
 			SceKernelLMOption lmOption = null;
@@ -907,15 +907,15 @@ namespace pspsharp.HLE.modules
 
 			if (sceModule == null)
 			{
-				log.warn("sceKernelStopModule - unknown module UID 0x" + uid.ToString("x"));
+				Console.WriteLine("sceKernelStopModule - unknown module UID 0x" + uid.ToString("x"));
 				return ERROR_KERNEL_UNKNOWN_MODULE;
 			}
 
 			statusAddr.setValue(0);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelStopModule '{0}'", sceModule.modname));
+				Console.WriteLine(string.Format("sceKernelStopModule '{0}'", sceModule.modname));
 			}
 
 			if (sceModule.isFlashModule)
@@ -928,7 +928,7 @@ namespace pspsharp.HLE.modules
 				}
 				else
 				{
-					log.warn("IGNORING:sceKernelStopModule flash module '" + sceModule.modname + "'");
+					Console.WriteLine("IGNORING:sceKernelStopModule flash module '" + sceModule.modname + "'");
 				}
 				sceModule.stop();
 				return 0; // Fake success.
@@ -991,12 +991,12 @@ namespace pspsharp.HLE.modules
 			}
 			else if (sceModule.ModuleStopped)
 			{
-				log.warn("sceKernelStopModule - module already stopped");
+				Console.WriteLine("sceKernelStopModule - module already stopped");
 				return SceKernelErrors.ERROR_KERNEL_MODULE_ALREADY_STOPPED;
 			}
 			else
 			{
-				log.warn(string.Format("sceKernelStopModule - invalid stop function 0x{0:X8}", sceModule.module_stop_func));
+				Console.WriteLine(string.Format("sceKernelStopModule - invalid stop function 0x{0:X8}", sceModule.module_stop_func));
 				return -1;
 			}
 
@@ -1160,7 +1160,7 @@ namespace pspsharp.HLE.modules
 			SceModule sceModule = Managers.modules.getModuleByUID(uid);
 			if (sceModule == null)
 			{
-				log.warn("sceKernelQueryModuleInfo unknown module UID 0x" + uid.ToString("x"));
+				Console.WriteLine("sceKernelQueryModuleInfo unknown module UID 0x" + uid.ToString("x"));
 				return -1;
 			}
 
@@ -1168,9 +1168,9 @@ namespace pspsharp.HLE.modules
 			moduleInfo.copy(sceModule);
 			moduleInfo.write(infoAddr);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelQueryModuleInfo returning {0}", Utilities.getMemoryDump(infoAddr.Address, infoAddr.getValue32())));
+				Console.WriteLine(string.Format("sceKernelQueryModuleInfo returning {0}", Utilities.getMemoryDump(infoAddr.Address, infoAddr.getValue32())));
 			}
 
 			return 0;
@@ -1181,9 +1181,9 @@ namespace pspsharp.HLE.modules
 		{
 			int moduleId = SelfModuleId;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetModuleId returning 0x{0:X}", moduleId));
+				Console.WriteLine(string.Format("sceKernelGetModuleId returning 0x{0:X}", moduleId));
 			}
 
 			return moduleId;
@@ -1195,7 +1195,7 @@ namespace pspsharp.HLE.modules
 			SceModule module = Managers.modules.getModuleByAddress(addr.Address);
 			if (module == null)
 			{
-				log.warn(string.Format("sceKernelGetModuleIdByAddress addr={0} module not found", addr));
+				Console.WriteLine(string.Format("sceKernelGetModuleIdByAddress addr={0} module not found", addr));
 				return -1;
 			}
 
@@ -1343,7 +1343,7 @@ namespace pspsharp.HLE.modules
 			// SPRX modules can't be decrypted yet.
 			if (!Modules.scePspNpDrm_userModule.DisableDLCStatus)
 			{
-				log.warn(string.Format("sceKernelLoadModuleNpDrm detected encrypted DLC module: {0}", path.String));
+				Console.WriteLine(string.Format("sceKernelLoadModuleNpDrm detected encrypted DLC module: {0}", path.String));
 				return SceKernelErrors.ERROR_NPDRM_INVALID_PERM;
 			}
 
@@ -1371,7 +1371,7 @@ namespace pspsharp.HLE.modules
 			SceModule module = Managers.modules.getModuleByAddress(address);
 			if (module == null)
 			{
-				log.warn(string.Format("sceKernelGetModuleGPByAddress not found module address=0x{0:X8}", address));
+				Console.WriteLine(string.Format("sceKernelGetModuleGPByAddress not found module address=0x{0:X8}", address));
 				return -1;
 			}
 

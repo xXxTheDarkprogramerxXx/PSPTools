@@ -114,7 +114,7 @@ namespace pspsharp.hardware
 				}
 				catch (AWTException e)
 				{
-					Emulator.log.error(e);
+					Emulator.Console.WriteLine(e);
 				}
 			}
 		}

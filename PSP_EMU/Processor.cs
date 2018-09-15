@@ -31,7 +31,7 @@ namespace pspsharp
 	using Decoder = pspsharp.Allegrex.Decoder;
 	using Instructions = pspsharp.Allegrex.Instructions;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class Processor : IState
 	{

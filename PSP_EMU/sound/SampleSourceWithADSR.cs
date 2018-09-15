@@ -37,7 +37,7 @@ namespace pspsharp.sound
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.sound.SoundMixer.getSampleRight;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using sceSasCore = pspsharp.HLE.modules.sceSasCore;
 	using VoiceADSREnvelope = pspsharp.sound.SoundVoice.VoiceADSREnvelope;

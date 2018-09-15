@@ -20,7 +20,7 @@ namespace pspsharp.mediaengine
 //	import static pspsharp.HLE.kernel.managers.ExceptionManager.EXCEP_INT;
 
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Instruction = pspsharp.Allegrex.Common.Instruction;
 	using Decoder = pspsharp.Allegrex.Decoder;
@@ -174,11 +174,11 @@ namespace pspsharp.mediaengine
 
 		public virtual void halt()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("MEProcessor.halt: pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, doTriggerException=%b, status=0x%X, pc=0x%08X", pendingInterruptIPbits, isInterruptExecutionAllowed(), pspsharp.memory.mmio.MMIOHandlerInterruptMan.getInstance(this).doTriggerException(), cp0.getStatus(), cpu.pc));
-				log.debug(string.Format("MEProcessor.halt: pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, doTriggerException=%b, status=0x%X, pc=0x%08X", pendingInterruptIPbits, InterruptExecutionAllowed, MMIOHandlerInterruptMan.getInstance(this).doTriggerException(), cp0.Status, cpu.pc));
+//ORIGINAL LINE: Console.WriteLine(String.format("MEProcessor.halt: pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, doTriggerException=%b, status=0x%X, pc=0x%08X", pendingInterruptIPbits, isInterruptExecutionAllowed(), pspsharp.memory.mmio.MMIOHandlerInterruptMan.getInstance(this).doTriggerException(), cp0.getStatus(), cpu.pc));
+				Console.WriteLine(string.Format("MEProcessor.halt: pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, doTriggerException=%b, status=0x%X, pc=0x%08X", pendingInterruptIPbits, InterruptExecutionAllowed, MMIOHandlerInterruptMan.getInstance(this).doTriggerException(), cp0.Status, cpu.pc));
 			}
 
 			if (pendingInterruptIPbits == 0 && !MMIOHandlerInterruptMan.getInstance(this).doTriggerException())
@@ -289,9 +289,9 @@ namespace pspsharp.mediaengine
 				ExceptionCause = EXCEP_INT;
 				cpu.pc = prepareExceptionHandlerCall(false);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("MEProcessor calling exception handler at 0x{0:X8}, IP bits=0x{1:X2}", cpu.pc, (cause >> 8) & 0xFF));
+					Console.WriteLine(string.Format("MEProcessor calling exception handler at 0x{0:X8}, IP bits=0x{1:X2}", cpu.pc, (cause >> 8) & 0xFF));
 				}
 			}
 		}
@@ -372,8 +372,8 @@ namespace pspsharp.mediaengine
 
 				if (cpu.pc == unchecked((int)0x883000E0) && log.DebugEnabled)
 				{
-					log.debug(string.Format("Initial ME memory content from meimg.img:"));
-					log.debug(Utilities.getMemoryDump(meMemory, 0x00101000, cpu._v0));
+					Console.WriteLine(string.Format("Initial ME memory content from meimg.img:"));
+					Console.WriteLine(Utilities.getMemoryDump(meMemory, 0x00101000, cpu._v0));
 	//				log.setLevel(Level.TRACE);
 				}
 			}
@@ -398,11 +398,11 @@ namespace pspsharp.mediaengine
 				initRun();
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("MEProcessor starting run: halt=%b, pendingInterruptIPbits=0x%X, pc=0x%08X", halt, pendingInterruptIPbits, cpu.pc));
-				log.debug(string.Format("MEProcessor starting run: halt=%b, pendingInterruptIPbits=0x%X, pc=0x%08X", halt_Renamed, pendingInterruptIPbits, cpu.pc));
+//ORIGINAL LINE: Console.WriteLine(String.format("MEProcessor starting run: halt=%b, pendingInterruptIPbits=0x%X, pc=0x%08X", halt, pendingInterruptIPbits, cpu.pc));
+				Console.WriteLine(string.Format("MEProcessor starting run: halt=%b, pendingInterruptIPbits=0x%X, pc=0x%08X", halt_Renamed, pendingInterruptIPbits, cpu.pc));
 			}
 
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
@@ -422,11 +422,11 @@ namespace pspsharp.mediaengine
 				}
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("MEProcessor exiting run: halt=%b, pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, status=0x%X, pc=0x%08X", halt, pendingInterruptIPbits, isInterruptExecutionAllowed(), cp0.getStatus(), cpu.pc));
-				log.debug(string.Format("MEProcessor exiting run: halt=%b, pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, status=0x%X, pc=0x%08X", halt_Renamed, pendingInterruptIPbits, InterruptExecutionAllowed, cp0.Status, cpu.pc));
+//ORIGINAL LINE: Console.WriteLine(String.format("MEProcessor exiting run: halt=%b, pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, status=0x%X, pc=0x%08X", halt, pendingInterruptIPbits, isInterruptExecutionAllowed(), cp0.getStatus(), cpu.pc));
+				Console.WriteLine(string.Format("MEProcessor exiting run: halt=%b, pendingInterruptIPbits=0x%X, isInterruptExecutionAllowed=%b, status=0x%X, pc=0x%08X", halt_Renamed, pendingInterruptIPbits, InterruptExecutionAllowed, cp0.Status, cpu.pc));
 			}
 		}
 	}

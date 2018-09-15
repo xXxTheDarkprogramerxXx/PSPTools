@@ -37,11 +37,11 @@ namespace pspsharp.HLE.modules
 	using MemoryWriter = pspsharp.memory.MemoryWriter;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNpAuth : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNpAuth");
+		//public static Logger log = Modules.getLogger("sceNpAuth");
 		public static bool useDummyTicket = false;
 
 		public const int STATUS_ACCOUNT_SUSPENDED = 0x80;
@@ -71,17 +71,17 @@ namespace pspsharp.HLE.modules
 			}
 		}
 
-		public static void addTicketParam(SceNpTicket ticket, int type, string value, int length)
+		public static void addTicketParam(SceNpTicket ticket, int type, string value, int Length)
 		{
 			sbyte[] stringBytes = value.GetBytes(Charset.forName("ASCII"));
-			sbyte[] bytes = new sbyte[length];
-			Array.Copy(stringBytes, 0, bytes, 0, System.Math.Min(length, stringBytes.Length));
+			sbyte[] bytes = new sbyte[Length];
+			Array.Copy(stringBytes, 0, bytes, 0, System.Math.Min(Length, stringBytes.Length));
 			ticket.parameters.Add(new SceNpTicket.TicketParam(type, bytes));
 		}
 
-		public static void addTicketParam(SceNpTicket ticket, string value, int length)
+		public static void addTicketParam(SceNpTicket ticket, string value, int Length)
 		{
-			addTicketParam(ticket, SceNpTicket.TicketParam.PARAM_TYPE_STRING_ASCII, value, length);
+			addTicketParam(ticket, SceNpTicket.TicketParam.PARAM_TYPE_STRING_ASCII, value, Length);
 		}
 
 		public static void addTicketParam(SceNpTicket ticket, int value)
@@ -135,11 +135,11 @@ namespace pspsharp.HLE.modules
 			@params.Append(encodeURLParam(value));
 		}
 
-		private static void addURLParam(StringBuilder @params, string name, int addr, int length)
+		private static void addURLParam(StringBuilder @params, string name, int addr, int Length)
 		{
 			StringBuilder value = new StringBuilder();
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(addr, length, 1);
-			for (int i = 0; i < length; i++)
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(addr, Length, 1);
+			for (int i = 0; i < Length; i++)
 			{
 				int c = memoryReader.readNext();
 				value.Append((char) c);
@@ -251,12 +251,12 @@ namespace pspsharp.HLE.modules
 							os.Close();
 							connection.connect();
 							int responseCode = connection.ResponseCode;
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("Response code: {0:D}", responseCode));
+								Console.WriteLine(string.Format("Response code: {0:D}", responseCode));
 								foreach (KeyValuePair<string, IList<string>> entry in connection.HeaderFields.entrySet())
 								{
-									log.debug(string.Format("{0}: {1}", entry.Key, entry.Value));
+									Console.WriteLine(string.Format("{0}: {1}", entry.Key, entry.Value));
 								}
 							}
 
@@ -265,28 +265,28 @@ namespace pspsharp.HLE.modules
 								System.IO.Stream @in = connection.InputStream;
 								while (true)
 								{
-									int length = @in.Read(ticketBytes, ticketBytesLength, ticketBytes.Length - ticketBytesLength);
-									if (length < 0)
+									int Length = @in.Read(ticketBytes, ticketBytesLength, ticketBytes.Length - ticketBytesLength);
+									if (Length < 0)
 									{
 										break;
 									}
-									ticketBytesLength += length;
+									ticketBytesLength += Length;
 								}
 								@in.Close();
 
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("Received ticket: {0}", Utilities.getMemoryDump(ticketBytes, 0, ticketBytesLength)));
+									Console.WriteLine(string.Format("Received ticket: {0}", Utilities.getMemoryDump(ticketBytes, 0, ticketBytesLength)));
 								}
 							}
 						}
 						catch (MalformedURLException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						catch (IOException e)
 						{
-							log.error(e);
+							Console.WriteLine(e);
 						}
 						finally
 						{
@@ -313,9 +313,9 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3F1C1F70, version = 150) public int sceNpAuthGetTicket(int id, pspsharp.HLE.TPointer buffer, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3F1C1F70, version = 150) public int sceNpAuthGetTicket(int id, pspsharp.HLE.TPointer buffer, int Length)
 		[HLEFunction(nid : 0x3F1C1F70, version : 150)]
-		public virtual int sceNpAuthGetTicket(int id, TPointer buffer, int length)
+		public virtual int sceNpAuthGetTicket(int id, TPointer buffer, int Length)
 		{
 			int result;
 
@@ -344,36 +344,36 @@ namespace pspsharp.HLE.modules
 				addTicketParam(ticket);
 				addTicketParam(ticket);
 				ticket.unknownBytes = new sbyte[72];
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNpAuthGetTicket returning dummy ticket: {0}", ticket));
+					Console.WriteLine(string.Format("sceNpAuthGetTicket returning dummy ticket: {0}", ticket));
 				}
 				ticket.write(buffer);
 				result = ticket.@sizeof();
 			}
 			else if (ticketBytesLength > 0)
 			{
-				result = System.Math.Min(ticketBytesLength, length);
+				result = System.Math.Min(ticketBytesLength, Length);
 				IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(buffer.Address, result, 1);
 				for (int i = 0; i < result; i++)
 				{
 					memoryWriter.writeNext(ticketBytes[i] & 0xFF);
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNpAuthGetTicket returning real ticket: {0}", Utilities.getMemoryDump(buffer.Address, result)));
+					Console.WriteLine(string.Format("sceNpAuthGetTicket returning real ticket: {0}", Utilities.getMemoryDump(buffer.Address, result)));
 				}
 			}
 			else
 			{
-				buffer.clear(length);
+				buffer.clear(Length);
 
-				result = length;
+				result = Length;
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNpAuthGetTicket returning empty ticket"));
+					Console.WriteLine(string.Format("sceNpAuthGetTicket returning empty ticket"));
 				}
 			}
 
@@ -405,7 +405,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5A3CB57A, version = 150) public int sceNpAuthGetTicketParam(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer ticketBuffer, int ticketLength, int paramNumber, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5A3CB57A, version = 150) public int sceNpAuthGetTicketParam(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer ticketBuffer, int ticketLength, int paramNumber, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x5A3CB57A, version : 150)]
 		public virtual int sceNpAuthGetTicketParam(TPointer ticketBuffer, int ticketLength, int paramNumber, TPointer buffer)
 		{
@@ -420,18 +420,18 @@ namespace pspsharp.HLE.modules
 			if (ticketBuffer.getValue32() == 0)
 			{
 				// This is an empty ticket, do no analyze it
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNpAuthGetTicketParam returning empty param from empty ticket"));
+					Console.WriteLine(string.Format("sceNpAuthGetTicketParam returning empty param from empty ticket"));
 				}
 			}
 			else
 			{
 				SceNpTicket ticket = new SceNpTicket();
 				ticket.read(ticketBuffer);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNpAuthGetTicketParam ticket: {0}", ticket));
+					Console.WriteLine(string.Format("sceNpAuthGetTicketParam ticket: {0}", ticket));
 				}
 
 				SceNpTicket.TicketParam ticketParam = ticket.parameters[paramNumber];

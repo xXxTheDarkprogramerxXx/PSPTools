@@ -476,7 +476,7 @@ namespace pspsharp.crypto
 			int elfDataSize = header.dataSize;
 			int elfDataOffset = header.dataOffset;
 
-			// Input buffer for decryption must have a length aligned on 16 bytes
+			// Input buffer for decryption must have a Length aligned on 16 bytes
 			int paddedElfDataSize = Utilities.alignUp(elfDataSize, 15);
 
 			// Decrypt all the ELF data.

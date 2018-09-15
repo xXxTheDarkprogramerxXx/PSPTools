@@ -44,7 +44,7 @@ namespace pspsharp.HLE.modules
 	using MemoryWriter = pspsharp.memory.MemoryWriter;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	/*
 	 * TODO list:
@@ -60,7 +60,7 @@ namespace pspsharp.HLE.modules
 	 */
 	public class SysMemUserForUser : HLEModule
 	{
-		public static Logger log = Modules.getLogger("SysMemUserForUser");
+		//public static Logger log = Modules.getLogger("SysMemUserForUser");
 		protected internal static Logger stdout = Logger.getLogger("stdout");
 		protected internal static Dictionary<int, SysMemInfo> blockList;
 		protected internal static MemoryChunkList[] freeMemoryChunks;
@@ -199,7 +199,7 @@ namespace pspsharp.HLE.modules
     
 					if (!Memory.Instance.allocate())
 					{
-						log.error(string.Format("Failed to resize the PSP memory from 0x{0:X} to 0x{1:X}", previousMemorySize, value));
+						Console.WriteLine(string.Format("Failed to resize the PSP memory from 0x{0:X} to 0x{1:X}", previousMemorySize, value));
 						Emulator.PauseEmuWithStatus(Emulator.EMU_STATUS_MEM_ANY);
 					}
     
@@ -252,7 +252,7 @@ namespace pspsharp.HLE.modules
 			{
 				if (addr == o.addr)
 				{
-					log.warn("Set invariant broken for SysMemInfo " + this);
+					Console.WriteLine("Set invariant broken for SysMemInfo " + this);
 					return 0;
 				}
 				return addr < o.addr ? -1 : 1;
@@ -334,7 +334,7 @@ namespace pspsharp.HLE.modules
 						allocatedAddress = freeMemoryChunk.alloc(addr & Memory.addressMask, allocatedSize);
 						break;
 					default:
-						log.warn(string.Format("malloc: unknown type {0}", getTypeName(type)));
+						Console.WriteLine(string.Format("malloc: unknown type {0}", getTypeName(type)));
 					break;
 				}
 			}
@@ -342,7 +342,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo sysMemInfo;
 			if (allocatedAddress == 0)
 			{
-				log.warn(string.Format("malloc cannot allocate partition={0:D}, name='{1}', type={2}, size=0x{3:X}, addr=0x{4:X8}, maxFreeMem=0x{5:X}, totalFreeMem=0x{6:X}", partitionid, name, getTypeName(type), size, addr, maxFreeMemSize(partitionid), totalFreeMemSize(partitionid)));
+				Console.WriteLine(string.Format("malloc cannot allocate partition={0:D}, name='{1}', type={2}, size=0x{3:X}, addr=0x{4:X8}, maxFreeMem=0x{5:X}, totalFreeMem=0x{6:X}", partitionid, name, getTypeName(type), size, addr, maxFreeMemSize(partitionid), totalFreeMemSize(partitionid)));
 				if (log.TraceEnabled)
 				{
 					log.trace("Free list: " + DebugFreeMem);
@@ -354,9 +354,9 @@ namespace pspsharp.HLE.modules
 			{
 				sysMemInfo = new SysMemInfo(partitionid, name, type, size, allocatedSize, allocatedAddress);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("malloc partition={0:D}, name='{1}', type={2}, size=0x{3:X}, addr=0x{4:X8}: returns 0x{5:X8}", partitionid, name, getTypeName(type), size, addr, allocatedAddress));
+					Console.WriteLine(string.Format("malloc partition={0:D}, name='{1}', type={2}, size=0x{3:X}, addr=0x{4:X8}: returns 0x{5:X8}", partitionid, name, getTypeName(type), size, addr, allocatedAddress));
 					if (log.TraceEnabled)
 					{
 						log.trace("Free list after malloc: " + DebugFreeMem);
@@ -417,9 +417,9 @@ namespace pspsharp.HLE.modules
 				info.free();
 				free(info.partitionid, info.addr, info.allocatedSize);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("free {0}", info.ToString()));
+					Console.WriteLine(string.Format("free {0}", info.ToString()));
 					if (log.TraceEnabled)
 					{
 						log.trace("Free list after free: " + DebugFreeMem);
@@ -724,9 +724,9 @@ namespace pspsharp.HLE.modules
 			// Some games expect size to be rounded down in 16 bytes block
 			maxFreeMemSize &= ~15;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelMaxFreeMemSize returning {0:D}(hex=0x{0:X})", maxFreeMemSize));
+				Console.WriteLine(string.Format("sceKernelMaxFreeMemSize returning {0:D}(hex=0x{0:X})", maxFreeMemSize));
 			}
 
 			return maxFreeMemSize;
@@ -736,9 +736,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceKernelTotalFreeMemSize()
 		{
 			int totalFreeMemSize = this.totalFreeMemSize(USER_PARTITION_ID);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelTotalFreeMemSize returning {0:D}(hex=0x{0:X})", totalFreeMemSize));
+				Console.WriteLine(string.Format("sceKernelTotalFreeMemSize returning {0:D}(hex=0x{0:X})", totalFreeMemSize));
 			}
 
 			return totalFreeMemSize;
@@ -771,7 +771,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo info = blockList.Remove(uid);
 			if (info == null)
 			{
-				log.warn(string.Format("sceKernelFreePartitionMemory unknown uid=0x{0:X}", uid));
+				Console.WriteLine(string.Format("sceKernelFreePartitionMemory unknown uid=0x{0:X}", uid));
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_CHUNK_ID;
 			}
 
@@ -788,7 +788,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo info = blockList[uid];
 			if (info == null)
 			{
-				log.warn(string.Format("sceKernelGetBlockHeadAddr unknown uid=0x{0:X}", uid));
+				Console.WriteLine(string.Format("sceKernelGetBlockHeadAddr unknown uid=0x{0:X}", uid));
 				return SceKernelErrors.ERROR_KERNEL_ILLEGAL_CHUNK_ID;
 			}
 
@@ -814,9 +814,9 @@ namespace pspsharp.HLE.modules
 			int minor = (firmwareVersion / 10) % 10;
 			int revision = firmwareVersion % 10;
 			int devkitVersion = (major << 24) | (minor << 16) | (revision << 8) | 0x10;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelDevkitVersion returning 0x{0:X8}", devkitVersion));
+				Console.WriteLine(string.Format("sceKernelDevkitVersion returning 0x{0:X8}", devkitVersion));
 			}
 
 			return devkitVersion;
@@ -832,9 +832,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0xFC114573, version : 200)]
 		public virtual int sceKernelGetCompiledSdkVersion()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetCompiledSdkVersion returning 0x{0:X8}", compiledSdkVersion));
+				Console.WriteLine(string.Format("sceKernelGetCompiledSdkVersion returning 0x{0:X8}", compiledSdkVersion));
 			}
 			return compiledSdkVersion;
 		}
@@ -908,7 +908,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo info = blockList.Remove(uid);
 			if (info == null)
 			{
-				log.warn("SysMemUserForUser_50F61D8A(uid=0x" + uid.ToString("x") + ") unknown uid");
+				Console.WriteLine("SysMemUserForUser_50F61D8A(uid=0x" + uid.ToString("x") + ") unknown uid");
 				return SceKernelErrors.ERROR_KERNEL_UNKNOWN_UID;
 			}
 
@@ -930,7 +930,7 @@ namespace pspsharp.HLE.modules
 			SysMemInfo info = blockList[uid];
 			if (info == null)
 			{
-				log.warn(string.Format("SysMemUserForUser_DB83A952 uid=0x{0:X}, addr={1}: unknown uid", uid, addr));
+				Console.WriteLine(string.Format("SysMemUserForUser_DB83A952 uid=0x{0:X}, addr={1}: unknown uid", uid, addr));
 				return SceKernelErrors.ERROR_KERNEL_UNKNOWN_UID;
 			}
 
@@ -947,10 +947,10 @@ namespace pspsharp.HLE.modules
 		{
 			if (paramsAddr.NotNull)
 			{
-				int length = paramsAddr.getValue32();
-				if (length != 4)
+				int Length = paramsAddr.getValue32();
+				if (Length != 4)
 				{
-					log.warn(string.Format("SysMemUserForUser_FE707FDF: unknown parameters with length={0:D}", length));
+					Console.WriteLine(string.Format("SysMemUserForUser_FE707FDF: unknown parameters with Length={0:D}", Length));
 				}
 			}
 

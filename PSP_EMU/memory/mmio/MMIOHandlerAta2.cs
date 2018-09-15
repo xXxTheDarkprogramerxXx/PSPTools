@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using sceAta = pspsharp.HLE.modules.sceAta;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -90,9 +90,9 @@ namespace pspsharp.memory.mmio
 		{
 			int unknownValue = (int)((uint)(~value) >> 16);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("writeUnknown44 0x{0:X4}", unknownValue));
+				Console.WriteLine(string.Format("writeUnknown44 0x{0:X4}", unknownValue));
 			}
 		}
 

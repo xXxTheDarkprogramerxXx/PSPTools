@@ -21,11 +21,11 @@ namespace pspsharp.HLE.modules
 	using Managers = pspsharp.HLE.kernel.Managers;
 	using IntrManager = pspsharp.HLE.kernel.managers.IntrManager;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class InterruptManager : HLEModule
 	{
-		public static Logger log = Modules.getLogger("InterruptManager");
+		//public static Logger log = Modules.getLogger("InterruptManager");
 
 		public override void stop()
 		{
@@ -138,7 +138,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x58DD8978, version = 150) public int sceKernelRegisterIntrHandler(int intrNumber, int unknown1, pspsharp.HLE.TPointer func, int funcArg, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 handler)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x58DD8978, version = 150) public int sceKernelRegisterIntrHandler(int intrNumber, int unknown1, pspsharp.HLE.TPointer func, int funcArg, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer32 handler)
 		[HLEFunction(nid : 0x58DD8978, version : 150)]
 		public virtual int sceKernelRegisterIntrHandler(int intrNumber, int unknown1, TPointer func, int funcArg, TPointer32 handler)
 		{

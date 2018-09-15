@@ -19,7 +19,7 @@ namespace pspsharp.media.codec.aac
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.media.codec.aac.AacSbrData.ff_sbr_noise_table;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class SBRDSP
 	{
@@ -205,7 +205,7 @@ namespace pspsharp.media.codec.aac
 					hf_apply_noise(Y, Yoffset, s_m, q_filt, noise, 0.0f, -phiSign, m_max);
 					break;
 				default:
-					log.error(string.Format("SBRDSP.hf_apply_noise unknown indexSine {0:D}", indexSine));
+					Console.WriteLine(string.Format("SBRDSP.hf_apply_noise unknown indexSine {0:D}", indexSine));
 					break;
 			}
 		}

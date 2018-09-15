@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.media.codec
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using sceAudiocodec = pspsharp.HLE.modules.sceAudiocodec;
 	using AacDecoder = pspsharp.media.codec.aac.AacDecoder;
@@ -27,7 +27,7 @@ namespace pspsharp.media.codec
 
 	public class CodecFactory
 	{
-		public static Logger log = Logger.getLogger("codec");
+		//public static Logger log = Logger.getLogger("codec");
 
 		public static ICodec getCodec(int codecType)
 		{

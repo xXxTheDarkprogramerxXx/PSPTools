@@ -762,7 +762,7 @@ namespace pspsharp.GUI
 				}
 				catch (IOException e)
 				{
-					Emulator.log.error("Import from cheat.db", e);
+					Emulator.Console.WriteLine("Import from cheat.db", e);
 				}
 			}
 			else

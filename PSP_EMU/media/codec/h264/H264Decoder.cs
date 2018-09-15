@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.media.codec.h264
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using AVFrame = com.twilight.h264.decoder.AVFrame;
 	using AVPacket = com.twilight.h264.decoder.AVPacket;
@@ -76,13 +76,13 @@ namespace pspsharp.media.codec.h264
 			}
 			catch (System.IndexOutOfRangeException e)
 			{
-				log.error("H264Decoder.decode", e);
+				Console.WriteLine("H264Decoder.decode", e);
 				return -1;
 			}
 
 			if (consumedLength < 0)
 			{
-				log.error(string.Format("H264 decode error 0x{0:X8}", consumedLength));
+				Console.WriteLine(string.Format("H264 decode error 0x{0:X8}", consumedLength));
 				gotPicture[0] = 0;
 				return consumedLength;
 			}

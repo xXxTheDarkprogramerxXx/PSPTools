@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.format.rco.vsmx.objects
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using UmdVideoPlayer = pspsharp.GUI.UmdVideoPlayer;
 	using IAction = pspsharp.HLE.kernel.types.IAction;
@@ -62,9 +62,9 @@ namespace pspsharp.format.rco.vsmx.objects
 				VSMXBaseObject callback = outerInstance.Object.getPropertyValue("onChangeResource");
 				if (callback is VSMXFunction)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Executing Controller.onChangeResource '{0}' with function {1}", outerInstance.resource, callback));
+						Console.WriteLine(string.Format("Executing Controller.onChangeResource '{0}' with function {1}", outerInstance.resource, callback));
 					}
 					VSMXBaseObject[] arguments = new VSMXBaseObject[1];
 					arguments[0] = new VSMXString(outerInstance.interpreter, outerInstance.resource);
@@ -107,9 +107,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject getUserData(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.getUserData() returning {0}", userData));
+				Console.WriteLine(string.Format("Controller.getUserData() returning {0}", userData));
 			}
 
 			return userData;
@@ -117,9 +117,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject setUserData(VSMXBaseObject @object, VSMXBaseObject userData)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.setUserData({0})", userData));
+				Console.WriteLine(string.Format("Controller.setUserData({0})", userData));
 			}
 
 			this.userData = userData;
@@ -138,9 +138,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual VSMXBaseObject changeResource(VSMXBaseObject @object, VSMXBaseObject resource)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.changeResource({0})", resource));
+				Console.WriteLine(string.Format("Controller.changeResource({0})", resource));
 			}
 
 			string newResource = resource.StringValue;
@@ -169,9 +169,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual void onUp()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.onUp focus={0}", focus));
+				Console.WriteLine(string.Format("Controller.onUp focus={0}", focus));
 			}
 
 			if (focus != null)
@@ -182,9 +182,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual void onDown()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.onDown focus={0}", focus));
+				Console.WriteLine(string.Format("Controller.onDown focus={0}", focus));
 			}
 
 			if (focus != null)
@@ -195,9 +195,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual void onLeft()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.onLeft focus={0}", focus));
+				Console.WriteLine(string.Format("Controller.onLeft focus={0}", focus));
 			}
 
 			if (focus != null)
@@ -208,9 +208,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual void onRight()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.onRight focus={0}", focus));
+				Console.WriteLine(string.Format("Controller.onRight focus={0}", focus));
 			}
 
 			if (focus != null)
@@ -221,9 +221,9 @@ namespace pspsharp.format.rco.vsmx.objects
 
 		public virtual void onPush()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Controller.onPush focus={0}", focus));
+				Console.WriteLine(string.Format("Controller.onPush focus={0}", focus));
 			}
 
 			if (focus != null)

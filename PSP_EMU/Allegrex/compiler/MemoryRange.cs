@@ -29,13 +29,13 @@ namespace pspsharp.Allegrex.compiler
 	{
 		private int address;
 		private int rawAddress;
-		private int length;
+		private int Length;
 		private int[] values;
 
-		public MemoryRange(int address, int length)
+		public MemoryRange(int address, int Length)
 		{
 			Address = address;
-			Length = length;
+			Length = Length;
 		}
 
 		public virtual int Address
@@ -56,18 +56,18 @@ namespace pspsharp.Allegrex.compiler
 		{
 			get
 			{
-				return length;
+				return Length;
 			}
 			set
 			{
-				this.length = value;
+				this.Length = value;
 			}
 		}
 
 
 		public virtual void updateValues()
 		{
-			values = new int[length >> 2];
+			values = new int[Length >> 2];
 
 			if (RuntimeContext.hasMemoryInt(address))
 			{
@@ -75,7 +75,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 			else
 			{
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(rawAddress, length, 4);
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(rawAddress, Length, 4);
 				for (int i = 0; i < values.Length; i++)
 				{
 					values[i] = memoryReader.readNext();
@@ -85,18 +85,18 @@ namespace pspsharp.Allegrex.compiler
 
 		public virtual bool isOverlappingWithAddress(int address)
 		{
-			return this.address <= address && address < this.address + length;
+			return this.address <= address && address < this.address + Length;
 		}
 
 		public virtual void extendBottom(int size)
 		{
 			Address = address - size;
-			length += size;
+			Length += size;
 		}
 
 		public virtual void extendTop(int size)
 		{
-			length += size;
+			Length += size;
 		}
 
 		public virtual int getValue(int address)
@@ -121,7 +121,7 @@ namespace pspsharp.Allegrex.compiler
 			}
 			else
 			{
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(rawAddress, length, 4);
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(rawAddress, Length, 4);
 				for (int i = 0; i < values.Length; i++)
 				{
 					if (values[i] != memoryReader.readNext())
@@ -140,7 +140,7 @@ namespace pspsharp.Allegrex.compiler
 			// E.g.:
 			//                           [...MemoryRange...]
 			//      [...address&size...]           or        [...address&size...]
-			if (address >= this.address + length || address + size < this.address)
+			if (address >= this.address + Length || address + size < this.address)
 			{
 				return false;
 			}
@@ -158,7 +158,7 @@ namespace pspsharp.Allegrex.compiler
 			// E.g.:
 			//         [...MemoryRange...]
 			//      [.....address&size.....]
-			if (address < this.address && address + size >= this.address + length)
+			if (address < this.address && address + size >= this.address + Length)
 			{
 				return true;
 			}
@@ -169,7 +169,7 @@ namespace pspsharp.Allegrex.compiler
 
 		public override string ToString()
 		{
-			return string.Format("[0x{0:X8}-0x{1:X8}]", rawAddress, rawAddress + length);
+			return string.Format("[0x{0:X8}-0x{1:X8}]", rawAddress, rawAddress + Length);
 		}
 	}
 

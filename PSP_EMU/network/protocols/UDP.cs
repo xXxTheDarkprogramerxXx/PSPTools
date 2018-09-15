@@ -25,7 +25,7 @@ namespace pspsharp.network.protocols
 		public const int UDP_PORT_DHCP_CLIENT = 68;
 		public int sourcePort;
 		public int destinationPort;
-		public int length;
+		public int Length;
 		public int checksum;
 
 		public UDP()
@@ -36,7 +36,7 @@ namespace pspsharp.network.protocols
 		{
 			sourcePort = udp.sourcePort;
 			destinationPort = udp.destinationPort;
-			length = udp.length;
+			Length = udp.Length;
 			checksum = udp.checksum;
 		}
 
@@ -59,7 +59,7 @@ namespace pspsharp.network.protocols
 		{
 			sourcePort = packet.read16();
 			destinationPort = packet.read16();
-			length = packet.read16();
+			Length = packet.read16();
 			checksum = packet.read16();
 		}
 
@@ -69,7 +69,7 @@ namespace pspsharp.network.protocols
 		{
 			packet.write16(sourcePort);
 			packet.write16(destinationPort);
-			packet.write16(length);
+			packet.write16(Length);
 			packet.write16(checksum);
 
 			return packet;
@@ -89,7 +89,7 @@ namespace pspsharp.network.protocols
 
 		public override string ToString()
 		{
-			return string.Format("sourcePort=0x{0:X}, destinationPort=0x{1:X}, length=0x{2:X}, checksum=0x{3:X4}", sourcePort, destinationPort, length, checksum);
+			return string.Format("sourcePort=0x{0:X}, destinationPort=0x{1:X}, Length=0x{2:X}, checksum=0x{3:X4}", sourcePort, destinationPort, Length, checksum);
 		}
 	}
 

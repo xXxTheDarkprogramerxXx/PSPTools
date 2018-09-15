@@ -26,7 +26,7 @@ namespace pspsharp.graphics.RE.externalge
 	using Utilities = pspsharp.util.Utilities;
 
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Unsafe = sun.misc.Unsafe;
 
@@ -36,7 +36,7 @@ namespace pspsharp.graphics.RE.externalge
 	/// </summary>
 	public class NativeUtils
 	{
-		public static Logger log = ExternalGE.log;
+		//public static Logger log = ExternalGE.log;
 		private static bool isInitialized = false;
 		private static bool isAvailable = false;
 		private static Unsafe @unsafe = null;
@@ -109,7 +109,7 @@ namespace pspsharp.graphics.RE.externalge
 						}
 						catch (UnsatisfiedLinkError e)
 						{
-							log.error(string.Format("Could not load external software library {0}: {1}", library, e));
+							Console.WriteLine(string.Format("Could not load external software library {0}: {1}", library, e));
 							isAvailable = false;
 						}
 						break;
@@ -117,7 +117,7 @@ namespace pspsharp.graphics.RE.externalge
 				}
 				if (!libraryExisting)
 				{
-					log.error(string.Format("Missing external software library"));
+					Console.WriteLine(string.Format("Missing external software library"));
 				}
 
 				isInitialized = true;
@@ -153,7 +153,7 @@ namespace pspsharp.graphics.RE.externalge
 			int x = @unsafe.getInt(memoryIntAddress);
 			if (x != memoryInt[0])
 			{
-				log.error(string.Format("Non matching value 0x{0:X8} - 0x{1:X8}", x, memoryInt[0]));
+				Console.WriteLine(string.Format("Non matching value 0x{0:X8} - 0x{1:X8}", x, memoryInt[0]));
 			}
 			else
 			{
@@ -192,33 +192,33 @@ namespace pspsharp.graphics.RE.externalge
     
 							if (addressSize != 4 && addressSize != 8)
 							{
-								log.error(string.Format("Unknown addressSize={0:D}", addressSize));
+								Console.WriteLine(string.Format("Unknown addressSize={0:D}", addressSize));
 							}
 							if (arrayObjectIndexScale != 4 && arrayObjectIndexScale != 8)
 							{
-								log.error(string.Format("Unknown addressSize={0:D}, indexScale={1:D}", addressSize, arrayObjectIndexScale));
+								Console.WriteLine(string.Format("Unknown addressSize={0:D}, indexScale={1:D}", addressSize, arrayObjectIndexScale));
 							}
 							if (arrayObjectIndexScale > addressSize)
 							{
-								log.error(string.Format("Unknown addressSize={0:D}, indexScale={1:D}", addressSize, arrayObjectIndexScale));
+								Console.WriteLine(string.Format("Unknown addressSize={0:D}, indexScale={1:D}", addressSize, arrayObjectIndexScale));
 							}
 						}
 					}
 					catch (NoSuchFieldException e)
 					{
-						log.error("getMemoryUnsafeAddr", e);
+						Console.WriteLine("getMemoryUnsafeAddr", e);
 					}
 					catch (SecurityException e)
 					{
-						log.error("getMemoryUnsafeAddr", e);
+						Console.WriteLine("getMemoryUnsafeAddr", e);
 					}
 					catch (System.ArgumentException e)
 					{
-						log.error("getMemoryUnsafeAddr", e);
+						Console.WriteLine("getMemoryUnsafeAddr", e);
 					}
 					catch (IllegalAccessException e)
 					{
-						log.error("getMemoryUnsafeAddr", e);
+						Console.WriteLine("getMemoryUnsafeAddr", e);
 					}
 					unsafeInitialized = true;
 				}
@@ -270,7 +270,7 @@ namespace pspsharp.graphics.RE.externalge
 					memoryInt[0] = originalValue;
 					if (resultValue != testValue)
 					{
-						log.error(string.Format("Unsafe self-test failed: 0x{0:X8} != 0x{1:X8}", testValue, resultValue));
+						Console.WriteLine(string.Format("Unsafe self-test failed: 0x{0:X8} != 0x{1:X8}", testValue, resultValue));
 					}
 				}
     
@@ -283,9 +283,9 @@ namespace pspsharp.graphics.RE.externalge
 			long address = MemoryUnsafeAddr;
 			if (memoryIntAddress != address)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("memoryInt at 0x{0:X}", address));
+					Console.WriteLine(string.Format("memoryInt at 0x{0:X}", address));
 				}
 				if (log.InfoEnabled && memoryIntAddress != 0L)
 				{
@@ -463,7 +463,7 @@ namespace pspsharp.graphics.RE.externalge
 		public static extern ByteBuffer getScaledScreen(int address, int bufferWidth, int height, int pixelFormat);
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
-		public static extern void addVideoTexture(int destinationAddress, int sourceAddress, int length);
+		public static extern void addVideoTexture(int destinationAddress, int sourceAddress, int Length);
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
 		public static extern void setMaxTextureSizeLog2(int maxTextureSizeLog2);

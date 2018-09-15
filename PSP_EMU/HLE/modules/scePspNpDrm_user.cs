@@ -36,12 +36,12 @@ namespace pspsharp.HLE.modules
 	using LoadModuleContext = pspsharp.HLE.modules.ModuleMgrForUser.LoadModuleContext;
 	using AbstractBoolSettingsListener = pspsharp.settings.AbstractBoolSettingsListener;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class scePspNpDrm_user : HLEModule
 	{
 
-		public static Logger log = Modules.getLogger("scePspNpDrm_user");
+		//public static Logger log = Modules.getLogger("scePspNpDrm_user");
 
 		public override void start()
 		{
@@ -116,7 +116,7 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x9B745542, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceNpDrmClearLicenseeKey()
 		{
-			Arrays.fill(npDrmKey, (sbyte) 0);
+			Arrays.Fill(npDrmKey, (sbyte) 0);
 			NpDrmKeyStatus = false;
 
 			return 0;
@@ -150,13 +150,13 @@ namespace pspsharp.HLE.modules
 					}
 
 					// The file must contain a valid PSPEDAT header.
-					if (file.length() < 0x80)
+					if (file.Length() < 0x80)
 					{
 						// Test if we're using already decrypted DLC.
 						// Discard the error in this situatuion.
 						if (!DisableDLCStatus)
 						{
-							log.warn("sceNpDrmRenameCheck: invalid file size");
+							Console.WriteLine("sceNpDrmRenameCheck: invalid file size");
 							result = SceKernelErrors.ERROR_NPDRM_INVALID_FILE;
 						}
 						file.Dispose();
@@ -184,7 +184,7 @@ namespace pspsharp.HLE.modules
 							if (!DisableDLCStatus)
 							{
 								result = SceKernelErrors.ERROR_NPDRM_NO_FILENAME_MATCH;
-								log.warn("sceNpDrmRenameCheck: the file has been renamed");
+								Console.WriteLine("sceNpDrmRenameCheck: the file has been renamed");
 							}
 						}
 					}
@@ -192,14 +192,14 @@ namespace pspsharp.HLE.modules
 				catch (FileNotFoundException e)
 				{
 					result = SceKernelErrors.ERROR_NPDRM_INVALID_FILE;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNpDrmRenameCheck: file '{0}' not found: {1}", fileName.String, e.ToString()));
+						Console.WriteLine(string.Format("sceNpDrmRenameCheck: file '{0}' not found: {1}", fileName.String, e.ToString()));
 					}
 				}
 				catch (Exception e)
 				{
-					log.error("sceNpDrmRenameCheck", e);
+					Console.WriteLine("sceNpDrmRenameCheck", e);
 				}
 			}
 
@@ -251,17 +251,17 @@ namespace pspsharp.HLE.modules
 			{
 				if (info.vFile != null)
 				{
-					size = (int) info.vFile.length();
+					size = (int) info.vFile.Length();
 				}
 				else if (info.readOnlyFile != null)
 				{
 					try
 					{
-						size = (int) info.readOnlyFile.length();
+						size = (int) info.readOnlyFile.Length();
 					}
 					catch (IOException e)
 					{
-						log.error("sceNpDrmEdataGetDataSize", e);
+						Console.WriteLine("sceNpDrmEdataGetDataSize", e);
 					}
 				}
 			}
@@ -302,7 +302,7 @@ namespace pspsharp.HLE.modules
 			// SPRX modules can't be decrypted yet.
 			if (!DisableDLCStatus)
 			{
-				log.warn(string.Format("sceKernelLoadModuleNpDrm detected encrypted DLC module: {0}", path.String));
+				Console.WriteLine(string.Format("sceKernelLoadModuleNpDrm detected encrypted DLC module: {0}", path.String));
 				return SceKernelErrors.ERROR_NPDRM_INVALID_PERM;
 			}
 
@@ -331,16 +331,16 @@ namespace pspsharp.HLE.modules
 				int argAddr = optionAddr.getValue32(8); // Pointer to a list of strings.
 				int keyAddr = optionAddr.getValue32(12); // Pointer to an encryption key (may not be used).
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceKernelLoadExecNpDrm (params: optSize={0:D}, argSize={1:D}, argAddr=0x{2:X8}, keyAddr=0x{3:X8})", optSize, argSize, argAddr, keyAddr));
+					Console.WriteLine(string.Format("sceKernelLoadExecNpDrm (params: optSize={0:D}, argSize={1:D}, argAddr=0x{2:X8}, keyAddr=0x{3:X8})", optSize, argSize, argAddr, keyAddr));
 				}
 			}
 
 			// SPRX modules can't be decrypted yet.
 			if (!DisableDLCStatus)
 			{
-				log.warn(string.Format("sceKernelLoadModuleNpDrm detected encrypted DLC module: {0}", fileName.String));
+				Console.WriteLine(string.Format("sceKernelLoadModuleNpDrm detected encrypted DLC module: {0}", fileName.String));
 				return SceKernelErrors.ERROR_NPDRM_INVALID_PERM;
 			}
 
@@ -350,7 +350,7 @@ namespace pspsharp.HLE.modules
 				SeekableDataInput moduleInput = Modules.IoFileMgrForUserModule.getFile(fileName.String, IoFileMgrForUser.PSP_O_RDONLY);
 				if (moduleInput != null)
 				{
-					sbyte[] moduleBytes = new sbyte[(int) moduleInput.length()];
+					sbyte[] moduleBytes = new sbyte[(int) moduleInput.Length()];
 					moduleInput.readFully(moduleBytes);
 					moduleInput.Dispose();
 					ByteBuffer moduleBuffer = ByteBuffer.wrap(moduleBytes);
@@ -364,7 +364,7 @@ namespace pspsharp.HLE.modules
 					}
 					else
 					{
-						log.warn("sceKernelLoadExecNpDrm - failed, target is not an ELF");
+						Console.WriteLine("sceKernelLoadExecNpDrm - failed, target is not an ELF");
 						result = SceKernelErrors.ERROR_KERNEL_ILLEGAL_LOADEXEC_FILENAME;
 					}
 				}
@@ -375,12 +375,12 @@ namespace pspsharp.HLE.modules
 			}
 			catch (GeneralJpcspException e)
 			{
-				log.error("sceKernelLoadExecNpDrm", e);
+				Console.WriteLine("sceKernelLoadExecNpDrm", e);
 				result = SceKernelErrors.ERROR_KERNEL_PROHIBIT_LOADEXEC_DEVICE;
 			}
 			catch (IOException e)
 			{
-				log.error(string.Format("sceKernelLoadExecNpDrm - Error while loading module '{0}'", fileName), e);
+				Console.WriteLine(string.Format("sceKernelLoadExecNpDrm - Error while loading module '{0}'", fileName), e);
 				result = SceKernelErrors.ERROR_KERNEL_PROHIBIT_LOADEXEC_DEVICE;
 			}
 
@@ -396,7 +396,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x17E3F4BB, version = 150) public int sceNpDrmVerifyAct(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer actDatAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x17E3F4BB, version = 150) public int sceNpDrmVerifyAct(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer actDatAddr)
 		[HLEFunction(nid : 0x17E3F4BB, version : 150)]
 		public virtual int sceNpDrmVerifyAct(TPointer actDatAddr)
 		{
@@ -404,7 +404,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x37B9B10D, version = 150) public int sceNpDrmVerifyRif(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x37B9B10D, version = 150) public int sceNpDrmVerifyRif(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr)
 		[HLEFunction(nid : 0x37B9B10D, version : 150)]
 		public virtual int sceNpDrmVerifyRif(TPointer rifAddr)
 		{
@@ -412,7 +412,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9A34AC9F, version = 150) public int sceNpDrm_9A34AC9F(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x9A34AC9F, version = 150) public int sceNpDrm_9A34AC9F(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr)
 		[HLEFunction(nid : 0x9A34AC9F, version : 150)]
 		public virtual int sceNpDrm_9A34AC9F(TPointer rifAddr)
 		{
@@ -420,7 +420,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0F9547E6, version = 150) public int sceNpDrmGetVersionKey(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer keyAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer actDatAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr, int type)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0F9547E6, version = 150) public int sceNpDrmGetVersionKey(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer keyAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer actDatAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr, int type)
 		[HLEFunction(nid : 0x0F9547E6, version : 150)]
 		public virtual int sceNpDrmGetVersionKey(TPointer keyAddr, TPointer actDatAddr, TPointer rifAddr, int type)
 		{
@@ -428,7 +428,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5667B7B9, version = 150) public int sceNpDrmGetContentKey(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer keyAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=4152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer actDatAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5667B7B9, version = 150) public int sceNpDrmGetContentKey(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer keyAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=4152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer actDatAddr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=152, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer rifAddr)
 		[HLEFunction(nid : 0x5667B7B9, version : 150)]
 		public virtual int sceNpDrmGetContentKey(TPointer keyAddr, TPointer actDatAddr, TPointer rifAddr)
 		{

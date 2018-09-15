@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNpCommerce2 : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNpCommerce2");
+		//public static Logger log = Modules.getLogger("sceNpCommerce2");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x0E9956E3, version = 150) public int sceNpCommerce2Init()
@@ -612,7 +612,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC27FEAB1, version = 150) public int sceNpCommerce2_C27FEAB1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=1096, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, int httpRequestId, int unknown3, pspsharp.HLE.TPointer8 unknown4, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=60, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown5, int unknown6)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xC27FEAB1, version = 150) public int sceNpCommerce2_C27FEAB1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=1096, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, int httpRequestId, int unknown3, pspsharp.HLE.TPointer8 unknown4, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=60, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown5, int unknown6)
 		[HLEFunction(nid : 0xC27FEAB1, version : 150)]
 		public virtual int sceNpCommerce2_C27FEAB1(TPointer unknown1, int httpRequestId, int unknown3, TPointer8 unknown4, TPointer unknown5, int unknown6)
 		{

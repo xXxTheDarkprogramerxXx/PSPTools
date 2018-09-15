@@ -92,17 +92,17 @@ namespace pspsharp.HLE.kernel.types
 				}
 			}
 
-			public virtual void notifyRead(int length)
+			public virtual void notifyRead(int Length)
 			{
-				length = System.Math.Min(length, sizeAvailableForRead);
-				if (length > 0)
+				Length = System.Math.Min(Length, sizeAvailableForRead);
+				if (Length > 0)
 				{
-					readOffset += length;
+					readOffset += Length;
 					if (readOffset >= totalSize)
 					{
 						readOffset -= totalSize;
 					}
-					sizeAvailableForRead -= length;
+					sizeAvailableForRead -= Length;
 				}
 			}
 
@@ -212,22 +212,22 @@ namespace pspsharp.HLE.kernel.types
 			return offset >= currentFileOffset && offset < currentFileOffset + sizeAvailableInReadBuffer;
 		}
 
-		private void addBytesToTrackSequential(int addr, int length)
+		private void addBytesToTrackSequential(int addr, int Length)
 		{
-			if (length > 0)
+			if (Length > 0)
 			{
-				mem.memcpy(bufBytes.bufferAddr + bufBytes.writeOffset, addr, length);
-				bufBytes.writeOffset += length;
-				bufBytes.sizeAvailableForRead += length;
+				mem.memcpy(bufBytes.bufferAddr + bufBytes.writeOffset, addr, Length);
+				bufBytes.writeOffset += Length;
+				bufBytes.sizeAvailableForRead += Length;
 			}
 		}
 
-		public virtual void addBytesToTrack(int addr, int length)
+		public virtual void addBytesToTrack(int addr, int Length)
 		{
-			int length1 = System.Math.Min(length, bufBytes.totalSize - bufBytes.writeOffset);
+			int length1 = System.Math.Min(Length, bufBytes.totalSize - bufBytes.writeOffset);
 			addBytesToTrackSequential(addr, length1);
 
-			int length2 = length - length1;
+			int length2 = Length - length1;
 			if (length2 > 0)
 			{
 				bufBytes.writeOffset = 0;
@@ -241,21 +241,21 @@ namespace pspsharp.HLE.kernel.types
 			currentSample += samples;
 		}
 
-		public virtual void readBytes(int addr, int length)
+		public virtual void readBytes(int addr, int Length)
 		{
-			length = System.Math.Min(length, bufBytes.sizeAvailableForRead);
-			if (length > 0)
+			Length = System.Math.Min(Length, bufBytes.sizeAvailableForRead);
+			if (Length > 0)
 			{
-				int length1 = System.Math.Min(length, bufBytes.totalSize - bufBytes.readOffset);
+				int length1 = System.Math.Min(Length, bufBytes.totalSize - bufBytes.readOffset);
 				mem.memcpy(addr, bufBytes.bufferAddr + bufBytes.readOffset, length1);
 
-				int length2 = length - length1;
+				int length2 = Length - length1;
 				if (length2 > 0)
 				{
 					mem.memcpy(addr + length1, bufBytes.bufferAddr, length2);
 				}
 
-				bufBytes.notifyRead(length);
+				bufBytes.notifyRead(Length);
 			}
 		}
 

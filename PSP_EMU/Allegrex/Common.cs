@@ -24,19 +24,21 @@ namespace pspsharp.Allegrex
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.SyscallHandler.syscallUnmappedImport;
 
-	using Logger = org.apache.log4j.Logger;
+	////using Logger = org.apache.log4j.Logger;
 
 	using ICompilerContext = pspsharp.Allegrex.compiler.ICompilerContext;
 	using HLEModuleFunction = pspsharp.HLE.HLEModuleFunction;
 	using HLEModuleManager = pspsharp.HLE.HLEModuleManager;
 	using Modules = pspsharp.HLE.Modules;
 	using Utilities = pspsharp.util.Utilities;
+    using Syscalls = pspsharp.HLE.SyscallHandler;
 
-	/// 
-	/// <summary>
-	/// @author hli
-	/// </summary>
-	public class Common
+
+    /// 
+    /// <summary>
+    /// @author hli
+    /// </summary>
+    public class Common
 	{
 
 		public abstract class Instruction
@@ -245,7 +247,7 @@ namespace pspsharp.Allegrex
 
 			public override void interpret(Processor processor, int insn)
 			{
-				Modules.log.warn(string.Format("{0:X8} {1}", processor.cpu.pc, disasm(processor.cpu.pc, insn)));
+				Modules.Console.WriteLine(string.Format("{0:X8} {1}", processor.cpu.pc, disasm(processor.cpu.pc, insn)));
 			}
 
 			public override void compile(ICompilerContext context, int insn)

@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 /*
 This file is part of pspsharp.
 
@@ -18,87 +19,27 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.media.codec.aac
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.pow;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacDecoder.AAC_ERROR;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacDecoder.TYPE_CCE;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacDecoder.TYPE_CPE;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacDecoder.TYPE_SCE;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_1_5dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_1_5dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_3_0dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_3_0dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_bal_1_5dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_bal_1_5dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_bal_3_0dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.f_huffman_env_bal_3_0dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.sbr_offset;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.sbr_qmf_window_ds;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.sbr_qmf_window_us;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_1_5dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_1_5dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_3_0dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_3_0dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_bal_1_5dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_bal_1_5dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_bal_3_0dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_env_bal_3_0dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_noise_3_0dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_noise_3_0dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_noise_bal_3_0dB_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacSbrData.t_huffman_noise_bal_3_0dB_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.SBRData.SBR_SYNTHESIS_BUF_SIZE;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.CodecUtils.FLT_EPSILON;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.CodecUtils.exp2f;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.CodecUtils.log2f;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.CodecUtils.lrintf;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.CodecUtils.sqrtf;
+    using static pspsharp.media.codec.aac.AacDecoder;
 
-	using BitReader = pspsharp.media.codec.util.BitReader;
-	using FFT = pspsharp.media.codec.util.FFT;
-	using FloatDSP = pspsharp.media.codec.util.FloatDSP;
-	using IBitReader = pspsharp.media.codec.util.IBitReader;
-	using VLC = pspsharp.media.codec.util.VLC;
-	using Utilities = pspsharp.util.Utilities;
+    using static pspsharp.media.codec.aac.AacSbrData;
+    using static pspsharp.media.codec.aac.SBRData;
+    using static pspsharp.media.codec.util.CodecUtils;
+    using static System.Math;
 
-	using Logger = org.apache.log4j.Logger;
+    using BitReader = pspsharp.media.codec.util.BitReader;
+    using FFT = pspsharp.media.codec.util.FFT;
+    using FloatDSP = pspsharp.media.codec.util.FloatDSP;
+    using IBitReader = pspsharp.media.codec.util.IBitReader;
+    using VLC = pspsharp.media.codec.util.VLC;
+    using Utilities = pspsharp.util.Utilities;
+    using PSP_EMU;
 
-	public class AacSbr
+    /*Fuck the logger xD*/
+    ////using Logger = org.apache.log4j.Logger;
+
+    public class AacSbr
 	{
-		private static Logger log = AacDecoder.log;
+		//private static Lgger log = AacDecoder.log;
 		private const int ENVELOPE_ADJUSTMENT_OFFSET = 2;
 		private const float NOISE_FLOOR_OFFSET = 6.0f;
 		private const int EXTENSION_ID_PS = 2;
@@ -131,16 +72,16 @@ namespace pspsharp.media.codec.aac
 			{
 				vlc_sbr[i] = new VLC();
 			}
-			vlc_sbr[T_HUFFMAN_ENV_1_5DB].initVLCSparse(9, t_huffman_env_1_5dB_codes.length, t_huffman_env_1_5dB_bits, t_huffman_env_1_5dB_codes, null);
-			vlc_sbr[F_HUFFMAN_ENV_1_5DB].initVLCSparse(9, f_huffman_env_1_5dB_codes.length, f_huffman_env_1_5dB_bits, f_huffman_env_1_5dB_codes, null);
-			vlc_sbr[T_HUFFMAN_ENV_BAL_1_5DB].initVLCSparse(9, t_huffman_env_bal_1_5dB_codes.length, t_huffman_env_bal_1_5dB_bits, t_huffman_env_bal_1_5dB_codes, null);
-			vlc_sbr[F_HUFFMAN_ENV_BAL_1_5DB].initVLCSparse(9, f_huffman_env_bal_1_5dB_codes.length, f_huffman_env_bal_1_5dB_bits, f_huffman_env_bal_1_5dB_codes, null);
-			vlc_sbr[T_HUFFMAN_ENV_3_0DB].initVLCSparse(9, t_huffman_env_3_0dB_codes.length, t_huffman_env_3_0dB_bits, t_huffman_env_3_0dB_codes, null);
-			vlc_sbr[F_HUFFMAN_ENV_3_0DB].initVLCSparse(9, f_huffman_env_3_0dB_codes.length, f_huffman_env_3_0dB_bits, f_huffman_env_3_0dB_codes, null);
-			vlc_sbr[T_HUFFMAN_ENV_BAL_3_0DB].initVLCSparse(9, t_huffman_env_bal_3_0dB_codes.length, t_huffman_env_bal_3_0dB_bits, t_huffman_env_bal_3_0dB_codes, null);
-			vlc_sbr[F_HUFFMAN_ENV_BAL_3_0DB].initVLCSparse(9, f_huffman_env_bal_3_0dB_codes.length, f_huffman_env_bal_3_0dB_bits, f_huffman_env_bal_3_0dB_codes, null);
-			vlc_sbr[T_HUFFMAN_NOISE_3_0DB].initVLCSparse(9, t_huffman_noise_3_0dB_codes.length, t_huffman_noise_3_0dB_bits, t_huffman_noise_3_0dB_codes, null);
-			vlc_sbr[T_HUFFMAN_NOISE_BAL_3_0DB].initVLCSparse(9, t_huffman_noise_bal_3_0dB_codes.length, t_huffman_noise_bal_3_0dB_bits, t_huffman_noise_bal_3_0dB_codes, null);
+			vlc_sbr[T_HUFFMAN_ENV_1_5DB].initVLCSparse(9, t_huffman_env_1_5dB_codes.Length, t_huffman_env_1_5dB_bits, t_huffman_env_1_5dB_codes, null);
+			vlc_sbr[F_HUFFMAN_ENV_1_5DB].initVLCSparse(9, f_huffman_env_1_5dB_codes.Length, f_huffman_env_1_5dB_bits, f_huffman_env_1_5dB_codes, null);
+			vlc_sbr[T_HUFFMAN_ENV_BAL_1_5DB].initVLCSparse(9, t_huffman_env_bal_1_5dB_codes.Length, t_huffman_env_bal_1_5dB_bits, t_huffman_env_bal_1_5dB_codes, null);
+			vlc_sbr[F_HUFFMAN_ENV_BAL_1_5DB].initVLCSparse(9, f_huffman_env_bal_1_5dB_codes.Length, f_huffman_env_bal_1_5dB_bits, f_huffman_env_bal_1_5dB_codes, null);
+			vlc_sbr[T_HUFFMAN_ENV_3_0DB].initVLCSparse(9, t_huffman_env_3_0dB_codes.Length, t_huffman_env_3_0dB_bits, t_huffman_env_3_0dB_codes, null);
+			vlc_sbr[F_HUFFMAN_ENV_3_0DB].initVLCSparse(9, f_huffman_env_3_0dB_codes.Length, f_huffman_env_3_0dB_bits, f_huffman_env_3_0dB_codes, null);
+			vlc_sbr[T_HUFFMAN_ENV_BAL_3_0DB].initVLCSparse(9, t_huffman_env_bal_3_0dB_codes.Length, t_huffman_env_bal_3_0dB_bits, t_huffman_env_bal_3_0dB_codes, null);
+			vlc_sbr[F_HUFFMAN_ENV_BAL_3_0DB].initVLCSparse(9, f_huffman_env_bal_3_0dB_codes.Length, f_huffman_env_bal_3_0dB_bits, f_huffman_env_bal_3_0dB_codes, null);
+			vlc_sbr[T_HUFFMAN_NOISE_3_0DB].initVLCSparse(9, t_huffman_noise_3_0dB_codes.Length, t_huffman_noise_3_0dB_bits, t_huffman_noise_3_0dB_codes, null);
+			vlc_sbr[T_HUFFMAN_NOISE_BAL_3_0DB].initVLCSparse(9, t_huffman_noise_bal_3_0dB_codes.Length, t_huffman_noise_bal_3_0dB_bits, t_huffman_noise_bal_3_0dB_codes, null);
 		}
 
 		private static void getBits1Vector(IBitReader br, int[] vec, int vecOffset, int elements)
@@ -155,7 +96,7 @@ namespace pspsharp.media.codec.aac
 		{
 			IBitReader br = ac.br;
 			int bsPointer = 0;
-			// frameLengthFlag ? 15 : 16; 960 sample length frames unsupported; this value is numTimeSlots
+			// frameLengthFlag ? 15 : 16; 960 sample Length frames unsupported; this value is numTimeSlots
 			int absBordTrail = 16;
 			int numRelLead, numRelTrail;
 			int bsNumEnvOld = chData.bsNumEnv;
@@ -176,7 +117,7 @@ namespace pspsharp.media.codec.aac
 
 					if (chData.bsNumEnv > 4)
 					{
-						log.error(string.Format("Invalid bitstream, too many SBR envelopes in FIXFIX type SBR frame: {0:D}", chData.bsNumEnv));
+						Console.WriteLine(string.Format("Invalid bitstream, too many SBR envelopes in FIXFIX type SBR frame: {0:D}", chData.bsNumEnv));
 						return -1;
 					}
 
@@ -238,7 +179,7 @@ namespace pspsharp.media.codec.aac
 
 					if (chData.bsNumEnv > 5)
 					{
-						log.error(string.Format("Invalid bitstream, too many SBR envelopes in VARVAR type SBR frame: {0:D}", chData.bsNumEnv));
+						Console.WriteLine(string.Format("Invalid bitstream, too many SBR envelopes in VARVAR type SBR frame: {0:D}", chData.bsNumEnv));
 						return -1;
 					}
 
@@ -261,7 +202,7 @@ namespace pspsharp.media.codec.aac
 
 			if (bsPointer > chData.bsNumEnv + 1)
 			{
-				log.error(string.Format("Invalid bitstream, bs_pointer points to a middle noise border outside the time borders table: {0:D}", bsPointer));
+				Console.WriteLine(string.Format("Invalid bitstream, bs_pointer points to a middle noise border outside the time borders table: {0:D}", bsPointer));
 				return -1;
 			}
 
@@ -269,7 +210,7 @@ namespace pspsharp.media.codec.aac
 			{
 				if (chData.tEnv[i - 1] > chData.tEnv[i])
 				{
-					log.error(string.Format("Non monotone time borders"));
+					Console.WriteLine(string.Format("Non monotone time borders"));
 					return -1;
 				}
 			}
@@ -510,7 +451,7 @@ namespace pspsharp.media.codec.aac
 				case EXTENSION_ID_PS:
 					if (ac.oc[1].m4ac.ps == 0)
 					{
-						log.error(string.Format("Parametric Stereo signaled to be not-present but was found in the bitstream"));
+						Console.WriteLine(string.Format("Parametric Stereo signaled to be not-present but was found in the bitstream"));
 						ac.br.skip(numBitsLeft);
 						numBitsLeft = 0;
 					}
@@ -523,7 +464,7 @@ namespace pspsharp.media.codec.aac
 					// some files contain 0-padding
 					if (bsExtensionId != 0 || numBitsLeft > 16 || ac.br.peek(numBitsLeft) != 0)
 					{
-						log.error(string.Format("Reserved SBR extensions"));
+						Console.WriteLine(string.Format("Reserved SBR extensions"));
 					}
 					ac.br.skip(numBitsLeft);
 					numBitsLeft = 0;
@@ -547,7 +488,7 @@ namespace pspsharp.media.codec.aac
 			}
 			else
 			{
-				log.error(string.Format("Invalid bitstream - cannot apply SBR to element type {0:D}", idAac));
+				Console.WriteLine(string.Format("Invalid bitstream - cannot apply SBR to element type {0:D}", idAac));
 				sbrTurnoff(sbr);
 				return ac.br.BitsRead - cnt;
 			}
@@ -569,7 +510,7 @@ namespace pspsharp.media.codec.aac
 
 				if (numBitsLeft < 0)
 				{
-					log.error(string.Format("SBD Extension over read"));
+					Console.WriteLine(string.Format("SBD Extension over read"));
 				}
 				else if (numBitsLeft > 0)
 				{
@@ -582,14 +523,14 @@ namespace pspsharp.media.codec.aac
 
 		private static void makeBands(int[] bands, int bandsOffset, int start, int stop, int numBands)
 		{
-			float @base = (float) pow(stop / (double) start, 1.0 / numBands);
+			float @base = (float) Pow(stop / (double) start, 1.0 / numBands);
 			float prod = start;
 			int previous = start;
 
 			for (int k = 0; k < numBands - 1; k++)
 			{
 				prod *= @base;
-				int present = (int) Math.rint(prod);
+				int present = (int) Math.Round(prod);
 				bands[bandsOffset + k] = present - previous;
 				previous = present;
 			}
@@ -601,12 +542,12 @@ namespace pspsharp.media.codec.aac
 			// Requirements (14496-3 sp04 p205)
 			if (nMaster <= 0)
 			{
-				log.error(string.Format("Invalid n_master: {0:D}", nMaster));
+				Console.WriteLine(string.Format("Invalid n_master: {0:D}", nMaster));
 				return -1;
 			}
 			if (bsXoverBand >= nMaster)
 			{
-				log.error(string.Format("Invalid bitstream, crossover band index beyond array bounds: {0:D}", bsXoverBand));
+				Console.WriteLine(string.Format("Invalid bitstream, crossover band index beyond array bounds: {0:D}", bsXoverBand));
 				return -1;
 			}
 
@@ -686,7 +627,7 @@ namespace pspsharp.media.codec.aac
 					sbrOffsetPtr = sbr_offset[5];
 					break;
 				default:
-					log.error(string.Format("Unsupported sample rate for SBR: {0:D}", sbr.sampleRate));
+					Console.WriteLine(string.Format("Unsupported sample rate for SBR: {0:D}", sbr.sampleRate));
 					return -1;
 			}
 
@@ -699,7 +640,7 @@ namespace pspsharp.media.codec.aac
 			{
 				sbr.k[2] = stopMin;
 				makeBands(stopDk, 0, stopMin, 64, 13);
-				Arrays.sort(stopDk);
+				Array.Sort(stopDk);
 				for (int k = 0; k < spectrum.bsStopFreq; k++)
 				{
 					sbr.k[2] += stopDk[k];
@@ -715,7 +656,7 @@ namespace pspsharp.media.codec.aac
 			}
 			else
 			{
-				log.error(string.Format("Invalid bsStopFreq: {0:D}", spectrum.bsStopFreq));
+				Console.WriteLine(string.Format("Invalid bsStopFreq: {0:D}", spectrum.bsStopFreq));
 				return -1;
 			}
 			sbr.k[2] = System.Math.Min(64, sbr.k[2]);
@@ -735,13 +676,13 @@ namespace pspsharp.media.codec.aac
 			}
 			else
 			{
-				log.error(string.Format("Unsupported sample rate {0:D}", sbr.sampleRate));
+				Console.WriteLine(string.Format("Unsupported sample rate {0:D}", sbr.sampleRate));
 				return -1;
 			}
 
 			if (sbr.k[2] - sbr.k[0] > maxQmfSubbands)
 			{
-				log.error(string.Format("Invalid bitstream, too many QMF subbands: {0:D}", sbr.k[2] - sbr.k[0]));
+				Console.WriteLine(string.Format("Invalid bitstream, too many QMF subbands: {0:D}", sbr.k[2] - sbr.k[0]));
 				return -1;
 			}
 
@@ -801,7 +742,7 @@ namespace pspsharp.media.codec.aac
 
 				if (num_bands_0 <= 0)
 				{ // Requirements (14496-3 sp04 p205)
-					log.error(string.Format("Invalid num_bands_0: {0:D}", num_bands_0));
+					Console.WriteLine(string.Format("Invalid num_bands_0: {0:D}", num_bands_0));
 					return -1;
 				}
 
@@ -809,7 +750,7 @@ namespace pspsharp.media.codec.aac
 
 				makeBands(vk0, 1, sbr.k[0], sbr.k[1], num_bands_0);
 
-				Arrays.sort(vk0, 1, 1 + num_bands_0);
+				Array.Sort(vk0, 1, 1 + num_bands_0);
 				vdk0_max = vk0[num_bands_0];
 
 				vk0[0] = sbr.k[0];
@@ -817,7 +758,7 @@ namespace pspsharp.media.codec.aac
 				{
 					if (vk0[k] <= 0)
 					{ // Requirements (14496-3 sp04 p205)
-						log.error(string.Format("Invalid vDk0[{0:D}]: {1:D}", k, vk0[k]));
+						Console.WriteLine(string.Format("Invalid vDk0[{0:D}]: {1:D}", k, vk0[k]));
 						return -1;
 					}
 					vk0[k] += vk0[k - 1];
@@ -836,20 +777,20 @@ namespace pspsharp.media.codec.aac
 					if (vdk1_min < vdk0_max)
 					{
 						int change;
-						Arrays.sort(vk1, 1, 1 + num_bands_1);
+						Array.Sort(vk1, 1, 1 + num_bands_1);
 						change = System.Math.Min(vdk0_max - vk1[1], (vk1[num_bands_1] - vk1[1]) >> 1);
 						vk1[1] += change;
 						vk1[num_bands_1] -= change;
 					}
 
-					Arrays.sort(vk1, 1, 1 + num_bands_1);
+					Array.Sort(vk1, 1, 1 + num_bands_1);
 
 					vk1[0] = sbr.k[1];
 					for (int k = 1; k <= num_bands_1; k++)
 					{
 						if (vk1[k] <= 0)
 						{ // Requirements (14496-3 sp04 p205)
-							log.error(string.Format("Invalid vDk1[{0:D}]: {1:D}", k, vk1[k]));
+							Console.WriteLine(string.Format("Invalid vDk1[{0:D}]: {1:D}", k, vk1[k]));
 							return -1;
 						}
 						vk1[k] += vk1[k - 1];
@@ -904,7 +845,7 @@ namespace pspsharp.media.codec.aac
 					Array.Copy(sbr.fTablelim, sbr.n[0] + 1, patchBorders, 1, sbr.numPatches - 1);
 				}
 
-				Arrays.sort(sbr.fTablelim, 0, sbr.numPatches + sbr.n[0]);
+				Array.Sort(sbr.fTablelim, 0, sbr.numPatches + sbr.n[0]);
 
 				sbr.nLim = sbr.n[0] + sbr.numPatches - 1;
 				while (@out < sbr.nLim)
@@ -974,7 +915,7 @@ namespace pspsharp.media.codec.aac
 				// count of 6 patches
 				if (sbr.numPatches > 5)
 				{
-					log.error(string.Format("Too many patches: {0:D}", sbr.numPatches));
+					Console.WriteLine(string.Format("Too many patches: {0:D}", sbr.numPatches));
 					return -1;
 				}
 
@@ -1019,12 +960,12 @@ namespace pspsharp.media.codec.aac
 			// Requirements (14496-3 sp04 p205)
 			if (sbr.kx[1] + sbr.m[1] > 64)
 			{
-				log.error(string.Format("Stop frequency border too high: {0:D}", sbr.kx[1] + sbr.m[1]));
+				Console.WriteLine(string.Format("Stop frequency border too high: {0:D}", sbr.kx[1] + sbr.m[1]));
 				return -1;
 			}
 			if (sbr.kx[1] > 32)
 			{
-				log.error(string.Format("Start frequency border too high: {0:D}", sbr.kx[1]));
+				Console.WriteLine(string.Format("Start frequency border too high: {0:D}", sbr.kx[1]));
 				return -1;
 			}
 
@@ -1038,7 +979,7 @@ namespace pspsharp.media.codec.aac
 			sbr.nQ = System.Math.Max(1, lrintf(sbr.spectrumParams.bsNoiseBands * log2f(sbr.k[2] / (float)sbr.kx[1]))); // 0 <= bs_noise_bands <= 3
 			if (sbr.nQ > 5)
 			{
-				log.error(string.Format("Too many noise floor scale factors: {0:D}", sbr.nQ));
+				Console.WriteLine(string.Format("Too many noise floor scale factors: {0:D}", sbr.nQ));
 				return -1;
 			}
 
@@ -1134,7 +1075,7 @@ namespace pspsharp.media.codec.aac
 			}
 			if (err < 0)
 			{
-				log.error(string.Format("SBR reset failed. Switching SBR to pure upsampling mode"));
+				Console.WriteLine(string.Format("SBR reset failed. Switching SBR to pure upsampling mode"));
 				sbrTurnoff(sbr);
 			}
 		}
@@ -1143,7 +1084,7 @@ namespace pspsharp.media.codec.aac
 		/// Decode Spectral Band Replication extension data; reference: table 4.55.
 		/// </summary>
 		/// <param name="crc"> flag indicating the presence of CRC checksum </param>
-		/// <param name="cnt"> length of TYPE_FIL syntactic element in bytes
+		/// <param name="cnt"> Length of TYPE_FIL syntactic element in bytes
 		/// </param>
 		/// <returns>  Returns number of bytes consumed from the TYPE_FIL element. </returns>
 		public static int decodeSbrExtension(Context ac, SpectralBandReplication sbr, bool crc, int cnt, int idAac)
@@ -1196,7 +1137,7 @@ namespace pspsharp.media.codec.aac
 
 			if (bytesRead > cnt)
 			{
-				log.error(string.Format("Expected to read {0:D} SBR bytes actually read {1:D}", cnt, bytesRead));
+				Console.WriteLine(string.Format("Expected to read {0:D} SBR bytes actually read {1:D}", cnt, bytesRead));
 			}
 
 			return cnt;
@@ -1256,7 +1197,7 @@ namespace pspsharp.media.codec.aac
 						float fac;
 						if (temp1 > 1E20)
 						{
-							log.error(string.Format("envelope scalefactor overflow in dequant"));
+							Console.WriteLine(string.Format("envelope scalefactor overflow in dequant"));
 							temp1 = 1;
 						}
 						fac = temp1 / (1.0f + temp2);
@@ -1273,7 +1214,7 @@ namespace pspsharp.media.codec.aac
 						float fac;
 						if (temp1 > 1E20)
 						{
-							log.error(string.Format("envelope scalefactor overflow in dequant"));
+							Console.WriteLine(string.Format("envelope scalefactor overflow in dequant"));
 							temp1 = 1;
 						}
 						fac = temp1 / (1.0f + temp2);
@@ -1294,7 +1235,7 @@ namespace pspsharp.media.codec.aac
 							sbr.data[ch].envFacs[e][k] = exp2f(alpha * sbr.data[ch].envFacs[e][k] + 6.0f);
 							if (sbr.data[ch].envFacs[e][k] > 1E20)
 							{
-								log.error(string.Format("envelope scalefactor overflow in dequant"));
+								Console.WriteLine(string.Format("envelope scalefactor overflow in dequant"));
 								sbr.data[ch].envFacs[e][k] = 1;
 							}
 						}
@@ -1447,7 +1388,7 @@ namespace pspsharp.media.codec.aac
 
 					if (g < 0)
 					{
-						log.error(string.Format("ERROR : no subband found for frequency {0:D}", k));
+						Console.WriteLine(string.Format("ERROR : no subband found for frequency {0:D}", k));
 						return -1;
 					}
 
@@ -1456,7 +1397,9 @@ namespace pspsharp.media.codec.aac
 			}
 			if (k < sbr.m[1] + sbr.kx[1])
 			{
-				Arrays.fill(Xhigh, k, sbr.m[1] + sbr.kx[1], 0f);
+                //TODO : Fix Fill Method Here
+                //@Pink1 Help me out ?
+                 Arrays.Fill(Xhigh, k, sbr.m[1] + sbr.kx[1], 0f);
 			}
 
 			return 0;
@@ -1470,7 +1413,7 @@ namespace pspsharp.media.codec.aac
 		{
 			for (int i = 1; i < 8; i++)
 			{
-				Arrays.fill(chData.sIndexmapped[i], 0);
+				Arrays.Fill(chData.sIndexmapped[i], 0);
 			}
 
 			for (int e = 0; e < chData.bsNumEnv; e++)
@@ -1482,7 +1425,7 @@ namespace pspsharp.media.codec.aac
 
 				if (sbr.kx[1] != table[0])
 				{
-					log.error(string.Format("kx != f_table{high,low}[0]. Derived frequency tables were not regenerated."));
+					Console.WriteLine(string.Format("kx != f_table{high,low}[0]. Derived frequency tables were not regenerated."));
 					sbrTurnoff(sbr);
 					return AAC_ERROR;
 				}
@@ -1527,7 +1470,7 @@ namespace pspsharp.media.codec.aac
 							break;
 						}
 					}
-					Arrays.fill(sbr.sMapped[e], table[i] - sbr.kx[1], table[i + 1] - sbr.kx[1], additional_sinusoid_present);
+					Arrays.Fill(sbr.sMapped[e], table[i] - sbr.kx[1], table[i + 1] - sbr.kx[1], additional_sinusoid_present);
 				}
 			}
 
@@ -1800,7 +1743,7 @@ namespace pspsharp.media.codec.aac
 			{
 				for (int i = 2 * chData.tEnv[e]; i < 2 * chData.tEnv[e + 1]; i++)
 				{
-					float gFilt[], qFilt[];
+					float[] gFilt, qFilt;
 
 					if (h_SL != 0 && e != eA[0] && e != eA[1])
 					{

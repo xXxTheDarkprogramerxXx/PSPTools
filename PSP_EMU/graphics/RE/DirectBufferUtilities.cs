@@ -33,11 +33,11 @@ namespace pspsharp.graphics.RE
 			return getDirectBuffer(values, values.Length);
 		}
 
-		public static FloatBuffer getDirectBuffer(float[] values, int length)
+		public static FloatBuffer getDirectBuffer(float[] values, int Length)
 		{
 			directFloatBuffer.clear();
-			directFloatBuffer.limit(length);
-			directFloatBuffer.put(values, 0, length);
+			directFloatBuffer.limit(Length);
+			directFloatBuffer.put(values, 0, Length);
 			directFloatBuffer.rewind();
 
 			return directFloatBuffer;

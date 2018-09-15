@@ -37,7 +37,7 @@ namespace pspsharp.util
 				toc.writeInt(System.Math.Max(numSectors, numSectorsMerge));
 
 				Dictionary<int, int> tocHashMap = new Dictionary<int, int>();
-				for (int i = 4; i < fileToc1.length(); i += 8)
+				for (int i = 4; i < fileToc1.Length(); i += 8)
 				{
 					int sectorNumber = toc1.readInt();
 					int bufferedSectorNumber = toc1.readInt();
@@ -47,14 +47,14 @@ namespace pspsharp.util
 				}
 
 				sbyte[] buffer = new sbyte[sectorLength];
-				for (int i = 0; i < fileIso1.length(); i += buffer.Length)
+				for (int i = 0; i < fileIso1.Length(); i += buffer.Length)
 				{
 					iso1.readFully(buffer);
 					iso.write(buffer);
 				}
 
-				int nextFreeBufferedSectorNumber = (int)(fileIso1.length() / sectorLength);
-				for (int i = 4; i < fileToc2.length(); i += 8)
+				int nextFreeBufferedSectorNumber = (int)(fileIso1.Length() / sectorLength);
+				for (int i = 4; i < fileToc2.Length(); i += 8)
 				{
 					int sectorNumber = toc2.readInt();
 					int bufferedSectorNumber = toc2.readInt();

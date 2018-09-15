@@ -62,9 +62,9 @@ namespace pspsharp.format.rco.sound
 
 		public virtual void play(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Sound.play"));
+				Console.WriteLine(string.Format("Sound.play"));
 			}
 		}
 	}

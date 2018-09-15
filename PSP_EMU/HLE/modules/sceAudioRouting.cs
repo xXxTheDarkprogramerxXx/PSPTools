@@ -16,12 +16,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	public class sceAudioRouting : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceAudioRouting");
+		//public static Logger log = Modules.getLogger("sceAudioRouting");
 		protected internal const int AUDIO_ROUTING_SPEAKER_OFF = 0;
 		protected internal const int AUDIO_ROUTING_SPEAKER_ON = 1;
 		protected internal int audioRoutingMode = AUDIO_ROUTING_SPEAKER_ON;

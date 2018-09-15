@@ -16,13 +16,13 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using pspIoDrv = pspsharp.HLE.kernel.types.pspIoDrv;
 
 	public class IoFileMgrForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("IoFileMgrForKernel");
+		//public static Logger log = Modules.getLogger("IoFileMgrForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8E982A74, version = 150) public int sceIoAddDrv(pspsharp.HLE.kernel.types.pspIoDrv pspsharp.HLE.kernel.types.pspIoDrv)

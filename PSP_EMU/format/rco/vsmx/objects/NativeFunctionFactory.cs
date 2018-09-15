@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.vsmx.objects
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using VSMXBaseObject = pspsharp.format.rco.vsmx.interpreter.VSMXBaseObject;
 	using VSMXNativeObject = pspsharp.format.rco.vsmx.interpreter.VSMXNativeObject;
@@ -63,15 +63,15 @@ namespace pspsharp.format.rco.vsmx.objects
 				}
 				catch (System.ArgumentException e)
 				{
-					log.error("call", e);
+					Console.WriteLine("call", e);
 				}
 				catch (IllegalAccessException e)
 				{
-					log.error("call", e);
+					Console.WriteLine("call", e);
 				}
 				catch (InvocationTargetException e)
 				{
-					log.error("call", e);
+					Console.WriteLine("call", e);
 				}
 				return returnValue;
 			}
@@ -113,7 +113,7 @@ namespace pspsharp.format.rco.vsmx.objects
 				}
 				catch (SecurityException e)
 				{
-					log.error("getNativeFunction", e);
+					Console.WriteLine("getNativeFunction", e);
 				}
 				catch (NoSuchMethodException)
 				{
@@ -123,7 +123,7 @@ namespace pspsharp.format.rco.vsmx.objects
 
 			if (nativeFunction == null && log.DebugEnabled)
 			{
-				log.debug(string.Format("Not finding native function {0}.{1}(args={2:D})", @object, name, numberOfArguments + 1));
+				Console.WriteLine(string.Format("Not finding native function {0}.{1}(args={2:D})", @object, name, numberOfArguments + 1));
 			}
 
 			return nativeFunction;

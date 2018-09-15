@@ -40,7 +40,7 @@ namespace pspsharp.memory
 			return new MemoryReaderWriterGeneric(address, step);
 		}
 
-		public static IMemoryReaderWriter getMemoryReaderWriter(int address, int length, int step)
+		public static IMemoryReaderWriter getMemoryReaderWriter(int address, int Length, int step)
 		{
 			address &= Memory.addressMask;
 			if (RuntimeContext.hasMemoryInt())
@@ -49,7 +49,7 @@ namespace pspsharp.memory
 			}
 
 			// No dedicated class available, use the generic one.
-			return new MemoryReaderWriterGeneric(address, length, step);
+			return new MemoryReaderWriterGeneric(address, Length, step);
 		}
 
 		public static IMemoryReaderWriter getMemoryReaderWriter(int address, int step)
@@ -70,10 +70,10 @@ namespace pspsharp.memory
 			internal IMemoryWriter memoryWriter;
 			internal int currentValue;
 
-			public MemoryReaderWriterGeneric(int address, int length, int step)
+			public MemoryReaderWriterGeneric(int address, int Length, int step)
 			{
-				memoryReader = MemoryReader.getMemoryReader(address, length, step);
-				memoryWriter = MemoryWriter.getMemoryWriter(address, length, step);
+				memoryReader = MemoryReader.getMemoryReader(address, Length, step);
+				memoryWriter = MemoryWriter.getMemoryWriter(address, Length, step);
 				currentValue = memoryReader.readNext();
 			}
 

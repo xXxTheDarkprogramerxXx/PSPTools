@@ -100,7 +100,7 @@ namespace pspsharp.graphics
 	using Utilities = pspsharp.util.Utilities;
 
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	//
 	// Ideas for Optimization:
@@ -691,7 +691,7 @@ namespace pspsharp.graphics
 				if (DurationStatistics.collectStatistics)
 				{
 					log_Renamed.info(instance.statistics);
-					Arrays.sort(instance.commandStatistics);
+					Array.Sort(instance.commandStatistics);
 					const int numberCommands = 20;
 					log_Renamed.info(string.Format("{0:D} most time intensive Video commands:", numberCommands));
 					for (int i = 0; i < numberCommands; i++)
@@ -2532,7 +2532,7 @@ namespace pspsharp.graphics
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("getIndexedNumberOfVertexInfo %d: [%d..%d], sequence %b", numberOfVertex, minIndex, maxIndex, sequence));
+//ORIGINAL LINE: Console.WriteLine(String.format("getIndexedNumberOfVertexInfo %d: [%d..%d], sequence %b", numberOfVertex, minIndex, maxIndex, sequence));
 				log_Renamed.debug(string.Format("getIndexedNumberOfVertexInfo %d: [%d..%d], sequence %b", numberOfVertex, minIndex, maxIndex, sequence));
 			}
 
@@ -2570,7 +2570,7 @@ namespace pspsharp.graphics
 			if (isLogDebugEnabled)
 			{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.debug(String.format("isVertexDiscarded (%.0f,%.0f,%.0f) %s=%b returning %b", xs, ys, zs, context.clipPlanesFlag.toString(), context.clipPlanesFlag.isEnabled(), discarded));
+//ORIGINAL LINE: Console.WriteLine(String.format("isVertexDiscarded (%.0f,%.0f,%.0f) %s=%b returning %b", xs, ys, zs, context.clipPlanesFlag.toString(), context.clipPlanesFlag.isEnabled(), discarded));
 				log_Renamed.debug(string.Format("isVertexDiscarded (%.0f,%.0f,%.0f) %s=%b returning %b", xs, ys, zs, context.clipPlanesFlag.ToString(), context.clipPlanesFlag.Enabled, discarded));
 			}
 
@@ -6446,14 +6446,14 @@ namespace pspsharp.graphics
 			/*
 			 // TODO: I doubt psp hardware normalizes normals after skinning,
 			 // but if it does, this should be uncommented :)
-			 float length = nx*nx + ny*ny + nz*nz;
+			 float Length = nx*nx + ny*ny + nz*nz;
 	
-			 if (length > 0.f) {
-			 length = 1.f / (float)Math.sqrt(length);
+			 if (Length > 0.f) {
+			 Length = 1.f / (float)Math.Sqrt(Length);
 	
-			 nx *= length;
-			 ny *= length;
-			 nz *= length;
+			 nx *= Length;
+			 ny *= Length;
+			 nz *= Length;
 			 }
 			 */
 			normal[0] = nx;
@@ -6496,14 +6496,14 @@ namespace pspsharp.graphics
 			/*
 			 // TODO: I doubt psp hardware normalizes normals after skinning,
 			 // but if it does, this should be uncommented :)
-			 float length = nx*nx + ny*ny + nz*nz;
+			 float Length = nx*nx + ny*ny + nz*nz;
 	
-			 if (length > 0.f) {
-			 length = 1.f / (float)Math.sqrt(length);
+			 if (Length > 0.f) {
+			 Length = 1.f / (float)Math.Sqrt(Length);
 	
-			 nx *= length;
-			 ny *= length;
-			 nz *= length;
+			 nx *= Length;
+			 ny *= Length;
+			 nz *= Length;
 			 }
 			 */
 			if (hasNormal)
@@ -6953,9 +6953,9 @@ namespace pspsharp.graphics
 
 								if (!context.texture_swizzle)
 								{
-									int length = System.Math.Max(textureBufferWidthInPixels, context.texture_width[level]) * context.texture_height[level];
-									IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, length / 2, 1);
-									for (int i = 0; i < length; i += 2)
+									int Length = System.Math.Max(textureBufferWidthInPixels, context.texture_width[level]) * context.texture_height[level];
+									IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, Length / 2, 1);
+									for (int i = 0; i < Length; i += 2)
 									{
 										int index = memoryReader.readNext();
 
@@ -6967,7 +6967,7 @@ namespace pspsharp.graphics
 									if (State.captureGeNextFrame)
 									{
 										log_Renamed.info("Capture loadTexture clut 4/16 unswizzled");
-										CaptureManager.captureRAM(texaddr, length / 2);
+										CaptureManager.captureRAM(texaddr, Length / 2);
 									}
 								}
 								else
@@ -7008,9 +7008,9 @@ namespace pspsharp.graphics
 
 								if (!context.texture_swizzle)
 								{
-									int length = System.Math.Max(textureBufferWidthInPixels, context.texture_width[level]) * context.texture_height[level];
-									IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, length / 2, 1);
-									for (int i = 0; i < length; i += 2)
+									int Length = System.Math.Max(textureBufferWidthInPixels, context.texture_width[level]) * context.texture_height[level];
+									IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, Length / 2, 1);
+									for (int i = 0; i < Length; i += 2)
 									{
 										int index = memoryReader.readNext();
 
@@ -7022,7 +7022,7 @@ namespace pspsharp.graphics
 									if (State.captureGeNextFrame)
 									{
 										log_Renamed.info("Capture loadTexture clut 4/32 unswizzled");
-										CaptureManager.captureRAM(texaddr, length / 2);
+										CaptureManager.captureRAM(texaddr, Length / 2);
 									}
 								}
 								else
@@ -7117,12 +7117,12 @@ namespace pspsharp.graphics
 
 						if (!context.texture_swizzle)
 						{
-							int length = System.Math.Max(textureBufferWidthInPixels, context.texture_width[level]) * context.texture_height[level];
-							final_buffer = Memory.Instance.getBuffer(texaddr, length * 2);
+							int Length = System.Math.Max(textureBufferWidthInPixels, context.texture_width[level]) * context.texture_height[level];
+							final_buffer = Memory.Instance.getBuffer(texaddr, Length * 2);
 							if (final_buffer == null)
 							{
-								IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, length * 2, 2);
-								for (int i = 0; i < length; i++)
+								IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, Length * 2, 2);
+								for (int i = 0; i < Length; i++)
 								{
 									int pixel = memoryReader.readNext();
 									tmp_texture_buffer16[i] = (short) pixel;
@@ -7134,7 +7134,7 @@ namespace pspsharp.graphics
 							if (State.captureGeNextFrame)
 							{
 								log_Renamed.info("Capture loadTexture 16 unswizzled");
-								CaptureManager.captureRAM(texaddr, length * 2);
+								CaptureManager.captureRAM(texaddr, Length * 2);
 							}
 						}
 						else
@@ -7554,7 +7554,7 @@ namespace pspsharp.graphics
 		{
 			Buffer buffer = null;
 
-			int length = textureBufferWidthInPixels * context.texture_height[level];
+			int Length = textureBufferWidthInPixels * context.texture_height[level];
 			switch (context.tex_clut_mode)
 			{
 				case CMODE_FORMAT_16BIT_BGR5650:
@@ -7570,8 +7570,8 @@ namespace pspsharp.graphics
 
 					if (!context.texture_swizzle)
 					{
-						IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, length * bytesPerIndex, bytesPerIndex);
-						for (int i = 0; i < length; i++)
+						IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, Length * bytesPerIndex, bytesPerIndex);
+						for (int i = 0; i < Length; i++)
 						{
 							int index = memoryReader.readNext();
 							tmp_texture_buffer16[i] = clut[getClutIndex(index)];
@@ -7581,7 +7581,7 @@ namespace pspsharp.graphics
 						if (State.captureGeNextFrame)
 						{
 							log_Renamed.info("Capture loadTexture clut 8/16 unswizzled");
-							CaptureManager.captureRAM(texaddr, length * bytesPerIndex);
+							CaptureManager.captureRAM(texaddr, Length * bytesPerIndex);
 						}
 					}
 					else
@@ -7591,7 +7591,7 @@ namespace pspsharp.graphics
 						{
 							case 1:
 							{
-								for (int i = 0, j = 0; i < length; i += 4, j++)
+								for (int i = 0, j = 0; i < Length; i += 4, j++)
 								{
 									int n = tmp_texture_buffer32[j];
 									int index = n & 0xFF;
@@ -7607,7 +7607,7 @@ namespace pspsharp.graphics
 							}
 							case 2:
 							{
-								for (int i = 0, j = 0; i < length; i += 2, j++)
+								for (int i = 0, j = 0; i < Length; i += 2, j++)
 								{
 									int n = tmp_texture_buffer32[j];
 									tmp_texture_buffer16[i + 0] = clut[getClutIndex(n & 0xFFFF)];
@@ -7617,7 +7617,7 @@ namespace pspsharp.graphics
 							}
 							case 4:
 							{
-								for (int i = 0; i < length; i++)
+								for (int i = 0; i < Length; i++)
 								{
 									int n = tmp_texture_buffer32[i];
 									tmp_texture_buffer16[i] = clut[getClutIndex(n)];
@@ -7642,8 +7642,8 @@ namespace pspsharp.graphics
 
 					if (!context.texture_swizzle)
 					{
-						IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, length * bytesPerIndex, bytesPerIndex);
-						for (int i = 0; i < length; i++)
+						IMemoryReader memoryReader = MemoryReader.getMemoryReader(texaddr, Length * bytesPerIndex, bytesPerIndex);
+						for (int i = 0; i < Length; i++)
 						{
 							int index = memoryReader.readNext();
 							tmp_texture_buffer32[i] = clut[getClutIndex(index)];
@@ -7653,7 +7653,7 @@ namespace pspsharp.graphics
 						if (State.captureGeNextFrame)
 						{
 							log_Renamed.info("Capture loadTexture clut 8/32 unswizzled");
-							CaptureManager.captureRAM(texaddr, length * bytesPerIndex);
+							CaptureManager.captureRAM(texaddr, Length * bytesPerIndex);
 						}
 					}
 					else
@@ -7663,7 +7663,7 @@ namespace pspsharp.graphics
 						{
 							case 1:
 							{
-								for (int i = length - 4, j = (length / 4) - 1; i >= 0; i -= 4, j--)
+								for (int i = Length - 4, j = (Length / 4) - 1; i >= 0; i -= 4, j--)
 								{
 									int n = tmp_texture_buffer32[j];
 									int index = n & 0xFF;
@@ -7679,7 +7679,7 @@ namespace pspsharp.graphics
 							}
 							case 2:
 							{
-								for (int i = length - 2, j = (length / 2) - 1; i >= 0; i -= 2, j--)
+								for (int i = Length - 2, j = (Length / 2) - 1; i >= 0; i -= 2, j--)
 								{
 									int n = tmp_texture_buffer32[j];
 									tmp_texture_buffer32[i + 0] = clut[getClutIndex(n & 0xFFFF)];
@@ -7689,7 +7689,7 @@ namespace pspsharp.graphics
 							}
 							case 4:
 							{
-								for (int i = 0; i < length; i++)
+								for (int i = 0; i < Length; i++)
 								{
 									int n = tmp_texture_buffer32[i];
 									tmp_texture_buffer32[i] = clut[getClutIndex(n)];
@@ -8149,7 +8149,7 @@ namespace pspsharp.graphics
 					// }
 					// mipmapMaxLevel = mipmapBaseLevel;
 					// if (isLogDebugEnabled) {
-					//     log.debug("TBIAS_MODE_AUTO " + context.tex_mipmap_bias + ", param=" + maxValue);
+					//     Console.WriteLine("TBIAS_MODE_AUTO " + context.tex_mipmap_bias + ", param=" + maxValue);
 					// }
 				}
 				else if (context.tex_mipmap_mode == TBIAS_MODE_SLOPE)
@@ -8297,7 +8297,7 @@ namespace pspsharp.graphics
 //ORIGINAL LINE: patch = new VertexState[context.patch_div_s + 1][context.patch_div_t + 1];
 				patch = RectangularArrays.ReturnRectangularVertexStateArray(context.patch_div_s + 1, context.patch_div_t + 1);
 
-				// Calculate knot arrays.
+				// Calculate knot Array.
 				int n = ucount - 1;
 				int m = vcount - 1;
 				int[] knot_u = spline_knot(n, utype);
@@ -9054,14 +9054,14 @@ namespace pspsharp.graphics
 			}
 		}
 
-		public virtual void addVideoTexture(int destinationAddress, int sourceAddress, int length)
+		public virtual void addVideoTexture(int destinationAddress, int sourceAddress, int Length)
 		{
 			if (ExternalGE.Active)
 			{
-				ExternalGE.addVideoTexture(destinationAddress, sourceAddress, length);
+				ExternalGE.addVideoTexture(destinationAddress, sourceAddress, Length);
 			}
 
-			addToVideoTextures(destinationAddress, destinationAddress + length);
+			addToVideoTextures(destinationAddress, destinationAddress + Length);
 		}
 
 		public virtual void addVideoTexture(int startAddress, int endAddress)

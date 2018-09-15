@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -26,7 +26,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceChnnlsv : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceChnnlsv");
+		//public static Logger log = Modules.getLogger("sceChnnlsv");
 		private CryptoEngine crypto = new CryptoEngine();
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace pspsharp.HLE.modules
 		/// <returns> SCE_CHNNLSV_ERROR_ILLEGAL_ADDR if ctx cannot be accessed from the current context.
 		///  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xE7833020, version = 150) public int sceSdSetIndex(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer ctx2Addr, int mode)
+//ORIGINAL LINE: @HLEFunction(nid = 0xE7833020, version = 150) public int sceSdSetIndex(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer ctx2Addr, int mode)
 		[HLEFunction(nid : 0xE7833020, version : 150)]
 		public virtual int sceSdSetIndex(TPointer ctx2Addr, int mode)
 		{
@@ -65,7 +65,7 @@ namespace pspsharp.HLE.modules
 		/// <returns> SCE_CHNNLSV_ERROR_ILLEGAL_SIZE if ctx->size > 16
 		///  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xF21A1FCA, version = 150) public int sceSdRemoveValue(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer data, int size)
+//ORIGINAL LINE: @HLEFunction(nid = 0xF21A1FCA, version = 150) public int sceSdRemoveValue(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer data, int size)
 		[HLEFunction(nid : 0xF21A1FCA, version : 150)]
 		public virtual int sceSdRemoveValue(TPointer ctx2Addr, TPointer data, int size)
 		{
@@ -95,7 +95,7 @@ namespace pspsharp.HLE.modules
 		/// <returns> SCE_CHNNLSV_ERROR_ILLEGAL_SIZE if ctx->size > 16
 		///  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xC4C494F8, version = 150) public int sceSdGetLastIndex(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 hash, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 key)
+//ORIGINAL LINE: @HLEFunction(nid = 0xC4C494F8, version = 150) public int sceSdGetLastIndex(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 hash, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 key)
 		[HLEFunction(nid : 0xC4C494F8, version : 150)]
 		public virtual int sceSdGetLastIndex(TPointer ctx2Addr, TPointer8 hash, TPointer8 key)
 		{
@@ -138,7 +138,7 @@ namespace pspsharp.HLE.modules
 		/// <returns> SCE_CHNNLSV_ERROR_SEMA_ERROR wait/signal sema error
 		///  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xABFDFC8B, version = 150) public int sceSdCreateList(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=24, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, int encMode, int genMode, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer8 data, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 key)
+//ORIGINAL LINE: @HLEFunction(nid = 0xABFDFC8B, version = 150) public int sceSdCreateList(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=24, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, int encMode, int genMode, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer8 data, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 key)
 		[HLEFunction(nid : 0xABFDFC8B, version : 150)]
 		public virtual int sceSdCreateList(TPointer ctx2Addr, int encMode, int genMode, TPointer8 data, TPointer8 key)
 		{
@@ -196,7 +196,7 @@ namespace pspsharp.HLE.modules
 		/// <returns> SCE_CHNNLSV_ERROR_ILLEGAL_ALIGNMENT_SIZE if the size of "data" is not 16 byte aligned
 		///  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x850A7FA1, version = 150) public int sceSdSetMember(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=24, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer8 data, int dataLength)
+//ORIGINAL LINE: @HLEFunction(nid = 0x850A7FA1, version = 150) public int sceSdSetMember(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=24, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer ctx2Addr, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer8 data, int dataLength)
 		[HLEFunction(nid : 0x850A7FA1, version : 150)]
 		public virtual int sceSdSetMember(TPointer ctx2Addr, TPointer8 data, int dataLength)
 		{
@@ -224,7 +224,7 @@ namespace pspsharp.HLE.modules
 		/// <returns> SCE_CHNNLSV_ERROR_ILLEGAL_ADDR if ctx cannot be accessed from the current context.
 		///  </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x21BE78B4, version = 150) public int sceSdCleanList(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=24, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer ctx2Addr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x21BE78B4, version = 150) public int sceSdCleanList(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=24, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer ctx2Addr)
 		[HLEFunction(nid : 0x21BE78B4, version : 150)]
 		public virtual int sceSdCleanList(TPointer ctx2Addr)
 		{

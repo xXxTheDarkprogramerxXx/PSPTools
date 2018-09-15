@@ -57,7 +57,7 @@ namespace pspsharp.HLE.kernel.managers
 	using ThreadManForUser = pspsharp.HLE.modules.ThreadManForUser;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class FplManager
 	{
@@ -101,7 +101,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("FPL deleted while we were waiting for it! (timeout expired)");
+				Console.WriteLine("FPL deleted while we were waiting for it! (timeout expired)");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -117,7 +117,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("EventFlag deleted while we were waiting for it!");
+				Console.WriteLine("EventFlag deleted while we were waiting for it!");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -180,9 +180,9 @@ namespace pspsharp.HLE.kernel.managers
 				int addr = tryAllocateFpl(info);
 				if (addr != 0)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("onFplFree waking thread {0}", thread));
+						Console.WriteLine(string.Format("onFplFree waking thread {0}", thread));
 					}
 					// Return the allocated address
 					thread.wait.Fpl_dataAddr.setValue(addr);
@@ -213,7 +213,7 @@ namespace pspsharp.HLE.kernel.managers
 
 			if (info.freeBlocks == 0 || (block = info.findFreeBlock()) == -1)
 			{
-				log.warn("tryAllocateFpl no free blocks (numBlocks=" + info.numBlocks + ")");
+				Console.WriteLine("tryAllocateFpl no free blocks (numBlocks=" + info.numBlocks + ")");
 				return 0;
 			}
 			addr = info.allocateBlock(block);
@@ -226,7 +226,7 @@ namespace pspsharp.HLE.kernel.managers
 			SceUidManager.checkUidPurpose(uid, "ThreadMan-Fpl", true);
 			if (!fplMap.ContainsKey(uid))
 			{
-				log.warn(string.Format("checkFplID unknown uid=0x{0:X}", uid));
+				Console.WriteLine(string.Format("checkFplID unknown uid=0x{0:X}", uid));
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_FPOOL);
 			}
 
@@ -263,29 +263,29 @@ namespace pspsharp.HLE.kernel.managers
 						// The alignment has to be a power of 2.
 						return SceKernelErrors.ERROR_KERNEL_ILLEGAL_ARGUMENT;
 					}
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceKernelCreateFpl options: struct size={0:D}, alignment=0x{1:X}", optParams.@sizeof(), optParams.align));
+						Console.WriteLine(string.Format("sceKernelCreateFpl options: struct size={0:D}, alignment=0x{1:X}", optParams.@sizeof(), optParams.align));
 					}
 				}
 				else
 				{
-					log.warn(string.Format("sceKernelCreateFpl option at {0}, size={1:D}", option, optionSize));
+					Console.WriteLine(string.Format("sceKernelCreateFpl option at {0}, size={1:D}", option, optionSize));
 				}
 			}
 			if ((attr & ~PSP_FPL_ATTR_MASK) != 0)
 			{
-				log.warn(string.Format("sceKernelCreateFpl bad attr value 0x{0:X}", attr));
+				Console.WriteLine(string.Format("sceKernelCreateFpl bad attr value 0x{0:X}", attr));
 				return ERROR_KERNEL_ILLEGAL_ATTR;
 			}
 			if (blocksize <= 0)
 			{
-				log.warn(string.Format("sceKernelCreateFpl bad blocksize {0:D}", blocksize));
+				Console.WriteLine(string.Format("sceKernelCreateFpl bad blocksize {0:D}", blocksize));
 				return ERROR_KERNEL_ILLEGAL_MEMSIZE;
 			}
 			if (blocks <= 0)
 			{
-				log.warn(string.Format("sceKernelCreateFpl bad number of blocks {0:D}", blocks));
+				Console.WriteLine(string.Format("sceKernelCreateFpl bad number of blocks {0:D}", blocks));
 				return ERROR_KERNEL_ILLEGAL_MEMSIZE;
 			}
 			if (blocks * blocksize < 0)
@@ -303,9 +303,9 @@ namespace pspsharp.HLE.kernel.managers
 				return ERROR_KERNEL_NO_MEMORY;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCreateFpl returning {0}", info));
+				Console.WriteLine(string.Format("sceKernelCreateFpl returning {0}", info));
 			}
 			fplMap[info.uid] = info;
 
@@ -317,7 +317,7 @@ namespace pspsharp.HLE.kernel.managers
 			SceKernelFplInfo info = fplMap.Remove(uid);
 			if (info.freeBlocks < info.numBlocks)
 			{
-				log.warn(string.Format("sceKernelDeleteFpl {0} unfreed blocks, deleting", info.numBlocks - info.freeBlocks));
+				Console.WriteLine(string.Format("sceKernelDeleteFpl {0} unfreed blocks, deleting", info.numBlocks - info.freeBlocks));
 			}
 			info.deleteSysMemInfo();
 			onFplDeleted(uid);
@@ -332,9 +332,9 @@ namespace pspsharp.HLE.kernel.managers
 			ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 			if (addr == 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelAllocateFpl {0} fast check failed", fpl));
+					Console.WriteLine(string.Format("hleKernelAllocateFpl {0} fast check failed", fpl));
 				}
 				if (!wait)
 				{
@@ -350,9 +350,9 @@ namespace pspsharp.HLE.kernel.managers
 			else
 			{
 				// Success, do not reschedule the current thread.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelAllocateFpl {0} fast check succeeded", fpl));
+					Console.WriteLine(string.Format("hleKernelAllocateFpl {0} fast check succeeded", fpl));
 				}
 				dataAddr.setValue(addr);
 			}
@@ -381,7 +381,7 @@ namespace pspsharp.HLE.kernel.managers
 			int block = info.findBlockByAddress(dataAddr.Address);
 			if (block < 0)
 			{
-				log.warn(string.Format("sceKernelFreeFpl unknown block address={0}", dataAddr));
+				Console.WriteLine(string.Format("sceKernelFreeFpl unknown block address={0}", dataAddr));
 				return ERROR_KERNEL_ILLEGAL_MEMBLOCK;
 			}
 

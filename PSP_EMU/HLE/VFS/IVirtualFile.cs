@@ -30,7 +30,7 @@ namespace pspsharp.HLE.VFS
 		int ioWrite(sbyte[] inputBuffer, int inputOffset, int inputLength);
 		long ioLseek(long offset);
 		int ioIoctl(int command, TPointer inputPointer, int inputLength, TPointer outputPointer, int outputLength);
-		long length();
+		long Length();
 		bool SectorBlockMode {get;}
 		long Position {get;}
 		IVirtualFile duplicate();

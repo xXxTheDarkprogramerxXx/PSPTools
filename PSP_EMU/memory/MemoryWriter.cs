@@ -28,26 +28,26 @@ namespace pspsharp.memory
 	{
 		private static int getMaxLength(int address)
 		{
-			int length;
+			int Length;
 
 			if (address >= MemoryMap.START_RAM && address <= MemoryMap.END_RAM)
 			{
-				length = MemoryMap.END_RAM - address + 1;
+				Length = MemoryMap.END_RAM - address + 1;
 			}
 			else if (address >= MemoryMap.START_VRAM && address <= MemoryMap.END_VRAM)
 			{
-				length = MemoryMap.END_VRAM - address + 1;
+				Length = MemoryMap.END_VRAM - address + 1;
 			}
 			else if (address >= MemoryMap.START_SCRATCHPAD && address <= MemoryMap.END_SCRATCHPAD)
 			{
-				length = MemoryMap.END_SCRATCHPAD - address + 1;
+				Length = MemoryMap.END_SCRATCHPAD - address + 1;
 			}
 			else
 			{
-				length = 0;
+				Length = 0;
 			}
 
-			return length;
+			return Length;
 		}
 
 		private static IMemoryWriter getFastMemoryWriter(int address, int step)
@@ -74,13 +74,13 @@ namespace pspsharp.memory
 		/// <param name="address"> the address where to start writing.
 		///                When step == 2, the address has to be 16-bit aligned ((address & 1) == 0).
 		///                When step == 4, the address has to be 32-bit aligned ((address & 3) == 0). </param>
-		/// <param name="length">  the maximum number of bytes that can be written. </param>
+		/// <param name="Length">  the maximum number of bytes that can be written. </param>
 		/// <param name="step">    when step == 1, write 8-bit values
 		///                when step == 2, write 16-bit values
 		///                when step == 4, write 32-bit values
 		///                other value for step are not allowed. </param>
 		/// <returns>        the MemoryWriter </returns>
-		public static IMemoryWriter getMemoryWriter(int address, int length, int step)
+		public static IMemoryWriter getMemoryWriter(int address, int Length, int step)
 		{
 			address &= Memory.addressMask;
 			if (RuntimeContext.hasMemoryInt())
@@ -90,7 +90,7 @@ namespace pspsharp.memory
 
 			if (!DebuggerMemory.Installed)
 			{
-				Buffer buffer = Memory.Instance.getBuffer(address, length);
+				Buffer buffer = Memory.Instance.getBuffer(address, Length);
 
 				if (buffer is IntBuffer)
 				{
@@ -121,7 +121,7 @@ namespace pspsharp.memory
 			}
 
 			// Default (generic) MemoryWriter
-			return new MemoryWriterGeneric(address, length, step);
+			return new MemoryWriterGeneric(address, Length, step);
 		}
 
 		/// <summary>
@@ -152,65 +152,65 @@ namespace pspsharp.memory
 		/// <param name="address"> the address where to start writing.
 		///                When step == 2, the address has to be 16-bit aligned ((address & 1) == 0).
 		///                When step == 4, the address has to be 32-bit aligned ((address & 3) == 0). </param>
-		/// <param name="length">  the maximum number of bytes that can be written. </param>
+		/// <param name="Length">  the maximum number of bytes that can be written. </param>
 		/// <param name="step">    when step == 1, write 8-bit values
 		///                when step == 2, write 16-bit values
 		///                when step == 4, write 32-bit values
 		///                other value for step are not allowed. </param>
 		/// <returns>        the MemoryWriter </returns>
-		public static IMemoryWriter getMemoryWriter(Memory mem, int address, int length, int step)
+		public static IMemoryWriter getMemoryWriter(Memory mem, int address, int Length, int step)
 		{
 			// Use the optimized version if we are just using the standard memory
 			if (mem == RuntimeContext.memory)
 			{
-				return getMemoryWriter(address, length, step);
+				return getMemoryWriter(address, Length, step);
 			}
 
 			// Default (generic) MemoryWriter
-			return new MemoryWriterGeneric(mem, address, length, step);
+			return new MemoryWriterGeneric(mem, address, Length, step);
 		}
 
 		/// <summary>
 		/// Creates a MemoryWriter to write values to memory.
 		/// </summary>
 		/// <param name="address"> the address and memory where to start writing. </param>
-		/// <param name="length">  the maximum number of bytes that can be written. </param>
+		/// <param name="Length">  the maximum number of bytes that can be written. </param>
 		/// <param name="step">    when step == 1, write 8-bit values
 		///                when step == 2, write 16-bit values
 		///                when step == 4, write 32-bit values
 		///                other value for step are not allowed. </param>
 		/// <returns>        the MemoryWriter </returns>
-		public static IMemoryWriter getMemoryWriter(TPointer address, int length, int step)
+		public static IMemoryWriter getMemoryWriter(TPointer address, int Length, int step)
 		{
-			return getMemoryWriter(address.Memory, address.Address, length, step);
+			return getMemoryWriter(address.Memory, address.Address, Length, step);
 		}
 
 		private class MemoryWriterGeneric : IMemoryWriter
 		{
 			internal Memory mem;
 			internal int address;
-			internal int length;
+			internal int Length;
 			internal int step;
 
-			public MemoryWriterGeneric(Memory mem, int address, int length, int step)
+			public MemoryWriterGeneric(Memory mem, int address, int Length, int step)
 			{
 				this.mem = mem;
 				this.address = address;
-				this.length = length;
+				this.Length = Length;
 				this.step = step;
 			}
 
-			public MemoryWriterGeneric(int address, int length, int step)
+			public MemoryWriterGeneric(int address, int Length, int step)
 			{
 				this.address = address;
-				this.length = length;
+				this.Length = Length;
 				this.step = step;
 				mem = Memory.Instance;
 			}
 
 			public virtual void writeNext(int value)
 			{
-				if (length <= 0)
+				if (Length <= 0)
 				{
 					return;
 				}
@@ -229,7 +229,7 @@ namespace pspsharp.memory
 				}
 
 				address += step;
-				length -= step;
+				Length -= step;
 			}
 
 			public virtual void flush()
@@ -239,7 +239,7 @@ namespace pspsharp.memory
 			public virtual void skip(int n)
 			{
 				address += n * step;
-				length -= n * step;
+				Length -= n * step;
 			}
 
 			public virtual int CurrentAddress

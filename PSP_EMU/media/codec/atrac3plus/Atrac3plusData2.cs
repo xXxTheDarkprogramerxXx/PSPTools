@@ -115,7 +115,7 @@ namespace pspsharp.media.codec.atrac3plus
 		};
 
 		/// <summary>
-		/// Ungroup table for word length segments.
+		/// Ungroup table for word Length segments.
 		///  Numbers in this table tell which coeff belongs to which segment. 
 		/// </summary>
 		internal static readonly int[] atrac3p_qu_num_to_seg = new int[] {0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9};

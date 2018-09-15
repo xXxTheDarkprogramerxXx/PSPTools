@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using pspUsbGpsData = pspsharp.HLE.kernel.types.pspUsbGpsData;
 	using pspUsbGpsSatData = pspsharp.HLE.kernel.types.pspUsbGpsSatData;
@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceUsbGps : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceUsbGps");
+		//public static Logger log = Modules.getLogger("sceUsbGps");
 		public const int GPS_STATE_OFF = 0;
 		// "MapThis!" is describing both following states as "Activating"
 		public const int GPS_STATE_ACTIVATING1 = 1;

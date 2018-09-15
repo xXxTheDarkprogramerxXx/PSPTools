@@ -42,8 +42,8 @@ namespace pspsharp.filesystems.umdiso.iso9660
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public Iso9660File(byte[] data, int length, boolean jolietExtension) throws java.io.IOException
-		public Iso9660File(sbyte[] data, int length, bool jolietExtension)
+//ORIGINAL LINE: public Iso9660File(byte[] data, int Length, boolean jolietExtension) throws java.io.IOException
+		public Iso9660File(sbyte[] data, int Length, bool jolietExtension)
 		{
 			/*
 			   1           Length of Directory Record (LEN-DR) -- read by the Iso9660Directory

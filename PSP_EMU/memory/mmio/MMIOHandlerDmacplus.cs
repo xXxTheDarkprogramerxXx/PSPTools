@@ -23,7 +23,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.modules.sceDisplay.PSP_DISPLAY_SETBUF_IMMEDIATE;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using IAction = pspsharp.HLE.kernel.types.IAction;
@@ -217,9 +217,9 @@ namespace pspsharp.memory.mmio
 				frameBufferAddr = 0;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("updateDisplay.hleDisplaySetFrameBuf frameBufferAddr=0x{0:X8}, displayFrameBufferWidth=0x{1:X}, displayPixelFormat=0x{2:X}, displayFlags=0x{3:X}", frameBufferAddr, displayFrameBufferWidth, displayPixelFormat, displayFlags));
+				Console.WriteLine(string.Format("updateDisplay.hleDisplaySetFrameBuf frameBufferAddr=0x{0:X8}, displayFrameBufferWidth=0x{1:X}, displayPixelFormat=0x{2:X}, displayFlags=0x{3:X}", frameBufferAddr, displayFrameBufferWidth, displayPixelFormat, displayFlags));
 			}
 
 			sceDisplayModule.hleDisplaySetFrameBuf(frameBufferAddr, displayFrameBufferWidth, displayPixelFormat, PSP_DISPLAY_SETBUF_IMMEDIATE);

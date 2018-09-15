@@ -58,9 +58,9 @@ namespace pspsharp.network.adhoc
 			init(0, 0, toMacAddress);
 		}
 
-		public AdhocMessage(sbyte[] message, int length)
+		public AdhocMessage(sbyte[] message, int Length)
 		{
-			setMessage(message, length);
+			setMessage(message, Length);
 		}
 
 		protected internal virtual void addToBytes(sbyte[] bytes, sbyte value)
@@ -98,30 +98,30 @@ namespace pspsharp.network.adhoc
 			return (copyByteFromBytes(bytes) & 0xFF) | ((copyByteFromBytes(bytes) & 0xFF) << 8) | ((copyByteFromBytes(bytes) & 0xFF) << 16) | ((copyByteFromBytes(bytes) & 0xFF) << 24);
 		}
 
-		public AdhocMessage(int address, int length)
+		public AdhocMessage(int address, int Length)
 		{
-			init(address, length, ANY_MAC_ADDRESS);
+			init(address, Length, ANY_MAC_ADDRESS);
 		}
 
-		public AdhocMessage(int address, int length, sbyte[] toMacAddress)
+		public AdhocMessage(int address, int Length, sbyte[] toMacAddress)
 		{
-			init(address, length, toMacAddress);
+			init(address, Length, toMacAddress);
 		}
 
-		private void init(int address, int length, sbyte[] toMacAddress)
+		private void init(int address, int Length, sbyte[] toMacAddress)
 		{
-			init(address, length, Wlan.MacAddress, toMacAddress);
+			init(address, Length, Wlan.MacAddress, toMacAddress);
 		}
 
-		private void init(int address, int length, sbyte[] fromMacAddress, sbyte[] toMacAddress)
+		private void init(int address, int Length, sbyte[] fromMacAddress, sbyte[] toMacAddress)
 		{
 			FromMacAddress = fromMacAddress;
 			ToMacAddress = toMacAddress;
-			data = new sbyte[length];
-			if (length > 0 && address != 0)
+			data = new sbyte[Length];
+			if (Length > 0 && address != 0)
 			{
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 1);
-				for (int i = 0; i < length; i++)
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 1);
+				for (int i = 0; i < Length; i++)
 				{
 					data[i] = (sbyte) memoryReader.readNext();
 				}
@@ -175,7 +175,7 @@ namespace pspsharp.network.adhoc
 			}
 		}
 
-		public abstract void setMessage(sbyte[] message, int length);
+		public abstract void setMessage(sbyte[] message, int Length);
 
 		public virtual void writeDataToMemory(int address)
 		{

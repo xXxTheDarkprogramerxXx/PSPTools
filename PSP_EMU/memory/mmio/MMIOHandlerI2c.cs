@@ -19,7 +19,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.kernel.managers.IntrManager.PSP_I2C_INTR;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using IAction = pspsharp.HLE.kernel.types.IAction;
@@ -157,7 +157,7 @@ namespace pspsharp.memory.mmio
 							WM8750.Instance.executeTransmitReceiveCommand(transmitData, receiveData);
 							break;
 						default:
-							log.error(string.Format("MMIOHandlerI2c.startCommand unknown i2cAddress=0x{0:X}", i2cAddress));
+							Console.WriteLine(string.Format("MMIOHandlerI2c.startCommand unknown i2cAddress=0x{0:X}", i2cAddress));
 							return;
 					}
 					break;
@@ -172,12 +172,12 @@ namespace pspsharp.memory.mmio
 							WM8750.Instance.executeTransmitCommand(transmitData);
 							break;
 						default:
-							log.error(string.Format("MMIOHandlerI2c.startCommand unknown i2cAddress=0x{0:X}", i2cAddress));
+							Console.WriteLine(string.Format("MMIOHandlerI2c.startCommand unknown i2cAddress=0x{0:X}", i2cAddress));
 							return;
 					}
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerI2c.startCommand unknown command=0x{0:X}", command));
+					Console.WriteLine(string.Format("MMIOHandlerI2c.startCommand unknown command=0x{0:X}", command));
 					return;
 			}
 

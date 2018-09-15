@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.media.codec.aac
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class Lpc
 	{
@@ -35,7 +35,7 @@ namespace pspsharp.media.codec.aac
 
 			if (!(normalize || !fail))
 			{
-				log.error(string.Format("computeLpcCoefs invalid parameters"));
+				Console.WriteLine(string.Format("computeLpcCoefs invalid parameters"));
 			}
 
 			if (normalize)

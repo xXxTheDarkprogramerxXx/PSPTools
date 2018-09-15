@@ -91,7 +91,7 @@ namespace pspsharp.filesystems.umdiso
 				int readSize = fileAccess.read(header);
 				if (readSize != header.Length)
 				{
-					int psarDataLength = (int)(fileAccess.length() - offsetPsarData);
+					int psarDataLength = (int)(fileAccess.Length() - offsetPsarData);
 					if (psarDataLength != 0 && psarDataLength != 16)
 					{
 						throw new IOException(string.Format("Invalid PBP header"));
@@ -139,7 +139,7 @@ namespace pspsharp.filesystems.umdiso
 					readSize = fileAccess.read(tableBytes);
 					if (readSize != tableBytes.Length)
 					{
-						log.error(string.Format("Could not read table with size {0:D} (readSize={1:D})", tableBytes.Length, readSize));
+						Console.WriteLine(string.Format("Could not read table with size {0:D} (readSize={1:D})", tableBytes.Length, readSize));
 					}
 
 					IntBuffer tableInts = ByteBuffer.wrap(tableBytes).order(ByteOrder.LITTLE_ENDIAN).asIntBuffer();
@@ -172,7 +172,7 @@ namespace pspsharp.filesystems.umdiso
 			}
 			catch (IOException e)
 			{
-				log.error("Reading PBP", e);
+				Console.WriteLine("Reading PBP", e);
 			}
 		}
 
@@ -191,7 +191,7 @@ namespace pspsharp.filesystems.umdiso
 			int lba = sectorNumber - currentBlock;
 			if (table == null)
 			{
-				Arrays.fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
+				Arrays.Fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
 			}
 			else if (currentBlock >= 0 && lba >= 0 && lba < blockLBAs)
 			{
@@ -235,7 +235,7 @@ namespace pspsharp.filesystems.umdiso
 							int lzsize = lzrc_decompress(blockBuffer, blockBuffer.Length, readBuffer, table[block].size);
 							if (lzsize != blockSize)
 							{
-								log.error(string.Format("LZRC decompress error: decompressedSized={0:D}, should be {1:D}", lzsize, blockSize));
+								Console.WriteLine(string.Format("LZRC decompress error: decompressedSized={0:D}, should be {1:D}", lzsize, blockSize));
 							}
 						}
 
@@ -246,15 +246,15 @@ namespace pspsharp.filesystems.umdiso
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: private byte[] read(int offset, int length) throws java.io.IOException
-		private sbyte[] read(int offset, int length)
+//ORIGINAL LINE: private byte[] read(int offset, int Length) throws java.io.IOException
+		private sbyte[] read(int offset, int Length)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return null;
 			}
 
-			sbyte[] buffer = new sbyte[length];
+			sbyte[] buffer = new sbyte[Length];
 			fileAccess.seek(offset & 0xFFFFFFFFL);
 			int read = fileAccess.read(buffer);
 			if (read < 0)
@@ -263,7 +263,7 @@ namespace pspsharp.filesystems.umdiso
 			}
 
 			// Read less than expected?
-			if (read < length)
+			if (read < Length)
 			{
 				// Shrink the buffer to the read size
 				sbyte[] newBuffer = new sbyte[read];
@@ -327,7 +327,7 @@ namespace pspsharp.filesystems.umdiso
 //ORIGINAL LINE: @Override public byte[] readPsarData() throws java.io.IOException
 		public virtual sbyte[] readPsarData()
 		{
-			return read(offsetPsarData, (int)(fileAccess.length() - offsetPsarData));
+			return read(offsetPsarData, (int)(fileAccess.Length() - offsetPsarData));
 		}
 	}
 

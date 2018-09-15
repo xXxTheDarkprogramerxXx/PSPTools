@@ -35,10 +35,10 @@ namespace pspsharp.graphics.RE.software
 			this.height = height;
 			// Read the whole texture into the "pixels" array
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int length = width * height;
-			int length = width * height;
-			pixels = new int[length];
-			for (int i = 0; i < length; i++)
+//ORIGINAL LINE: final int Length = width * height;
+			int Length = width * height;
+			pixels = new int[Length];
+			for (int i = 0; i < Length; i++)
 			{
 				pixels[i] = imageReader.readNext();
 			}

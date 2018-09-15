@@ -84,7 +84,7 @@ namespace pspsharp.Allegrex
 				int address = getRegister(rs) + simm16;
 				if ((address & 1) != 0)
 				{
-					Memory.log.error(string.Format("LH unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
+					Memory.Console.WriteLine(string.Format("LH unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
 				}
 			}
 
@@ -103,7 +103,7 @@ namespace pspsharp.Allegrex
 				int address = getRegister(rs) + simm16;
 				if ((address & 1) != 0)
 				{
-					Memory.log.error(string.Format("LHU unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
+					Memory.Console.WriteLine(string.Format("LHU unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
 				}
 			}
 
@@ -138,7 +138,7 @@ namespace pspsharp.Allegrex
 				int address = getRegister(rs) + simm16;
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("LW unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
+					Memory.Console.WriteLine(string.Format("LW unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
 				}
 			}
 
@@ -178,7 +178,7 @@ namespace pspsharp.Allegrex
 				int address = getRegister(rs) + simm16;
 				if ((address & 1) != 0)
 				{
-					Memory.log.error(string.Format("SH unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
+					Memory.Console.WriteLine(string.Format("SH unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
 				}
 			}
 
@@ -208,7 +208,7 @@ namespace pspsharp.Allegrex
 				int address = getRegister(rs) + simm16;
 				if ((address & 3) != 0)
 				{
-					Memory.log.error(string.Format("SW unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
+					Memory.Console.WriteLine(string.Format("SW unaligned addr:0x{0:x8} pc:0x{1:x8}", address, cpu.pc));
 				}
 			}
 

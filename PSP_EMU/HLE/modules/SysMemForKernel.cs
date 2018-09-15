@@ -57,11 +57,11 @@ namespace pspsharp.HLE.modules
 	using MemoryWriter = pspsharp.memory.MemoryWriter;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class SysMemForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("SysMemForKernel");
+		//public static Logger log = Modules.getLogger("SysMemForKernel");
 		public const int UID_FUNCTION_INITIALIZE = unchecked((int)0xD310D2D9);
 		public const int UID_FUNCTION_DELETE = unchecked((int)0x87089863);
 		public const int UID_FUNCTION_ALLOC = 0x0DE3B1BD;
@@ -372,9 +372,9 @@ namespace pspsharp.HLE.modules
 			size = Utilities.alignUp(size, 7);
 
 			int addr = info.allocBlock(size);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelAllocHeapMemory(size=0x{0:X}) returning 0x{1:X8}, {2}", size, addr, info));
+				Console.WriteLine(string.Format("sceKernelAllocHeapMemory(size=0x{0:X}) returning 0x{1:X8}, {2}", size, addr, info));
 			}
 
 			return addr;
@@ -397,9 +397,9 @@ namespace pspsharp.HLE.modules
 
 			info.freeBlock(block.Address);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelFreeHeapMemory after free: {0}", info));
+				Console.WriteLine(string.Format("sceKernelFreeHeapMemory after free: {0}", info));
 			}
 
 			return 0;
@@ -435,9 +435,9 @@ namespace pspsharp.HLE.modules
 		{
 			int result = Model.Model; // <= 0 original, 1 slim
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetModel returning {0:D}({1})", result, Model.getModelName(result)));
+				Console.WriteLine(string.Format("sceKernelGetModel returning {0:D}({1})", result, Model.getModelName(result)));
 			}
 
 			return result;
@@ -448,9 +448,9 @@ namespace pspsharp.HLE.modules
 		{
 			int result = Model.Model; // <= 0 original, 1 slim
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetModel_660 returning {0:D}({1})", result, Model.getModelName(result)));
+				Console.WriteLine(string.Format("sceKernelGetModel_660 returning {0:D}({1})", result, Model.getModelName(result)));
 			}
 
 			return result;
@@ -480,9 +480,9 @@ namespace pspsharp.HLE.modules
 		public virtual int SysMemForKernel_A03CB480(TPointer unknown)
 		{
 			npEnv = unknown.getStringNZ(8);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("SysMemForKernel_A03CB480 setting unknownString='{0}'", npEnv));
+				Console.WriteLine(string.Format("SysMemForKernel_A03CB480 setting unknownString='{0}'", npEnv));
 			}
 
 			return 0;
@@ -572,7 +572,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE860BE8F, version = 150) public int sceKernelQueryMemoryBlockInfo(int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=56, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer infoPtr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE860BE8F, version = 150) public int sceKernelQueryMemoryBlockInfo(int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=56, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer infoPtr)
 		[HLEFunction(nid : 0xE860BE8F, version : 150)]
 		public virtual int sceKernelQueryMemoryBlockInfo(int id, TPointer infoPtr)
 		{
@@ -663,9 +663,9 @@ namespace pspsharp.HLE.modules
 					}
 					int addr = funcTable.getValue(offset + 4);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceKernelCreateUIDtypeInherit - funcTable id={0}, addr=0x{1:X8}", getUidFunctionIdName(id), addr));
+						Console.WriteLine(string.Format("sceKernelCreateUIDtypeInherit - funcTable id={0}, addr=0x{1:X8}", getUidFunctionIdName(id), addr));
 					}
 				}
 			}
@@ -839,7 +839,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (SceUidManager.isValidUid(id))
 			{
-				log.warn(string.Format("sceKernelRenameUID called on id=0x{0:X}, which has not been created by sceKernelCreateUID", id));
+				Console.WriteLine(string.Format("sceKernelRenameUID called on id=0x{0:X}, which has not been created by sceKernelCreateUID", id));
 				return 0;
 			}
 
@@ -966,7 +966,7 @@ namespace pspsharp.HLE.modules
 					partitionInfo.attr = 0xF;
 					break;
 				default:
-					log.warn(string.Format("Unimplemented sceKernelQueryMemoryPartitionInfo partitionId=0x{0:X}", partitionId));
+					Console.WriteLine(string.Format("Unimplemented sceKernelQueryMemoryPartitionInfo partitionId=0x{0:X}", partitionId));
 					return -1;
 			}
 

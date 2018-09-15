@@ -102,9 +102,9 @@ namespace pspsharp.memory
 			memory[getOffset(address)] = memData;
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				write8(address + i, data);
 			}
@@ -118,21 +118,21 @@ namespace pspsharp.memory
 			}
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
 			return null;
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
-			log.error(string.Format("Unimplemented copyToMemory address=0x{0:X8}, source={1}, length=0x{2:X}", address, source, length));
+			Console.WriteLine(string.Format("Unimplemented copyToMemory address=0x{0:X8}, source={1}, Length=0x{2:X}", address, source, Length));
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.error(String.format("Unimplemented memcpy destination=0x%08X, source=0x%08X, length=0x%X, checkOverlap=%b", destination, source, length, checkOverlap));
-			log.error(string.Format("Unimplemented memcpy destination=0x%08X, source=0x%08X, length=0x%X, checkOverlap=%b", destination, source, length, checkOverlap));
+//ORIGINAL LINE: Console.WriteLine(String.format("Unimplemented memcpy destination=0x%08X, source=0x%08X, Length=0x%X, checkOverlap=%b", destination, source, Length, checkOverlap));
+			Console.WriteLine(string.Format("Unimplemented memcpy destination=0x%08X, source=0x%08X, Length=0x%X, checkOverlap=%b", destination, source, Length, checkOverlap));
 		}
 	}
 

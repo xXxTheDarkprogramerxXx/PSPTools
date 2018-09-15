@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.mediaengine
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMMIOHandler = pspsharp.memory.mmio.IMMIOHandler;
 	using MMIO = pspsharp.memory.mmio.MMIO;

@@ -267,7 +267,7 @@ namespace pspsharp.graphics
 
 		private Uniforms(string name, InnerEnum innerEnum, string uniformString)
 		{
-			Arrays.fill(uniformId, -1);
+			Arrays.Fill(uniformId, -1);
 			this.uniformString = uniformString;
 
 			nameValue = name;

@@ -43,11 +43,11 @@ namespace pspsharp.filesystems.umdiso
 			try
 			{
 				tocFile.seek(0);
-				long length = tocFile.length();
-				if (length >= 4)
+				long Length = tocFile.Length();
+				if (Length >= 4)
 				{
 					numSectors = tocFile.readInt();
-					for (long i = 4; i < length; i += 8)
+					for (long i = 4; i < Length; i += 8)
 					{
 						int sectorNumber = tocFile.readInt();
 						int bufferedSectorNumber = tocFile.readInt();
@@ -62,7 +62,7 @@ namespace pspsharp.filesystems.umdiso
 			}
 			catch (IOException e)
 			{
-				log.error("readToc", e);
+				Console.WriteLine("readToc", e);
 			}
 		}
 
@@ -84,7 +84,7 @@ namespace pspsharp.filesystems.umdiso
 				}
 				catch (IOException e)
 				{
-					log.error("writeToc", e);
+					Console.WriteLine("writeToc", e);
 				}
 			}
 		}
@@ -103,8 +103,8 @@ namespace pspsharp.filesystems.umdiso
 
 			if (sectorDevice == null)
 			{
-				log.warn(string.Format("Reading outside the UMD buffer file (sector=0x{0:X})", sectorNumber));
-				Arrays.fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
+				Console.WriteLine(string.Format("Reading outside the UMD buffer file (sector=0x{0:X})", sectorNumber));
+				Arrays.Fill(buffer, offset, offset + ISectorDevice_Fields.sectorLength, (sbyte) 0);
 			}
 			else
 			{

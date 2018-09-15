@@ -20,7 +20,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.graphics
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
 	using IRenderingEngine = pspsharp.graphics.RE.IRenderingEngine;
@@ -54,21 +54,21 @@ namespace pspsharp.graphics
 		private class AddressRange
 		{
 			public int address;
-			public int length;
+			public int Length;
 
 			public AddressRange()
 			{
 			}
 
-			public virtual void setRange(int address, int length)
+			public virtual void setRange(int address, int Length)
 			{
 				this.address = address;
-				this.length = length;
+				this.Length = Length;
 			}
 
 			public override string ToString()
 			{
-				return string.Format("AddressRange[0x{0:X8}-0x{1:X8}, length {2:D}]", address, address + length, length);
+				return string.Format("AddressRange[0x{0:X8}-0x{1:X8}, Length {2:D}]", address, address + Length, Length);
 			}
 		}
 
@@ -107,26 +107,26 @@ namespace pspsharp.graphics
 			return 0;
 		}
 
-		private void loadFromMemory(int address, int length)
+		private void loadFromMemory(int address, int Length)
 		{
-			if (length > 0)
+			if (Length > 0)
 			{
-				copyToCachedMemory(address, length);
-				Buffer buffer = Memory.Instance.getBuffer(address, length);
+				copyToCachedMemory(address, Length);
+				Buffer buffer = Memory.Instance.getBuffer(address, Length);
 				int bufferAlignment = getBufferAlignment(buffer, address);
 				position(address, bufferAlignment);
-				Utilities.putBuffer(cachedBuffer, buffer, ByteOrder.LITTLE_ENDIAN, length + bufferAlignment);
+				Utilities.putBuffer(cachedBuffer, buffer, ByteOrder.LITTLE_ENDIAN, Length + bufferAlignment);
 			}
 		}
 
-		private bool extend(Buffer buffer, int address, int length)
+		private bool extend(Buffer buffer, int address, int Length)
 		{
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final boolean overflowBottom = address < bufferAddress;
 			bool overflowBottom = address < bufferAddress;
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final boolean overflowTop = address + length > bufferAddress + bufferLength;
-			bool overflowTop = address + length > bufferAddress + bufferLength;
+//ORIGINAL LINE: final boolean overflowTop = address + Length > bufferAddress + bufferLength;
+			bool overflowTop = address + Length > bufferAddress + bufferLength;
 			bool extended = false;
 
 			if (!overflowBottom && !overflowTop)
@@ -140,9 +140,9 @@ namespace pspsharp.graphics
 				// Always allocate 3 additional bytes at the end to allow copy
 				// from IntBuffer without running into a buffer overflow
 				const int alignmentPaddingEnd = 3;
-				cachedBuffer = ByteBuffer.allocateDirect(length + cachedBufferOffset + alignmentPaddingEnd).order(ByteOrder.LITTLE_ENDIAN);
+				cachedBuffer = ByteBuffer.allocateDirect(Length + cachedBufferOffset + alignmentPaddingEnd).order(ByteOrder.LITTLE_ENDIAN);
 				bufferAddress = address;
-				bufferLength = length;
+				bufferLength = Length;
 				cachedMemory = new int[bufferLength >> 2];
 				// The buffer has been resized: its content is lost, reload it
 				reloadBufferDataPending = true;
@@ -164,7 +164,7 @@ namespace pspsharp.graphics
 				Array.Copy(cachedMemory, 0, newCachedMemory, extendLength >> 2, cachedMemory.Length);
 				cachedMemory = newCachedMemory;
 				bufferAddress = address;
-				loadFromMemory(bufferAddress + length, extendLength - length);
+				loadFromMemory(bufferAddress + Length, extendLength - Length);
 				// The buffer has been resized: its content is lost, reload it
 				reloadBufferDataPending = true;
 				extended = true;
@@ -172,7 +172,7 @@ namespace pspsharp.graphics
 			else if (overflowTop)
 			{
 				// Extend the buffer to the top
-				int extendLength = address + length - (bufferAddress + bufferLength);
+				int extendLength = address + Length - (bufferAddress + bufferLength);
 				ByteBuffer newBuffer = ByteBuffer.allocateDirect(extendLength + cachedBuffer.capacity()).order(ByteOrder.LITTLE_ENDIAN);
 				cachedBuffer.clear();
 				newBuffer.put(cachedBuffer);
@@ -203,17 +203,17 @@ namespace pspsharp.graphics
 			position(address - bufferAlignment);
 		}
 
-		private void copyToCachedMemory(int address, int length)
+		private void copyToCachedMemory(int address, int Length)
 		{
 			int offset = getBufferOffset(address) >> 2;
-			int n = length >> 2;
+			int n = Length >> 2;
 			if (RuntimeContext.hasMemoryInt())
 			{
 				Array.Copy(RuntimeContext.MemoryInt, address >> 2, cachedMemory, offset, n);
 			}
 			else
 			{
-				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 4);
+				IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 4);
 				for (int i = 0; i < n; i++)
 				{
 					cachedMemory[offset + i] = memoryReader.readNext();
@@ -237,16 +237,16 @@ namespace pspsharp.graphics
 				for (int i = 0; i < numberDirtyRanges; i++)
 				{
 					position(dirtyRanges[i].address);
-					re.setBufferSubData(bufferTarget, cachedBuffer.position(), dirtyRanges[i].length, cachedBuffer);
+					re.setBufferSubData(bufferTarget, cachedBuffer.position(), dirtyRanges[i].Length, cachedBuffer);
 				}
 				numberDirtyRanges = 0;
 			}
 		}
 
-		private bool cachedMemoryEquals(int address, int length)
+		private bool cachedMemoryEquals(int address, int Length)
 		{
-			IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, length, 4);
-			int n = length >> 2;
+			IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, Length, 4);
+			int n = Length >> 2;
 			int offset = getBufferOffset(address) >> 2;
 			for (int i = 0; i < n; i++)
 			{
@@ -254,7 +254,7 @@ namespace pspsharp.graphics
 				{
 					if (log.TraceEnabled)
 					{
-						log.trace(string.Format("VertexBuffer.cachedMemoryEquals(0x{0:X8}, {1:D}): are not equal", address, length));
+						log.trace(string.Format("VertexBuffer.cachedMemoryEquals(0x{0:X8}, {1:D}): are not equal", address, Length));
 					}
 					return false;
 				}
@@ -262,20 +262,20 @@ namespace pspsharp.graphics
 
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("VertexBuffer.cachedMemoryEquals(0x{0:X8}, {1:D}): are equal", address, length));
+				log.trace(string.Format("VertexBuffer.cachedMemoryEquals(0x{0:X8}, {1:D}): are equal", address, Length));
 			}
 			return true;
 		}
 
-		private void addDirtyRange(int address, int length)
+		private void addDirtyRange(int address, int Length)
 		{
 			for (int i = 0; i < numberDirtyRanges; i++)
 			{
 				if (dirtyRanges[i].address == address)
 				{
-					if (length > dirtyRanges[i].length)
+					if (Length > dirtyRanges[i].Length)
 					{
-						dirtyRanges[i].length = length;
+						dirtyRanges[i].Length = Length;
 					}
 					return;
 				}
@@ -293,19 +293,19 @@ namespace pspsharp.graphics
 				dirtyRanges = newDirtyRanges;
 			}
 
-			dirtyRanges[numberDirtyRanges].setRange(address, length);
+			dirtyRanges[numberDirtyRanges].setRange(address, Length);
 			numberDirtyRanges++;
 		}
 
-		public virtual void preLoad(Buffer buffer, int address, int length)
+		public virtual void preLoad(Buffer buffer, int address, int Length)
 		{
 			lock (this)
 			{
-				load(null, buffer, address, length);
+				load(null, buffer, address, Length);
 			}
 		}
 
-		public virtual void load(IRenderingEngine re, Buffer buffer, int address, int length)
+		public virtual void load(IRenderingEngine re, Buffer buffer, int address, int Length)
 		{
 			lock (this)
 			{
@@ -313,17 +313,17 @@ namespace pspsharp.graphics
         
 				if (log.TraceEnabled)
 				{
-					log.trace(string.Format("VertexBuffer.load(0x{0:X8}, {1:D}) in {2}", address, length, this.ToString()));
+					log.trace(string.Format("VertexBuffer.load(0x{0:X8}, {1:D}) in {2}", address, Length, this.ToString()));
 				}
-				if (!addressAlreadyChecked(address, length))
+				if (!addressAlreadyChecked(address, Length))
 				{
-					bool extended = extend(buffer, address, length);
+					bool extended = extend(buffer, address, Length);
 					// Check if the memory content has changed
-					if (extended || !cachedMemoryEquals(address, length))
+					if (extended || !cachedMemoryEquals(address, Length))
 					{
 						int bufferAlignment = getBufferAlignment(buffer, address);
 						position(address, bufferAlignment);
-						Utilities.putBuffer(cachedBuffer, buffer, ByteOrder.LITTLE_ENDIAN, length + bufferAlignment);
+						Utilities.putBuffer(cachedBuffer, buffer, ByteOrder.LITTLE_ENDIAN, Length + bufferAlignment);
 						buffer.rewind();
         
 						if (re != null)
@@ -331,8 +331,8 @@ namespace pspsharp.graphics
 							if (log.TraceEnabled)
 							{
 //JAVA TO C# CONVERTER TODO TASK: The following line has a Java format specifier which cannot be directly translated to .NET:
-//ORIGINAL LINE: log.trace(String.format("VertexBuffer reload buffer 0x%08X, %d, extended=%b", address, length, extended));
-								log.trace(string.Format("VertexBuffer reload buffer 0x%08X, %d, extended=%b", address, length, extended));
+//ORIGINAL LINE: log.trace(String.format("VertexBuffer reload buffer 0x%08X, %d, extended=%b", address, Length, extended));
+								log.trace(string.Format("VertexBuffer reload buffer 0x%08X, %d, extended=%b", address, Length, extended));
 							}
         
 							// No need to update the sub data if the complete buffer has been reloaded...
@@ -344,15 +344,15 @@ namespace pspsharp.graphics
 							{
 								position(address);
 								bind(re);
-								re.setBufferSubData(bufferTarget, cachedBuffer.position(), length, cachedBuffer);
+								re.setBufferSubData(bufferTarget, cachedBuffer.position(), Length, cachedBuffer);
 							}
 						}
 						else
 						{
-							addDirtyRange(address, length);
+							addDirtyRange(address, Length);
 						}
         
-						copyToCachedMemory(address, length);
+						copyToCachedMemory(address, Length);
 					}
 					else if (re != null)
 					{
@@ -374,13 +374,13 @@ namespace pspsharp.graphics
 						}
 					}
         
-					setAddressAlreadyChecked(address, length);
+					setAddressAlreadyChecked(address, Length);
 				}
 				else if (re != null)
 				{
 					if (log.TraceEnabled)
 					{
-						log.trace(string.Format("VertexBuffer address already checked 0x{0:X8}, {1:D}", address, length));
+						log.trace(string.Format("VertexBuffer address already checked 0x{0:X8}, {1:D}", address, Length));
 					}
 					checkDirty(re);
 				}
@@ -410,10 +410,10 @@ namespace pspsharp.graphics
 			return address - bufferAddress;
 		}
 
-		public virtual bool isAddressInside(int address, int length, int gapSize)
+		public virtual bool isAddressInside(int address, int Length, int gapSize)
 		{
 			address = Memory.normalizeAddress(address);
-			int endAddress = address + length;
+			int endAddress = address + Length;
 			int startBuffer = bufferAddress - gapSize;
 			int endBuffer = bufferAddress + bufferLength + gapSize;
 
@@ -444,7 +444,7 @@ namespace pspsharp.graphics
 			}
 		}
 
-		private bool addressAlreadyChecked(int address, int length)
+		private bool addressAlreadyChecked(int address, int Length)
 		{
 			int? checkedLength = addressAlreadyChecked_Renamed[address];
 			if (checkedLength == null)
@@ -452,12 +452,12 @@ namespace pspsharp.graphics
 				return false;
 			}
 
-			return checkedLength.Value >= length;
+			return checkedLength.Value >= Length;
 		}
 
-		private void setAddressAlreadyChecked(int address, int length)
+		private void setAddressAlreadyChecked(int address, int Length)
 		{
-			addressAlreadyChecked_Renamed[address] = length;
+			addressAlreadyChecked_Renamed[address] = Length;
 		}
 
 		public virtual int Stride
@@ -486,7 +486,7 @@ namespace pspsharp.graphics
 
 		public override string ToString()
 		{
-			return string.Format("VertexBuffer[0x{0:X8}-0x{1:X8}, length {2:D}, stride {3:D}, id {4:D}]", bufferAddress, bufferAddress + bufferLength, bufferLength, stride, bufferId);
+			return string.Format("VertexBuffer[0x{0:X8}-0x{1:X8}, Length {2:D}, stride {3:D}, id {4:D}]", bufferAddress, bufferAddress + bufferLength, bufferLength, stride, bufferId);
 		}
 	}
 

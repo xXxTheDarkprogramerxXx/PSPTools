@@ -21,7 +21,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.vsmx.interpreter
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IAction = pspsharp.HLE.kernel.types.IAction;
 
@@ -145,7 +145,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-ref assignment {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-ref assignment {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_OPERATOR_ADD:
@@ -216,7 +216,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-ref increment {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-ref increment {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_P_DECREMENT:
@@ -230,7 +230,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-ref increment {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-ref increment {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_INCREMENT:
@@ -243,7 +243,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-ref increment {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-ref increment {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_DECREMENT:
@@ -256,7 +256,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-ref decrement {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-ref decrement {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_OPERATOR_EQUAL:
@@ -320,10 +320,10 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					stack.Push(VSMXBoolean.getValue(b));
 					break;
 				case VSMXCode.VID_OPERATOR_INSTANCEOF:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_OPERATOR_IN:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_OPERATOR_TYPEOF:
 					o = stack.Pop().Value;
@@ -461,7 +461,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					o1.deletePropertyValue(mem.properties[code.value]);
 					break;
 				case VSMXCode.VID_OBJ_ADD_ATTR:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_ARRAY_INDEX:
 					o1 = stack.Pop();
@@ -515,7 +515,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-array index assignment {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-array index assignment {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_ARRAY_DELETE:
@@ -527,7 +527,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-array delete {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-array delete {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_ARRAY_PUSH:
@@ -535,13 +535,13 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					o2 = stack.Pop().Value;
 					if (o2 is VSMXArray)
 					{
-						int length = ((VSMXArray) o2).Length;
-						o2.setPropertyValue(length, o1);
+						int Length = ((VSMXArray) o2).Length;
+						o2.setPropertyValue(Length, o1);
 						stack.Push(o2);
 					}
 					else
 					{
-						log.warn(string.Format("Line#{0:D} non-array push {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-array push {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_JUMP:
@@ -575,7 +575,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					else
 					{
 						stack.Push(VSMXNull.singleton);
-						log.warn(string.Format("Line#{0:D} non-function call {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-function call {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_CALL_METHOD:
@@ -589,7 +589,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 						if (function == null)
 						{
 							stack.Push(VSMXNull.singleton);
-							log.warn(string.Format("Line#{0:D} non existing method {1}()", pc - 1, method.Name));
+							Console.WriteLine(string.Format("Line#{0:D} non existing method {1}()", pc - 1, method.Name));
 						}
 						else
 						{
@@ -605,7 +605,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					else
 					{
 						stack.Push(VSMXNull.singleton);
-						log.warn(string.Format("Line#{0:D} non-method call {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} non-method call {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_CALL_NEW:
@@ -624,7 +624,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 						}
 						else
 						{
-							log.warn(string.Format("Line#{0:D} wrong number of arguments for new Array {1}", pc - 1, code));
+							Console.WriteLine(string.Format("Line#{0:D} wrong number of arguments for new Array {1}", pc - 1, code));
 						}
 					}
 					else if (o is VSMXFunction)
@@ -647,13 +647,13 @@ namespace pspsharp.format.rco.vsmx.interpreter
 						}
 						else
 						{
-							log.warn(string.Format("Line#{0:D} wrong number of arguments for new Object {1}", pc - 1, code));
+							Console.WriteLine(string.Format("Line#{0:D} wrong number of arguments for new Object {1}", pc - 1, code));
 						}
 					}
 					else
 					{
 						stack.Push(new VSMXArray(this));
-						log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+						Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					}
 					break;
 				case VSMXCode.VID_RETURN:
@@ -678,40 +678,40 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					}
 					break;
 				case VSMXCode.VID_THROW:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_TRY_BLOCK_IN:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_TRY_BLOCK_OUT:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_CATCH_FINALLY_BLOCK_IN:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_CATCH_FINALLY_BLOCK_OUT:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				case VSMXCode.VID_END:
 					exit = true;
 					break;
 				case VSMXCode.VID_DEBUG_FILE:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("debug file '{0}'", mem.texts[code.value]));
+						Console.WriteLine(string.Format("debug file '{0}'", mem.texts[code.value]));
 					}
 					break;
 				case VSMXCode.VID_DEBUG_LINE:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("debug line {0:D}", code.value));
+						Console.WriteLine(string.Format("debug line {0:D}", code.value));
 					}
 					break;
 				case VSMXCode.VID_MAKE_FLOAT_ARRAY:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 				default:
-					log.warn(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
+					Console.WriteLine(string.Format("Line#{0:D} unimplemented {1}", pc - 1, code));
 					break;
 			}
 		}
@@ -826,9 +826,9 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		{
 			lock (this)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("interpretScript {0} on {1}", script, @object));
+					Console.WriteLine(string.Format("interpretScript {0} on {1}", script, @object));
 				}
         
 				if (string.ReferenceEquals(script, null))
@@ -849,16 +849,16 @@ namespace pspsharp.format.rco.vsmx.interpreter
 					if (functionObject is VSMXFunction)
 					{
 						VSMXFunction function = (VSMXFunction) functionObject;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("interpretScript function={0}", function));
+							Console.WriteLine(string.Format("interpretScript function={0}", function));
 						}
 						interpretFunction(function, @object, null);
 					}
 				}
 				else
 				{
-					log.warn(string.Format("interpretScript unknown script syntax '{0}'", script));
+					Console.WriteLine(string.Format("interpretScript unknown script syntax '{0}'", script));
 				}
 			}
 		}

@@ -32,11 +32,11 @@ namespace pspsharp.HLE.modules
 	using SoundMixer = pspsharp.sound.SoundMixer;
 	using VoiceADSREnvelope = pspsharp.sound.SoundVoice.VoiceADSREnvelope;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceSasCore : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSasCore");
+		//public static Logger log = Modules.getLogger("sceSasCore");
 
 		public override void start()
 		{
@@ -120,13 +120,13 @@ namespace pspsharp.HLE.modules
 		{
 			if (!Memory.isAddressGood(sasCore))
 			{
-				log.warn(string.Format("{0} bad sasCore Address 0x{1:X8}", getCallingFunctionName(3), sasCore));
+				Console.WriteLine(string.Format("{0} bad sasCore Address 0x{1:X8}", getCallingFunctionName(3), sasCore));
 				throw (new SceKernelErrorException(ERROR_SAS_INVALID_ADDRESS));
 			}
 
 			if (!Memory.isAddressAlignedTo(sasCore, 64))
 			{
-				log.warn(string.Format("{0} bad sasCore Address 0x{1:X8} (not aligned to 64)", getCallingFunctionName(3), sasCore));
+				Console.WriteLine(string.Format("{0} bad sasCore Address 0x{1:X8} (not aligned to 64)", getCallingFunctionName(3), sasCore));
 				throw (new SceKernelErrorException(ERROR_SAS_INVALID_ADDRESS));
 			}
 		}
@@ -137,7 +137,7 @@ namespace pspsharp.HLE.modules
 
 			if (Processor.memory.read32(sasCore) != sasCoreUid)
 			{
-				log.warn(string.Format("{0} bad sasCoreUid 0x{1:X} (should be 0x{2:X})", getCallingFunctionName(3), Processor.memory.read32(sasCore), sasCoreUid));
+				Console.WriteLine(string.Format("{0} bad sasCoreUid 0x{1:X} (should be 0x{2:X})", getCallingFunctionName(3), Processor.memory.read32(sasCore), sasCoreUid));
 				throw (new SceKernelErrorException(SceKernelErrors.ERROR_SAS_NOT_INIT));
 			}
 		}
@@ -146,7 +146,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (voice < 0 || voice >= voices.Length)
 			{
-				log.warn(string.Format("{0} bad voice number {1:D}", getCallingFunctionName(3), voice));
+				Console.WriteLine(string.Format("{0} bad voice number {1:D}", getCallingFunctionName(3), voice));
 				throw (new SceKernelErrorException(SceKernelErrors.ERROR_SAS_INVALID_VOICE_INDEX));
 			}
 		}
@@ -174,9 +174,9 @@ namespace pspsharp.HLE.modules
 		{
 			if (voices[voice].Paused || voices[voice].On != requiredOnState)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("checkVoiceNotPaused returning 0x{0:X8}(ERROR_SAS_VOICE_PAUSED)", SceKernelErrors.ERROR_SAS_VOICE_PAUSED));
+					Console.WriteLine(string.Format("checkVoiceNotPaused returning 0x{0:X8}(ERROR_SAS_VOICE_PAUSED)", SceKernelErrors.ERROR_SAS_VOICE_PAUSED));
 				}
 				throw new SceKernelErrorException(SceKernelErrors.ERROR_SAS_VOICE_PAUSED);
 			}
@@ -277,9 +277,9 @@ namespace pspsharp.HLE.modules
 				envelope.ReleaseRate = release;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("__sceSasSetADSR voice=0x{0:X}: {1}", voice, envelope.ToString()));
+				Console.WriteLine(string.Format("__sceSasSetADSR voice=0x{0:X}: {1}", voice, envelope.ToString()));
 			}
 
 			return 0;
@@ -584,7 +584,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (size <= 0 || (size & 0xF) != 0)
 			{
-				log.warn(string.Format("__sceSasSetVoice invalid size 0x{0:X8}", size));
+				Console.WriteLine(string.Format("__sceSasSetVoice invalid size 0x{0:X8}", size));
 				return SceKernelErrors.ERROR_SAS_INVALID_ADPCM_SIZE;
 			}
 
@@ -643,9 +643,9 @@ namespace pspsharp.HLE.modules
 				envelope.ReleaseCurveType = releaseType;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("__sceSasSetADSRmode voice=0x{0:X}: {1}", voice, envelope.ToString()));
+				Console.WriteLine(string.Format("__sceSasSetADSRmode voice=0x{0:X}: {1}", voice, envelope.ToString()));
 			}
 
 			return 0;
@@ -942,9 +942,9 @@ namespace pspsharp.HLE.modules
 			envelope.SustainRate = getSimpleSustainRate(env2Bitfield);
 			envelope.SustainCurveType = getSimpleSustainCurveType(env2Bitfield);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("__sceSasSetSimpleADSR voice=0x{0:X}: {1}", voice, envelope.ToString()));
+				Console.WriteLine(string.Format("__sceSasSetSimpleADSR voice=0x{0:X}: {1}", voice, envelope.ToString()));
 			}
 
 			return 0;
@@ -1068,7 +1068,7 @@ namespace pspsharp.HLE.modules
 		/// <returns>            0 if OK
 		///                    ERROR_SAS_NOT_INIT if an invalid sasCore handle is provided </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x07F58C24, version = 150, checkInsideInterrupt = true) public int __sceSasGetAllEnvelopeHeights(int sasCore, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=PSP_SAS_VOICES_MAX*4, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 heightsAddr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x07F58C24, version = 150, checkInsideInterrupt = true) public int __sceSasGetAllEnvelopeHeights(int sasCore, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=PSP_SAS_VOICES_MAX*4, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 heightsAddr)
 		[HLEFunction(nid : 0x07F58C24, version : 150, checkInsideInterrupt : true)]
 		public virtual int __sceSasGetAllEnvelopeHeights(int sasCore, TPointer32 heightsAddr)
 		{
@@ -1096,7 +1096,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (size <= 0 || size > 0x10000)
 			{
-				log.warn(string.Format("__sceSasSetVoicePCM invalid size 0x{0:X8}", size));
+				Console.WriteLine(string.Format("__sceSasSetVoicePCM invalid size 0x{0:X8}", size));
 
 				return SceKernelErrors.ERROR_SAS_INVALID_SIZE;
 			}

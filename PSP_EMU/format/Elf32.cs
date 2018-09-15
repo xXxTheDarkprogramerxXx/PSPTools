@@ -88,7 +88,7 @@ namespace pspsharp.format
 				if (i == 0 && (phdr.P_paddr & 0x80000000) != 0)
 				{
 					kernelMode = true;
-					Emulator.log.debug("Kernel mode PRX detected");
+					Emulator.Console.WriteLine("Kernel mode PRX detected");
 				}
 			}
 
@@ -122,7 +122,7 @@ namespace pspsharp.format
 
 			if (shstrtab == null)
 			{
-				Emulator.log.debug(".shstrtab section not found");
+				Emulator.Console.WriteLine(".shstrtab section not found");
 				return;
 			}
 
@@ -147,7 +147,7 @@ namespace pspsharp.format
 				}
 				else
 				{
-					//Emulator.log.debug("Section header #" + SectionCounter + " has no name");
+					//Emulator.Console.WriteLine("Section header #" + SectionCounter + " has no name");
 				}
 
 				// Add this section header's info

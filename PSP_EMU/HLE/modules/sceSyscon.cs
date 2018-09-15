@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
@@ -34,7 +34,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceSyscon : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceSyscon");
+		//public static Logger log = Modules.getLogger("sceSyscon");
 		public const int PSP_SYSCON_CMD_NOP = 0x00;
 		public const int PSP_SYSCON_CMD_GET_BARYON = 0x01;
 		public const int PSP_SYSCON_CMD_GET_DIGITAL_KEY = 0x02;
@@ -113,7 +113,7 @@ namespace pspsharp.HLE.modules
 
 		public override void start()
 		{
-			Arrays.fill(scratchPad, 0);
+			Arrays.Fill(scratchPad, 0);
 
 			// Unknown 4-bytes value at offset 8
 			int scratchPad8 = 0;
@@ -125,9 +125,9 @@ namespace pspsharp.HLE.modules
 			// 5-bytes value at offset 16, used to initialize the clock.
 			// Set this value to 0 to force the clock initialization at boot time.
 			long scratchPad16 = Modules.sceRtcModule.hleGetCurrentTick() >> 19;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Initializing scratchPad16=0x{0:X}", scratchPad16));
+				Console.WriteLine(string.Format("Initializing scratchPad16=0x{0:X}", scratchPad16));
 			}
 			for (int i = 0; i < 5; i++, scratchPad16 >>= 8)
 			{
@@ -452,7 +452,7 @@ namespace pspsharp.HLE.modules
 					baryon = 0x0022B200;
 					break;
 				default:
-					log.warn(string.Format("_sceSysconGetBaryonVersion unknown baryon version for PSP Model {0}", Model.getModelName(Model.Model)));
+					Console.WriteLine(string.Format("_sceSysconGetBaryonVersion unknown baryon version for PSP Model {0}", Model.getModelName(Model.Model)));
 					break;
 			}
 			return baryon;
@@ -550,15 +550,15 @@ namespace pspsharp.HLE.modules
 		/// <param name="flags">    The packet flags. Check SceSysconPacketFlags. </param>
 		/// <returns>         0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5B9ACC97, version = 150) public int sceSysconCmdExec(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer packet, int flags)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x5B9ACC97, version = 150) public int sceSysconCmdExec(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer packet, int flags)
 		[HLEFunction(nid : 0x5B9ACC97, version : 150)]
 		public virtual int sceSysconCmdExec(TPointer packet, int flags)
 		{
 			int cmd = packet.getValue8(12);
 			int len = packet.getValue8(13);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceSysconCmdExec cmd=0x{0:X2}, len=0x{1:X2}, txData: {2}", cmd, len, Utilities.getMemoryDump(packet.Address + 14, len - 2)));
+				Console.WriteLine(string.Format("sceSysconCmdExec cmd=0x{0:X2}, len=0x{1:X2}, txData: {2}", cmd, len, Utilities.getMemoryDump(packet.Address + 14, len - 2)));
 			}
 			return 0;
 		}
@@ -572,15 +572,15 @@ namespace pspsharp.HLE.modules
 		/// <param name="argp">     The second argument that will be passed to the callback when executed. </param>
 		/// <returns>         0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3AC3D2A4, version = 150) public int sceSysconCmdExecAsync(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer packet, int flags, pspsharp.HLE.TPointer callback, int argp)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x3AC3D2A4, version = 150) public int sceSysconCmdExecAsync(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer packet, int flags, pspsharp.HLE.TPointer callback, int argp)
 		[HLEFunction(nid : 0x3AC3D2A4, version : 150)]
 		public virtual int sceSysconCmdExecAsync(TPointer packet, int flags, TPointer callback, int argp)
 		{
 			int cmd = packet.getValue8(12);
 			int len = packet.getValue8(13);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceSysconCmdExecAsync cmd=0x{0:X2}, len=0x{1:X2}, txData: {2}", cmd, len, Utilities.getMemoryDump(packet.Address + 14, len - 2)));
+				Console.WriteLine(string.Format("sceSysconCmdExecAsync cmd=0x{0:X2}, len=0x{1:X2}, txData: {2}", cmd, len, Utilities.getMemoryDump(packet.Address + 14, len - 2)));
 			}
 			return 0;
 		}
@@ -591,7 +591,7 @@ namespace pspsharp.HLE.modules
 		/// <param name="timeStampAddr"> A pointer to a string at least 12 bytes long. </param>
 		/// <returns> 0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7BCC5EAE, version = 150) public int sceSysconGetTimeStamp(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer timeStampAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7BCC5EAE, version = 150) public int sceSysconGetTimeStamp(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=12, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer timeStampAddr)
 		[HLEFunction(nid : 0x7BCC5EAE, version : 150)]
 		public virtual int sceSysconGetTimeStamp(TPointer timeStampAddr)
 		{
@@ -714,10 +714,10 @@ namespace pspsharp.HLE.modules
 		/// Receive a parameter (used by power).
 		/// </summary>
 		/// <param name="id">    The parameter ID. </param>
-		/// <param name="param"> Pointer to a buffer (length 8) where will be copied the parameter. </param>
+		/// <param name="param"> Pointer to a buffer (Length 8) where will be copied the parameter. </param>
 		/// <returns>      0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x08234E6D, version = 150) public int sceSysconReceiveSetParam(int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer param)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x08234E6D, version = 150) public int sceSysconReceiveSetParam(int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer param)
 		[HLEFunction(nid : 0x08234E6D, version : 150)]
 		public virtual int sceSysconReceiveSetParam(int id, TPointer param)
 		{
@@ -728,10 +728,10 @@ namespace pspsharp.HLE.modules
 		/// Set a parameter (used by power).
 		/// </summary>
 		/// <param name="id">    The parameter ID. </param>
-		/// <param name="param"> Pointer to a buffer (length 8) the parameter will be set to. </param>
+		/// <param name="param"> Pointer to a buffer (Length 8) the parameter will be set to. </param>
 		/// <returns>      0 on success. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x992C22C2, version = 150) public int sceSysconSendSetParam(int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer param)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x992C22C2, version = 150) public int sceSysconSendSetParam(int id, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer param)
 		[HLEFunction(nid : 0x992C22C2, version : 150)]
 		public virtual int sceSysconSendSetParam(int id, TPointer param)
 		{

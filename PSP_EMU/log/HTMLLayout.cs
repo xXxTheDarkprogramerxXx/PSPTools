@@ -299,7 +299,7 @@ namespace pspsharp.log
 				sbuf.Append("function changeLogLevel(level) {" + Layout.LINE_SEP);
 				sbuf.Append("  var allElements, e;" + Layout.LINE_SEP);
 				sbuf.Append("    allElements = document.getElementsByTagName(\"td\");" + Layout.LINE_SEP);
-				sbuf.Append("  for ( var i = 0; i < allElements.length; i++) {" + Layout.LINE_SEP);
+				sbuf.Append("  for ( var i = 0; i < allElements.Length; i++) {" + Layout.LINE_SEP);
 				sbuf.Append("    e = allElements[i];" + Layout.LINE_SEP);
 				sbuf.Append("    if(e.getAttribute(\"logLevel\") != null)" + Layout.LINE_SEP);
 				sbuf.Append("      if(e.getAttribute(\"logLevel\") < level)" + Layout.LINE_SEP);
@@ -312,7 +312,7 @@ namespace pspsharp.log
 				sbuf.Append("  var allElements, e, recorded;" + Layout.LINE_SEP);
 				sbuf.Append("  recorded = new Array();" + Layout.LINE_SEP);
 				sbuf.Append("  allElements = document.getElementsByTagName(\"td\");" + Layout.LINE_SEP);
-				sbuf.Append("  for ( var i = 0; i < allElements.length; i++) {" + Layout.LINE_SEP);
+				sbuf.Append("  for ( var i = 0; i < allElements.Length; i++) {" + Layout.LINE_SEP);
 				sbuf.Append("    e = allElements[i];" + Layout.LINE_SEP);
 				sbuf.Append("    if (e.getAttribute(\"title\") == \"Message\") {" + Layout.LINE_SEP);
 				sbuf.Append("      var m = isIE ? e.innerHTML.toLowerCase() : e.textContent.toLowerCase();" + Layout.LINE_SEP);
@@ -323,7 +323,7 @@ namespace pspsharp.log
 				sbuf.Append("        e.parentNode.style.display = \"none\";" + Layout.LINE_SEP);
 				sbuf.Append("      else {" + Layout.LINE_SEP);
 				sbuf.Append("        if(m.indexOf(\"unsupported syscall\") != 1)" + Layout.LINE_SEP);
-				sbuf.Append("          m = m.substr(0, m.length - 27);" + Layout.LINE_SEP);
+				sbuf.Append("          m = m.substr(0, m.Length - 27);" + Layout.LINE_SEP);
 				sbuf.Append("        if(recorded[m] != null)" + Layout.LINE_SEP);
 				sbuf.Append("          e.parentNode.style.display = \"none\";" + Layout.LINE_SEP);
 				sbuf.Append("        else {   " + Layout.LINE_SEP);

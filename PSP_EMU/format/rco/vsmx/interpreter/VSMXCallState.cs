@@ -33,7 +33,7 @@ namespace pspsharp.format.rco.vsmx.interpreter
 		{
 			this.thisObject = thisObject;
 			localVariables = new VSMXBaseObject[numberOfLocalVariables];
-			Arrays.fill(localVariables, VSMXUndefined.singleton);
+			Arrays.Fill(localVariables, VSMXUndefined.singleton);
 			stack = new Stack<VSMXBaseObject>();
 			this.returnPc = returnPc;
 			this.returnThis = returnThis;

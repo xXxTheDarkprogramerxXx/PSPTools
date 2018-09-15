@@ -29,10 +29,10 @@ namespace pspsharp.HLE.VFS.crypto
 		{
 			sbyte[] header = new sbyte[edatHeaderSize];
 			long position = pgdFile.Position;
-			int length = pgdFile.ioRead(header, 0, edatHeaderSize);
+			int Length = pgdFile.ioRead(header, 0, edatHeaderSize);
 			pgdFile.ioLseek(position);
 
-			if (length != edatHeaderSize)
+			if (Length != edatHeaderSize)
 			{
 				return false;
 			}
@@ -40,7 +40,7 @@ namespace pspsharp.HLE.VFS.crypto
 			if (header[0] != 0 || header[1] != (sbyte)'P' || header[2] != (sbyte)'S' || header[3] != (sbyte)'P' || header[4] != (sbyte)'E' || header[5] != (sbyte)'D' || header[6] != (sbyte)'A' || header[7] != (sbyte)'T')
 			{
 				// No "EDAT" found in the header,
-				log.warn("PSPEDAT header not found!");
+				Console.WriteLine("PSPEDAT header not found!");
 				return false;
 			}
 

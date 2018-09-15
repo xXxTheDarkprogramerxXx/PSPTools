@@ -37,7 +37,7 @@ namespace pspsharp.scheduler
 			// Trigger interrupt
 			if (Modules.log.DebugEnabled)
 			{
-				Modules.log.debug(string.Format("Calling Timer uid={0:x}, now={1:D}", sceKernelAlarmInfo.uid, now));
+				Modules.Console.WriteLine(string.Format("Calling Timer uid={0:x}, now={1:D}", sceKernelAlarmInfo.uid, now));
 			}
 
 			// Set the real time when the alarm was called

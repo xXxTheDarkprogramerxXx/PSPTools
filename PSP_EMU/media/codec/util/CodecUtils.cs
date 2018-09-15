@@ -27,9 +27,9 @@ namespace pspsharp.media.codec.util
 	{
 		// FLT_EPSILON the minimum positive number such that 1.0 + FLT_EPSILON != 1.0
 		public const float FLT_EPSILON = 1.19209290E-07F;
-		public const float M_SQRT1_2 = 0.707106781186547524401f; // 1/sqrt(2)
+		public const float M_SQRT1_2 = 0.707106781186547524401f; // 1/Sqrt(2)
 		public static readonly float M_PI = (float) Math.PI;
-		public const float M_SQRT2 = 1.41421356237309504880f; // sqrt(2)
+		public const float M_SQRT2 = 1.41421356237309504880f; // Sqrt(2)
 
 		public static readonly int[] ff_log2_tab = new int[] {0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7};
 
@@ -94,7 +94,7 @@ namespace pspsharp.media.codec.util
 
 		public static int lrintf(float n)
 		{
-			return (int) Math.rint(n);
+			return (int) Math.Round(n);
 		}
 
 		public static float exp2f(float n)

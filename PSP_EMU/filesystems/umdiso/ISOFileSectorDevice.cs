@@ -33,10 +33,10 @@ namespace pspsharp.filesystems.umdiso
 			}
 
 			fileAccess.seek(((long) ISectorDevice_Fields.sectorLength) * sectorNumber);
-			int length = fileAccess.read(buffer, offset, ISectorDevice_Fields.sectorLength);
-			if (length < ISectorDevice_Fields.sectorLength)
+			int Length = fileAccess.read(buffer, offset, ISectorDevice_Fields.sectorLength);
+			if (Length < ISectorDevice_Fields.sectorLength)
 			{
-				Arrays.fill(buffer, length, ISectorDevice_Fields.sectorLength, (sbyte) 0);
+				Arrays.Fill(buffer, Length, ISectorDevice_Fields.sectorLength, (sbyte) 0);
 			}
 		}
 
@@ -50,15 +50,15 @@ namespace pspsharp.filesystems.umdiso
 			}
 
 			fileAccess.seek(((long) ISectorDevice_Fields.sectorLength) * sectorNumber);
-			int length = fileAccess.read(buffer, offset, numberSectors * ISectorDevice_Fields.sectorLength);
-			int lastSectorGap = length % ISectorDevice_Fields.sectorLength;
+			int Length = fileAccess.read(buffer, offset, numberSectors * ISectorDevice_Fields.sectorLength);
+			int lastSectorGap = Length % ISectorDevice_Fields.sectorLength;
 			if (lastSectorGap > 0)
 			{
-				Arrays.fill(buffer, length, length + lastSectorGap, (sbyte) 0);
-				length += lastSectorGap;
+				Arrays.Fill(buffer, Length, Length + lastSectorGap, (sbyte) 0);
+				Length += lastSectorGap;
 			}
 
-			return length / ISectorDevice_Fields.sectorLength;
+			return Length / ISectorDevice_Fields.sectorLength;
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:

@@ -63,18 +63,18 @@ namespace pspsharp.format.rco.anim
 
 				positionObject.onDisplayUpdated();
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("MoveToAnim '{0}' from ({1:F},{2:F},{3:F}) to ({4:F},{5:F},{6:F})", positionObject.Name, startX, startY, startZ, positionObject.animX, positionObject.animY, positionObject.animZ));
+					Console.WriteLine(string.Format("MoveToAnim '{0}' from ({1:F},{2:F},{3:F}) to ({4:F},{5:F},{6:F})", positionObject.Name, startX, startY, startZ, positionObject.animX, positionObject.animY, positionObject.animZ));
 				}
 			}
 		}
 
 		protected internal override long doPlayReference(BasePositionObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("MoveToAnim play {0} on {1}", ToString(), @object));
+				Console.WriteLine(string.Format("MoveToAnim play {0} on {1}", ToString(), @object));
 			}
 
 			Scheduler.addAction(new MoveToAnimAction(this, duration.IntValue, @object));

@@ -21,7 +21,7 @@ namespace pspsharp.sound
 
 	using sceAudio = pspsharp.HLE.modules.sceAudio;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using LWJGLException = org.lwjgl.LWJGLException;
 	using AL = org.lwjgl.openal.AL;
 	using AL10 = org.lwjgl.openal.AL10;
@@ -75,7 +75,7 @@ namespace pspsharp.sound
 				}
 				catch (LWJGLException e)
 				{
-					log.error(e);
+					Console.WriteLine(e);
 				}
 			}
 		}
@@ -116,7 +116,7 @@ namespace pspsharp.sound
 			// At least 1 blocking buffer
 			numberBlockingBuffers = System.Math.Max(numberBlockingBuffers, 1);
 
-			// For very small sample length, wait for a minimum number of buffers
+			// For very small sample Length, wait for a minimum number of buffers
 			// before starting playing the audio otherwise, small cracks can be produced.
 			if (SampleLength <= 0x40)
 			{
@@ -274,9 +274,9 @@ namespace pspsharp.sound
 			alSourcePlay();
 			checkFreeBuffers();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("alSourceQueueBuffer buffer={0:D}, {1}", alBuffer, ToString()));
+				Console.WriteLine(string.Format("alSourceQueueBuffer buffer={0:D}, {1}", alBuffer, ToString()));
 			}
 		}
 

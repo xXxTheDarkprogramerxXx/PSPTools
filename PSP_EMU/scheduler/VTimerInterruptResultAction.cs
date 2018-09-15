@@ -37,9 +37,9 @@ namespace pspsharp.scheduler
 			ThreadManForUser timerManager = Modules.ThreadManForUserModule;
 
 			int vtimerInterruptResult = Emulator.Processor.cpu._v0;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("VTimer returned value " + vtimerInterruptResult);
+				Console.WriteLine("VTimer returned value " + vtimerInterruptResult);
 			}
 
 			if (vtimerInterruptResult == 0)

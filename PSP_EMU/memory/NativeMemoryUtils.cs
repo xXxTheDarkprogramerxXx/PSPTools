@@ -119,10 +119,10 @@ namespace pspsharp.memory
 		/// <param name="memory">   the base address of the native memory (as returned by alloc). </param>
 		/// <param name="address">  the offset inside the native memory. </param>
 		/// <param name="value">    the unsigned 8-bits value to be written. </param>
-		/// <param name="length">   the number of bytes to be written. </param>
+		/// <param name="Length">   the number of bytes to be written. </param>
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
-		public static extern void memset(long memory, int address, int value, int length);
+		public static extern void memset(long memory, int address, int value, int Length);
 
 		/// <summary>
 		/// Copy an area from a native memory to another area of the native memory.
@@ -131,19 +131,19 @@ namespace pspsharp.memory
 		/// <param name="destination">       the offset inside the native memory for the destination area. </param>
 		/// <param name="memorySource">      the source base address of the native memory (as returned by alloc). </param>
 		/// <param name="source">            the offset inside the native memory for the source area. </param>
-		/// <param name="length">            the number of bytes to be copied. </param>
+		/// <param name="Length">            the number of bytes to be copied. </param>
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
-		public static extern void memcpy(long memoryDestination, int destination, long memorySource, int source, int length);
+		public static extern void memcpy(long memoryDestination, int destination, long memorySource, int source, int Length);
 
 		/// <summary>
-		/// Return the length of a null-terminated string stored in a native memory
+		/// Return the Length of a null-terminated string stored in a native memory
 		/// (using the standard "strlen" function).
 		/// The string has to be terminated by a byte having the value 0.
 		/// </summary>
 		/// <param name="memory">   the base address of the native memory (as returned by alloc). </param>
 		/// <param name="address">  the offset inside the native memory. </param>
-		/// <returns>         the length of the string. </returns>
+		/// <returns>         the Length of the string. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
 		public static extern int strlen(long memory, int address);
@@ -153,12 +153,12 @@ namespace pspsharp.memory
 		/// </summary>
 		/// <param name="memory">   the base address of the native memory (as returned by alloc). </param>
 		/// <param name="address">  the offset inside the native memory. </param>
-		/// <param name="length">   the number of bytes of the area. </param>
+		/// <param name="Length">   the number of bytes of the area. </param>
 		/// <returns>         a new Direct Buffer representing the area of the native memory.
 		///                 The Direct Buffer has always the default ByteOrder BIG_ENDIAN. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
-		public static extern ByteBuffer getBuffer(long memory, int address, int length);
+		public static extern ByteBuffer getBuffer(long memory, int address, int Length);
 
 		/// <summary>
 		/// Check if the current emulator host is little or big endian.
@@ -178,10 +178,10 @@ namespace pspsharp.memory
 		/// <param name="buffer">   the Direct Buffer to be used as a source.
 		///                 The buffer position, capacity and limit are ignored. </param>
 		/// <param name="bufferOffset"> the offset in bytes from the Direct Buffer. </param>
-		/// <param name="length">   the number of bytes to be copied. </param>
+		/// <param name="Length">   the number of bytes to be copied. </param>
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
-		public static extern void copyBufferToMemory(long memory, int address, java.nio.Buffer buffer, int bufferOffset, int length);
+		public static extern void copyBufferToMemory(long memory, int address, java.nio.Buffer buffer, int bufferOffset, int Length);
 
 		/// <summary>
 		/// Copy bytes from a native memory to a Direct Buffer.
@@ -191,10 +191,10 @@ namespace pspsharp.memory
 		/// <param name="bufferOffset"> the offset in bytes from the Direct Buffer. </param>
 		/// <param name="memory">   the base address of the native memory (as returned by alloc). </param>
 		/// <param name="address">  the offset inside the native memory. </param>
-		/// <param name="length">   the number of bytes to be copied. </param>
+		/// <param name="Length">   the number of bytes to be copied. </param>
 //JAVA TO C# CONVERTER TODO TASK: Replace 'unknown' with the appropriate dll name:
 		[DllImport("unknown")]
-		public static extern void copyMemoryToBuffer(java.nio.Buffer buffer, int bufferOffset, long memory, int address, int length);
+		public static extern void copyMemoryToBuffer(java.nio.Buffer buffer, int bufferOffset, long memory, int address, int Length);
 	}
 
 }

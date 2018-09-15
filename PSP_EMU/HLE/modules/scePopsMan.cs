@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -28,7 +28,7 @@ namespace pspsharp.HLE.modules
 
 	public class scePopsMan : HLEModule
 	{
-		public static Logger log = Modules.getLogger("scePopsMan");
+		//public static Logger log = Modules.getLogger("scePopsMan");
 		private string ebootPbp;
 		private int ebootPbpUid;
 		private IVirtualFile vFileEbootPbp;
@@ -66,7 +66,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (FileNotFoundException e)
 			{
-				log.error("sceMeAudio_8D5A07D2", e);
+				Console.WriteLine("sceMeAudio_8D5A07D2", e);
 			}
 
 			return ebootPbpUid;
@@ -164,7 +164,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x528266FA, version = 150) public int sceMeAudio_528266FA(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=1024, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x528266FA, version = 150) public int sceMeAudio_528266FA(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=1024, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x528266FA, version : 150)]
 		public virtual int sceMeAudio_528266FA(TPointer buffer)
 		{

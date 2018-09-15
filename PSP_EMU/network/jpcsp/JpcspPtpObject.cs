@@ -80,11 +80,11 @@ namespace pspsharp.network.pspsharp
 			}
 			catch (SocketException e)
 			{
-				log.error("connect", e);
+				Console.WriteLine("connect", e);
 			}
 			catch (IOException e)
 			{
-				log.error("connect", e);
+				Console.WriteLine("connect", e);
 			}
 
 			return result;
@@ -103,23 +103,23 @@ namespace pspsharp.network.pspsharp
 				if (adhocPtpMessage == null)
 				{
 					sbyte[] bytes = new sbyte[BufSize + MAX_HEADER_SIZE];
-					int length = socket.receive(bytes, bytes.Length);
-					if (length > 0)
+					int Length = socket.receive(bytes, bytes.Length);
+					if (Length > 0)
 					{
-						adhocPtpMessage = new JpcspAdhocPtpMessage(bytes, length);
+						adhocPtpMessage = new JpcspAdhocPtpMessage(bytes, Length);
 						adhocPtpMessagePort = socket.ReceivedPort;
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("pollAccept: received message {0}", adhocPtpMessage));
+							Console.WriteLine(string.Format("pollAccept: received message {0}", adhocPtpMessage));
 						}
 					}
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("pollAccept: processing pending message {0}", adhocPtpMessage));
+						Console.WriteLine(string.Format("pollAccept: processing pending message {0}", adhocPtpMessage));
 					}
 				}
 
@@ -131,9 +131,9 @@ namespace pspsharp.network.pspsharp
 							int acceptedId = adhocPtpMessage.DataInt32;
 							if (acceptedIds.Contains(acceptedId))
 							{
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("Connect message received for an id={0:D} already accepted. Dropping message.", acceptedId));
+									Console.WriteLine(string.Format("Connect message received for an id={0:D} already accepted. Dropping message.", acceptedId));
 								}
 							}
 							else
@@ -173,9 +173,9 @@ namespace pspsharp.network.pspsharp
 								confirmMessage.DataInt32 = ptpObject.Port;
 								ptpObject.send(confirmMessage);
 
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("accept completed, creating new Ptp object {0}", ptpObject));
+									Console.WriteLine(string.Format("accept completed, creating new Ptp object {0}", ptpObject));
 								}
 
 								acceptCompleted = true;
@@ -186,15 +186,15 @@ namespace pspsharp.network.pspsharp
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("pollAccept: received a message not for me: {0}", adhocPtpMessage));
+						Console.WriteLine(string.Format("pollAccept: received a message not for me: {0}", adhocPtpMessage));
 					}
 				}
 			}
 			catch (SocketException e)
 			{
-				log.error("pollAccept", e);
+				Console.WriteLine("pollAccept", e);
 			}
 			catch (SocketTimeoutException)
 			{
@@ -202,7 +202,7 @@ namespace pspsharp.network.pspsharp
 			}
 			catch (IOException e)
 			{
-				log.error("pollAccept", e);
+				Console.WriteLine("pollAccept", e);
 			}
 
 			return acceptCompleted;
@@ -219,21 +219,21 @@ namespace pspsharp.network.pspsharp
 				if (adhocPtpMessage == null)
 				{
 					sbyte[] bytes = new sbyte[BufSize + MAX_HEADER_SIZE];
-					int length = socket.receive(bytes, bytes.Length);
-					if (length > 0)
+					int Length = socket.receive(bytes, bytes.Length);
+					if (Length > 0)
 					{
-						adhocPtpMessage = new JpcspAdhocPtpMessage(bytes, length);
-						if (log.DebugEnabled)
+						adhocPtpMessage = new JpcspAdhocPtpMessage(bytes, Length);
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("pollConnect: received message {0}", adhocPtpMessage));
+							Console.WriteLine(string.Format("pollConnect: received message {0}", adhocPtpMessage));
 						}
 					}
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("pollConnect: processing pending message {0}", adhocPtpMessage));
+						Console.WriteLine(string.Format("pollConnect: processing pending message {0}", adhocPtpMessage));
 					}
 				}
 
@@ -244,9 +244,9 @@ namespace pspsharp.network.pspsharp
 						case PTP_MESSAGE_TYPE_CONNECT_CONFIRM:
 							// Connect successfully completed, retrieve the new destination port
 							int port = Modules.sceNetAdhocModule.getClientPortFromRealPort(adhocPtpMessage.FromMacAddress, adhocPtpMessage.DataInt32);
-							if (log.DebugEnabled)
+							//if (log.DebugEnabled)
 							{
-								log.debug(string.Format("Received connect confirmation, changing destination port from {0:D} to {1:D}", DestPort, port));
+								Console.WriteLine(string.Format("Received connect confirmation, changing destination port from {0:D} to {1:D}", DestPort, port));
 							}
 							DestPort = port;
 							setReturnValue(thread, 0);
@@ -257,15 +257,15 @@ namespace pspsharp.network.pspsharp
 				}
 				else
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("pollConnect: received a message not for me: {0}", adhocPtpMessage));
+						Console.WriteLine(string.Format("pollConnect: received a message not for me: {0}", adhocPtpMessage));
 					}
 				}
 			}
 			catch (SocketException e)
 			{
-				log.error("pollConnect", e);
+				Console.WriteLine("pollConnect", e);
 			}
 			catch (SocketTimeoutException)
 			{
@@ -273,7 +273,7 @@ namespace pspsharp.network.pspsharp
 			}
 			catch (IOException e)
 			{
-				log.error("pollConnect", e);
+				Console.WriteLine("pollConnect", e);
 			}
 
 			if (connectCompleted)
@@ -294,16 +294,16 @@ namespace pspsharp.network.pspsharp
 				{
 					if (connected)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Received connect confirmation but already connected, discarding"));
+							Console.WriteLine(string.Format("Received connect confirmation but already connected, discarding"));
 						}
 					}
 					else
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Received connect confirmation, processing later"));
+							Console.WriteLine(string.Format("Received connect confirmation, processing later"));
 						}
 						connectConfirm = adhocPtpMessage;
 					}
@@ -311,9 +311,9 @@ namespace pspsharp.network.pspsharp
 				}
 				else if (type == PTP_MESSAGE_TYPE_CONNECT)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Received connect request, processing later"));
+						Console.WriteLine(string.Format("Received connect request, processing later"));
 					}
 					connectRequest = adhocPtpMessage;
 					connectRequestPort = port;

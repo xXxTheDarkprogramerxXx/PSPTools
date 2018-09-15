@@ -24,11 +24,11 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 	using ScePspDateTime = pspsharp.HLE.kernel.types.ScePspDateTime;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceRtc : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceRtc");
+		//public static Logger log = Modules.getLogger("sceRtc");
 
 		internal const int PSP_TIME_INVALID_YEAR = -1;
 		internal const int PSP_TIME_INVALID_MONTH = -2;
@@ -61,9 +61,9 @@ namespace pspsharp.HLE.modules
 		/// 64 bit addend </summary>
 		protected internal virtual int hleRtcTickAdd64(TPointer64 dstPtr, TPointer64 srcPtr, long value, long multiplier)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleRtcTickAdd64 dstPtr={0}, srcPtr={1}({2:D}), {3:D} * {4:D}", dstPtr, srcPtr, srcPtr.Value, value, multiplier));
+				Console.WriteLine(string.Format("hleRtcTickAdd64 dstPtr={0}, srcPtr={1}({2:D}), {3:D} * {4:D}", dstPtr, srcPtr, srcPtr.Value, value, multiplier));
 			}
 
 			long src = srcPtr.Value;
@@ -76,7 +76,7 @@ namespace pspsharp.HLE.modules
 		/// 32 bit addend </summary>
 		protected internal virtual int hleRtcTickAdd32(TPointer64 dstPtr, TPointer64 srcPtr, int value, long multiplier)
 		{
-			log.debug("hleRtcTickAdd32 " + multiplier + " * " + value);
+			Console.WriteLine("hleRtcTickAdd32 " + multiplier + " * " + value);
 
 			long src = srcPtr.Value;
 			dstPtr.Value = src + multiplier * value;
@@ -124,9 +124,9 @@ namespace pspsharp.HLE.modules
 		{
 			currentTick.Value = hleGetCurrentTick();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetCurrentTick returning {0:D}", currentTick.Value));
+				Console.WriteLine(string.Format("sceRtcGetCurrentTick returning {0:D}", currentTick.Value));
 			}
 
 			return 0;
@@ -148,7 +148,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x4CFA57B0, version = 150) public int sceRtcGetCurrentClock(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer addr, int tz)
+//ORIGINAL LINE: @HLEFunction(nid = 0x4CFA57B0, version = 150) public int sceRtcGetCurrentClock(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer addr, int tz)
 		[HLEFunction(nid : 0x4CFA57B0, version : 150)]
 		public virtual int sceRtcGetCurrentClock(TPointer addr, int tz)
 		{
@@ -205,9 +205,9 @@ namespace pspsharp.HLE.modules
 			DateTime cal = new GregorianCalendar(year, month - 1, 1);
 			int days = cal.getActualMaximum(DateTime.DAY_OF_MONTH);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetDaysInMonth returning {0:D}", days));
+				Console.WriteLine(string.Format("sceRtcGetDaysInMonth returning {0:D}", days));
 			}
 
 			return days;
@@ -231,9 +231,9 @@ namespace pspsharp.HLE.modules
 			int dayOfWeekNumber = cal.DayOfWeek;
 			dayOfWeekNumber = (dayOfWeekNumber - 1 + 7) % 7;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetDayOfWeek returning {0:D}", dayOfWeekNumber));
+				Console.WriteLine(string.Format("sceRtcGetDayOfWeek returning {0:D}", dayOfWeekNumber));
 			}
 
 			return dayOfWeekNumber;
@@ -284,9 +284,9 @@ namespace pspsharp.HLE.modules
 				result = PSP_TIME_INVALID_DAY;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcCheckValid time={0}, cal={1}, returning 0x{2:X8}", time, cal, result));
+				Console.WriteLine(string.Format("sceRtcCheckValid time={0}, cal={1}, returning 0x{2:X8}", time, cal, result));
 			}
 
 			return result;
@@ -308,9 +308,9 @@ namespace pspsharp.HLE.modules
 			cal = new DateTime(dateTime.year, dateTime.month - 1, dateTime.day, dateTime.hour, dateTime.minute, dateTime.second);
 			int unixtime = (int)(cal.Ticks / 1000L);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetTime_t returning {0:D}", unixtime));
+				Console.WriteLine(string.Format("sceRtcGetTime_t returning {0:D}", unixtime));
 			}
 
 			timeAddr.setValue(unixtime);
@@ -340,9 +340,9 @@ namespace pspsharp.HLE.modules
 			cal = new DateTime(dateTime.year, dateTime.month - 1, dateTime.day, dateTime.hour, dateTime.minute, dateTime.second);
 			int dostime = (int)(cal.Ticks / 1000L);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetDosTime returning {0:D}", dostime));
+				Console.WriteLine(string.Format("sceRtcGetDosTime returning {0:D}", dostime));
 			}
 
 			timeAddr.setValue(dostime);
@@ -372,9 +372,9 @@ namespace pspsharp.HLE.modules
 			cal = new DateTime(dateTime.year, dateTime.month - 1, dateTime.day, dateTime.hour, dateTime.minute, dateTime.second);
 			int filetimetime = (int)(cal.Ticks / 1000L);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetWin32FileTime returning {0:D}", filetimetime));
+				Console.WriteLine(string.Format("sceRtcGetWin32FileTime returning {0:D}", filetimetime));
 			}
 
 			timeAddr.Value = filetimetime;
@@ -385,7 +385,7 @@ namespace pspsharp.HLE.modules
 		/// <summary>
 		/// Set a pspTime struct based on ticks. </summary>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x7ED29E40, version = 150) public int sceRtcSetTick(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer timeAddr, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer64 ticksAddr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x7ED29E40, version = 150) public int sceRtcSetTick(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer timeAddr, @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer64 ticksAddr)
 		[HLEFunction(nid : 0x7ED29E40, version : 150)]
 		public virtual int sceRtcSetTick(TPointer timeAddr, TPointer64 ticksAddr)
 		{
@@ -408,9 +408,9 @@ namespace pspsharp.HLE.modules
 			long ticks = rtcMagicOffset + (cal.Ticks * 1000L) + (time.microsecond % 1000);
 			ticksAddr.Value = ticks;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetTick returning {0:D}", ticks));
+				Console.WriteLine(string.Format("sceRtcGetTick returning {0:D}", ticks));
 			}
 
 			return 0;
@@ -436,63 +436,63 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x44F45E05, version : 150)]
 		public virtual int sceRtcTickAddTicks(TPointer64 dstPtr, TPointer64 srcPtr, long value)
 		{
-			log.debug("sceRtcTickAddTicks redirecting to hleRtcTickAdd64(1)");
+			Console.WriteLine("sceRtcTickAddTicks redirecting to hleRtcTickAdd64(1)");
 			return hleRtcTickAdd64(dstPtr, srcPtr, value, 1);
 		}
 
 		[HLEFunction(nid : 0x26D25A5D, version : 150)]
 		public virtual int sceRtcTickAddMicroseconds(TPointer64 dstPtr, TPointer64 srcPtr, long value)
 		{
-			log.debug("sceRtcTickAddMicroseconds redirecting to hleRtcTickAdd64(1)");
+			Console.WriteLine("sceRtcTickAddMicroseconds redirecting to hleRtcTickAdd64(1)");
 			return hleRtcTickAdd64(dstPtr, srcPtr, value, 1);
 		}
 
 		[HLEFunction(nid : 0xF2A4AFE5, version : 150)]
 		public virtual int sceRtcTickAddSeconds(TPointer64 dstPtr, TPointer64 srcPtr, long value)
 		{
-			log.debug("sceRtcTickAddSeconds redirecting to hleRtcTickAdd64(1000000)");
+			Console.WriteLine("sceRtcTickAddSeconds redirecting to hleRtcTickAdd64(1000000)");
 			return hleRtcTickAdd64(dstPtr, srcPtr, value, 1000000L);
 		}
 
 		[HLEFunction(nid : 0xE6605BCA, version : 150)]
 		public virtual int sceRtcTickAddMinutes(TPointer64 dstPtr, TPointer64 srcPtr, long value)
 		{
-			log.debug("sceRtcTickAddMinutes redirecting to hleRtcTickAdd64(60*1000000)");
+			Console.WriteLine("sceRtcTickAddMinutes redirecting to hleRtcTickAdd64(60*1000000)");
 			return hleRtcTickAdd64(dstPtr, srcPtr, value, PSP_TIME_SECONDS_IN_MINUTE * 1000000L);
 		}
 
 		[HLEFunction(nid : 0x26D7A24A, version : 150)]
 		public virtual int sceRtcTickAddHours(TPointer64 dstPtr, TPointer64 srcPtr, int value)
 		{
-			log.debug("sceRtcTickAddHours redirecting to hleRtcTickAdd32(60*60*1000000)");
+			Console.WriteLine("sceRtcTickAddHours redirecting to hleRtcTickAdd32(60*60*1000000)");
 			return hleRtcTickAdd32(dstPtr, srcPtr, value, PSP_TIME_SECONDS_IN_HOUR * 1000000L);
 		}
 
 		[HLEFunction(nid : 0xE51B4B7A, version : 150)]
 		public virtual int sceRtcTickAddDays(TPointer64 dstPtr, TPointer64 srcPtr, int value)
 		{
-			log.debug("sceRtcTickAddDays redirecting to hleRtcTickAdd32(24*60*60*1000000)");
+			Console.WriteLine("sceRtcTickAddDays redirecting to hleRtcTickAdd32(24*60*60*1000000)");
 			return hleRtcTickAdd32(dstPtr, srcPtr, value, PSP_TIME_SECONDS_IN_DAY * 1000000L);
 		}
 
 		[HLEFunction(nid : 0xCF3A2CA8, version : 150)]
 		public virtual int sceRtcTickAddWeeks(TPointer64 dstPtr, TPointer64 srcPtr, int value)
 		{
-			log.debug("sceRtcTickAddWeeks redirecting to hleRtcTickAdd32(7*24*60*60*1000000)");
+			Console.WriteLine("sceRtcTickAddWeeks redirecting to hleRtcTickAdd32(7*24*60*60*1000000)");
 			return hleRtcTickAdd32(dstPtr, srcPtr, value, PSP_TIME_SECONDS_IN_WEEK * 1000000L);
 		}
 
 		[HLEFunction(nid : 0xDBF74F1B, version : 150)]
 		public virtual int sceRtcTickAddMonths(TPointer64 dstPtr, TPointer64 srcPtr, int value)
 		{
-			log.debug("sceRtcTickAddMonths redirecting to hleRtcTickAdd32(30*24*60*60*1000000)");
+			Console.WriteLine("sceRtcTickAddMonths redirecting to hleRtcTickAdd32(30*24*60*60*1000000)");
 			return hleRtcTickAdd32(dstPtr, srcPtr, value, PSP_TIME_SECONDS_IN_MONTH * 1000000L);
 		}
 
 		[HLEFunction(nid : 0x42842C77, version : 150)]
 		public virtual int sceRtcTickAddYears(TPointer64 dstPtr, TPointer64 srcPtr, int value)
 		{
-			log.debug("sceRtcTickAddYears redirecting to hleRtcTickAdd32(365*24*60*60*1000000)");
+			Console.WriteLine("sceRtcTickAddYears redirecting to hleRtcTickAdd32(365*24*60*60*1000000)");
 			return hleRtcTickAdd32(dstPtr, srcPtr, value, PSP_TIME_SECONDS_IN_YEAR * 1000000L);
 		}
 
@@ -526,9 +526,9 @@ namespace pspsharp.HLE.modules
 			DateTime date = getDateFromTick(srcPtr.Value);
 			string result = formatRFC3339(date);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcFormatRFC3339LocalTime src={0:D}, returning '{1}'", srcPtr.Value, result));
+				Console.WriteLine(string.Format("sceRtcFormatRFC3339LocalTime src={0:D}, returning '{1}'", srcPtr.Value, result));
 			}
 
 			resultString.StringZ = result;
@@ -559,7 +559,7 @@ namespace pspsharp.HLE.modules
 		{
 			if (log.DebugEnabled && srcPtr.NotNull)
 			{
-				log.debug(string.Format("sceRtcSetAlarmTick src=0x{0:X}", srcPtr.Value));
+				Console.WriteLine(string.Format("sceRtcSetAlarmTick src=0x{0:X}", srcPtr.Value));
 			}
 
 			return 0;
@@ -601,9 +601,9 @@ namespace pspsharp.HLE.modules
 			cal = new DateTime(dateTime.year, dateTime.month - 1, dateTime.day, dateTime.hour, dateTime.minute, dateTime.second);
 			long unixtime = cal.Ticks / 1000L;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetTime64_t psptime={0} returning unixtime={1:D}", dateTime, unixtime));
+				Console.WriteLine(string.Format("sceRtcGetTime64_t psptime={0} returning unixtime={1:D}", dateTime, unixtime));
 			}
 
 			timeAddr.Value = unixtime;
@@ -634,9 +634,9 @@ namespace pspsharp.HLE.modules
 		{
 			networkTick.Value = hleGetCurrentTick();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceRtcGetCurrentNetworkTick returning {0:D}", networkTick.Value));
+				Console.WriteLine(string.Format("sceRtcGetCurrentNetworkTick returning {0:D}", networkTick.Value));
 			}
 
 			return 0;

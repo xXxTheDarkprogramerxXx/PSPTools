@@ -60,30 +60,30 @@ namespace pspsharp.graphics
 			}
 		}
 
-		private static int getFastLookupKey(int address, int length)
+		private static int getFastLookupKey(int address, int Length)
 		{
 			return address;
 		}
 
-		private static int getFastLookupKey(int address, int length, int stride)
+		private static int getFastLookupKey(int address, int Length, int stride)
 		{
 			return address + (stride << 24);
 		}
 
-		public virtual VertexBuffer getVertexBuffer(IRenderingEngine re, int address, int length, int stride, bool strideAligned)
+		public virtual VertexBuffer getVertexBuffer(IRenderingEngine re, int address, int Length, int stride, bool strideAligned)
 		{
 			lock (this)
 			{
 				statistics.start();
 				if (strideAligned)
 				{
-					int fastLookupKey = getFastLookupKey(address, length, stride);
+					int fastLookupKey = getFastLookupKey(address, Length, stride);
 					VertexBuffer vertexBuffer = fastLookup[fastLookupKey];
 					if (vertexBuffer != null)
 					{
 						if (stride == vertexBuffer.Stride && (vertexBuffer.getBufferOffset(address) % stride) == 0)
 						{
-							if (vertexBuffer.isAddressInside(address, length, allowedVertexGapSize))
+							if (vertexBuffer.isAddressInside(address, Length, allowedVertexGapSize))
 							{
 								statistics.end();
 								return vertexBuffer;
@@ -98,7 +98,7 @@ namespace pspsharp.graphics
 						vertexBuffer = lit.Current;
 						if (stride == vertexBuffer.Stride && (vertexBuffer.getBufferOffset(address) % stride) == 0)
 						{
-							if (vertexBuffer.isAddressInside(address, length, allowedVertexGapSize))
+							if (vertexBuffer.isAddressInside(address, Length, allowedVertexGapSize))
 							{
 								if (!first)
 								{
@@ -118,11 +118,11 @@ namespace pspsharp.graphics
 				}
 				else
 				{
-					int fastLookupKey = getFastLookupKey(address, length);
+					int fastLookupKey = getFastLookupKey(address, Length);
 					VertexBuffer vertexBuffer = fastLookup[fastLookupKey];
 					if (vertexBuffer != null)
 					{
-						if (vertexBuffer.isAddressInside(address, length, allowedVertexGapSize))
+						if (vertexBuffer.isAddressInside(address, Length, allowedVertexGapSize))
 						{
 							statistics.end();
 							return vertexBuffer;
@@ -134,7 +134,7 @@ namespace pspsharp.graphics
 					for (IEnumerator<VertexBuffer> lit = vertexBuffers.GetEnumerator(); lit.MoveNext();)
 					{
 						vertexBuffer = lit.Current;
-						if (vertexBuffer.isAddressInside(address, length, allowedVertexGapSize))
+						if (vertexBuffer.isAddressInside(address, Length, allowedVertexGapSize))
 						{
 							if (!first)
 							{
@@ -184,14 +184,14 @@ namespace pspsharp.graphics
 
 		protected internal virtual void displayStatistics()
 		{
-			int length = 0;
+			int Length = 0;
 			foreach (VertexBuffer vertexBuffer in vertexBuffers)
 			{
 				VideoEngine.log_Renamed.info(vertexBuffer);
-				length += vertexBuffer.Length;
+				Length += vertexBuffer.Length;
 			}
 
-			VideoEngine.log_Renamed.info(string.Format("VertexBufferManager: {0:D} buffers, total length {1:D}", vertexBuffers.Count, length));
+			VideoEngine.log_Renamed.info(string.Format("VertexBufferManager: {0:D} buffers, total Length {1:D}", vertexBuffers.Count, Length));
 		}
 
 		public virtual void reset(IRenderingEngine re)

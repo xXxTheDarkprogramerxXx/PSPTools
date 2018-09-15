@@ -20,7 +20,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
@@ -36,7 +36,7 @@ namespace pspsharp.HLE.modules
 
 	public class ModuleMgrForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("ModuleMgrForKernel");
+		//public static Logger log = Modules.getLogger("ModuleMgrForKernel");
 		private ISet<string> modulesWithMemoryAllocated;
 
 		public override void start()
@@ -180,9 +180,9 @@ namespace pspsharp.HLE.modules
 				return -1;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelLoadModuleToBlock sysMemInfo={0}", sysMemInfo));
+				Console.WriteLine(string.Format("sceKernelLoadModuleToBlock sysMemInfo={0}", sysMemInfo));
 			}
 
 			modulesWithMemoryAllocated.Add(path.String);
@@ -197,18 +197,18 @@ namespace pspsharp.HLE.modules
 				IVirtualFile vFile = vfs.ioOpen(localFileName.ToString(), IoFileMgrForUser.PSP_O_RDONLY, 0);
 				if (vFile != null)
 				{
-					sbyte[] bytes = new sbyte[(int) vFile.length()];
-					int length = vFile.ioRead(bytes, 0, bytes.Length);
-					ByteBuffer moduleBuffer = ByteBuffer.wrap(bytes, 0, length);
+					sbyte[] bytes = new sbyte[(int) vFile.Length()];
+					int Length = vFile.ioRead(bytes, 0, bytes.Length);
+					ByteBuffer moduleBuffer = ByteBuffer.wrap(bytes, 0, Length);
 
 					SceModule module = Modules.ModuleMgrForUserModule.getModuleInfo(path.String, moduleBuffer, sysMemInfo.partitionid, sysMemInfo.partitionid);
 					if (module != null)
 					{
 						int size = Modules.ModuleMgrForUserModule.getModuleRequiredMemorySize(module);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceKernelLoadModuleToBlock module requiring 0x{0:X} bytes", size));
+							Console.WriteLine(string.Format("sceKernelLoadModuleToBlock module requiring 0x{0:X} bytes", size));
 						}
 
 						// Aligned on 256 bytes boundary
@@ -217,9 +217,9 @@ namespace pspsharp.HLE.modules
 						// This is the new blockId after calling sceKernelSeparateMemoryBlock
 						separatedBlockId.setValue(separatedSysMemInfo.uid);
 
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceKernelLoadModuleToBlock separatedSysMemInfo={0}", separatedSysMemInfo));
+							Console.WriteLine(string.Format("sceKernelLoadModuleToBlock separatedSysMemInfo={0}", separatedSysMemInfo));
 						}
 					}
 				}
@@ -277,7 +277,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x955D6CB2, version = 150) public int sceKernelLoadModuleBootInitBtcnf(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer modBuf, int flags, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.variableLength, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer option)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x955D6CB2, version = 150) public int sceKernelLoadModuleBootInitBtcnf(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer modBuf, int flags, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.variableLength, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer option)
 		[HLEFunction(nid : 0x955D6CB2, version : 150)]
 		public virtual int sceKernelLoadModuleBootInitBtcnf(TPointer modBuf, int flags, TPointer option)
 		{
@@ -285,7 +285,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4E38EA1D, version = 150) public int sceKernelLoadModuleBufferForRebootKernel(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer modBuf, int flags, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.variableLength, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer option, int unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x4E38EA1D, version = 150) public int sceKernelLoadModuleBufferForRebootKernel(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=256, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer modBuf, int flags, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.variableLength, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer option, int unknown)
 		[HLEFunction(nid : 0x4E38EA1D, version : 150)]
 		public virtual int sceKernelLoadModuleBufferForRebootKernel(TPointer modBuf, int flags, TPointer option, int unknown)
 		{

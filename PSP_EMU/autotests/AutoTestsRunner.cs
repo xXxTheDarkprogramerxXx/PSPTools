@@ -30,7 +30,7 @@ namespace pspsharp.autotests
 	using LWJGLFixer = pspsharp.util.LWJGLFixer;
 	using ConsoleAppender = org.apache.log4j.ConsoleAppender;
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using DOMConfigurator = org.apache.log4j.xml.DOMConfigurator;
 
 	using RuntimeContext = pspsharp.Allegrex.compiler.RuntimeContext;
@@ -74,7 +74,7 @@ namespace pspsharp.autotests
 
 		private static void error(string str)
 		{
-			//log.error(str);
+			//Console.WriteLine(str);
 			Console.Error.WriteLine(str);
 		}
 
@@ -436,12 +436,12 @@ namespace pspsharp.autotests
 			int M = x.Length;
 			int N = y.Length;
 
-			// opt[i][j] = length of LCS of x[i..M] and y[j..N]
+			// opt[i][j] = Length of LCS of x[i..M] and y[j..N]
 //JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
 //ORIGINAL LINE: int[][] opt = new int[M+1][N+1];
 			int[][] opt = RectangularArrays.ReturnRectangularIntArray(M + 1, N + 1);
 
-			// compute length of LCS and all subproblems via dynamic programming
+			// compute Length of LCS and all subproblems via dynamic programming
 			for (int i = M - 1; i >= 0; i--)
 			{
 				for (int j = N - 1; j >= 0; j--)

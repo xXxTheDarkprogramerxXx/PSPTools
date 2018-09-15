@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.modules
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using IMemoryReader = pspsharp.memory.IMemoryReader;
 	using IMemoryWriter = pspsharp.memory.IMemoryWriter;
@@ -27,7 +27,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceMd5 : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMd5");
+		//public static Logger log = Modules.getLogger("sceMd5");
 		protected internal MessageDigest md5;
 
 		public override void start()
@@ -38,7 +38,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (NoSuchAlgorithmException e)
 			{
-				log.error("Cannot find MD5", e);
+				Console.WriteLine("Cannot find MD5", e);
 			}
 
 			base.start();

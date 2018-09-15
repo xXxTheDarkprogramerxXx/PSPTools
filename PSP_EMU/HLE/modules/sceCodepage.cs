@@ -19,14 +19,14 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.kernel.types.pspAbstractMemoryMappedStructure.charset16;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceCodepage : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceCodepage");
+		//public static Logger log = Modules.getLogger("sceCodepage");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEE932176, version = 150) public int sceCodepage_driver_EE932176()
@@ -72,12 +72,12 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCodepage_driver_855C5C2E(TPointer destAddr, int destLength, string src)
 		{
 			sbyte[] destBytes = src.GetBytes(charset16);
-			int length = System.Math.Min(destLength, destBytes.Length);
-			destAddr.setArray(destBytes, length);
+			int Length = System.Math.Min(destLength, destBytes.Length);
+			destAddr.setArray(destBytes, Length);
 			// Add trailing "\0\0"
-			if (length <= destLength - 2)
+			if (Length <= destLength - 2)
 			{
-				destAddr.clear(length, 2);
+				destAddr.clear(Length, 2);
 			}
 
 			return src.Length;
@@ -96,7 +96,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x47BDF633, version = 150) public int sceCodepage_driver_47BDF633(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 destAddr, int destLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer16 srcAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x47BDF633, version = 150) public int sceCodepage_driver_47BDF633(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 destAddr, int destLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer16 srcAddr)
 		[HLEFunction(nid : 0x47BDF633, version : 150)]
 		public virtual int sceCodepage_driver_47BDF633(TPointer8 destAddr, int destLength, TPointer16 srcAddr)
 		{
@@ -128,7 +128,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x014E0C72, version = 150) public boolean sceCodepage_driver_014E0C72(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=2, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 srcAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x014E0C72, version = 150) public boolean sceCodepage_driver_014E0C72(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=2, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer8 srcAddr)
 		[HLEFunction(nid : 0x014E0C72, version : 150)]
 		public virtual bool sceCodepage_driver_014E0C72(TPointer8 srcAddr)
 		{
@@ -141,19 +141,19 @@ namespace pspsharp.HLE.modules
 		public virtual int sceCodepage_driver_C899572E(TPointer destAddr, int destLength, string src)
 		{
 			sbyte[] destBytes = src.GetBytes(charset16);
-			int length = System.Math.Min(destLength, destBytes.Length);
-			destAddr.setArray(destBytes, length);
+			int Length = System.Math.Min(destLength, destBytes.Length);
+			destAddr.setArray(destBytes, Length);
 			// Add trailing "\0\0"
-			if (length <= destLength - 2)
+			if (Length <= destLength - 2)
 			{
-				destAddr.clear(length, 2);
+				destAddr.clear(Length, 2);
 			}
 
 			return src.Length;
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x907CBFD2, version = 150) public int sceCodepage_driver_907CBFD2(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 destAddr, int destLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer16 srcAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x907CBFD2, version = 150) public int sceCodepage_driver_907CBFD2(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer8 destAddr, int destLength, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer16 srcAddr)
 		[HLEFunction(nid : 0x907CBFD2, version : 150)]
 		public virtual int sceCodepage_driver_907CBFD2(TPointer8 destAddr, int destLength, TPointer16 srcAddr)
 		{

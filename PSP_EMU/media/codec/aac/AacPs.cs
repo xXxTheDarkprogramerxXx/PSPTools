@@ -104,7 +104,7 @@ namespace pspsharp.media.codec.aac
 	using VLC = pspsharp.media.codec.util.VLC;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class AacPs
 	{
@@ -144,16 +144,16 @@ namespace pspsharp.media.codec.aac
 			{
 				vlc_ps[i] = new VLC();
 			}
-			vlc_ps[0].initVLCSparse(9, huff_iid_df1_codes.length, huff_iid_df1_bits, huff_iid_df1_codes, null);
-			vlc_ps[1].initVLCSparse(9, huff_iid_dt1_codes.length, huff_iid_dt1_bits, huff_iid_dt1_codes, null);
-			vlc_ps[2].initVLCSparse(9, huff_iid_df0_codes.length, huff_iid_df0_bits, huff_iid_df0_codes, null);
-			vlc_ps[3].initVLCSparse(9, huff_iid_dt0_codes.length, huff_iid_dt0_bits, huff_iid_dt0_codes, null);
-			vlc_ps[4].initVLCSparse(9, huff_icc_df_codes.length, huff_icc_df_bits, huff_icc_df_codes, null);
-			vlc_ps[5].initVLCSparse(9, huff_icc_dt_codes.length, huff_icc_dt_bits, huff_icc_dt_codes, null);
-			vlc_ps[6].initVLCSparse(9, huff_ipd_df_codes.length, huff_ipd_df_bits, huff_ipd_df_codes, null);
-			vlc_ps[7].initVLCSparse(9, huff_ipd_dt_codes.length, huff_ipd_dt_bits, huff_ipd_dt_codes, null);
-			vlc_ps[8].initVLCSparse(9, huff_opd_df_codes.length, huff_opd_df_bits, huff_opd_df_codes, null);
-			vlc_ps[9].initVLCSparse(9, huff_opd_dt_codes.length, huff_opd_dt_bits, huff_opd_dt_codes, null);
+			vlc_ps[0].initVLCSparse(9, huff_iid_df1_codes.Length, huff_iid_df1_bits, huff_iid_df1_codes, null);
+			vlc_ps[1].initVLCSparse(9, huff_iid_dt1_codes.Length, huff_iid_dt1_bits, huff_iid_dt1_codes, null);
+			vlc_ps[2].initVLCSparse(9, huff_iid_df0_codes.Length, huff_iid_df0_bits, huff_iid_df0_codes, null);
+			vlc_ps[3].initVLCSparse(9, huff_iid_dt0_codes.Length, huff_iid_dt0_bits, huff_iid_dt0_codes, null);
+			vlc_ps[4].initVLCSparse(9, huff_icc_df_codes.Length, huff_icc_df_bits, huff_icc_df_codes, null);
+			vlc_ps[5].initVLCSparse(9, huff_icc_dt_codes.Length, huff_icc_dt_bits, huff_icc_dt_codes, null);
+			vlc_ps[6].initVLCSparse(9, huff_ipd_df_codes.Length, huff_ipd_df_bits, huff_ipd_df_codes, null);
+			vlc_ps[7].initVLCSparse(9, huff_ipd_dt_codes.Length, huff_ipd_dt_bits, huff_ipd_dt_codes, null);
+			vlc_ps[8].initVLCSparse(9, huff_opd_df_codes.Length, huff_opd_df_bits, huff_opd_df_codes, null);
+			vlc_ps[9].initVLCSparse(9, huff_opd_dt_codes.Length, huff_opd_dt_bits, huff_opd_dt_codes, null);
 		}
 
 		private static int readDataError(Context ac, PSContext ps, int bitCountStart, int bitsLeft)
@@ -261,7 +261,7 @@ namespace pspsharp.media.codec.aac
 					int iidMode = br.read(3);
 					if (iidMode > 5)
 					{
-						log.error(string.Format("iidMode {0:D} is reserved", iidMode));
+						Console.WriteLine(string.Format("iidMode {0:D} is reserved", iidMode));
 						return readDataError(ac, ps, bitCountStart, bitsLeft);
 					}
 					ps.nrIidPar = nr_iidiccPar_tab[iidMode];
@@ -274,7 +274,7 @@ namespace pspsharp.media.codec.aac
 					ps.iccMode = br.read(3);
 					if (ps.iccMode > 5)
 					{
-						log.error(string.Format("iic_mode {0:D} is reserved", ps.iccMode));
+						Console.WriteLine(string.Format("iic_mode {0:D} is reserved", ps.iccMode));
 						return readDataError(ac, ps, bitCountStart, bitsLeft);
 					}
 					ps.nrIccPar = nr_iidiccPar_tab[ps.iccMode];
@@ -349,7 +349,7 @@ namespace pspsharp.media.codec.aac
 				}
 				if (cnt < 0)
 				{
-					log.error(string.Format("ps extension overflow {0:D}", cnt));
+					Console.WriteLine(string.Format("ps extension overflow {0:D}", cnt));
 					return readDataError(ac, ps, bitCountStart, bitsLeft);
 				}
 				br.skip(cnt);
@@ -382,7 +382,7 @@ namespace pspsharp.media.codec.aac
 					{
 						if (System.Math.Abs(ps.iidPar[ps.numEnv][b]) > 7 + 8 * ps.iidQuant)
 						{
-							log.error(string.Format("iidPar invalid"));
+							Console.WriteLine(string.Format("iidPar invalid"));
 							return readDataError(ac, ps, bitCountStart, bitsLeft);
 						}
 					}
@@ -393,7 +393,7 @@ namespace pspsharp.media.codec.aac
 					{
 						if (System.Math.Abs(ps.iccPar[ps.numEnv][b]) > 7)
 						{
-							log.error(string.Format("iccPar invalid"));
+							Console.WriteLine(string.Format("iccPar invalid"));
 							return readDataError(ac, ps, bitCountStart, bitsLeft);
 						}
 					}
@@ -423,7 +423,7 @@ namespace pspsharp.media.codec.aac
 			int bitsConsumed = br.BitsRead - bitCountStart;
 			if (bitsConsumed > bitsLeft)
 			{
-				log.error(string.Format("Expected to read {0:D} PS bits actually read {1:D}", bitsLeft, bitsConsumed));
+				Console.WriteLine(string.Format("Expected to read {0:D} PS bits actually read {1:D}", bitsLeft, bitsConsumed));
 				return readDataError(ac, ps, bitCountStart, bitsLeft);
 			}
 
@@ -541,8 +541,8 @@ namespace pspsharp.media.codec.aac
 			{
 				for (int n = 0; n < len; n++)
 				{
-					Arrays.fill(@out[0][n], 0, 5, 0f);
-					Arrays.fill(@out[1][n], 0, 5, 0f);
+					Arrays.Fill(@out[0][n], 0, 5, 0f);
+					Arrays.Fill(@out[1][n], 0, 5, 0f);
 					for (int i = 0; i < 12; i++)
 					{
 						@out[0][n][0] += @in[i][n][0];
@@ -967,8 +967,8 @@ namespace pspsharp.media.codec.aac
 
 		private static void ipdopd_reset(int[] ipd_hist, int[] opd_hist)
 		{
-			Arrays.fill(ipd_hist, 0, PSContext.PS_MAX_NR_IPDOPD, 0);
-			Arrays.fill(opd_hist, 0, PSContext.PS_MAX_NR_IPDOPD, 0);
+			Arrays.Fill(ipd_hist, 0, PSContext.PS_MAX_NR_IPDOPD, 0);
+			Arrays.Fill(opd_hist, 0, PSContext.PS_MAX_NR_IPDOPD, 0);
 		}
 
 //JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:

@@ -21,7 +21,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.util
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using ClassReader = org.objectweb.asm.ClassReader;
 	using ClassNode = org.objectweb.asm.tree.ClassNode;
 	using LocalVariableNode = org.objectweb.asm.tree.LocalVariableNode;
@@ -77,7 +77,7 @@ namespace pspsharp.util
 			}
 			catch (IOException e)
 			{
-				log.error("Cannot read class", e);
+				Console.WriteLine("Cannot read class", e);
 			}
 
 			return parameters;

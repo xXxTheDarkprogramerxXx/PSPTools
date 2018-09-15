@@ -47,7 +47,7 @@ namespace pspsharp.HLE.kernel.managers
 	using ThreadWaitInfo = pspsharp.HLE.kernel.types.ThreadWaitInfo;
 	using ThreadManForUser = pspsharp.HLE.modules.ThreadManForUser;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class SemaManager
 	{
@@ -93,7 +93,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("Sema deleted while we were waiting for it! (timeout expired)");
+				Console.WriteLine("Sema deleted while we were waiting for it! (timeout expired)");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -109,7 +109,7 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			else
 			{
-				log.warn("EventFlag deleted while we were waiting for it!");
+				Console.WriteLine("EventFlag deleted while we were waiting for it!");
 				// Return WAIT_DELETE
 				thread.cpuContext._v0 = ERROR_KERNEL_WAIT_DELETE;
 			}
@@ -171,9 +171,9 @@ namespace pspsharp.HLE.kernel.managers
 				}
 				if (tryWaitSemaphore(sema, thread.wait.Semaphore_signal))
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("onSemaphoreModified waking thread {0}", thread));
+						Console.WriteLine(string.Format("onSemaphoreModified waking thread {0}", thread));
 					}
 					sema.threadWaitingList.removeWaitingThread(thread);
 					thread.cpuContext._v0 = 0;
@@ -213,11 +213,11 @@ namespace pspsharp.HLE.kernel.managers
 				{
 					// Some applications systematically try to signal a semaid=0.
 					// Do not spam WARNings for this case.
-					log.debug(string.Format("checkSemaID - unknown uid 0x{0:X}", semaid));
+					Console.WriteLine(string.Format("checkSemaID - unknown uid 0x{0:X}", semaid));
 				}
 				else
 				{
-					log.warn(string.Format("checkSemaID - unknown uid 0x{0:X}", semaid));
+					Console.WriteLine(string.Format("checkSemaID - unknown uid 0x{0:X}", semaid));
 				}
 				throw new SceKernelErrorException(ERROR_KERNEL_NOT_FOUND_SEMAPHORE);
 			}
@@ -232,7 +232,7 @@ namespace pspsharp.HLE.kernel.managers
 				// The first int does not seem to be the size of the struct, found values:
 				// SSX On Tour: 0, 0x08B0F9E4, 0x0892E664, 0x08AF7257 (some values are used in more than one semaphore)
 				int optionSize = option.getValue32();
-				log.warn(string.Format("sceKernelCreateSema option at {0}, size={1:D}", option, optionSize));
+				Console.WriteLine(string.Format("sceKernelCreateSema option at {0}, size={1:D}", option, optionSize));
 			}
 
 			SceKernelSemaInfo sema = new SceKernelSemaInfo(name, attr, initVal, maxVal);
@@ -246,9 +246,9 @@ namespace pspsharp.HLE.kernel.managers
 			if (!tryWaitSemaphore(sema, signal))
 			{
 				// Failed, but it's ok, just wait a little
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelWaitSema {0} fast check failed", sema));
+					Console.WriteLine(string.Format("hleKernelWaitSema {0} fast check failed", sema));
 				}
 				ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 				SceKernelThreadInfo currentThread = threadMan.CurrentThread;
@@ -261,9 +261,9 @@ namespace pspsharp.HLE.kernel.managers
 			else
 			{
 				// Success, do not reschedule the current thread.
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelWaitSema {0} fast check succeeded", sema));
+					Console.WriteLine(string.Format("hleKernelWaitSema {0} fast check succeeded", sema));
 				}
 			}
 
@@ -274,16 +274,16 @@ namespace pspsharp.HLE.kernel.managers
 		{
 			if (signal <= 0)
 			{
-				log.warn(string.Format("hleKernelWaitSema - bad signal {0:D}", signal));
+				Console.WriteLine(string.Format("hleKernelWaitSema - bad signal {0:D}", signal));
 				return ERROR_KERNEL_ILLEGAL_COUNT;
 			}
 
 			SceKernelSemaInfo sema = semaMap[semaid];
 			if (signal > sema.maxCount)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelWaitSema returning 0x{0:X8}(ERROR_KERNEL_ILLEGAL_COUNT)", ERROR_KERNEL_ILLEGAL_COUNT));
+					Console.WriteLine(string.Format("hleKernelWaitSema returning 0x{0:X8}(ERROR_KERNEL_ILLEGAL_COUNT)", ERROR_KERNEL_ILLEGAL_COUNT));
 				}
 				return ERROR_KERNEL_ILLEGAL_COUNT;
 			}
@@ -295,17 +295,17 @@ namespace pspsharp.HLE.kernel.managers
 		{
 			if (signal > sema.currentCount)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("hleKernelPollSema returning 0x{0:X8}(ERROR_KERNEL_SEMA_ZERO)", ERROR_KERNEL_SEMA_ZERO));
+					Console.WriteLine(string.Format("hleKernelPollSema returning 0x{0:X8}(ERROR_KERNEL_SEMA_ZERO)", ERROR_KERNEL_SEMA_ZERO));
 				}
 				return ERROR_KERNEL_SEMA_ZERO;
 			}
 
 			sema.currentCount -= signal;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelPollSema returning 0, {0}", sema));
+				Console.WriteLine(string.Format("hleKernelPollSema returning 0, {0}", sema));
 			}
 
 			return 0;
@@ -328,9 +328,9 @@ namespace pspsharp.HLE.kernel.managers
 				}
 				if (newCount > sema.maxCount)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hleKernelSignalSema returning 0x{0:X8}(ERROR_KERNEL_SEMA_OVERFLOW)", ERROR_KERNEL_SEMA_OVERFLOW));
+						Console.WriteLine(string.Format("hleKernelSignalSema returning 0x{0:X8}(ERROR_KERNEL_SEMA_OVERFLOW)", ERROR_KERNEL_SEMA_OVERFLOW));
 					}
 					return ERROR_KERNEL_SEMA_OVERFLOW;
 				}
@@ -345,12 +345,12 @@ namespace pspsharp.HLE.kernel.managers
 			{
 				// This situation should never happen, otherwise something went wrong
 				// in the overflow check above.
-				log.error(string.Format("hleKernelSignalSema currentCount {0:D} exceeding maxCount {1:D}", sema.currentCount, sema.maxCount));
+				Console.WriteLine(string.Format("hleKernelSignalSema currentCount {0:D} exceeding maxCount {1:D}", sema.currentCount, sema.maxCount));
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleKernelSignalSema returning 0, {0}", sema));
+				Console.WriteLine(string.Format("hleKernelSignalSema returning 0, {0}", sema));
 			}
 
 			return 0;
@@ -364,9 +364,9 @@ namespace pspsharp.HLE.kernel.managers
 			}
 			SceKernelSemaInfo sema = hleKernelCreateSema(name, attr, initVal, maxVal, option);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelCreateSema {0}", sema));
+				Console.WriteLine(string.Format("sceKernelCreateSema {0}", sema));
 			}
 
 			return sema.uid;
@@ -402,7 +402,7 @@ namespace pspsharp.HLE.kernel.managers
 		{
 			if (signal <= 0)
 			{
-				log.warn(string.Format("sceKernelPollSema id=0x{0:X}, signal={1:D}: bad signal", semaid, signal));
+				Console.WriteLine(string.Format("sceKernelPollSema id=0x{0:X}, signal={1:D}: bad signal", semaid, signal));
 				return ERROR_KERNEL_ILLEGAL_COUNT;
 			}
 
@@ -441,9 +441,9 @@ namespace pspsharp.HLE.kernel.managers
 		{
 			SceKernelSemaInfo sema = semaMap[semaid];
 			sema.write(addr);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelReferSemaStatus returning {0}", sema));
+				Console.WriteLine(string.Format("sceKernelReferSemaStatus returning {0}", sema));
 			}
 
 			return 0;

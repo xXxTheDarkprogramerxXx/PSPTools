@@ -50,11 +50,11 @@ namespace pspsharp.Allegrex.compiler.nativeCode.graphics
 //ORIGINAL LINE: final float[] dst = new float[16];
 			float[] dst = new float[16];
 
-			int length = count * 304;
-			IMemoryReader src1Reader = MemoryReader.getMemoryReader(srcBaseAddr + 64, length, 4);
-			IMemoryReader src2Reader = MemoryReader.getMemoryReader(srcBaseAddr + 128, length, 4);
-			IMemoryReader src3Reader = MemoryReader.getMemoryReader(srcBaseAddr + 296, length, 4);
-			IMemoryWriter boneWriter = MemoryWriter.getMemoryWriter(srcBaseAddr + 192, length, 4);
+			int Length = count * 304;
+			IMemoryReader src1Reader = MemoryReader.getMemoryReader(srcBaseAddr + 64, Length, 4);
+			IMemoryReader src2Reader = MemoryReader.getMemoryReader(srcBaseAddr + 128, Length, 4);
+			IMemoryReader src3Reader = MemoryReader.getMemoryReader(srcBaseAddr + 296, Length, 4);
+			IMemoryWriter boneWriter = MemoryWriter.getMemoryWriter(srcBaseAddr + 192, Length, 4);
 //JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
 //ORIGINAL LINE: final int cmdBONE = pspsharp.graphics.GeCommands.BONE << 24;
 			int cmdBONE = GeCommands.BONE << 24;

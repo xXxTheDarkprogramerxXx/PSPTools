@@ -20,7 +20,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.memory.mmio
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using sceMeCore = pspsharp.HLE.modules.sceMeCore;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -373,9 +373,9 @@ namespace pspsharp.memory.mmio
 		{
 			this.cmd = cmd;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Starting cmd=0x{0:X}({1})", cmd, MECommand.getCommandName(cmd)));
+				Console.WriteLine(string.Format("Starting cmd=0x{0:X}({1})", cmd, MECommand.getCommandName(cmd)));
 			}
 		}
 

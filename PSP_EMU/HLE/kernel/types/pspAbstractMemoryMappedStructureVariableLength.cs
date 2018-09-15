@@ -20,7 +20,7 @@ namespace pspsharp.HLE.kernel.types
 
 	/// <summary>
 	/// Abstract class representing a memory based structure starting
-	/// with a 32-bit value indicating the maximum memory length available
+	/// with a 32-bit value indicating the maximum memory Length available
 	/// for the structure values.
 	/// 
 	/// @author gid15
@@ -28,7 +28,7 @@ namespace pspsharp.HLE.kernel.types
 	/// </summary>
 	public abstract class pspAbstractMemoryMappedStructureVariableLength : pspAbstractMemoryMappedStructure
 	{
-		private int length;
+		private int Length;
 
 		protected internal override void read()
 		{
@@ -42,18 +42,18 @@ namespace pspsharp.HLE.kernel.types
 
 		private void readLength()
 		{
-			length = read32();
-			MaxSize = length;
+			Length = read32();
+			MaxSize = Length;
 		}
 
 		public override int @sizeof()
 		{
-			return length;
+			return Length;
 		}
 
 		public override string ToString()
 		{
-			return Utilities.getMemoryDump(BaseAddress, length);
+			return Utilities.getMemoryDump(BaseAddress, Length);
 		}
 	}
 

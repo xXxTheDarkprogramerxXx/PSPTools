@@ -27,7 +27,7 @@ namespace pspsharp.memory.mmio
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.util.Utilities.setBit;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using sceGpio = pspsharp.HLE.modules.sceGpio;
@@ -147,9 +147,9 @@ namespace pspsharp.memory.mmio
 		{
 			set
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("MMIOHandlerGpio.setPort 0x{0:X}({1}) on {2}", value, getPortName(value), this));
+					Console.WriteLine(string.Format("MMIOHandlerGpio.setPort 0x{0:X}({1}) on {2}", value, getPortName(value), this));
 				}
     
 				if (!hasBit(ports, value))
@@ -165,9 +165,9 @@ namespace pspsharp.memory.mmio
 
 		public virtual void clearPort(int port)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("MMIOHandlerGpio.clearPort 0x{0:X}({1}) on {2}", port, getPortName(port), this));
+				Console.WriteLine(string.Format("MMIOHandlerGpio.clearPort 0x{0:X}({1}) on {2}", port, getPortName(port), this));
 			}
 
 			if (hasBit(ports, port))

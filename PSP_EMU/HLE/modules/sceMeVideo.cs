@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceMeVideo : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceMeVideo");
+		//public static Logger log = Modules.getLogger("sceMeVideo");
 
 		// Called by sceVideocodecOpen
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
@@ -70,7 +70,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8768915D, version = 150) public int sceMeVideo_driver_8768915D(int type, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8768915D, version = 150) public int sceMeVideo_driver_8768915D(int type, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x8768915D, version : 150)]
 		public virtual int sceMeVideo_driver_8768915D(int type, TPointer buffer)
 		{
@@ -79,7 +79,7 @@ namespace pspsharp.HLE.modules
 
 		// Called by sceVideocodecDelete()
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8DD56014, version = 150) public int sceMeVideo_driver_8DD56014(int type, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8DD56014, version = 150) public int sceMeVideo_driver_8DD56014(int type, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=96, usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0x8DD56014, version : 150)]
 		public virtual int sceMeVideo_driver_8DD56014(int type, TPointer buffer)
 		{

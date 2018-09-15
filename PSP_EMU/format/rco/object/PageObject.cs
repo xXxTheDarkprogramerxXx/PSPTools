@@ -116,9 +116,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual VSMXBaseObject open(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("PageObject.open {0}, children: {1}", this, @object.getPropertyValue(rootName).getPropertyValue(childrenName)));
+				Console.WriteLine(string.Format("PageObject.open {0}, children: {1}", this, @object.getPropertyValue(rootName).getPropertyValue(childrenName)));
 			}
 
 			trigger(onInit);
@@ -139,9 +139,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual VSMXBaseObject activate(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("PageObject.activate"));
+				Console.WriteLine(string.Format("PageObject.activate"));
 			}
 
 			trigger(onActivate);
@@ -151,9 +151,9 @@ namespace pspsharp.format.rco.@object
 
 		public virtual void close(VSMXBaseObject @object)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("PageObject.close"));
+				Console.WriteLine(string.Format("PageObject.close"));
 			}
 
 			if (display != null)

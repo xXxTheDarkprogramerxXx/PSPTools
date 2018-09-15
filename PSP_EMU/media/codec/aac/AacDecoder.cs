@@ -18,91 +18,28 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.media.codec.aac
 {
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.pow;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static Math.sqrt;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.POW_SF2_ZERO;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.cbrt_tab;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_codebook_vector_idx;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_codebook_vector_vals;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_kbd_long_1024;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_kbd_short_128;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_num_swb_1024;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_num_swb_128;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_num_swb_512;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_pow2sf_tab;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_pred_sfb_max;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_scalefactor_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_scalefactor_code;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_spectral_bits;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_spectral_codes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_aac_spectral_sizes;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_mpeg4audio_channels;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_swb_offset_1024;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_swb_offset_128;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_swb_offset_512;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_tns_max_bands_1024;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_tns_max_bands_128;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.AacTab.ff_tns_max_bands_512;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.Lpc.computeLpcCoefs;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.OutputConfiguration.OC_GLOBAL_HDR;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.OutputConfiguration.OC_LOCKED;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.OutputConfiguration.OC_NONE;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.OutputConfiguration.OC_TRIAL_FRAME;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.aac.OutputConfiguration.OC_TRIAL_PCE;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.CodecUtils.avLog2;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.SineWin.ff_sine_1024;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.SineWin.ff_sine_128;
-//JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
-//	import static pspsharp.media.codec.util.SineWin.ff_sine_512;
+    using static Math;
+    using static pspsharp.media.codec.aac.AacTab;
+    using static pspsharp.media.codec.aac.Lpc;
+    using static pspsharp.media.codec.aac.OutputConfiguration;
+    using static pspsharp.media.codec.util.CodecUtils;
+    using static pspsharp.media.codec.util.SineWin;
 
 
-	using Logger = org.apache.log4j.Logger;
+    //using Logger = org.apache.log4j.Logger;
 
-	using BitReader = pspsharp.media.codec.util.BitReader;
-	using CodecUtils = pspsharp.media.codec.util.CodecUtils;
-	using FFT = pspsharp.media.codec.util.FFT;
-	using FloatDSP = pspsharp.media.codec.util.FloatDSP;
-	using SineWin = pspsharp.media.codec.util.SineWin;
-	using VLC = pspsharp.media.codec.util.VLC;
-	using Utilities = pspsharp.util.Utilities;
+    using BitReader = pspsharp.media.codec.util.BitReader;
+    using CodecUtils = pspsharp.media.codec.util.CodecUtils;
+    using FFT = pspsharp.media.codec.util.FFT;
+    using FloatDSP = pspsharp.media.codec.util.FloatDSP;
+    using SineWin = pspsharp.media.codec.util.SineWin;
+    using VLC = pspsharp.media.codec.util.VLC;
+    using Utilities = pspsharp.util.Utilities;
+    using System.Text.RegularExpressions;
 
-	public class AacDecoder : ICodec
+    public class AacDecoder : ICodec
 	{
-		public static Logger log = Logger.getLogger("aac");
+		//public static Logger log = Logger.getLogger("aac");
 		public const int AAC_ERROR = -4;
 		public const int MAX_CHANNELS = 64;
 		public const int MAX_ELEM_ID = 16;
@@ -347,7 +284,7 @@ namespace pspsharp.media.codec.aac
 			ac.oc[1].m4ac.ps = -1;
 
 			ac.oc[1].m4ac.chanConfig = 0;
-			for (int i = 0; i < ff_mpeg4audio_channels.length; i++)
+			for (int i = 0; i < ff_mpeg4audio_channels.Length; i++)
 			{
 				if (ff_mpeg4audio_channels[i] == ac.channels)
 				{
@@ -384,7 +321,7 @@ namespace pspsharp.media.codec.aac
 			AacPsData.tableinit();
 
 			vlc_scalefactors = new VLC();
-			vlc_scalefactors.initVLCSparse(7, ff_aac_scalefactor_code.length, ff_aac_scalefactor_bits, ff_aac_scalefactor_code, null);
+			vlc_scalefactors.initVLCSparse(7, ff_aac_scalefactor_code.Length, ff_aac_scalefactor_bits, ff_aac_scalefactor_code, null);
 
 			ac.mdct = new FFT();
 			ac.mdct.mdctInit(11, true, 1.0 / (32768.0 * 1024.0));
@@ -420,7 +357,8 @@ namespace pspsharp.media.codec.aac
 		{
 			if (channelConfig < 1 || channelConfig > 7)
 			{
-				log.error(string.Format("invalid default channel configuration ({0:D})", channelConfig));
+				Console.WriteLine(string.Format("invalid default channel configuration ({0:D})", channelConfig));
+
 				return AAC_ERROR;
 			}
 
@@ -447,7 +385,7 @@ namespace pspsharp.media.codec.aac
 			{
 				if (hdrInfo.numAacFrames != 1)
 				{
-					log.warn(string.Format("More than one AAC RDB per ADTS frame"));
+					Console.WriteLine(string.Format("More than one AAC RDB per ADTS frame"));
 				}
 				pushOutputConfiguration();
 				if (hdrInfo.chanConfig != 0)
@@ -607,6 +545,7 @@ namespace pspsharp.media.codec.aac
 						ac.tagsMapped++;
 						return ac.tagCheMap[TYPE_CPE][elemId] = ac.che[TYPE_CPE][2];
 					}
+                    break;
 					// Fall-through
 				case 6:
 					/* Some streams incorrectly code 5.1 audio as
@@ -620,23 +559,27 @@ namespace pspsharp.media.codec.aac
 						ac.tagsMapped++;
 						return ac.tagCheMap[type][elemId] = ac.che[TYPE_LFE][0];
 					}
-					// Fall-through
+                    // Fall-through
+                    break;
 				case 5:
 					if (ac.tagsMapped == 2 && type == TYPE_CPE)
 					{
 						ac.tagsMapped++;
 						return ac.tagCheMap[TYPE_CPE][elemId] = ac.che[TYPE_CPE][1];
 					}
-					// Fall-through
-				case 4:
+                    // Fall-through
+                    break;
+                case 4:
 					if (ac.tagsMapped == 2 && ac.oc[1].m4ac.chanConfig == 4 && type == TYPE_SCE)
 					{
 						ac.tagsMapped++;
 						return ac.tagCheMap[TYPE_SCE][elemId] = ac.che[TYPE_SCE][1];
 					}
-					// Fall-through
-				case 3:
-				case 2:
+                    // Fall-through
+                    break;
+                case 3:
+                    break;
+                case 2:
 					if (ac.tagsMapped == (ac.oc[1].m4ac.chanConfig != 2 ? 1 : 0) && type == TYPE_CPE)
 					{
 						ac.tagsMapped++;
@@ -646,18 +589,22 @@ namespace pspsharp.media.codec.aac
 					{
 						return null;
 					}
-					// Fall-through
-				case 1:
+                    // Fall-through
+                    break;
+                case 1:
 					if (ac.tagsMapped == 0 && type == TYPE_SCE)
 					{
 						ac.tagsMapped++;
 						return ac.tagCheMap[TYPE_SCE][elemId] = ac.che[TYPE_SCE][0];
 					}
-					// Fall-through
-				default:
+                    // Fall-through
+                    break;
+                default:
 					return null;
 			}
-		}
+            return null;
+
+        }
 
 		private int decodePrediction(IndividualChannelStream ics)
 		{
@@ -666,7 +613,7 @@ namespace pspsharp.media.codec.aac
 				ics.predictorResetGroup = br.read(5);
 				if (ics.predictorResetGroup == 0 || ics.predictorResetGroup > 30)
 				{
-					log.error(string.Format("Invalid Predictor Reset Group"));
+					Console.WriteLine(string.Format("Invalid Predictor Reset Group"));
 					return AAC_ERROR;
 				}
 			}
@@ -702,14 +649,14 @@ namespace pspsharp.media.codec.aac
 			{
 				if (br.readBool())
 				{
-					log.error(string.Format("Reserved bit set"));
+					Console.WriteLine(string.Format("Reserved bit set"));
 					return AAC_ERROR;
 				}
 				ics.windowSequence[1] = ics.windowSequence[0];
 				ics.windowSequence[0] = br.read(2);
 				if (aot == AOT_ER_AAC_LD && ics.windowSequence[0] != ONLY_LONG_SEQUENCE)
 				{
-					log.error(string.Format("AAC LD is only defined for ONLY_LONG_SEQUENCE but window sequence {0:D} found", ics.windowSequence[0]));
+					Console.WriteLine(string.Format("AAC LD is only defined for ONLY_LONG_SEQUENCE but window sequence {0:D} found", ics.windowSequence[0]));
 					ics.windowSequence[0] = ONLY_LONG_SEQUENCE;
 					return AAC_ERROR;
 				}
@@ -780,7 +727,7 @@ namespace pspsharp.media.codec.aac
 					}
 					else if (aot == AOT_AAC_LC || aot == AOT_ER_AAC_LC)
 					{
-						log.error(string.Format("Prediction is not allowed in AAC-LC"));
+						Console.WriteLine(string.Format("Prediction is not allowed in AAC-LC"));
 						ics.maxSfb = 0;
 						return AAC_ERROR;
 					}
@@ -788,7 +735,7 @@ namespace pspsharp.media.codec.aac
 					{
 						if (aot == AOT_ER_AAC_LD)
 						{
-							log.error(string.Format("LTP in ER AAC LD not yet implemented"));
+							Console.WriteLine(string.Format("LTP in ER AAC LD not yet implemented"));
 							return AAC_ERROR;
 						}
 						ics.ltp.present = br.readBool();
@@ -802,7 +749,7 @@ namespace pspsharp.media.codec.aac
 
 			if (ics.maxSfb > ics.numSwb)
 			{
-				log.error(string.Format("Number of scalefactor bands in group ({0:D}) exceeds limit ({1:D})", ics.maxSfb, ics.numSwb));
+				Console.WriteLine(string.Format("Number of scalefactor bands in group ({0:D}) exceeds limit ({1:D})", ics.maxSfb, ics.numSwb));
 				ics.maxSfb = 0;
 				return AAC_ERROR;
 			}
@@ -833,7 +780,7 @@ namespace pspsharp.media.codec.aac
 					int sectBandType = br.read(4);
 					if (sectBandType == 12)
 					{
-						log.error(string.Format("invalid band type"));
+						Console.WriteLine(string.Format("invalid band type"));
 						return AAC_ERROR;
 					}
 
@@ -844,12 +791,12 @@ namespace pspsharp.media.codec.aac
 						sectEnd += sectLenIncr;
 						if (br.BitsLeft < 0)
 						{
-							log.error(string.Format("decodeBandTypes overread error"));
+							Console.WriteLine(string.Format("decodeBandTypes overread error"));
 							return AAC_ERROR;
 						}
 						if (sectEnd > ics.maxSfb)
 						{
-							log.error(string.Format("Number of bands ({0:D}) exceeds limit ({1:D})", sectEnd, ics.maxSfb));
+							Console.WriteLine(string.Format("Number of bands ({0:D}) exceeds limit ({1:D})", sectEnd, ics.maxSfb));
 							return AAC_ERROR;
 						}
 					} while (sectLenIncr == (1 << bits) - 1);
@@ -900,7 +847,7 @@ namespace pspsharp.media.codec.aac
 							int clippedOffset = Utilities.clip(offset[2], -155, 100);
 							if (offset[2] != clippedOffset)
 							{
-								log.warn(string.Format("Clipped intensity stereo position ({0:D} -> {1:D})", offset[2], clippedOffset));
+								Console.WriteLine(string.Format("Clipped intensity stereo position ({0:D} -> {1:D})", offset[2], clippedOffset));
 							}
 							sf[idx] = ff_aac_pow2sf_tab[-clippedOffset + POW_SF2_ZERO];
 						}
@@ -921,7 +868,7 @@ namespace pspsharp.media.codec.aac
 							int clippedOffset = Utilities.clip(offset[1], -100, 155);
 							if (offset[1] != clippedOffset)
 							{
-								log.warn(string.Format("Clipped intensity stereo position ({0:D} -> {1:D})", offset[1], clippedOffset));
+								Console.WriteLine(string.Format("Clipped intensity stereo position ({0:D} -> {1:D})", offset[1], clippedOffset));
 							}
 							sf[idx] = -ff_aac_pow2sf_tab[clippedOffset + POW_SF2_ZERO];
 						}
@@ -933,7 +880,7 @@ namespace pspsharp.media.codec.aac
 							offset[0] += vlc_scalefactors.getVLC2(br, 3) - 60;
 							if (offset[0] > 255)
 							{
-								log.error(string.Format("Scalefactor ({0:D}) out of range", offset[0]));
+								Console.WriteLine(string.Format("Scalefactor ({0:D}) out of range", offset[0]));
 								return AAC_ERROR;
 							}
 							sf[idx] = -ff_aac_pow2sf_tab[offset[0] - 100 + POW_SF2_ZERO];
@@ -1002,12 +949,12 @@ namespace pspsharp.media.codec.aac
 
 					for (int filt = 0; filt < tns.nFilt[w]; filt++)
 					{
-						tns.length[w][filt] = br.read(6 - 2 * is8);
+						tns.Length[w][filt] = br.read(6 - 2 * is8);
 						tns.order[w][filt] = br.read(5 - 2 * is8);
 
 						if (tns.order[w][filt] > tnsMaxOrder)
 						{
-							log.error(string.Format("TNS filter order {0:D} is greater than maximum {1:D}", tns.order[w][filt], tnsMaxOrder));
+							Console.WriteLine(string.Format("TNS filter order {0:D} is greater than maximum {1:D}", tns.order[w][filt], tnsMaxOrder));
 							tns.order[w][filt] = 0;
 							return AAC_ERROR;
 						}
@@ -1112,7 +1059,7 @@ namespace pspsharp.media.codec.aac
 
 			for (int g = 0; g < ics.numWindows; g++)
 			{
-				Arrays.fill(coef, g * 128 + offsets[ics.maxSfb], g * 128 + c, 0f);
+				Arrays.Fill(coef, g * 128 + offsets[ics.maxSfb], g * 128 + c, 0f);
 			}
 
 			int coefOffset = 0;
@@ -1132,7 +1079,7 @@ namespace pspsharp.media.codec.aac
 					{
 						for (int group = 0; group < gLen; group++, cfo += 128)
 						{
-							Arrays.fill(coef, cfo, cfo + offLen, 0f);
+							Arrays.Fill(coef, cfo, cfo + offLen, 0f);
 						}
 					}
 					else if (cbtM1 == NOISE_BT - 1)
@@ -1146,7 +1093,7 @@ namespace pspsharp.media.codec.aac
 							}
 
 							float bandEnergy = FloatDSP.scalarproduct(coef, cfo, coef, cfo, offLen);
-							float scale = sf[idx] / (float) sqrt(bandEnergy);
+							float scale = sf[idx] / (float) Sqrt(bandEnergy);
 							FloatDSP.vectorFmulScalar(coef, cfo, coef, cfo, scale, offLen);
 						}
 					}
@@ -1250,14 +1197,14 @@ namespace pspsharp.media.codec.aac
 										{
 											if ((nzt & (1 << j)) != 0)
 											{
-												/* The total length of escape_sequence must be < 22 bits according
+												/* The total Length of escape_sequence must be < 22 bits according
 												   to the specification (i.e. max is 111111110xxxxxxxxxxxx). */
 												int b = br.peek(32);
 												b = 31 - avLog2(~b);
 
 												if (b > 8)
 												{
-													log.error(string.Format("error in spectral data, ESC overflow"));
+													Console.WriteLine(string.Format("error in spectral data, ESC overflow"));
 													return AAC_ERROR;
 												}
 
@@ -1317,7 +1264,7 @@ namespace pspsharp.media.codec.aac
 							co /= sf[idx];
 							ico = co / (float) System.Math.Sqrt(System.Math.Sqrt(System.Math.Abs(co))) + (co > 0f ? -ico : ico);
 						}
-						coef[pulse.pos[i]] = (float) Math.cbrt(System.Math.Abs(ico)) * ico * sf[idx];
+						coef[pulse.pos[i]] = (float) Maths.cbrt(System.Math.Abs(ico)) * ico * sf[idx];
 					}
 				}
 			}
@@ -1483,12 +1430,12 @@ namespace pspsharp.media.codec.aac
 				{
 					if (ics.windowSequence[0] == EIGHT_SHORT_SEQUENCE)
 					{
-						log.error(string.Format("Pulse tool not allowed in eight short sequence"));
+						Console.WriteLine(string.Format("Pulse tool not allowed in eight short sequence"));
 						return AAC_ERROR;
 					}
 					if (decodePulses(pulse, ics.swbOffset, ics.numSwb) != 0)
 					{
-						log.error(string.Format("Pulse data corrupt or invalid"));
+						Console.WriteLine(string.Format("Pulse data corrupt or invalid"));
 						return AAC_ERROR;
 					}
 				}
@@ -1553,7 +1500,7 @@ namespace pspsharp.media.codec.aac
 						synEle = TYPE_LFE;
 						break;
 					default:
-						log.error(string.Format("decodeChannelMap invalid type {0:D}", type));
+						Console.WriteLine(string.Format("decodeChannelMap invalid type {0:D}", type));
 						return;
 				}
 
@@ -1575,7 +1522,7 @@ namespace pspsharp.media.codec.aac
 			int samplingIndex = br.read(4);
 			if (m4ac.samplingIndex != samplingIndex)
 			{
-				log.warn(string.Format("Sample rate index in program config element does not match the sample rate index configured by the container"));
+				Console.WriteLine(string.Format("Sample rate index in program config element does not match the sample rate index configured by the container"));
 			}
 
 			int numFront = br.read(4);
@@ -1601,7 +1548,7 @@ namespace pspsharp.media.codec.aac
 
 			if (br.BitsLeft < 4 * (numFront + numSide + numBack + numLfe + numAssocData + numCc))
 			{
-				log.error(string.Format("decode_pce: overread error"));
+				Console.WriteLine(string.Format("decode_pce: overread error"));
 				return AAC_ERROR;
 			}
 
@@ -1621,11 +1568,11 @@ namespace pspsharp.media.codec.aac
 
 			br.byteAlign();
 
-			// comment field, first byte is length
+			// comment field, first byte is Length
 			int commentLen = br.read(8) * 8;
 			if (br.BitsLeft < commentLen)
 			{
-				log.error(string.Format("decode_pce: overread error"));
+				Console.WriteLine(string.Format("decode_pce: overread error"));
 				return AAC_ERROR;
 			}
 			br.skip(commentLen);
@@ -1871,7 +1818,7 @@ namespace pspsharp.media.codec.aac
 				{
 					if (channels[0] >= MAX_CHANNELS - ((type == TYPE_CPE || (type == TYPE_SCE && ac.oc[1].m4ac.ps == 1)) ? 1 : 0))
 					{
-						log.error(string.Format("Too many channels"));
+						Console.WriteLine(string.Format("Too many channels"));
 						return AAC_ERROR;
 					}
 					ac.outputElement[channels[0]++] = ac.che[type][id].ch[0];
@@ -1993,7 +1940,7 @@ namespace pspsharp.media.codec.aac
 				msPresent = br.read(2);
 				if (msPresent == 3)
 				{
-					log.error(string.Format("ms_present = 3 is reserved"));
+					Console.WriteLine(string.Format("ms_present = 3 is reserved"));
 					return AAC_ERROR;
 				}
 				if (msPresent != 0)
@@ -2048,7 +1995,7 @@ namespace pspsharp.media.codec.aac
 			}
 			else if (msPresent == 2)
 			{
-				Arrays.fill(cpe.msMask, 0, cpe.ch[0].ics.numWindowGroups * cpe.ch[0].ics.maxSfb, 1);
+				Arrays.Fill(cpe.msMask, 0, cpe.ch[0].ics.numWindowGroups * cpe.ch[0].ics.maxSfb, 1);
 			}
 		}
 
@@ -2192,7 +2139,7 @@ namespace pspsharp.media.codec.aac
 				{
 					cge = coup.couplingPoint == AFTER_IMDCT ? true : br.readBool();
 					gain = cge ? vlc_scalefactors.getVLC2(br, 3) - 60 : 0;
-					gainCache = (float) pow(scale, -gain);
+					gainCache = (float) Pow(scale, -gain);
 				}
 
 				if (coup.couplingPoint == AFTER_IMDCT)
@@ -2220,7 +2167,7 @@ namespace pspsharp.media.codec.aac
 											s -= 2 * (t & 0x1);
 											t >>= 1;
 										}
-										gainCache = (float) pow(scale, -t) * s;
+										gainCache = (float) Pow(scale, -t) * s;
 									}
 								}
 								coup.gain[c][idx] = gainCache;
@@ -2251,7 +2198,7 @@ namespace pspsharp.media.codec.aac
 
 			if (br.BitsLeft < 8 * count)
 			{
-				log.error(string.Format("skipDataStreamElement overread error"));
+				Console.WriteLine(string.Format("skipDataStreamElement overread error"));
 				return AAC_ERROR;
 			}
 
@@ -2348,14 +2295,16 @@ namespace pspsharp.media.codec.aac
 				}
 
 				string s = StringHelper.NewString(buf);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("FILL: '{0}'", s));
+					Console.WriteLine(string.Format("FILL: '{0}'", s));
 				}
 
-				Pattern p = Pattern.compile("libfaac (\\d+)\\.(\\d+)");
-				Matcher m = p.matcher(s);
-				if (m.matches())
+                //Pattern p = Pattern.compile("libfaac (\\d+)\\.(\\d+)");
+                Regex p = Pattern.compile("libfaac (\\d+)\\.(\\d+)");
+                //MatchCollection m = p.Matches(s);
+                MatchCollection m = p.Matches(s);
+				if (m.Count != 0)
 				{
 					ac.skipSamples = 1024;
 				}
@@ -2369,7 +2318,7 @@ namespace pspsharp.media.codec.aac
 		/// <summary>
 		/// Decode extension data (incomplete); reference: table 4.51.
 		/// </summary>
-		/// <param name="cnt"> length of TYPE_FIL syntactic element in bytes
+		/// <param name="cnt"> Length of TYPE_FIL syntactic element in bytes
 		/// </param>
 		/// <returns> Returns number of bytes consumed </returns>
 		private int decodeExtensionPayload(int cnt, ChannelElement che, int elemType)
@@ -2386,18 +2335,18 @@ namespace pspsharp.media.codec.aac
 				case EXT_SBR_DATA:
 					if (che == null)
 					{
-						log.error(string.Format("SBR was found before the first channel element"));
+						Console.WriteLine(string.Format("SBR was found before the first channel element"));
 						return res;
 					}
 					else if (ac.oc[1].m4ac.sbr == 0)
 					{
-						log.error(string.Format("SBR signaled to be not-present but was found in the bitstream"));
+						Console.WriteLine(string.Format("SBR signaled to be not-present but was found in the bitstream"));
 						br.skip(8 * cnt - 4);
 						return res;
 					}
 					else if (ac.oc[1].m4ac.sbr == -1 && ac.oc[1].status == OC_LOCKED)
 					{
-						log.error(string.Format("Implicit SBR was found with a first occurrence after the first frame"));
+						Console.WriteLine(string.Format("Implicit SBR was found with a first occurrence after the first frame"));
 						br.skip(8 * cnt - 4);
 						return res;
 					}
@@ -2641,7 +2590,7 @@ namespace pspsharp.media.codec.aac
 			}
 			else
 			{
-				Arrays.fill(@in, 0, 448, 0f);
+				Arrays.Fill(@in, 0, 448, 0f);
 				FloatDSP.vectorFmul(@in, 448, @in, 448, swindowPrev, 0, 128);
 			}
 
@@ -2652,7 +2601,7 @@ namespace pspsharp.media.codec.aac
 			else
 			{
 				FloatDSP.vectorFmulReverse(@in, 1024 + 448, @in, 1024 + 448, swindow, 0, 128);
-				Arrays.fill(@in, 1024 + 576, 1024 + 576 + 448, 0f);
+				Arrays.Fill(@in, 1024 + 576, 1024 + 576 + 448, 0f);
 			}
 			ac.mdctLtp.mdctCalc(@out, 0, @in, 0);
 		}
@@ -2686,7 +2635,7 @@ namespace pspsharp.media.codec.aac
 				{
 					predTime[i] = sce.ltpState[i + 2048 - ltp.lag] * ltp.coef;
 				}
-				Arrays.fill(predTime, numSamples, 2048, 0f);
+				Arrays.Fill(predTime, numSamples, 2048, 0f);
 
 				windowingAndMdctLtp(predFreq, predTime, sce.ics);
 
@@ -2726,7 +2675,7 @@ namespace pspsharp.media.codec.aac
 			if (ics.windowSequence[0] == EIGHT_SHORT_SEQUENCE)
 			{
 				Array.Copy(saved, 0, savedLtp, 0, 512);
-				Arrays.fill(savedLtp, 576, 576 + 448, 0f);
+				Arrays.Fill(savedLtp, 576, 576 + 448, 0f);
 				FloatDSP.vectorFmulReverse(savedLtp, 448, ac.bufMdct, 960, swindow, 64, 64);
 				for (int i = 0; i < 64; i++)
 				{
@@ -2736,7 +2685,7 @@ namespace pspsharp.media.codec.aac
 			else if (ics.windowSequence[0] == LONG_START_SEQUENCE)
 			{
 				Array.Copy(ac.bufMdct, 512, savedLtp, 0, 448);
-				Arrays.fill(savedLtp, 576, 576 + 448, 0f);
+				Arrays.Fill(savedLtp, 576, 576 + 448, 0f);
 				FloatDSP.vectorFmulReverse(savedLtp, 448, ac.bufMdct, 960, swindow, 64, 64);
 				for (int i = 0; i < 64; i++)
 				{
@@ -2780,7 +2729,7 @@ namespace pspsharp.media.codec.aac
 				for (int filt = 0; filt < tns.nFilt[w]; filt++)
 				{
 					int top = bottom;
-					bottom = System.Math.Max(0, top - tns.length[w][filt]);
+					bottom = System.Math.Max(0, top - tns.Length[w][filt]);
 					int order = tns.order[w][filt];
 
 					if (order == 0)
@@ -2856,7 +2805,7 @@ namespace pspsharp.media.codec.aac
 
 			if (ac.oc[1].m4ac.objectType == AOT_AAC_LTP)
 			{
-				log.error(string.Format("Dependent coupling is not supported together with LTP"));
+				Console.WriteLine(string.Format("Dependent coupling is not supported together with LTP"));
 				return;
 			}
 
@@ -3059,7 +3008,7 @@ namespace pspsharp.media.codec.aac
 				}
 				if (ac.oc[1].m4ac.samplingIndex > 12)
 				{
-					log.error(string.Format("Invalid sampling rate index {0:D}", ac.oc[1].m4ac.samplingIndex));
+					Console.WriteLine(string.Format("Invalid sampling rate index {0:D}", ac.oc[1].m4ac.samplingIndex));
 					popOutputConfiguration();
 					return AAC_ERROR;
 				}
@@ -3084,7 +3033,7 @@ namespace pspsharp.media.codec.aac
 					che = getChe(elemType, elemId);
 					if (che == null)
 					{
-						log.error(string.Format("channel element {0:D}.{1:D} is not allocated", elemType, elemId));
+						Console.WriteLine(string.Format("channel element {0:D}.{1:D} is not allocated", elemType, elemId));
 						popOutputConfiguration();
 						return AAC_ERROR;
 					}
@@ -3131,7 +3080,7 @@ namespace pspsharp.media.codec.aac
 						}
 						if (pceFound)
 						{
-							log.error(string.Format("Not evaluating a further program_config_element as this construct is dubious at best"));
+							Console.WriteLine(string.Format("Not evaluating a further program_config_element as this construct is dubious at best"));
 						}
 						else
 						{
@@ -3152,7 +3101,7 @@ namespace pspsharp.media.codec.aac
 						}
 						if (br.BitsLeft < 8 * elemId)
 						{
-							log.error(string.Format("TYPE_FIL: overread error"));
+							Console.WriteLine(string.Format("TYPE_FIL: overread error"));
 							popOutputConfiguration();
 							return AAC_ERROR;
 						}
@@ -3164,7 +3113,7 @@ namespace pspsharp.media.codec.aac
 						break;
 
 					default:
-						log.error(string.Format("Unknown element type {0:D}", elemType));
+						Console.WriteLine(string.Format("Unknown element type {0:D}", elemType));
 						popOutputConfiguration();
 						return AAC_ERROR;
 				}
@@ -3180,7 +3129,7 @@ namespace pspsharp.media.codec.aac
 
 				if (br.BitsLeft < 3)
 				{
-					log.error(string.Format("overread error"));
+					Console.WriteLine(string.Format("overread error"));
 					popOutputConfiguration();
 					return AAC_ERROR;
 				}
@@ -3240,7 +3189,7 @@ namespace pspsharp.media.codec.aac
 
 			if (chanConfig < 0 || chanConfig >= 8)
 			{
-				log.error(string.Format("Unknown ER channel configuration {0:D}", chanConfig));
+				Console.WriteLine(string.Format("Unknown ER channel configuration {0:D}", chanConfig));
 				return AAC_ERROR;
 			}
 
@@ -3256,7 +3205,7 @@ namespace pspsharp.media.codec.aac
 				ChannelElement che = getChe(elemType, elemId);
 				if (che == null)
 				{
-					log.error(string.Format("channel element {0:D}.{1:D} is not allocated", elemType, elemId));
+					Console.WriteLine(string.Format("channel element {0:D}.{1:D} is not allocated", elemType, elemId));
 					return AAC_ERROR;
 				}
 

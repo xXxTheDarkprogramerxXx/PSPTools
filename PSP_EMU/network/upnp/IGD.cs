@@ -21,7 +21,7 @@ namespace pspsharp.network.upnp
 {
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using Document = org.w3c.dom.Document;
 	using Element = org.w3c.dom.Element;
 	using Node = org.w3c.dom.Node;
@@ -73,19 +73,19 @@ namespace pspsharp.network.upnp
 			}
 			catch (ParserConfigurationException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 			catch (SAXException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 			catch (MalformedURLException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 			catch (IOException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 		}
 
@@ -133,9 +133,9 @@ namespace pspsharp.network.upnp
 			ipV6FC = null;
 			parseElement(description.DocumentElement);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("IGD data: {0}", ToString()));
+				Console.WriteLine(string.Format("IGD data: {0}", ToString()));
 			}
 		}
 

@@ -96,7 +96,7 @@ namespace pspsharp.filesystems.umdiso
 			return (currentOffset - oldOffset);
 		}
 
-		public override long length()
+		public override long Length()
 		{
 			return maxOffset;
 		}
@@ -429,8 +429,8 @@ namespace pspsharp.filesystems.umdiso
 		{
 			set
 			{
-				// Some ISO directory entries indicate a file length past the size of the complete ISO.
-				// Truncate the file length in that case to the available sectors.
+				// Some ISO directory entries indicate a file Length past the size of the complete ISO.
+				// Truncate the file Length in that case to the available sectors.
 				// This might be some sort of copy protection?
 				// E.g. "Kamen no Maid Guy: Boyoyon Battle Royale"
 				int endSectorNumber = this.startSectorNumber + ((int)((value + sectorLength - 1) / sectorLength));
@@ -450,7 +450,7 @@ namespace pspsharp.filesystems.umdiso
 
 		public override string ToString()
 		{
-			return string.Format("UmdIsoFile(name='{0}', length=0x{1:X}, startSector=0x{2:X})", Name, length(), startSectorNumber);
+			return string.Format("UmdIsoFile(name='{0}', Length=0x{1:X}, startSector=0x{2:X})", Name, Length(), startSectorNumber);
 		}
 	}
 }

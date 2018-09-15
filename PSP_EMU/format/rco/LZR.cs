@@ -200,7 +200,7 @@ namespace pspsharp.format.rco
 
 			// Create and inti buffer
 			sbyte[] buf = new sbyte[2800];
-			Arrays.fill(buf, unchecked((sbyte) 0x80));
+			Arrays.Fill(buf, unchecked((sbyte) 0x80));
 			int bufOff = 0;
 
 			IntObject mask = new IntObject(unchecked((int)0xFFFFFFFF));
@@ -233,7 +233,7 @@ namespace pspsharp.format.rco
 				{
 					// Sequence of chars that exists in out stream
 
-					// Find number of bits of sequence length
+					// Find number of bits of sequence Length
 					testMask.Value = mask.Value;
 					int nBits = -1;
 					BoolObject flag = new BoolObject();
@@ -247,7 +247,7 @@ namespace pspsharp.format.rco
 						}
 					} while (flag.Value && nBits < 6);
 
-					// Find sequence length
+					// Find sequence Length
 					int bufPtr2 = nBits + 2033;
 					int j = 64;
 					int seqLen;

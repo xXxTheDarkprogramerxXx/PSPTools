@@ -29,7 +29,7 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.modules.sceAudiocodec.PSP_CODEC_AAC;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 	using pspFileBuffer = pspsharp.HLE.kernel.types.pspFileBuffer;
@@ -39,7 +39,7 @@ namespace pspsharp.HLE.modules
 
 	public class sceAac : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceAac");
+		//public static Logger log = Modules.getLogger("sceAac");
 		protected internal SysMemInfo resourceMem;
 		protected internal AacInfo[] ids;
 
@@ -189,9 +189,9 @@ namespace pspsharp.HLE.modules
 						decodeInputLength += wrapLength;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Decoding from 0x{0:X8}, length=0x{1:X} to 0x{2:X8}", decodeInputAddr, decodeInputLength, decodeOutputAddr));
+						Console.WriteLine(string.Format("Decoding from 0x{0:X8}, Length=0x{1:X} to 0x{2:X8}", decodeInputAddr, decodeInputLength, decodeOutputAddr));
 					}
 
 					result = codec.decode(decodeInputAddr, decodeInputLength, decodeOutputAddr);
@@ -224,9 +224,9 @@ namespace pspsharp.HLE.modules
 
 					if (inputBuffer.CurrentSize < minimumInputBufferSize && inputBuffer.FileEnd && loopNum != 0)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("Looping loopNum={0:D}", loopNum));
+							Console.WriteLine(string.Format("Looping loopNum={0:D}", loopNum));
 						}
 
 						if (loopNum > 0)
@@ -377,9 +377,9 @@ namespace pspsharp.HLE.modules
 			int freq = parameters.getValue32(32); // Frequency.
 			int reserved = parameters.getValue32(36); // Always null.
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAacInit parameters: startPos=0x{0:X}, endPos=0x{1:X}, " + "bufferAddr=0x{2:X8}, bufferSize=0x{3:X}, outputAddr=0x{4:X8}, outputSize=0x{5:X}, freq={6:D}, reserved=0x{7:X8}", startPos, endPos, bufferAddr, bufferSize, outputAddr, outputSize, freq, reserved));
+				Console.WriteLine(string.Format("sceAacInit parameters: startPos=0x{0:X}, endPos=0x{1:X}, " + "bufferAddr=0x{2:X8}, bufferSize=0x{3:X}, outputAddr=0x{4:X8}, outputSize=0x{5:X}, freq={6:D}, reserved=0x{7:X8}", startPos, endPos, bufferAddr, bufferSize, outputAddr, outputSize, freq, reserved));
 			}
 
 			if (bufferAddr == 0 || outputAddr == 0)
@@ -457,9 +457,9 @@ namespace pspsharp.HLE.modules
 		{
 			int result = getAacInfo(id).decode(bufferAddress);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAacDecode bufferAddress={0}(0x{1:X8}) returning 0x{2:X}", bufferAddress, bufferAddress.getValue(), result));
+				Console.WriteLine(string.Format("sceAacDecode bufferAddress={0}(0x{1:X8}) returning 0x{2:X}", bufferAddress, bufferAddress.getValue(), result));
 			}
 
 			if (result >= 0)
@@ -513,9 +513,9 @@ namespace pspsharp.HLE.modules
 			writableBytesAddr.setValue(info.WritableBytes);
 			readOffsetAddr.setValue(info.InputBuffer.FilePosition);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAacGetInfoToAddStreamData returning writeAddr=0x{0:X8}, writableBytes=0x{1:X}, readOffset=0x{2:X}", writeAddr.getValue(), writableBytesAddr.getValue(), readOffsetAddr.getValue()));
+				Console.WriteLine(string.Format("sceAacGetInfoToAddStreamData returning writeAddr=0x{0:X8}, writableBytes=0x{1:X}, readOffset=0x{2:X}", writeAddr.getValue(), writableBytesAddr.getValue(), readOffsetAddr.getValue()));
 			}
 			return 0;
 		}
@@ -534,9 +534,9 @@ namespace pspsharp.HLE.modules
 		public virtual int sceAacGetSumDecodedSample(int id)
 		{
 			int sumDecodedSamples = getAacInfo(id).SumDecodedSamples;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceAacGetSumDecodedSample returning 0x{0:X}", sumDecodedSamples));
+				Console.WriteLine(string.Format("sceAacGetSumDecodedSample returning 0x{0:X}", sumDecodedSamples));
 			}
 
 			return sumDecodedSamples;

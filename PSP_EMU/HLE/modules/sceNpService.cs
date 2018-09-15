@@ -20,11 +20,11 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNpService : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNpService");
+		//public static Logger log = Modules.getLogger("sceNpService");
 
 		private bool initialized;
 		private int npManagerMemSize; // Memory allocated by the NP Manager utility.
@@ -418,7 +418,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7EF4312E, version = 150) public int sceNpService_7EF4312E(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer onlineId, int unknown1, int unknown2)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7EF4312E, version = 150) public int sceNpService_7EF4312E(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=16, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer onlineId, int unknown1, int unknown2)
 		[HLEFunction(nid : 0x7EF4312E, version : 150)]
 		public virtual int sceNpService_7EF4312E(TPointer onlineId, int unknown1, int unknown2)
 		{

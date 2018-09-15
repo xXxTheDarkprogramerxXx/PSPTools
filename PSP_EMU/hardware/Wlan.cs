@@ -21,7 +21,7 @@ namespace pspsharp.hardware
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.modules.sceNet.convertStringToMacAddress;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using pspNetMacAddress = pspsharp.HLE.kernel.types.pspNetMacAddress;
 	using sceUtility = pspsharp.HLE.modules.sceUtility;

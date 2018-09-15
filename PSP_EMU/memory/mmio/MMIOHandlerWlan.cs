@@ -20,7 +20,7 @@ namespace pspsharp.memory.mmio
 //	import static pspsharp.util.Utilities.endianSwap16;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using sceWlan = pspsharp.HLE.modules.sceWlan;
 	using StateInputStream = pspsharp.state.StateInputStream;
@@ -149,8 +149,8 @@ namespace pspsharp.memory.mmio
 						case 0xB001:
 							break;
 						default:
-							log.error(string.Format("setCommand unknown command=0x{0:X}", command));
-							Arrays.fill(data, 0);
+							Console.WriteLine(string.Format("setCommand unknown command=0x{0:X}", command));
+							Arrays.Fill(data, 0);
 							break;
 					}
 				}
@@ -239,17 +239,17 @@ namespace pspsharp.memory.mmio
 			setData8(offset, value >> 24);
 		}
 
-		private void clearData(int offset, int length)
+		private void clearData(int offset, int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				setData8(offset++, 0);
 			}
 		}
 
-		private void clearData(int length)
+		private void clearData(int Length)
 		{
-			clearData(0, length);
+			clearData(0, Length);
 		}
 
 		private void writeData8(int value)
@@ -259,9 +259,9 @@ namespace pspsharp.memory.mmio
 
 		private void writeData32(int value)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("writeData32 command=0x{0:X}, data=0x{1:X8}, index=0x{2:X}", command, value, index));
+				Console.WriteLine(string.Format("writeData32 command=0x{0:X}, data=0x{1:X8}, index=0x{2:X}", command, value, index));
 			}
 			writeData8(value);
 			writeData8(value >> 8);
@@ -319,8 +319,8 @@ namespace pspsharp.memory.mmio
 								clearData(8);
 								break;
 							default:
-								log.error(string.Format("writeData32 unknown command=0x{0:X}, data[0]=0x{1:X8}, data[1]=0x{2:X8}", command, getData32(0), getData32(4)));
-								Arrays.fill(data, 0);
+								Console.WriteLine(string.Format("writeData32 unknown command=0x{0:X}, data[0]=0x{1:X8}, data[1]=0x{2:X8}", command, getData32(0), getData32(4)));
+								Arrays.Fill(data, 0);
 								break;
 						}
 					}
@@ -329,9 +329,9 @@ namespace pspsharp.memory.mmio
 					if (index >= 8)
 					{
 						totalLength = endianSwap16(getData16(1));
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("writeData32 command=0x{0:X}, totalLength=0x{1:X}", command, totalLength));
+							Console.WriteLine(string.Format("writeData32 command=0x{0:X}, totalLength=0x{1:X}", command, totalLength));
 						}
 						currentLength = 0;
 						unknown38 |= 0x0002;
@@ -344,8 +344,8 @@ namespace pspsharp.memory.mmio
 						switch (getData32(0))
 						{
 							default:
-								log.error(string.Format("writeData32 unknown command=0x{0:X}, data[0]=0x{1:X8}, data[1]=0x{2:X8}", command, getData32(0), getData32(4)));
-								Arrays.fill(data, 0);
+								Console.WriteLine(string.Format("writeData32 unknown command=0x{0:X}, data[0]=0x{1:X8}, data[1]=0x{2:X8}", command, getData32(0), getData32(4)));
+								Arrays.Fill(data, 0);
 								break;
 						}
 					}

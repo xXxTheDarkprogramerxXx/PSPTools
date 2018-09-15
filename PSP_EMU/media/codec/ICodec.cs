@@ -40,7 +40,7 @@ namespace pspsharp.media.codec
 		/// Decode a frame.
 		/// </summary>
 		/// <param name="inputAddr">   the address of the input buffer </param>
-		/// <param name="inputLength"> the maximum length of the input buffer </param>
+		/// <param name="inputLength"> the maximum Length of the input buffer </param>
 		/// <param name="outputAddr">  the address where to store the decode samples </param>
 		/// <returns>            0  no frame decoded (end of input stream)
 		///                  < 0  error code

@@ -54,7 +54,7 @@ namespace pspsharp.memory.mmio
 //	import static pspsharp.util.Utilities.endianSwap16;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RuntimeContextLLE = pspsharp.Allegrex.compiler.RuntimeContextLLE;
 	using TPointer = pspsharp.HLE.TPointer;
@@ -405,9 +405,9 @@ namespace pspsharp.memory.mmio
 					totalSize = MAX_MEMORY_STICK_SIZE;
 					MemoryStick.TotalSize = MAX_MEMORY_STICK_SIZE;
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Limiting the size of the Memory Stick (i.e. non-PRO) to {0}", MemoryStick.getSizeKbString((int)(totalSize / 1024))));
+						Console.WriteLine(string.Format("Limiting the size of the Memory Stick (i.e. non-PRO) to {0}", MemoryStick.getSizeKbString((int)(totalSize / 1024))));
 					}
 				}
 			}
@@ -446,20 +446,20 @@ namespace pspsharp.memory.mmio
 				}
 			}
 			NUMBER_OF_PAGES -= FIRST_PAGE_LBA;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("MMIOHandlerMemoryStick.reset totalSize=0x{0:X}({1}), pagesPerBlock=0x{2:X}, numberOfPhysicalBlocks=0x{3:X}", totalSize, MemoryStick.getSizeKbString((int)(totalSize / 1024)), PAGES_PER_BLOCK, NUMBER_OF_PHYSICAL_BLOCKS));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.reset totalSize=0x{0:X}({1}), pagesPerBlock=0x{2:X}, numberOfPhysicalBlocks=0x{3:X}", totalSize, MemoryStick.getSizeKbString((int)(totalSize / 1024)), PAGES_PER_BLOCK, NUMBER_OF_PHYSICAL_BLOCKS));
 			}
 
 			if (!simulateMemoryStickPro)
 			{
 				if (BLOCK_SIZE != 8 && BLOCK_SIZE != 16)
 				{
-					log.error(string.Format("The size of a Memory Stick (i.e. non-PRO) is limited to 512MB, the current size of {0} cannot be supported", MemoryStick.getSizeKbString((int)(totalSize / 1024))));
+					Console.WriteLine(string.Format("The size of a Memory Stick (i.e. non-PRO) is limited to 512MB, the current size of {0} cannot be supported", MemoryStick.getSizeKbString((int)(totalSize / 1024))));
 				}
 			}
 
-			Arrays.fill(registers, 0);
+			Arrays.Fill(registers, 0);
 			interrupt = 0;
 			commandState = 0;
 			unk08 = 0;
@@ -582,9 +582,9 @@ namespace pspsharp.memory.mmio
 			if ((sys & MS_SYS_RESET) != 0)
 			{
 				// Reset
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("MMIOHandlerMemoryStick.writeSys reset triggered"));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writeSys reset triggered"));
 				}
 				reset();
 			}
@@ -704,41 +704,41 @@ namespace pspsharp.memory.mmio
 			int tpcCode = TPCCode;
 			int unknown = tpc & 0x3FF;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("startTPC tpcCode=0x{0:X1}({1}), unknown=0x{2:X3}", tpcCode, getTPCName(tpcCode), unknown));
+				Console.WriteLine(string.Format("startTPC tpcCode=0x{0:X1}({1}), unknown=0x{2:X3}", tpcCode, getTPCName(tpcCode), unknown));
 			}
 
 			switch (tpcCode)
 			{
 				case MS_TPC_SET_RW_REG_ADDRESS:
 					// Data will be set at next writeData()
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_SET_RW_REG_ADDRESS"));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_SET_RW_REG_ADDRESS"));
 					}
 					break;
 				case MS_TPC_READ_REG:
 					// Data will be retrieve at next readData()
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_READ_REG readAddress=0x{0:X2}, readSize=0x{1:X}", readAddress, readSize));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_READ_REG readAddress=0x{0:X2}, readSize=0x{1:X}", readAddress, readSize));
 					}
 					break;
 				case MS_TPC_WRITE_REG:
 					// Register will be written during writeData()
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_WRITE_REG writeAddress=0x{0:X2}, writeSize=0x{1:X}", writeAddress, writeSize));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_WRITE_REG writeAddress=0x{0:X2}, writeSize=0x{1:X}", writeAddress, writeSize));
 					}
 					break;
 				case MS_TPC_SET_CMD:
 					// Clear the CED (Command EnD) bit in the INT register
 					registers[MS_INT_REG_ADDRESS] &= ~MS_INT_REG_CED;
 					// Register will be written during writeData()
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_SET_CMD"));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_SET_CMD"));
 					}
 					break;
 				case MS_TPC_EX_SET_CMD:
@@ -746,37 +746,37 @@ namespace pspsharp.memory.mmio
 					registers[MS_INT_REG_ADDRESS] &= ~MS_INT_REG_CED;
 					// Parameters will be written during writeTPCData()
 					tpcExSetCmdIndex = 0;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_EX_SET_CMD"));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_EX_SET_CMD"));
 					}
 					break;
 				case MS_TPC_GET_INT:
 					// Data will be retrieved at next readData()
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_GET_INT"));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_GET_INT"));
 					}
 					break;
 				case MS_TPC_READ_PAGE_DATA:
 					// Data will be retrieved through readData16()
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_READ_PAGE_DATA"));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC MS_TPC_READ_PAGE_DATA"));
 					}
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerMemoryStick.startTPC unknown TPC 0x{0:X1}", tpcCode));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startTPC unknown TPC 0x{0:X1}", tpcCode));
 					break;
 			}
 
 			status |= MS_STATUS_FIFO_RW;
 		}
 
-		private int getRegisterValue(int reg, int length)
+		private int getRegisterValue(int reg, int Length)
 		{
 			int value = 0;
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				value = (value << 8) | (registers[reg + i] & 0xFF);
 			}
@@ -815,17 +815,17 @@ namespace pspsharp.memory.mmio
 		{
 			Cmd = cmd;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("MMIOHandlerMemoryStick.startCmd cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startCmd cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
 			}
 
 			switch (cmd)
 			{
 				case MS_CMD_BLOCK_READ:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startCmd MS_CMD_BLOCK_READ dataCount=0x{0:X4}, dataAddress=0x{1:X8}, cp=0x{2:X2}", DataCount, DataAddress, getRegisterValue(0x14, 1)));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startCmd MS_CMD_BLOCK_READ dataCount=0x{0:X4}, dataAddress=0x{1:X8}, cp=0x{2:X2}", DataCount, DataAddress, getRegisterValue(0x14, 1)));
 					}
 					setBusy();
 					if (!MemoryStickPro)
@@ -835,16 +835,16 @@ namespace pspsharp.memory.mmio
 					}
 					break;
 				case MS_CMD_BLOCK_ERASE:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startCmd MS_CMD_BLOCK_ERASE dataCount=0x{0:X4}, dataAddress=0x{1:X8}, cp=0x{2:X2}", DataCount, DataAddress, getRegisterValue(0x14, 1)));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startCmd MS_CMD_BLOCK_ERASE dataCount=0x{0:X4}, dataAddress=0x{1:X8}, cp=0x{2:X2}", DataCount, DataAddress, getRegisterValue(0x14, 1)));
 					}
 					clearBusy();
 					break;
 				case MS_CMD_BLOCK_WRITE:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startCmd MS_CMD_BLOCK_WRITE dataCount=0x{0:X4}, dataAddress=0x{1:X8}, cp=0x{2:X2}", DataCount, DataAddress, getRegisterValue(0x14, 1)));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startCmd MS_CMD_BLOCK_WRITE dataCount=0x{0:X4}, dataAddress=0x{1:X8}, cp=0x{2:X2}", DataCount, DataAddress, getRegisterValue(0x14, 1)));
 					}
 					break;
 				case MS_CMD_SLEEP:
@@ -852,16 +852,16 @@ namespace pspsharp.memory.mmio
 					// Simply ignore these commands
 					break;
 				case MSPRO_CMD_WRITE_DATA:
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.startCmd MSPRO_CMD_WRITE_DATA dataCount=0x{0:X4}, dataAddress=0x{1:X8}", DataCount, DataAddress));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startCmd MSPRO_CMD_WRITE_DATA dataCount=0x{0:X4}, dataAddress=0x{1:X8}", DataCount, DataAddress));
 					}
 					NumberOfPages = DataCount;
 					StartBlock = 0;
 					PageLba = DataAddress;
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerMemoryStick.startCmd unknown cmd=0x{0:X2}", cmd));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.startCmd unknown cmd=0x{0:X2}", cmd));
 					break;
 			}
 
@@ -880,7 +880,7 @@ namespace pspsharp.memory.mmio
 		{
 			if (!SerialMode)
 			{
-				log.error(string.Format("MMIOHandlerMemoryStick.readData16 not supported for parallel mode"));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readData16 not supported for parallel mode"));
 				return 0;
 			}
 
@@ -900,7 +900,7 @@ namespace pspsharp.memory.mmio
 			}
 			else if (dataAddress == CIS_IDI_PAGE)
 			{
-				log.error(string.Format("MMIOHandlerMemoryStick.readData16 unimplemented reading from CIS_IDI_PAGE"));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readData16 unimplemented reading from CIS_IDI_PAGE"));
 			}
 
 			pageDataIndex += 2;
@@ -948,7 +948,7 @@ namespace pspsharp.memory.mmio
 		{
 			if (!SerialMode)
 			{
-				log.error(string.Format("MMIOHandlerMemoryStick.readPageData16 not supported for parallel mode"));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readPageData16 not supported for parallel mode"));
 				return 0;
 			}
 
@@ -964,7 +964,7 @@ namespace pspsharp.memory.mmio
 					value = pageBufferMemory.read16(pageDataIndex);
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerMemoryStick.readPageData16 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readPageData16 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
 					value = 0;
 					break;
 			}
@@ -1090,14 +1090,14 @@ namespace pspsharp.memory.mmio
 					pageBufferPointer.clear(PAGE_SIZE);
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 					sbyte[] buffer = new sbyte[PAGE_SIZE];
 					for (int i = 0; i < buffer.Length; i++)
 					{
 						buffer[i] = pageBufferPointer.getValue8(i);
 					}
-					log.debug(string.Format("MMIOHandlerMemoryStick.readPageBuffer startBlock=0x{0:X}, lba=0x{1:X}, offset=0x{2:X}: {3}", startBlock, lba, offset, Utilities.getMemoryDump(buffer)));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readPageBuffer startBlock=0x{0:X}, lba=0x{1:X}, offset=0x{2:X}: {3}", startBlock, lba, offset, Utilities.getMemoryDump(buffer)));
 				}
 
 				pageLba++;
@@ -1111,9 +1111,9 @@ namespace pspsharp.memory.mmio
 			{
 				case MS_TPC_GET_INT:
 					data = registers[MS_INT_REG_ADDRESS] & 0xFF;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.readTPCData32 MS_TPC_GET_INT registers[0x{0:X2}]=0x{1:X2}", MS_INT_REG_ADDRESS, data));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readTPCData32 MS_TPC_GET_INT registers[0x{0:X2}]=0x{1:X2}", MS_INT_REG_ADDRESS, data));
 					}
 					break;
 				case MS_TPC_READ_REG:
@@ -1124,9 +1124,9 @@ namespace pspsharp.memory.mmio
 							break;
 						}
 						data |= (registers[readAddress] & 0xFF) << i;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("MMIOHandlerMemoryStick.readTPCData32 MS_TPC_READ_REG registers[0x{0:X2}]=0x{1:X2}", readAddress, registers[readAddress]));
+							Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readTPCData32 MS_TPC_READ_REG registers[0x{0:X2}]=0x{1:X2}", readAddress, registers[readAddress]));
 						}
 						readSize--;
 						readAddress++;
@@ -1141,7 +1141,7 @@ namespace pspsharp.memory.mmio
 		{
 			if (SerialMode)
 			{
-				log.error(string.Format("MMIOHandlerMemoryStick.readPageData32 not supported for serial mode"));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readPageData32 not supported for serial mode"));
 				return 0;
 			}
 
@@ -1160,7 +1160,7 @@ namespace pspsharp.memory.mmio
 					value = pageBufferMemory.read32(pageDataIndex);
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerMemoryStick.readPageData32 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.readPageData32 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
 					value = 0;
 					break;
 			}
@@ -1203,9 +1203,9 @@ namespace pspsharp.memory.mmio
 					readSize = (value >> 8) & 0xFF;
 					writeAddress = (value >> 16) & 0xFF;
 					writeSize = (value >> 24) & 0xFF;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.writeTPCData MS_TPC_SET_RW_REG_ADDRESS readAddress=0x{0:X2}, readSize=0x{1:X}, writeAddress=0x{2:X2}, writeSize=0x{3:X}", readAddress, readSize, writeAddress, writeSize));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writeTPCData MS_TPC_SET_RW_REG_ADDRESS readAddress=0x{0:X2}, readSize=0x{1:X}, writeAddress=0x{2:X2}, writeSize=0x{3:X}", readAddress, readSize, writeAddress, writeSize));
 					}
 					// Ignore further data
 					tpc = -1;
@@ -1218,9 +1218,9 @@ namespace pspsharp.memory.mmio
 							break;
 						}
 						registers[writeAddress] = value & 0xFF;
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("MMIOHandlerMemoryStick.writeTPCData MS_TPC_WRITE_REG registers[0x{0:X2}]=0x{1:X2}", writeAddress, registers[writeAddress]));
+							Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writeTPCData MS_TPC_WRITE_REG registers[0x{0:X2}]=0x{1:X2}", writeAddress, registers[writeAddress]));
 						}
 						writeAddress++;
 						writeSize--;
@@ -1248,7 +1248,7 @@ namespace pspsharp.memory.mmio
 							startCmd(cmd);
 							break;
 						default:
-							log.error(string.Format("Too many parameters to MS_TPC_EX_SET_CMD: 0x{0:X}", value));
+							Console.WriteLine(string.Format("Too many parameters to MS_TPC_EX_SET_CMD: 0x{0:X}", value));
 							break;
 					}
 					tpcExSetCmdIndex++;
@@ -1263,9 +1263,9 @@ namespace pspsharp.memory.mmio
 				case 0:
 					Cmd = value;
 					tpc = MS_TPC_SET_CMD;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("MMIOHandlerMemoryStick.writeCommandData8 cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
+						Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writeCommandData8 cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
 					}
 
 					switch (cmd)
@@ -1277,7 +1277,7 @@ namespace pspsharp.memory.mmio
 						case MSPRO_CMD_WRITE_DATA:
 							break;
 						default:
-							log.error(string.Format("MMIOHandlerMemoryStick.writeCommandData8 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
+							Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writeCommandData8 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
 							break;
 					}
 					break;
@@ -1286,9 +1286,9 @@ namespace pspsharp.memory.mmio
 					break;
 				case 2:
 					NumberOfPages = (numberOfPages & 0xFF00) | value;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("numberOfPages=0x{0:X}", numberOfPages));
+						Console.WriteLine(string.Format("numberOfPages=0x{0:X}", numberOfPages));
 					}
 					break;
 				case 3:
@@ -1303,13 +1303,13 @@ namespace pspsharp.memory.mmio
 				case 6:
 					StartBlock = 0;
 					PageLba = (pageLba & unchecked((int)0xFFFFFF00)) | value;
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("pageLba=0x{0:X}", pageLba));
+						Console.WriteLine(string.Format("pageLba=0x{0:X}", pageLba));
 					}
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerMemoryStick.writeCommandData8 unknown data 0x{0:X2} written at index 0x{1:X}", value, commandDataIndex));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writeCommandData8 unknown data 0x{0:X2} written at index 0x{1:X}", value, commandDataIndex));
 					break;
 			}
 			commandDataIndex++;
@@ -1326,14 +1326,14 @@ namespace pspsharp.memory.mmio
 					lba += startBlock * PAGES_PER_BLOCK;
 				}
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 					sbyte[] buffer = new sbyte[PAGE_SIZE];
 					for (int i = 0; i < buffer.Length; i++)
 					{
 						buffer[i] = pageBufferPointer.getValue8(i);
 					}
-					log.debug(string.Format("MMIOHandlerMemoryStick.writePageBuffer startBlock=0x{0:X}, lba=0x{1:X}, offset=0x{2:X}: {3}", startBlock, lba, offset, Utilities.getMemoryDump(buffer)));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writePageBuffer startBlock=0x{0:X}, lba=0x{1:X}, offset=0x{2:X}: {3}", startBlock, lba, offset, Utilities.getMemoryDump(buffer)));
 				}
 
 				if (lba >= FIRST_PAGE_LBA)
@@ -1345,7 +1345,7 @@ namespace pspsharp.memory.mmio
 				}
 				else
 				{
-					log.error(string.Format("MMIOHandlerMemoryStick.writePageBuffer invalid lba=0x{0:X}", lba));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writePageBuffer invalid lba=0x{0:X}", lba));
 				}
 
 				pageLba++;
@@ -1356,7 +1356,7 @@ namespace pspsharp.memory.mmio
 		{
 			if (SerialMode)
 			{
-				log.error(string.Format("MMIOHandlerMemoryStick.writePageData32 not supported for serial mode"));
+				Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writePageData32 not supported for serial mode"));
 				return;
 			}
 
@@ -1366,7 +1366,7 @@ namespace pspsharp.memory.mmio
 					pageBufferMemory.write32(pageDataIndex, value);
 					break;
 				default:
-					log.error(string.Format("MMIOHandlerMemoryStick.writePageData32 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writePageData32 unimplemented cmd=0x{0:X2}({1})", cmd, getCommandName(cmd)));
 					break;
 			}
 
@@ -1374,9 +1374,9 @@ namespace pspsharp.memory.mmio
 			if (pageDataIndex >= PAGE_SIZE)
 			{
 				pageDataIndex = 0;
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("MMIOHandlerMemoryStick.writePageData32 writing page 0x{0:X}/0x{1:X}", pageIndex, numberOfPages));
+					Console.WriteLine(string.Format("MMIOHandlerMemoryStick.writePageData32 writing page 0x{0:X}/0x{1:X}", pageIndex, numberOfPages));
 				}
 				writePageBuffer();
 				pageIndex++;

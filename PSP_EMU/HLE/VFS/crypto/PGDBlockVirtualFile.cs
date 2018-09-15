@@ -66,7 +66,7 @@ namespace pspsharp.HLE.VFS.crypto
 			if (inBuf[0] != 0 || inBuf[1] != (sbyte)'P' || inBuf[2] != (sbyte)'G' || inBuf[3] != (sbyte)'D')
 			{
 				// No "PGD" found in the header,
-				log.warn(string.Format("No PGD header detected {0:X2} {1:X2} {2:X2} {3:X2} ('{4}{5}{6}{7}') detected in file '{8}'", inBuf[0] & 0xFF, inBuf[1] & 0xFF, inBuf[2] & 0xFF, inBuf[3] & 0xFF, (char) inBuf[0], (char) inBuf[1], (char) inBuf[2], (char) inBuf[3], vFile));
+				Console.WriteLine(string.Format("No PGD header detected {0:X2} {1:X2} {2:X2} {3:X2} ('{4}{5}{6}{7}') detected in file '{8}'", inBuf[0] & 0xFF, inBuf[1] & 0xFF, inBuf[2] & 0xFF, inBuf[3] & 0xFF, (char) inBuf[0], (char) inBuf[1], (char) inBuf[2], (char) inBuf[3], vFile));
 				return;
 			}
 			headerPresent = true;
@@ -86,9 +86,9 @@ namespace pspsharp.HLE.VFS.crypto
 			dataSize = decryptedHeader.get(5);
 			blockSize = decryptedHeader.get(6);
 			dataOffset = decryptedHeader.get(7);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("PGD dataSize={0:D}, blockSize={1:D}, dataOffset={2:D}", dataSize, blockSize, dataOffset));
+				Console.WriteLine(string.Format("PGD dataSize={0:D}, blockSize={1:D}, dataOffset={2:D}", dataSize, blockSize, dataOffset));
 				if (log.TraceEnabled)
 				{
 					log.trace(string.Format("PGD Header: {0}", Utilities.getMemoryDump(inBuf, 0, pgdHeaderSize)));
@@ -96,10 +96,10 @@ namespace pspsharp.HLE.VFS.crypto
 				}
 			}
 
-			if (dataOffset < 0 || dataOffset > base.length() || dataSize < 0)
+			if (dataOffset < 0 || dataOffset > base.Length() || dataSize < 0)
 			{
 				// The decrypted PGD header is incorrect...
-				log.warn(string.Format("Incorrect PGD header: dataSize={0:D}, chunkSize={1:D}, hashOffset={2:D}", dataSize, blockSize, dataOffset));
+				Console.WriteLine(string.Format("Incorrect PGD header: dataSize={0:D}, chunkSize={1:D}, hashOffset={2:D}", dataSize, blockSize, dataOffset));
 				return;
 			}
 
@@ -158,15 +158,15 @@ namespace pspsharp.HLE.VFS.crypto
 				decryptedBytes = pgd.DecryptPGD(buffer, readLength + 0x10, key, seed);
 				sequentialRead = true;
 			}
-			int length = System.Math.Min(outputLength, decryptedBytes.Length);
-			Array.Copy(decryptedBytes, 0, outputBuffer, outputOffset, length);
+			int Length = System.Math.Min(outputLength, decryptedBytes.Length);
+			Array.Copy(decryptedBytes, 0, outputBuffer, outputOffset, Length);
 
 			if (log.TraceEnabled)
 			{
-				log.trace(string.Format("PGDBlockVirtualFile.ioRead length=0x{0:X}: {1}", length, Utilities.getMemoryDump(decryptedBytes, 0, length)));
+				log.trace(string.Format("PGDBlockVirtualFile.ioRead Length=0x{0:X}: {1}", Length, Utilities.getMemoryDump(decryptedBytes, 0, Length)));
 			}
 
-			return length;
+			return Length;
 		}
 
 		public override int ioRead(TPointer outputPointer, int outputLength)
@@ -205,7 +205,7 @@ namespace pspsharp.HLE.VFS.crypto
 			}
 		}
 
-		public override long length()
+		public override long Length()
 		{
 			return dataSize;
 		}

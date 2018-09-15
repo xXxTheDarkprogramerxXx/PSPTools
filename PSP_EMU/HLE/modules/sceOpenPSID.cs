@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceOpenPSID : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceOpenPSID");
+		//public static Logger log = Modules.getLogger("sceOpenPSID");
 
 		protected internal int[] dummyOpenPSID = new int[] {0x10, 0x02, 0xA3, 0x44, 0x13, 0xF5, 0x93, 0xB0, 0xCC, 0x6E, 0xD1, 0x32, 0x27, 0x85, 0x0F, 0x9D};
 		protected internal int[] dummyPSID = new int[] {0x10, 0x02, 0xA3, 0x44, 0x13, 0xF5, 0x93, 0xB0, 0xCC, 0x6E, 0xD1, 0x32, 0x27, 0x85, 0x0F, 0x9D};
@@ -72,11 +72,11 @@ namespace pspsharp.HLE.modules
 		/// <summary>
 		/// Verify a certificate.
 		/// </summary>
-		/// <param name="pCert"> Pointer to the certificate to verify. Certificate length: ::KIRK_CERT_LEN.
+		/// <param name="pCert"> Pointer to the certificate to verify. Certificate Length: ::KIRK_CERT_LEN.
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x370F456A, version = 150) public int sceDdrdbCertvry(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=184, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer cert)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x370F456A, version = 150) public int sceDdrdbCertvry(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=184, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer cert)
 		[HLEFunction(nid : 0x370F456A, version : 150)]
 		public virtual int sceDdrdbCertvry(TPointer cert)
 		{
@@ -92,7 +92,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x40CB752A, version = 150) public int sceDdrdbHash(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer srcData, int size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer digest)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x40CB752A, version = 150) public int sceDdrdbHash(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer srcData, int size, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer digest)
 		[HLEFunction(nid : 0x40CB752A, version : 150)]
 		public virtual int sceDdrdbHash(TPointer srcData, int size, TPointer digest)
 		{
@@ -106,12 +106,12 @@ namespace pspsharp.HLE.modules
 		/// </summary>
 		/// <param name="pPrivKey"> Pointer to the private key used to generate the signature. \n
 		///                 CONFIRM: The key has to be AES encrypted before. </param>
-		/// <param name="pData"> Pointer to data a signature has to be computed for. Data length: ::KIRK_ECDSA_SRC_DATA_LEN </param>
-		/// <param name="pSig"> Pointer to a buffer receiving the signature. Signature length: ::KIRK_ECDSA_SIG_LEN
+		/// <param name="pData"> Pointer to data a signature has to be computed for. Data Length: ::KIRK_ECDSA_SRC_DATA_LEN </param>
+		/// <param name="pSig"> Pointer to a buffer receiving the signature. Signature Length: ::KIRK_ECDSA_SIG_LEN
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB24E1391, version = 150) public int sceDdrdbSiggen(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer privKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer srcData, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer sig)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB24E1391, version = 150) public int sceDdrdbSiggen(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer privKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer srcData, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer sig)
 		[HLEFunction(nid : 0xB24E1391, version : 150)]
 		public virtual int sceDdrdbSiggen(TPointer privKey, TPointer srcData, TPointer sig)
 		{
@@ -146,7 +146,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB8218473, version = 150) public int sceDdrdbPrngen(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dstData)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xB8218473, version = 150) public int sceDdrdbPrngen(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dstData)
 		[HLEFunction(nid : 0xB8218473, version : 150)]
 		public virtual int sceDdrdbPrngen(TPointer dstData)
 		{
@@ -161,12 +161,12 @@ namespace pspsharp.HLE.modules
 		/// <param name="pPubKey"> The public key used for validating the (data,signature) pair. \n
 		///                Size has to be ::KIRK_ECDSA_PUBLIC_KEY_LEN. </param>
 		/// <param name="pData"> Pointer to data the signature has to be verified for. \n
-		///                Data length: ::KIRK_ECDSA_SRC_DATA_LEN \n </param>
-		/// <param name="pSig"> Pointer to the signature to verify. Signature length: ::KIRK_ECDSA_SIG_LEN
+		///                Data Length: ::KIRK_ECDSA_SRC_DATA_LEN \n </param>
+		/// <param name="pSig"> Pointer to the signature to verify. Signature Length: ::KIRK_ECDSA_SIG_LEN
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE27CE4CB, version = 150) public int sceDdrdbSigvry(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer pubKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer data, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer sig)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE27CE4CB, version = 150) public int sceDdrdbSigvry(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer pubKey, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer data, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer sig)
 		[HLEFunction(nid : 0xE27CE4CB, version : 150)]
 		public virtual int sceDdrdbSigvry(TPointer pubKey, TPointer data, TPointer sig)
 		{
@@ -202,7 +202,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF970D54E, version = 150) public int sceDdrdbMul1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=60, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer keyData)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF970D54E, version = 150) public int sceDdrdbMul1(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=60, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer keyData)
 		[HLEFunction(nid : 0xF970D54E, version : 150)]
 		public virtual int sceDdrdbMul1(TPointer keyData)
 		{
@@ -216,12 +216,12 @@ namespace pspsharp.HLE.modules
 		/// @note The ECDSA algorithm is used to verify a signature.
 		/// </summary>
 		/// <param name="pData"> Pointer to data the signature has to be verified for. \n
-		///              Data length: ::KIRK_ECDSA_SRC_DATA_LEN. </param>
-		/// <param name="pSig"> Pointer to the signature to verify. Signature length: ::KIRK_ECDSA_SIG_LEN.
+		///              Data Length: ::KIRK_ECDSA_SRC_DATA_LEN. </param>
+		/// <param name="pSig"> Pointer to the signature to verify. Signature Length: ::KIRK_ECDSA_SIG_LEN.
 		/// </param>
 		/// <returns> 0 on success, otherwise < 0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF013F8BF, version = 150) public int sceDdrdb_F013F8BF(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer data, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer sig)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF013F8BF, version = 150) public int sceDdrdb_F013F8BF(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=20, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer data, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=40, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer sig)
 		[HLEFunction(nid : 0xF013F8BF, version : 150)]
 		public virtual int sceDdrdb_F013F8BF(TPointer data, TPointer sig)
 		{
@@ -229,7 +229,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8523E178, version = 150) public int sceMlnpsnlAuth1BB(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=64, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown4)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x8523E178, version = 150) public int sceMlnpsnlAuth1BB(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=32, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown1, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=8, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer unknown2, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=128, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown3, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=64, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown4)
 		[HLEFunction(nid : 0x8523E178, version : 150)]
 		public virtual int sceMlnpsnlAuth1BB(TPointer unknown1, TPointer unknown2, TPointer unknown3, TPointer unknown4)
 		{

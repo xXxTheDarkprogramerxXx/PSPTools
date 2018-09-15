@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceIdStorage : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceIdStorage");
+		//public static Logger log = Modules.getLogger("sceIdStorage");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xAB129D20, version = 150) public int sceIdStorageInit()
@@ -112,7 +112,7 @@ namespace pspsharp.HLE.modules
 		/// <param name="buffer"> buffer with at last 512 bytes of storage </param>
 		/// <returns>       0. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEB00C509, version = 150) public int sceIdStorageReadLeaf(int key, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=512, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xEB00C509, version = 150) public int sceIdStorageReadLeaf(int key, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=512, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer)
 		[HLEFunction(nid : 0xEB00C509, version : 150)]
 		public virtual int sceIdStorageReadLeaf(int key, TPointer buffer)
 		{
@@ -173,14 +173,14 @@ namespace pspsharp.HLE.modules
 		/// <param name="key">     	idstorage key </param>
 		/// <param name="offset">    offset within the 512 byte leaf </param>
 		/// <param name="buffer">    buffer with enough storage </param>
-		/// <param name="length">    amount of data to retrieve (offset + length must be <= 512 bytes)
+		/// <param name="Length">    amount of data to retrieve (offset + Length must be <= 512 bytes)
 		/// @return </param>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x6FE062D1, version = 150) public int sceIdStorageLookup(int key, int offset, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x6FE062D1, version = 150) public int sceIdStorageLookup(int key, int offset, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buffer, int Length)
 		[HLEFunction(nid : 0x6FE062D1, version : 150)]
-		public virtual int sceIdStorageLookup(int key, int offset, TPointer buffer, int length)
+		public virtual int sceIdStorageLookup(int key, int offset, TPointer buffer, int Length)
 		{
-			buffer.clear(length);
+			buffer.clear(Length);
 			return 0;
 		}
 

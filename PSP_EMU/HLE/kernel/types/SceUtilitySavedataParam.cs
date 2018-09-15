@@ -244,7 +244,7 @@ namespace pspsharp.HLE.kernel.types
 				Array.Copy(fileNameBytes, 0, buffer, offset, fileNameBytes.Length);
 				if (fileNameBytes.Length < FILENAME_LENGTH)
 				{
-					Arrays.fill(buffer, offset + fileNameBytes.Length, offset + FILENAME_LENGTH, (sbyte) 0);
+					Arrays.Fill(buffer, offset + fileNameBytes.Length, offset + FILENAME_LENGTH, (sbyte) 0);
 				}
 				Array.Copy(key, 0, buffer, offset + FILENAME_LENGTH, key.Length);
 			}
@@ -742,7 +742,7 @@ namespace pspsharp.HLE.kernel.types
 
 				// Some applications set dataBufSize to -1 on purpose. The reason behind this
 				// is still unknown, but, for these cases, ignore maxLength.
-				fileSize = (int) fileInput.length();
+				fileSize = (int) fileInput.Length();
 				if (fileSize > maxLength && maxLength > 0)
 				{
 					fileSize = maxLength;
@@ -766,8 +766,8 @@ namespace pspsharp.HLE.kernel.types
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: private void writeEncryptedFile(pspsharp.Memory mem, String path, String name, int address, int length, byte[] key) throws java.io.IOException
-		private void writeEncryptedFile(Memory mem, string path, string name, int address, int length, sbyte[] key)
+//ORIGINAL LINE: private void writeEncryptedFile(pspsharp.Memory mem, String path, String name, int address, int Length, byte[] key) throws java.io.IOException
+		private void writeEncryptedFile(Memory mem, string path, string name, int address, int Length, sbyte[] key)
 		{
 			if (string.ReferenceEquals(name, null) || name.Length <= 0 || address == 0)
 			{
@@ -780,17 +780,17 @@ namespace pspsharp.HLE.kernel.types
 				fileOutput = getDataOutput(path, name);
 				if (fileOutput != null)
 				{
-					sbyte[] inBuf = new sbyte[length + 0x10];
+					sbyte[] inBuf = new sbyte[Length + 0x10];
 
 					IMemoryReader memoryReader = MemoryReader.getMemoryReader(address, 1);
-					for (int i = 0; i < length; i++)
+					for (int i = 0; i < Length; i++)
 					{
 						inBuf[i] = (sbyte) memoryReader.readNext();
 					}
 
 					// Replace the key with the generated hash.
 					CryptoEngine crypto = new CryptoEngine();
-					this.key = crypto.SAVEDATAEngine.EncryptSavedata(inBuf, length, key);
+					this.key = crypto.SAVEDATAEngine.EncryptSavedata(inBuf, Length, key);
 
 					fileOutput.Channel.truncate(inBuf.Length); // Avoid writing leftover bytes from previous encryption.
 					fileOutput.write(inBuf, 0, inBuf.Length);
@@ -814,7 +814,7 @@ namespace pspsharp.HLE.kernel.types
 				return 0;
 			}
 
-			int length = 0;
+			int Length = 0;
 			SeekableDataInput fileInput = null;
 			try
 			{
@@ -824,7 +824,7 @@ namespace pspsharp.HLE.kernel.types
 					throw new FileNotFoundException("File not found '" + path + "' '" + name + "'");
 				}
 
-				int fileSize = (int) fileInput.length();
+				int fileSize = (int) fileInput.Length();
 				sbyte[] inBuf = new sbyte[fileSize];
 				fileInput.readFully(inBuf);
 
@@ -832,8 +832,8 @@ namespace pspsharp.HLE.kernel.types
 				sbyte[] outBuf = crypto.SAVEDATAEngine.DecryptSavedata(inBuf, fileSize, key);
 
 				IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(address, 1);
-				length = System.Math.Min(outBuf.Length, maxLength);
-				for (int i = 0; i < length; i++)
+				Length = System.Math.Min(outBuf.Length, maxLength);
+				for (int i = 0; i < Length; i++)
 				{
 					memoryWriter.writeNext(outBuf[i]);
 				}
@@ -847,12 +847,12 @@ namespace pspsharp.HLE.kernel.types
 				}
 			}
 
-			return length;
+			return Length;
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: private void writeFile(pspsharp.Memory mem, String path, String name, int address, int length) throws java.io.IOException
-		private void writeFile(Memory mem, string path, string name, int address, int length)
+//ORIGINAL LINE: private void writeFile(pspsharp.Memory mem, String path, String name, int address, int Length) throws java.io.IOException
+		private void writeFile(Memory mem, string path, string name, int address, int Length)
 		{
 			if (string.ReferenceEquals(name, null) || name.Length <= 0 || address == 0)
 			{
@@ -865,8 +865,8 @@ namespace pspsharp.HLE.kernel.types
 				fileOutput = getDataOutput(path, name);
 				if (fileOutput != null)
 				{
-					fileOutput.Channel.truncate(length); // Avoid writing leftover bytes from previous encryption.
-					Utilities.write(fileOutput, address, length);
+					fileOutput.Channel.truncate(Length); // Avoid writing leftover bytes from previous encryption.
+					Utilities.write(fileOutput, address, Length);
 				}
 			}
 			finally
@@ -879,14 +879,14 @@ namespace pspsharp.HLE.kernel.types
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: private void writePNG(pspsharp.Memory mem, String path, String name, int address, int length) throws java.io.IOException
-		private void writePNG(Memory mem, string path, string name, int address, int length)
+//ORIGINAL LINE: private void writePNG(pspsharp.Memory mem, String path, String name, int address, int Length) throws java.io.IOException
+		private void writePNG(Memory mem, string path, string name, int address, int Length)
 		{
 			// The PSP is saving only the real size of the PNG file,
 			// which could be smaller than the buffer size
-			length = PNG.getEndOfPNG(mem, address, length);
+			Length = PNG.getEndOfPNG(mem, address, Length);
 
-			writeFile(mem, path, name, address, length);
+			writeFile(mem, path, name, address, Length);
 		}
 
 //JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
@@ -898,9 +898,9 @@ namespace pspsharp.HLE.kernel.types
 			try
 			{
 				fileInput = getDataInput(path, name);
-				if (fileInput != null && fileInput.length() > 0)
+				if (fileInput != null && fileInput.Length() > 0)
 				{
-					sbyte[] buffer = new sbyte[(int) fileInput.length()];
+					sbyte[] buffer = new sbyte[(int) fileInput.Length()];
 					fileInput.readFully(buffer);
 					fileInput.Dispose();
 
@@ -937,9 +937,9 @@ namespace pspsharp.HLE.kernel.types
 			try
 			{
 				fileInput = getDataInput(path, name);
-				if (fileInput != null && fileInput.length() > 0)
+				if (fileInput != null && fileInput.Length() > 0)
 				{
-					sbyte[] buffer = new sbyte[(int) fileInput.length()];
+					sbyte[] buffer = new sbyte[(int) fileInput.Length()];
 					fileInput.readFully(buffer);
 					fileInput.Dispose();
 
@@ -1068,7 +1068,7 @@ namespace pspsharp.HLE.kernel.types
 				if (cryptoMode)
 				{
 					CryptoEngine crypto = new CryptoEngine();
-					int sfoSize = buf.array().length;
+					int sfoSize = buf.array().Length;
 					sbyte[] sfoData = buf.array();
 
 					// Generate the final SAVEDATA_PARAMS (encrypted).
@@ -1148,7 +1148,7 @@ namespace pspsharp.HLE.kernel.types
 				string[] entries = f.list();
 				if (entries != null)
 				{
-					for (int i = 0; i < f.list().length; i++)
+					for (int i = 0; i < f.list().Length; i++)
 					{
 						if (entries[i].StartsWith(gameName, StringComparison.Ordinal))
 						{

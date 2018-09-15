@@ -25,7 +25,7 @@ namespace pspsharp.network.upnp
 
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using Document = org.w3c.dom.Document;
 	using Element = org.w3c.dom.Element;
 	using Node = org.w3c.dom.Node;
@@ -34,7 +34,7 @@ namespace pspsharp.network.upnp
 
 	public class UPnP
 	{
-		public static Logger log = Logger.getLogger("upnp");
+		//public static Logger log = Logger.getLogger("upnp");
 		protected internal IGD igd;
 		public const int discoveryTimeoutMillis = 2000;
 		public const int discoveryPort = 1900;
@@ -129,9 +129,9 @@ namespace pspsharp.network.upnp
 							if (responsePacket.Length > 0)
 							{
 								string reply = new string(responsePacket.Data, responsePacket.Offset, responsePacket.Length);
-								if (log.DebugEnabled)
+								//if (log.DebugEnabled)
 								{
-									log.debug(string.Format("Discovery: {0}", reply));
+									Console.WriteLine(string.Format("Discovery: {0}", reply));
 								}
 
 								string location = null;
@@ -152,9 +152,9 @@ namespace pspsharp.network.upnp
 
 								if (!string.ReferenceEquals(location, null) && !string.ReferenceEquals(st, null))
 								{
-									if (log.DebugEnabled)
+									//if (log.DebugEnabled)
 									{
-										log.debug(string.Format("Location: '{0}', st: '{1}'", location, st));
+										Console.WriteLine(string.Format("Location: '{0}', st: '{1}'", location, st));
 									}
 
 									if (!processedUrls.Contains(location))
@@ -163,9 +163,9 @@ namespace pspsharp.network.upnp
 										processedUrls.Add(location);
 										if (igd.Valid && igd.isConnected(upnp))
 										{
-											if (log.DebugEnabled)
+											//if (log.DebugEnabled)
 											{
-												log.debug(string.Format("IGD connected with external IP: {0}", igd.getExternalIPAddress(upnp)));
+												Console.WriteLine(string.Format("IGD connected with external IP: {0}", igd.getExternalIPAddress(upnp)));
 											}
 											Done = true;
 										}
@@ -173,7 +173,7 @@ namespace pspsharp.network.upnp
 								}
 								else
 								{
-									log.error(string.Format("Could not parse discovery response: {0}", reply));
+									Console.WriteLine(string.Format("Could not parse discovery response: {0}", reply));
 								}
 							}
 						}
@@ -275,7 +275,7 @@ namespace pspsharp.network.upnp
 			}
 			catch (IOException e)
 			{
-				log.error("discover", e);
+				Console.WriteLine("discover", e);
 			}
 		}
 
@@ -357,31 +357,31 @@ namespace pspsharp.network.upnp
 				} while (n >= 0);
 				response.Close();
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("UPnP command serviceType {0}, action {1}, result: {2}", serviceType, action, content.ToString()));
+					Console.WriteLine(string.Format("UPnP command serviceType {0}, action {1}, result: {2}", serviceType, action, content.ToString()));
 				}
 
 				result = parseSimpleCommandResponse(content.ToString());
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
 					string errorCode = result["errorCode"];
 					if (!string.ReferenceEquals(errorCode, null))
 					{
-						log.debug(string.Format("UPnP command {0}: errorCode = {1}", action, errorCode));
+						Console.WriteLine(string.Format("UPnP command {0}: errorCode = {1}", action, errorCode));
 					}
 				}
 			}
 			catch (MalformedURLException e)
 			{
-				log.error("executeUPnPcommand", e);
+				Console.WriteLine("executeUPnPcommand", e);
 			}
 			catch (IOException e)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug("executeUPnPcommand", e);
+					Console.WriteLine("executeUPnPcommand", e);
 				}
 			}
 
@@ -406,19 +406,19 @@ namespace pspsharp.network.upnp
 			}
 			catch (ParserConfigurationException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 			catch (SAXException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 			catch (MalformedURLException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 			catch (IOException e)
 			{
-				log.error("Discovery", e);
+				Console.WriteLine("Discovery", e);
 			}
 
 			return result;
@@ -481,7 +481,7 @@ namespace pspsharp.network.upnp
 
 			if (log.DebugEnabled && result != null)
 			{
-				log.debug(string.Format("addPortMapping errorCode={0}", result["errorCode"]));
+				Console.WriteLine(string.Format("addPortMapping errorCode={0}", result["errorCode"]));
 			}
 		}
 
@@ -497,7 +497,7 @@ namespace pspsharp.network.upnp
 
 			if (log.DebugEnabled && result != null)
 			{
-				log.debug(string.Format("deletePortMapping errorCode={0}", result["errorCode"]));
+				Console.WriteLine(string.Format("deletePortMapping errorCode={0}", result["errorCode"]));
 			}
 		}
 

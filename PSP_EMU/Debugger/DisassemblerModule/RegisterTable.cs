@@ -203,7 +203,7 @@ namespace pspsharp.Debugger.DisassemblerModule
 				SwingUtilities.invokeLater(() =>
 				{
 				// automatically select text after '0x'
-				tf.select(2, tf.Text.length());
+				tf.select(2, tf.Text.Length());
 				});
 				return tf;
 			}

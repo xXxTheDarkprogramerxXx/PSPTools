@@ -288,9 +288,9 @@ namespace pspsharp.HLE.kernel.types
 			}
 		}
 
-		protected internal virtual void readUnknown(int length)
+		protected internal virtual void readUnknown(int Length)
 		{
-			offset += length;
+			offset += Length;
 		}
 
 		protected internal virtual string readStringNZ(int n)
@@ -346,10 +346,10 @@ namespace pspsharp.HLE.kernel.types
 		protected internal virtual int writeStringUTF16NZ(int n, string s)
 		{
 			sbyte[] bytes = s.GetBytes(charset16);
-			int length = 0;
+			int Length = 0;
 			if (bytes != null)
 			{
-				length = bytes.Length;
+				Length = bytes.Length;
 				for (int i = 0; i < bytes.Length && n > 0; i++, n--)
 				{
 					write8(bytes[i]);
@@ -373,7 +373,7 @@ namespace pspsharp.HLE.kernel.types
 				offset += n;
 			}
 
-			return length;
+			return Length;
 		}
 
 		/// <summary>
@@ -604,17 +604,17 @@ namespace pspsharp.HLE.kernel.types
 			}
 		}
 
-		protected internal virtual void writeUnknown(int length)
+		protected internal virtual void writeUnknown(int Length)
 		{
-			for (int i = 0; i < length; i++)
+			for (int i = 0; i < Length; i++)
 			{
 				write8((sbyte) unknown);
 			}
 		}
 
-		protected internal virtual void writeSkip(int length)
+		protected internal virtual void writeSkip(int Length)
 		{
-			offset += length;
+			offset += Length;
 		}
 
 		protected internal virtual void writeStringN(int n, string s)

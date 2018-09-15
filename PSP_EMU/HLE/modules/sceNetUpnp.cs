@@ -16,14 +16,14 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 	public class sceNetUpnp : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetUpnp");
+		//public static Logger log = Modules.getLogger("sceNetUpnp");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xE24220B5, version = 150) public int sceNetUpnpInit(int unknown1, int unknown2)
@@ -89,7 +89,7 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1038E77A, version = 150) public int sceNetUpnp_1038E77A(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=48, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x1038E77A, version = 150) public int sceNetUpnp_1038E77A(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=48, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer unknown)
 		[HLEFunction(nid : 0x1038E77A, version : 150)]
 		public virtual int sceNetUpnp_1038E77A(TPointer unknown)
 		{

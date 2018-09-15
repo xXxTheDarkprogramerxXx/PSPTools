@@ -34,11 +34,11 @@ namespace pspsharp.HLE.modules
 	using ThreadLocalCookieManager = pspsharp.util.ThreadLocalCookieManager;
 	using Utilities = pspsharp.util.Utilities;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceHttp : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceHttp");
+		//public static Logger log = Modules.getLogger("sceHttp");
 		public const int PSP_HTTP_SYSTEM_COOKIE_HEAP_SIZE = 130 * 1024;
 		private bool isHttpInit;
 		private bool isSystemCookieLoaded;
@@ -248,11 +248,11 @@ namespace pspsharp.HLE.modules
 				}
 				catch (MalformedURLException e)
 				{
-					log.error("HttpRequest.send", e);
+					Console.WriteLine("HttpRequest.send", e);
 				}
 				catch (IOException e)
 				{
-					log.error("HttpRequest.send", e);
+					Console.WriteLine("HttpRequest.send", e);
 				}
 			}
 
@@ -275,11 +275,11 @@ namespace pspsharp.HLE.modules
 				}
 				catch (FileNotFoundException e)
 				{
-					log.debug("HttpRequest.readData", e);
+					Console.WriteLine("HttpRequest.readData", e);
 				}
 				catch (IOException e)
 				{
-					log.error("HttpRequest.readData", e);
+					Console.WriteLine("HttpRequest.readData", e);
 				}
 
 				if (bufferLength > 0)
@@ -336,7 +336,7 @@ namespace pspsharp.HLE.modules
 						}
 						catch (IOException e)
 						{
-							log.error("HttpRequest.getStatusCode", e);
+							Console.WriteLine("HttpRequest.getStatusCode", e);
 						}
 					}
     
@@ -663,7 +663,7 @@ namespace pspsharp.HLE.modules
 			int addr = TempMemory;
 			if (addr == 0)
 			{
-				log.warn(string.Format("sceHttpInit cannot allocate 0x{0:X} bytes", maxMemSize));
+				Console.WriteLine(string.Format("sceHttpInit cannot allocate 0x{0:X} bytes", maxMemSize));
 				return -1;
 			}
 
@@ -696,7 +696,7 @@ namespace pspsharp.HLE.modules
 		}
 
 		/// <summary>
-		/// Get http request response length.
+		/// Get http request response Length.
 		/// </summary>
 		/// <param name="requestid"> - ID of the request created by sceHttpCreateRequest or sceHttpCreateRequestWithURL </param>
 		/// <param name="contentlength"> - The size of the content </param>
@@ -722,9 +722,9 @@ namespace pspsharp.HLE.modules
 				result = 0;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceHttpGetContentLength request {0} returning 0x{1:X}, contentLength=0x{2:X}", httpRequest, result, contentLengthAddr.Value));
+				Console.WriteLine(string.Format("sceHttpGetContentLength request {0} returning 0x{1:X}, contentLength=0x{2:X}", httpRequest, result, contentLengthAddr.Value));
 			}
 
 			return result;
@@ -975,9 +975,9 @@ namespace pspsharp.HLE.modules
 			httpRequest.connect();
 			statusCode.setValue(httpRequest.StatusCode);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceHttpGetStatusCode on request {0} returning statusCode={1:D}", httpRequest, statusCode.getValue()));
+				Console.WriteLine(string.Format("sceHttpGetStatusCode on request {0} returning statusCode={1:D}", httpRequest, statusCode.getValue()));
 			}
 
 			return 0;
@@ -1031,15 +1031,15 @@ namespace pspsharp.HLE.modules
 		}
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7774BF4C, version = 150) public int sceHttpAddCookie(pspsharp.HLE.PspString url, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer cookieAddr, int length)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x7774BF4C, version = 150) public int sceHttpAddCookie(pspsharp.HLE.PspString url, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer cookieAddr, int Length)
 		[HLEFunction(nid : 0x7774BF4C, version : 150)]
-		public virtual int sceHttpAddCookie(PspString url, TPointer cookieAddr, int length)
+		public virtual int sceHttpAddCookie(PspString url, TPointer cookieAddr, int Length)
 		{
-			string cookie = cookieAddr.getStringNZ(length);
+			string cookie = cookieAddr.getStringNZ(Length);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceHttpAddCookie for URL '{0}': '{1}'", url.String, cookie));
+				Console.WriteLine(string.Format("sceHttpAddCookie for URL '{0}': '{1}'", url.String, cookie));
 			}
 
 			return 0;
@@ -1382,9 +1382,9 @@ namespace pspsharp.HLE.modules
 			headerAddr.setValue(addr);
 			headerLengthAddr.setValue(allHeaders.Length);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceHttpGetAllHeader returning at 0x{0:X8}: {1}", addr, Utilities.getMemoryDump(addr, headerLengthAddr.getValue())));
+				Console.WriteLine(string.Format("sceHttpGetAllHeader returning at 0x{0:X8}: {1}", addr, Utilities.getMemoryDump(addr, headerLengthAddr.getValue())));
 			}
 
 			return 0;
@@ -1414,9 +1414,9 @@ namespace pspsharp.HLE.modules
 			httpRequest.connect();
 			int readSize = httpRequest.readData(data.Address, dataSize);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceHttpReadData returning 0x{0:X}: {1}", readSize, Utilities.getMemoryDump(data.Address, readSize)));
+				Console.WriteLine(string.Format("sceHttpReadData returning 0x{0:X}: {1}", readSize, Utilities.getMemoryDump(data.Address, readSize)));
 			}
 
 			return readSize;

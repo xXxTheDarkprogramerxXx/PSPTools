@@ -36,7 +36,7 @@
 namespace pspsharp.log
 {
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using DOMConfigurator = org.apache.log4j.xml.DOMConfigurator;
 
 	public class LogWindow : javax.swing.JFrame

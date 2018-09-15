@@ -74,7 +74,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			}
 
 			// Sort the objects
-			Arrays.sort(objects);
+			Array.Sort(objects);
 
 			// Write back the objects to memory
 			IMemoryWriter memoryWriter = MemoryWriter.getMemoryWriter(addr, size << 3, 4);

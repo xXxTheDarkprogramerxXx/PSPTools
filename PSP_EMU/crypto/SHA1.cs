@@ -27,12 +27,12 @@ namespace pspsharp.crypto
 		{
 		}
 
-		public virtual sbyte[] doSHA1(sbyte[] bytes, int length)
+		public virtual sbyte[] doSHA1(sbyte[] bytes, int Length)
 		{
 			try
 			{
 				MessageDigest md = MessageDigest.getInstance("SHA-1");
-				md.update(bytes, 0, length);
+				md.update(bytes, 0, Length);
 				sbyte[] sha1Hash = md.digest();
 				return sha1Hash;
 			}

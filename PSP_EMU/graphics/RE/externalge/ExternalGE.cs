@@ -23,7 +23,7 @@ namespace pspsharp.graphics.RE.externalge
 
 
 	using Level = org.apache.log4j.Level;
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Modules = pspsharp.HLE.Modules;
 	using PspGeList = pspsharp.HLE.kernel.types.PspGeList;
@@ -45,7 +45,7 @@ namespace pspsharp.graphics.RE.externalge
 		public const int numberRendererThread = 4;
 		public static bool activateWhenAvailable = false;
 		public const bool useUnsafe = false;
-		public static Logger log = Logger.getLogger("externalge");
+		//public static Logger log = Logger.getLogger("externalge");
 		private static ConcurrentLinkedQueue<PspGeList> drawListQueue;
 		private static volatile PspGeList currentList;
 		private static RendererThread[] rendererThreads;
@@ -144,13 +144,13 @@ namespace pspsharp.graphics.RE.externalge
 
 					if ((allLineMasks & lineMask) != 0)
 					{
-						log.error(string.Format("Incorrect line masks for the renderer threads (number={0:D})", numberRendererThread));
+						Console.WriteLine(string.Format("Incorrect line masks for the renderer threads (number={0:D})", numberRendererThread));
 					}
 					allLineMasks |= lineMask;
 				}
 				if (allLineMasks != unchecked((int)0xFFFFFFFF))
 				{
-					log.error(string.Format("Incorrect line masks for the renderer threads (number={0:D})", numberRendererThread));
+					Console.WriteLine(string.Format("Incorrect line masks for the renderer threads (number={0:D})", numberRendererThread));
 				}
 
 				rendererThreadsDone = new Semaphore(0);
@@ -552,9 +552,9 @@ namespace pspsharp.graphics.RE.externalge
 
 		public static void render()
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("ExternalGE starting rendering"));
+				Console.WriteLine(string.Format("ExternalGE starting rendering"));
 			}
 
 			for (int i = 0; i < rendererThreads.Length; i++)
@@ -564,27 +564,27 @@ namespace pspsharp.graphics.RE.externalge
 
 			try
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Waiting for async rendering completion"));
+					Console.WriteLine(string.Format("Waiting for async rendering completion"));
 				}
 				rendererThreadsDone.acquire(rendererThreads.Length);
 			}
 			catch (InterruptedException e)
 			{
-				log.error("render", e);
+				Console.WriteLine("render", e);
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Async rendering completion"));
+				Console.WriteLine(string.Format("Async rendering completion"));
 			}
 
 			NativeUtils.rendererTerminate();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("ExternalGE terminating rendering"));
+				Console.WriteLine(string.Format("ExternalGE terminating rendering"));
 			}
 		}
 
@@ -592,16 +592,16 @@ namespace pspsharp.graphics.RE.externalge
 		{
 			if (NativeUtils.CoreCtrlActive)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Saving Core context to 0x{0:X8} - Core busy", addr));
+					Console.WriteLine(string.Format("Saving Core context to 0x{0:X8} - Core busy", addr));
 				}
 				return -1;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Saving Core context to 0x{0:X8}", addr));
+				Console.WriteLine(string.Format("Saving Core context to 0x{0:X8}", addr));
 			}
 
 			NativeUtils.saveCoreContext(addr);
@@ -613,16 +613,16 @@ namespace pspsharp.graphics.RE.externalge
 		{
 			if (NativeUtils.CoreCtrlActive)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Restoring Core context from 0x{0:X8} - Core busy", addr));
+					Console.WriteLine(string.Format("Restoring Core context from 0x{0:X8} - Core busy", addr));
 				}
 				return SceKernelErrors.ERROR_BUSY;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Restoring Core context from 0x{0:X8}", addr));
+				Console.WriteLine(string.Format("Restoring Core context from 0x{0:X8}", addr));
 			}
 
 			NativeUtils.restoreCoreContext(addr);
@@ -705,9 +705,9 @@ namespace pspsharp.graphics.RE.externalge
 			}
 		}
 
-		public static void addVideoTexture(int destinationAddress, int sourceAddress, int length)
+		public static void addVideoTexture(int destinationAddress, int sourceAddress, int Length)
 		{
-			NativeUtils.addVideoTexture(destinationAddress, sourceAddress, length);
+			NativeUtils.addVideoTexture(destinationAddress, sourceAddress, Length);
 		}
 
 		public static void onGeUserStop()
@@ -762,9 +762,9 @@ namespace pspsharp.graphics.RE.externalge
 				// the "can't enqueue duplicate list address" error.
 				for (int i = 0; i < 100; i++)
 				{
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("hasDrawList(0x{0:X8}) waiting on finished list {1}", listAddr, currentList));
+						Console.WriteLine(string.Format("hasDrawList(0x{0:X8}) waiting on finished list {1}", listAddr, currentList));
 					}
 					Utilities.sleep(1, 0);
 					lock (drawListQueue)

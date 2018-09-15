@@ -20,12 +20,12 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.vsmx.interpreter
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public abstract class VSMXBaseObject
 	{
 		public static readonly Logger log = VSMX.log;
-		protected internal const string lengthName = "length";
+		protected internal const string lengthName = "Length";
 		protected internal const string prototypeName = "prototype";
 		protected internal const string callName = "call";
 		protected internal VSMXInterpreter interpreter;

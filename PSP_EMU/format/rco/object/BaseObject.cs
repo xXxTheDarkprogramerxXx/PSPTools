@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.format.rco.@object
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using RCOEntry = pspsharp.format.RCO.RCOEntry;
 	using BaseType = pspsharp.format.rco.type.BaseType;
@@ -35,7 +35,7 @@ namespace pspsharp.format.rco.@object
 
 	public abstract class BaseObject : BaseNativeObject
 	{
-		protected internal new Logger log = VSMX.log;
+		////protected internal new Logger log =VSMX.log;
 		protected internal Display display;
 		protected internal Controller controller;
 		private string name;
@@ -73,7 +73,7 @@ namespace pspsharp.format.rco.@object
 				// According the definition of getFields():
 				//   The elements in the array returned are not sorted and are not in any particular order.
 				// So now, we need to sort the fields according to the "ObjectField" annotation.
-				Arrays.sort(fields, new FieldComparator());
+				Array.Sort(fields, new FieldComparator());
     
 				return fields;
 			}
@@ -200,7 +200,7 @@ namespace pspsharp.format.rco.@object
 		{
 			if (!string.ReferenceEquals(@event.Event, null))
 			{
-				controller.Interpreter.interpretScript(object, @event.Event);
+				controller.Interpreter.interpretScript(@event.Object.Object, @event.Event);
 			}
 			else if (@event.Object != null && @event.Object is BasePositionObject)
 			{

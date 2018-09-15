@@ -116,7 +116,7 @@ namespace pspsharp.Allegrex.compiler
 
 		public override string ToString()
 		{
-			return string.Format("CodeSequence 0x{0:X} - 0x{1:X} (length {2:D})", StartAddress, EndAddress, Length);
+			return string.Format("CodeSequence 0x{0:X} - 0x{1:X} (Length {2:D})", StartAddress, EndAddress, Length);
 		}
 	}
 

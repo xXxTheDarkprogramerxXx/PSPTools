@@ -21,11 +21,11 @@ namespace pspsharp.HLE.modules
 	using Battery = pspsharp.hardware.Battery;
 	using Settings = pspsharp.settings.Settings;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceImpose : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceImpose");
+		//public static Logger log = Modules.getLogger("sceImpose");
 
 		public override void start()
 		{
@@ -131,7 +131,7 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x36AA6E91, version : 150)]
 		public virtual int sceImposeSetLanguageMode(int lang, int button)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
 				string langStr;
 				switch (lang)
@@ -153,7 +153,7 @@ namespace pspsharp.HLE.modules
 						break;
 				}
 
-				log.debug(string.Format("sceImposeSetLanguageMode lang={0:D}({1}), button={2:D}", lang, langStr, button));
+				Console.WriteLine(string.Format("sceImposeSetLanguageMode lang={0:D}({1}), button={2:D}", lang, langStr, button));
 			}
 
 			languageMode_language = lang;
@@ -165,9 +165,9 @@ namespace pspsharp.HLE.modules
 		[HLEFunction(nid : 0x24FD7BCF, version : 150)]
 		public virtual int sceImposeGetLanguageMode(TPointer32 langPtr, TPointer32 buttonPtr)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceImposeGetLanguageMode langPtr={0}, buttonPtr={1} returning lang={2:D}, button={3:D}", langPtr, buttonPtr, languageMode_language, languageMode_button));
+				Console.WriteLine(string.Format("sceImposeGetLanguageMode langPtr={0}, buttonPtr={1} returning lang={2:D}, button={3:D}", langPtr, buttonPtr, languageMode_language, languageMode_button));
 			}
 
 			langPtr.setValue(languageMode_language);
@@ -259,10 +259,10 @@ namespace pspsharp.HLE.modules
 				case PSP_IMPOSE_80000009:
 				case PSP_IMPOSE_8000000A:
 				case PSP_IMPOSE_8000000B:
-					log.warn(string.Format("sceImposeGetParam param=0x{0:X} not implemented", param));
+					Console.WriteLine(string.Format("sceImposeGetParam param=0x{0:X} not implemented", param));
 					break;
 				default:
-					log.warn(string.Format("sceImposeGetParam param=0x{0:X} invalid parameter", param));
+					Console.WriteLine(string.Format("sceImposeGetParam param=0x{0:X} invalid parameter", param));
 					return SceKernelErrors.ERROR_INVALID_MODE;
 			}
 
@@ -339,10 +339,10 @@ namespace pspsharp.HLE.modules
 				case PSP_IMPOSE_80000009:
 				case PSP_IMPOSE_8000000A:
 				case PSP_IMPOSE_8000000B:
-					log.warn(string.Format("sceImposeSetParam param=0x{0:X}, value=0x{1:X} not implemented", param, value));
+					Console.WriteLine(string.Format("sceImposeSetParam param=0x{0:X}, value=0x{1:X} not implemented", param, value));
 					break;
 				default:
-					log.warn(string.Format("sceImposeSetParam param=0x{0:X}, value=0x{1:X} invalid parameter", param, value));
+					Console.WriteLine(string.Format("sceImposeSetParam param=0x{0:X}, value=0x{1:X} invalid parameter", param, value));
 					return SceKernelErrors.ERROR_INVALID_MODE;
 			}
 
@@ -384,9 +384,9 @@ namespace pspsharp.HLE.modules
 			int result = imposeChanges;
 			imposeChanges = 0;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceImposeChanges returning 0x{0:X}", result));
+				Console.WriteLine(string.Format("sceImposeChanges returning 0x{0:X}", result));
 			}
 
 			return result;

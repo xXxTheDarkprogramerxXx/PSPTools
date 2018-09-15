@@ -48,9 +48,9 @@ namespace pspsharp.format.rco.@object
 		{
 			set
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("PlaneObject.setTexture {0}", value));
+					Console.WriteLine(string.Format("PlaneObject.setTexture {0}", value));
 				}
 				if (value is ImageObject)
 				{

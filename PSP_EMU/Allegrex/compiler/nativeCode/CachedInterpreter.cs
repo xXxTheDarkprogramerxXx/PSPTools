@@ -32,14 +32,14 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 		private class UpdateOpcodesAction : IAction
 		{
 			internal int address;
-			internal int length;
+			internal int Length;
 			internal int[] opcodes;
 			internal int offset;
 
-			public UpdateOpcodesAction(int address, int length, int[] opcodes, int offset)
+			public UpdateOpcodesAction(int address, int Length, int[] opcodes, int offset)
 			{
 				this.address = address;
-				this.length = length;
+				this.Length = Length;
 				this.opcodes = opcodes;
 				this.offset = offset;
 			}
@@ -47,7 +47,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 			public virtual void execute()
 			{
 				// Re-read the opcodes that have been updated by the application
-				Utilities.readInt32(address, length, opcodes, offset);
+				Utilities.readInt32(address, Length, opcodes, offset);
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace pspsharp.Allegrex.compiler.nativeCode
 				}
 				else
 				{
-					log.error(string.Format("CachedInterpreter: could not find the CodeBlock 0x{0:X8}", startAddress));
+					Console.WriteLine(string.Format("CachedInterpreter: could not find the CodeBlock 0x{0:X8}", startAddress));
 				}
 			}
 

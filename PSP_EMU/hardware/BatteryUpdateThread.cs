@@ -211,7 +211,7 @@ namespace pspsharp.hardware
 				{
 					get
 					{
-						return Arrays.asList("ACLineStatus", "BatteryFlag", "BatteryLifePercent", "Reserved1", "BatteryLifeTime", "BatteryFullLifeTime");
+						return Array.asList("ACLineStatus", "BatteryFlag", "BatteryLifePercent", "Reserved1", "BatteryLifeTime", "BatteryFullLifeTime");
 					}
 				}
 			}

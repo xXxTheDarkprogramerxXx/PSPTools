@@ -279,7 +279,7 @@ namespace pspsharp.Debugger
 			{
 				lock (this)
 				{
-					int len = outerInstance.talogging.Text.length();
+					int len = outerInstance.talogging.Text.Length();
         
 					// Always scroll down to the last line
 					outerInstance.talogging.CaretPosition = len;

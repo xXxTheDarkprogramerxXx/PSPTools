@@ -18,7 +18,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.crypto
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 	using ECCurve = org.bouncycastle.math.ec.ECCurve;
 	using BouncyCastleProvider = org.bouncycastle.jce.provider.BouncyCastleProvider;
 	using JCEECPrivateKey = org.bouncycastle.jce.provider.JCEECPrivateKey;
@@ -60,7 +60,7 @@ namespace pspsharp.crypto
 			}
 			catch (Exception e)
 			{
-				log.error("setCurve", e);
+				Console.WriteLine("setCurve", e);
 			}
 		}
 

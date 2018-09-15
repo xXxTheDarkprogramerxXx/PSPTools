@@ -30,11 +30,11 @@ namespace pspsharp.HLE.modules
 	using Wlan = pspsharp.hardware.Wlan;
 	using INetworkAdapter = pspsharp.network.INetworkAdapter;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceNetAdhocctl : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetAdhocctl");
+		//public static Logger log = Modules.getLogger("sceNetAdhocctl");
 
 		public const int PSP_ADHOCCTL_EVENT_ERROR = 0;
 		public const int PSP_ADHOCCTL_EVENT_CONNECTED = 1;
@@ -261,9 +261,9 @@ namespace pspsharp.HLE.modules
 			macAddress.MacAddress = macAddr;
 			gameModeMacs.AddLast(macAddress);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Adding new Game Mode MAC: {0}", macAddress));
+				Console.WriteLine(string.Format("Adding new Game Mode MAC: {0}", macAddress));
 			}
 		}
 
@@ -321,9 +321,9 @@ namespace pspsharp.HLE.modules
 		{
 			ThreadManForUser threadMan = Modules.ThreadManForUserModule;
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug("hleNetAdhocctlThread");
+				Console.WriteLine("hleNetAdhocctlThread");
 			}
 
 			if (doTerminate)
@@ -352,9 +352,9 @@ namespace pspsharp.HLE.modules
 					// Join complete when all the required MACs have joined
 					if (requiredGameModeMacs.Count > 0 && gameModeMacs.Count >= requiredGameModeMacs.Count)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("All GameMode MACs have joined, GameMode Join is now complete"));
+							Console.WriteLine(string.Format("All GameMode MACs have joined, GameMode Join is now complete"));
 						}
 						hleNetAdhocctlSetGameModeJoinComplete(true);
 
@@ -442,9 +442,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleNetAdhocctlConnect(string groupName)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleNetAdhocctlConnect groupName='{0}'", groupName));
+				Console.WriteLine(string.Format("hleNetAdhocctlConnect groupName='{0}'", groupName));
 			}
 
 			if (string.ReferenceEquals(hleNetAdhocctlGetGroupName(), null) || !hleNetAdhocctlGetGroupName().Equals(groupName))
@@ -457,9 +457,9 @@ namespace pspsharp.HLE.modules
 
 		public virtual void hleNetAdhocctlConnectGame(string groupName)
 		{
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("hleNetAdhocctlConnectGame groupName='{0}'", groupName));
+				Console.WriteLine(string.Format("hleNetAdhocctlConnectGame groupName='{0}'", groupName));
 			}
 			setGroupName(groupName, PSP_ADHOCCTL_MODE_GAMEMODE);
 		}
@@ -473,9 +473,9 @@ namespace pspsharp.HLE.modules
 		{
 			foreach (AdhocctlHandler handler in adhocctlIdMap.Values)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Notifying handler {0} with event={1:D}, error={2:D}", handler, @event, error));
+					Console.WriteLine(string.Format("Notifying handler {0} with event={1:D}, error={2:D}", handler, @event, error));
 				}
 				handler.Event = @event;
 				handler.Error = error;
@@ -534,9 +534,9 @@ namespace pspsharp.HLE.modules
 				network.mode = mode;
 				networks.AddLast(network);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("New network discovered {0}", network));
+					Console.WriteLine(string.Format("New network discovered {0}", network));
 				}
 			}
 		}
@@ -568,9 +568,9 @@ namespace pspsharp.HLE.modules
 				AdhocctlPeer peer = new AdhocctlPeer(nickName, mac.macAddress);
 				peers.AddLast(peer);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("New peer discovered {0}", peer));
+					Console.WriteLine(string.Format("New peer discovered {0}", peer));
 				}
 			   }
 		}
@@ -619,9 +619,9 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: There is no .NET LinkedList equivalent to the Java 'remove' method:
 					peers.remove(peer);
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Peer deleted {0}", peer));
+						Console.WriteLine(string.Format("Peer deleted {0}", peer));
 					}
 					break;
 				}
@@ -709,9 +709,9 @@ namespace pspsharp.HLE.modules
 			{
 				adhocctlCurrentType = product.getValue32(0); // 0 - Commercial type / 1 - Debug type.
 				adhocctlCurrentAdhocID = product.getStringNZ(4, ADHOC_ID_LENGTH);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("Found product data: type={0:D}, AdhocID='{1}'", adhocctlCurrentType, adhocctlCurrentAdhocID));
+					Console.WriteLine(string.Format("Found product data: type={0:D}, AdhocID='{1}'", adhocctlCurrentType, adhocctlCurrentAdhocID));
 				}
 			}
 
@@ -790,7 +790,7 @@ namespace pspsharp.HLE.modules
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x5E7F79C9, version = 150, checkInsideInterrupt = true) public int sceNetAdhocctlJoin(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=28, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer scanInfoAddr)
+//ORIGINAL LINE: @HLEFunction(nid = 0x5E7F79C9, version = 150, checkInsideInterrupt = true) public int sceNetAdhocctlJoin(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=28, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer scanInfoAddr)
 		[HLEFunction(nid : 0x5E7F79C9, version : 150, checkInsideInterrupt : true)]
 		public virtual int sceNetAdhocctlJoin(TPointer scanInfoAddr)
 		{
@@ -805,9 +805,9 @@ namespace pspsharp.HLE.modules
 				string bssID = scanInfoAddr.getStringNZ(16, IBSS_NAME_LENGTH);
 				int mode = scanInfoAddr.getValue32(24);
 
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocctlJoin nextAddr 0x{0:X8}, ch {1:D}, groupName '{2}', bssID '{3}', mode {4:D}", nextAddr, ch, groupName, bssID, mode));
+					Console.WriteLine(string.Format("sceNetAdhocctlJoin nextAddr 0x{0:X8}, ch {1:D}, groupName '{2}', bssID '{3}', mode {4:D}", nextAddr, ch, groupName, bssID, mode));
 				}
 				doJoin = true;
 				setGroupName(groupName, PSP_ADHOCCTL_MODE_NORMAL);
@@ -876,9 +876,9 @@ namespace pspsharp.HLE.modules
 				return SceKernelErrors.ERROR_NET_ADHOCCTL_TOO_MANY_HANDLERS;
 			}
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocctlAddHandler returning id=0x{0:X}", id));
+				Console.WriteLine(string.Format("sceNetAdhocctlAddHandler returning id=0x{0:X}", id));
 			}
 			adhocctlIdMap[id] = adhocctlHandler;
 
@@ -934,9 +934,9 @@ namespace pspsharp.HLE.modules
 		{
 			checkInitialized();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocctlGetAdhocId returning type={0:D}, adhocID='{1}'", adhocctlCurrentType, adhocctlCurrentAdhocID));
+				Console.WriteLine(string.Format("sceNetAdhocctlGetAdhocId returning type={0:D}, adhocID='{1}'", adhocctlCurrentType, adhocctlCurrentAdhocID));
 			}
 			addr.setValue32(0, adhocctlCurrentType);
 			addr.setStringNZ(4, ADHOC_ID_LENGTH, adhocctlCurrentAdhocID);
@@ -947,12 +947,12 @@ namespace pspsharp.HLE.modules
 		/// <summary>
 		/// Get a list of peers
 		/// </summary>
-		/// <param name="length"> - The length of the list. </param>
-		/// <param name="buf"> - An allocated area of size length.
+		/// <param name="Length"> - The Length of the list. </param>
+		/// <param name="buf"> - An allocated area of size Length.
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0xE162CB14, version = 150) public int sceNetAdhocctlGetPeerList(@BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=152, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
+//ORIGINAL LINE: @HLEFunction(nid = 0xE162CB14, version = 150) public int sceNetAdhocctlGetPeerList(@BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=152, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
 		[HLEFunction(nid : 0xE162CB14, version : 150)]
 		public virtual int sceNetAdhocctlGetPeerList(TPointer32 sizeAddr, TPointer buf)
 		{
@@ -961,9 +961,9 @@ namespace pspsharp.HLE.modules
 			int size = sizeAddr.getValue();
 			SceNetAdhocctlPeerInfo peerInfo = new SceNetAdhocctlPeerInfo();
 			sizeAddr.setValue(peerInfo.@sizeof() * peers.Count);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocctlGetPeerList returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetAdhocctlGetPeerList returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -977,9 +977,9 @@ namespace pspsharp.HLE.modules
 						break;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetAdhocctlGetPeerList returning {0} at 0x{1:X8}", peer, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetAdhocctlGetPeerList returning {0} at 0x{1:X8}", peer, buf.Address + offset));
 					}
 
 					peerInfo.nickName = peer.nickName;
@@ -1020,9 +1020,9 @@ namespace pspsharp.HLE.modules
 				peerInfo.macAddress = new pspNetMacAddress(Wlan.MacAddress);
 				peerInfo.timestamp = CurrentTimestamp;
 				peerInfo.write(peerInfoAddr);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocctlGetPeerInfo for own MAC address, returning {0}", peerInfo));
+					Console.WriteLine(string.Format("sceNetAdhocctlGetPeerInfo for own MAC address, returning {0}", peerInfo));
 				}
 				result = 0;
 			}
@@ -1037,9 +1037,9 @@ namespace pspsharp.HLE.modules
 						peerInfo.macAddress = new pspNetMacAddress(peer.macAddress);
 						peerInfo.timestamp = peer.timestamp;
 						peerInfo.write(peerInfoAddr);
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("sceNetAdhocctlGetPeerInfo returning {0}", peerInfo));
+							Console.WriteLine(string.Format("sceNetAdhocctlGetPeerInfo returning {0}", peerInfo));
 						}
 						result = 0;
 						break;
@@ -1048,9 +1048,9 @@ namespace pspsharp.HLE.modules
 			}
 			if (result != 0)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocctlGetPeerInfo returning 0x{0:X8}", result));
+					Console.WriteLine(string.Format("sceNetAdhocctlGetPeerInfo returning 0x{0:X8}", result));
 				}
 			}
 
@@ -1061,8 +1061,8 @@ namespace pspsharp.HLE.modules
 		/// Get mac address from nickname
 		/// </summary>
 		/// <param name="nickname"> - The nickname. </param>
-		/// <param name="length"> - The length of the list. </param>
-		/// <param name="buf"> - An allocated area of size length.
+		/// <param name="Length"> - The Length of the list. </param>
+		/// <param name="buf"> - An allocated area of size Length.
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
@@ -1085,9 +1085,9 @@ namespace pspsharp.HLE.modules
 			int size = sizeAddr.getValue();
 			SceNetAdhocctlPeerInfo peerInfo = new SceNetAdhocctlPeerInfo();
 			sizeAddr.setValue(peerInfo.@sizeof() * matchingPeers.Count);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocctlGetAddrByName returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetAdhocctlGetAddrByName returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -1101,9 +1101,9 @@ namespace pspsharp.HLE.modules
 						break;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetAdhocctlGetAddrByName returning {0} at 0x{1:X8}", peer, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetAdhocctlGetAddrByName returning {0} at 0x{1:X8}", peer, buf.Address + offset));
 					}
 
 					peerInfo.nickName = peer.nickName;
@@ -1158,9 +1158,9 @@ namespace pspsharp.HLE.modules
 		{
 			checkInitialized();
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocctlGetParameter returning channel={0:D}, group='{1}', IBSS='{2}', nickName='{3}'", adhocctlCurrentChannel, adhocctlCurrentGroup, adhocctlCurrentIBSS, sceUtility.SystemParamNickname));
+				Console.WriteLine(string.Format("sceNetAdhocctlGetParameter returning channel={0:D}, group='{1}', IBSS='{2}', nickName='{3}'", adhocctlCurrentChannel, adhocctlCurrentGroup, adhocctlCurrentIBSS, sceUtility.SystemParamNickname));
 			}
 			paramsAddr.setValue32(0, adhocctlCurrentChannel);
 			paramsAddr.setStringNZ(4, GROUP_NAME_LENGTH, adhocctlCurrentGroup);
@@ -1173,12 +1173,12 @@ namespace pspsharp.HLE.modules
 		/// <summary>
 		/// Get the results of a scan
 		/// </summary>
-		/// <param name="length"> - The length of the list. </param>
-		/// <param name="buf"> - An allocated area of size length.
+		/// <param name="Length"> - The Length of the list. </param>
+		/// <param name="buf"> - An allocated area of size Length.
 		/// </param>
 		/// <returns> 0 on success, < 0 on error. </returns>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEFunction(nid = 0x81AEE1BE, version = 150) public int sceNetAdhocctlGetScanInfo(@BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=112, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
+//ORIGINAL LINE: @HLEFunction(nid = 0x81AEE1BE, version = 150) public int sceNetAdhocctlGetScanInfo(@BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.inout) pspsharp.HLE.TPointer32 sizeAddr, @CanBeNull @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=112, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer buf)
 		[HLEFunction(nid : 0x81AEE1BE, version : 150)]
 		public virtual int sceNetAdhocctlGetScanInfo(TPointer32 sizeAddr, TPointer buf)
 		{
@@ -1188,9 +1188,9 @@ namespace pspsharp.HLE.modules
 
 			int size = sizeAddr.getValue();
 			sizeAddr.setValue(scanInfoSize * networks.Count);
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceNetAdhocctlGetScanInfo returning size={0:D}", sizeAddr.getValue()));
+				Console.WriteLine(string.Format("sceNetAdhocctlGetScanInfo returning size={0:D}", sizeAddr.getValue()));
 			}
 
 			if (buf.NotNull)
@@ -1204,9 +1204,9 @@ namespace pspsharp.HLE.modules
 						break;
 					}
 
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("sceNetAdhocctlGetScanInfo returning {0} at 0x{1:X8}", network, buf.Address + offset));
+						Console.WriteLine(string.Format("sceNetAdhocctlGetScanInfo returning {0} at 0x{1:X8}", network, buf.Address + offset));
 					}
 
 					/// <summary>
@@ -1280,9 +1280,9 @@ namespace pspsharp.HLE.modules
 				pspNetMacAddress macAddress = new pspNetMacAddress();
 				macAddress.read(macsAddr, i * macAddress.@sizeof());
 				requiredGameModeMacs.AddLast(macAddress);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocctlCreateEnterGameMode macAddress#{0:D}={1}", i, macAddress));
+					Console.WriteLine(string.Format("sceNetAdhocctlCreateEnterGameMode macAddress#{0:D}={1}", i, macAddress));
 				}
 			}
 
@@ -1356,9 +1356,9 @@ namespace pspsharp.HLE.modules
 			offset += 4;
 			foreach (pspNetMacAddress macAddress in gameModeMacs)
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetAdhocctlGetGameModeInfo returning {0}", macAddress));
+					Console.WriteLine(string.Format("sceNetAdhocctlGetGameModeInfo returning {0}", macAddress));
 				}
 				macAddress.write(gameModeInfoAddr, offset);
 				offset += macAddress.@sizeof();

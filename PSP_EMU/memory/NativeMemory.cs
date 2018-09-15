@@ -95,10 +95,10 @@ namespace pspsharp.memory
 			Modules.sceDisplayModule.write32(address);
 		}
 
-		public override void memset(int address, sbyte data, int length)
+		public override void memset(int address, sbyte data, int Length)
 		{
 			address &= addressMask;
-			NativeMemoryUtils.memset(memory, address, data, length);
+			NativeMemoryUtils.memset(memory, address, data, Length);
 		}
 
 		public override Buffer MainMemoryByteBuffer
@@ -109,10 +109,10 @@ namespace pspsharp.memory
 			}
 		}
 
-		public override Buffer getBuffer(int address, int length)
+		public override Buffer getBuffer(int address, int Length)
 		{
 			address &= addressMask;
-			ByteBuffer buffer = NativeMemoryUtils.getBuffer(memory, address, length);
+			ByteBuffer buffer = NativeMemoryUtils.getBuffer(memory, address, Length);
 
 			// Set the correct byte order
 			if (NativeMemoryUtils.LittleEndian)
@@ -127,26 +127,26 @@ namespace pspsharp.memory
 			return buffer;
 		}
 
-		public override void copyToMemory(int address, ByteBuffer source, int length)
+		public override void copyToMemory(int address, ByteBuffer source, int Length)
 		{
 			address &= addressMask;
-			length = System.Math.Min(length, source.capacity());
+			Length = System.Math.Min(Length, source.capacity());
 			if (source.Direct)
 			{
-				NativeMemoryUtils.copyBufferToMemory(memory, address, source, source.position(), length);
+				NativeMemoryUtils.copyBufferToMemory(memory, address, source, source.position(), Length);
 			}
 			else
 			{
-				for (; length > 0; address++, length--)
+				for (; Length > 0; address++, Length--)
 				{
 					NativeMemoryUtils.write8(memory, address, source.get());
 				}
 			}
 		}
 
-		protected internal override void memcpy(int destination, int source, int length, bool checkOverlap)
+		protected internal override void memcpy(int destination, int source, int Length, bool checkOverlap)
 		{
-			if (length <= 0)
+			if (Length <= 0)
 			{
 				return;
 			}
@@ -155,15 +155,15 @@ namespace pspsharp.memory
 			source &= addressMask;
 			Modules.sceDisplayModule.write(destination);
 
-			if (!checkOverlap || source >= destination || !areOverlapping(destination, source, length))
+			if (!checkOverlap || source >= destination || !areOverlapping(destination, source, Length))
 			{
-				NativeMemoryUtils.memcpy(memory, destination, memory, source, length);
+				NativeMemoryUtils.memcpy(memory, destination, memory, source, Length);
 			}
 			else
 			{
 				// Source and destination are overlapping and source < destination,
 				// copy from the tail.
-				for (int i = length - 1; i >= 0; i--)
+				for (int i = Length - 1; i >= 0; i--)
 				{
 					int b = NativeMemoryUtils.read8(memory, source + i);
 					NativeMemoryUtils.write8(memory, destination + i, b);

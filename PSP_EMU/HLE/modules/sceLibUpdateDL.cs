@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class sceLibUpdateDL : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceLibUpdateDL");
+		//public static Logger log = Modules.getLogger("sceLibUpdateDL");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xFC1AB540, version = 150) public int sceUpdateDownloadInit()

@@ -23,14 +23,14 @@ namespace pspsharp.HLE.modules
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using SceUidManager = pspsharp.HLE.kernel.managers.SceUidManager;
 	using SceKernelErrors = pspsharp.HLE.kernel.types.SceKernelErrors;
 
 	public class sceNetResolver : HLEModule
 	{
-		public static Logger log = Modules.getLogger("sceNetResolver");
+		//public static Logger log = Modules.getLogger("sceNetResolver");
 		private const string uidPurpose = "sceNetResolver-NetResolver";
 
 		protected internal class ResolverID
@@ -154,9 +154,9 @@ namespace pspsharp.HLE.modules
 				InetAddress inetAddress = InetAddress.getByName(hostname.String);
 				int resolvedAddress = sceNetInet.bytesToInternetAddress(inetAddress.Address);
 				addr.setValue(resolvedAddress);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetResolverStartNtoA returning address 0x{0:X8}('{1}')", resolvedAddress, sceNetInet.internetAddressToString(resolvedAddress)));
+					Console.WriteLine(string.Format("sceNetResolverStartNtoA returning address 0x{0:X8}('{1}')", resolvedAddress, sceNetInet.internetAddressToString(resolvedAddress)));
 				}
 				else if (log.InfoEnabled)
 				{
@@ -165,7 +165,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (UnknownHostException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 				return SceKernelErrors.ERROR_NET_RESOLVER_INVALID_HOST;
 			}
 
@@ -194,14 +194,14 @@ namespace pspsharp.HLE.modules
 				InetAddress inetAddress = InetAddress.getByAddress(bytes);
 				string hostName = inetAddress.HostName;
 				hostnameAddr.setStringNZ(hostnameLength, hostName);
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("sceNetResolverStartAtoN returning host name '{0}'", hostName));
+					Console.WriteLine(string.Format("sceNetResolverStartAtoN returning host name '{0}'", hostName));
 				}
 			}
 			catch (UnknownHostException e)
 			{
-				log.error(e);
+				Console.WriteLine(e);
 				return SceKernelErrors.ERROR_NET_RESOLVER_INVALID_HOST;
 			}
 

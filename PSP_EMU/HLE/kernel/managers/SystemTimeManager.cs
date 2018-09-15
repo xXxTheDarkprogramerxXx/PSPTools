@@ -17,7 +17,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.HLE.kernel.managers
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class SystemTimeManager
 	{
@@ -77,9 +77,9 @@ namespace pspsharp.HLE.kernel.managers
 		public virtual int sceKernelSysClock2USec(TPointer64 sysClockAddr, TPointer32 secAddr, TPointer32 microSecAddr)
 		{
 			long sysClock = sysClockAddr.Value;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelSysClock2USec sysClockAddr={0}({1:D}), secAddr={2}, microSecAddr={3}", sysClockAddr, sysClock, secAddr, microSecAddr));
+				Console.WriteLine(string.Format("sceKernelSysClock2USec sysClockAddr={0}({1:D}), secAddr={2}, microSecAddr={3}", sysClockAddr, sysClock, secAddr, microSecAddr));
 			}
 
 			if (secAddr.Null)
@@ -132,9 +132,9 @@ namespace pspsharp.HLE.kernel.managers
 		public virtual long sceKernelGetSystemTimeWide()
 		{
 			long systemTime = SystemTime;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetSystemTimeWide returning {0:D}", systemTime));
+				Console.WriteLine(string.Format("sceKernelGetSystemTimeWide returning {0:D}", systemTime));
 			}
 			return systemTime;
 		}
@@ -142,9 +142,9 @@ namespace pspsharp.HLE.kernel.managers
 		public virtual int sceKernelGetSystemTimeLow()
 		{
 			int systemTimeLow = unchecked((int)(SystemTime & 0xFFFFFFFFL));
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("sceKernelGetSystemTimeLow returning {0:D}", systemTimeLow));
+				Console.WriteLine(string.Format("sceKernelGetSystemTimeLow returning {0:D}", systemTimeLow));
 			}
 			return systemTimeLow;
 		}

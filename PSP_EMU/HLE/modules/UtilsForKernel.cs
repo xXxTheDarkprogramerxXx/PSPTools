@@ -19,11 +19,11 @@ namespace pspsharp.HLE.modules
 	using LengthInfo = pspsharp.HLE.BufferInfo.LengthInfo;
 	using Usage = pspsharp.HLE.BufferInfo.Usage;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	public class UtilsForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("UtilsForKernel");
+		//public static Logger log = Modules.getLogger("UtilsForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xA6B0A6B8, version = 150) public int UtilsForKernel_A6B0A6B8()
@@ -51,7 +51,7 @@ namespace pspsharp.HLE.modules
 		/// <param name="decompressedSizeAddr">
 		/// @return </param>
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
-//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x6C6887EE, version = 150) public int UtilsForKernel_6C6887EE(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dest, int destSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, length=0x100, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer src, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 endOfDecompressedDestAddr)
+//ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x6C6887EE, version = 150) public int UtilsForKernel_6C6887EE(@BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.nextParameter, usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer dest, int destSize, @BufferInfo(lengthInfo=pspsharp.HLE.BufferInfo.LengthInfo.fixedLength, Length=0x100, usage=pspsharp.HLE.BufferInfo.Usage.in) pspsharp.HLE.TPointer src, @CanBeNull @BufferInfo(usage=pspsharp.HLE.BufferInfo.Usage.out) pspsharp.HLE.TPointer32 endOfDecompressedDestAddr)
 		[HLEFunction(nid : 0x6C6887EE, version : 150)]
 		public virtual int UtilsForKernel_6C6887EE(TPointer dest, int destSize, TPointer src, TPointer32 endOfDecompressedDestAddr)
 		{

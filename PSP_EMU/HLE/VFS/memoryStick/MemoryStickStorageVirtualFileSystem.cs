@@ -41,9 +41,9 @@ namespace pspsharp.HLE.VFS.memoryStick
 				case 0x02125802:
 					if (outputPointer.NotNull && outputLength >= 4)
 					{
-						if (log.DebugEnabled)
+						//if (log.DebugEnabled)
 						{
-							log.debug(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
+							Console.WriteLine(string.Format("ioIoctl msstor cmd 0x{0:X8}", command));
 						}
 						// Output value 0x11 or 0x41: the Memory Stick is locked
 						outputPointer.setValue32(0);

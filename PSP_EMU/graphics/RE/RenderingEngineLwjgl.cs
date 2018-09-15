@@ -334,7 +334,7 @@ namespace pspsharp.graphics.RE
 				}
 				catch (System.InvalidOperationException e)
 				{
-					log.warn("VideoEngine: " + e.Message);
+					Console.WriteLine("VideoEngine: " + e.Message);
 				}
 			}
 		}
@@ -347,7 +347,7 @@ namespace pspsharp.graphics.RE
 			}
 			catch (System.InvalidOperationException e)
 			{
-				log.warn("VideoEngine: " + e.Message);
+				Console.WriteLine("VideoEngine: " + e.Message);
 			}
 		}
 
@@ -846,8 +846,8 @@ namespace pspsharp.graphics.RE
 				if (bufwidth != -1)
 				{
 					ByteBuffer tmpbuf = DirectBufferUtilities.getDirectBuffer(textureSize, (ByteBuffer) buffer);
-					int length = tmpbuf.remaining();
-					sbyte[] buf = new sbyte[length];
+					int Length = tmpbuf.remaining();
+					sbyte[] buf = new sbyte[Length];
 					tmpbuf.get(buf);
 					XBRZNativeFilter.ScaleandSetTexImage(2, buf, level, textureInternalFormatToGL[internalFormat], width, height, bufwidth, textureFormatToGL[format], textureTypeToGL[type]);
 				}
@@ -861,8 +861,8 @@ namespace pspsharp.graphics.RE
 				if (bufwidth != -1)
 				{
 					IntBuffer tmpbuf = DirectBufferUtilities.getDirectBuffer(textureSize, (IntBuffer) buffer);
-					int length = tmpbuf.remaining();
-					int[] buf = new int[length];
+					int Length = tmpbuf.remaining();
+					int[] buf = new int[Length];
 					tmpbuf.get(buf);
 					XBRZNativeFilter.ScaleandSetTexImage(2, buf, level, textureInternalFormatToGL[internalFormat], width, height, bufwidth, textureFormatToGL[format], textureTypeToGL[type]);
 				}
@@ -876,8 +876,8 @@ namespace pspsharp.graphics.RE
 				if (bufwidth != -1)
 				{
 					ShortBuffer tmpbuf = DirectBufferUtilities.getDirectBuffer(textureSize, (ShortBuffer) buffer);
-					int length = tmpbuf.remaining();
-					short[] buf = new short[length];
+					int Length = tmpbuf.remaining();
+					short[] buf = new short[Length];
 					tmpbuf.get(buf);
 					XBRZNativeFilter.ScaleandSetTexImage(2, buf, level, textureInternalFormatToGL[internalFormat], width, height, bufwidth, textureFormatToGL[format], textureTypeToGL[type]);
 				}
@@ -891,8 +891,8 @@ namespace pspsharp.graphics.RE
 				if (bufwidth != -1)
 				{
 					FloatBuffer tmpbuf = DirectBufferUtilities.getDirectBuffer(textureSize, (FloatBuffer) buffer);
-					int length = tmpbuf.remaining();
-					float[] buf = new float[length];
+					int Length = tmpbuf.remaining();
+					float[] buf = new float[Length];
 					tmpbuf.get(buf);
 					XBRZNativeFilter.ScaleandSetTexImage(2, buf, level, textureInternalFormatToGL[internalFormat], width, height, bufwidth, textureFormatToGL[format], textureTypeToGL[type]);
 				}
@@ -1016,7 +1016,7 @@ namespace pspsharp.graphics.RE
 				}
 				catch (System.InvalidOperationException e)
 				{
-					log.warn("VideoEngine: " + e.Message);
+					Console.WriteLine("VideoEngine: " + e.Message);
 				}
 			}
 		}
@@ -1551,7 +1551,7 @@ namespace pspsharp.graphics.RE
 						}
 					}
 
-					log.error(string.Format("Error {0}: {1}\n{2}", logComment, errorComment, stackTraceLog.ToString()));
+					Console.WriteLine(string.Format("Error {0}: {1}\n{2}", logComment, errorComment, stackTraceLog.ToString()));
 				}
 			}
 
@@ -1577,7 +1577,7 @@ namespace pspsharp.graphics.RE
 					GL11.glDrawElements(primitiveToGL[primitive], DirectBufferUtilities.getDirectIntBuffer(count << 2, indices, indicesOffset));
 					break;
 				default:
-					log.error(string.Format("drawElements unknown indexType={0:D}", indexType));
+					Console.WriteLine(string.Format("drawElements unknown indexType={0:D}", indexType));
 					break;
 			}
 		}

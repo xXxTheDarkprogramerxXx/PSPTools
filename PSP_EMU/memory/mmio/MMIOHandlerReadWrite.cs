@@ -33,13 +33,13 @@ namespace pspsharp.memory.mmio
 		private const int STATE_VERSION = 0;
 		private readonly int[] memory;
 
-		public MMIOHandlerReadWrite(int baseAddress, int length) : base(baseAddress)
+		public MMIOHandlerReadWrite(int baseAddress, int Length) : base(baseAddress)
 		{
 
-			memory = new int[length >> 2];
+			memory = new int[Length >> 2];
 		}
 
-		public MMIOHandlerReadWrite(int baseAddress, int length, int[] memory) : base(baseAddress)
+		public MMIOHandlerReadWrite(int baseAddress, int Length, int[] memory) : base(baseAddress)
 		{
 
 			this.memory = memory;

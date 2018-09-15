@@ -19,7 +19,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
 namespace pspsharp.Allegrex.compiler
 {
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using ExceptionManager = pspsharp.HLE.kernel.managers.ExceptionManager;
 	using IntrManager = pspsharp.HLE.kernel.managers.IntrManager;
@@ -37,7 +37,7 @@ namespace pspsharp.Allegrex.compiler
 	/// </summary>
 	public class RuntimeContextLLE
 	{
-		public static Logger log = RuntimeContext.log;
+		//public static Logger log = RuntimeContext.log;
 		private const int STATE_VERSION = 0;
 		private static readonly bool isLLEActive = reboot.enableReboot;
 		private static Memory mmio;
@@ -100,9 +100,9 @@ namespace pspsharp.Allegrex.compiler
 			MMIOHandlerInterruptMan interruptMan = MMIOHandlerInterruptMan.getInstance(processor);
 			if (!interruptMan.hasInterruptTriggered(interruptNumber))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("triggerInterrupt 0x{0:X}({1})", interruptNumber, IntrManager.getInterruptName(interruptNumber)));
+					Console.WriteLine(string.Format("triggerInterrupt 0x{0:X}({1})", interruptNumber, IntrManager.getInterruptName(interruptNumber)));
 				}
 
 				interruptMan.triggerInterrupt(interruptNumber);
@@ -119,9 +119,9 @@ namespace pspsharp.Allegrex.compiler
 			MMIOHandlerInterruptMan interruptMan = MMIOHandlerInterruptMan.getInstance(processor);
 			if (interruptMan.hasInterruptTriggered(interruptNumber))
 			{
-				if (log.DebugEnabled)
+				//if (log.DebugEnabled)
 				{
-					log.debug(string.Format("clearInterrupt 0x{0:X}({1})", interruptNumber, IntrManager.getInterruptName(interruptNumber)));
+					Console.WriteLine(string.Format("clearInterrupt 0x{0:X}({1})", interruptNumber, IntrManager.getInterruptName(interruptNumber)));
 				}
 
 				interruptMan.clearInterrupt(interruptNumber);
@@ -144,9 +144,9 @@ namespace pspsharp.Allegrex.compiler
 				{
 					pendingInterruptIPbits |= IPbits;
         
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("triggerInterruptException IPbits=0x{0:X}, pendingInterruptIPbits=0x{1:X}", IPbits, pendingInterruptIPbits));
+						Console.WriteLine(string.Format("triggerInterruptException IPbits=0x{0:X}, pendingInterruptIPbits=0x{1:X}", IPbits, pendingInterruptIPbits));
 					}
 				}
 			}
@@ -157,9 +157,9 @@ namespace pspsharp.Allegrex.compiler
 			processor.cp0.SyscallCode = syscallCode << 2;
 			int ebase = triggerException(processor, ExceptionManager.EXCEP_SYS, inDelaySlot);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Calling exception handler for Syscall at 0x{0:X8}, epc=0x{1:X8}", ebase, processor.cp0.Epc));
+				Console.WriteLine(string.Format("Calling exception handler for Syscall at 0x{0:X8}, epc=0x{1:X8}", ebase, processor.cp0.Epc));
 			}
 
 			return ebase;
@@ -169,9 +169,9 @@ namespace pspsharp.Allegrex.compiler
 		{
 			int ebase = triggerException(processor, ExceptionManager.EXCEP_BP, inDelaySlot);
 
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("Calling exception handler for Break at 0x{0:X8}, epc=0x{1:X8}", ebase, processor.cp0.Epc));
+				Console.WriteLine(string.Format("Calling exception handler for Break at 0x{0:X8}, epc=0x{1:X8}", ebase, processor.cp0.Epc));
 			}
 
 			return ebase;
@@ -254,20 +254,20 @@ namespace pspsharp.Allegrex.compiler
 		{
 			if (IPbits == 0)
 			{
-				log.debug("IPbits == 0");
+				Console.WriteLine("IPbits == 0");
 				return false;
 			}
 
 			if (processor.InterruptsDisabled)
 			{
-				log.debug("Interrupts disabled");
+				Console.WriteLine("Interrupts disabled");
 				return false;
 			}
 
 			int status = processor.cp0.Status;
-			if (log.DebugEnabled)
+			//if (log.DebugEnabled)
 			{
-				log.debug(string.Format("cp0 Status=0x{0:X}", status));
+				Console.WriteLine(string.Format("cp0 Status=0x{0:X}", status));
 			}
 
 			// Is the processor already in an exception state?
@@ -339,9 +339,9 @@ namespace pspsharp.Allegrex.compiler
 					// we are not in a delay slot
 					int ebase = prepareExceptionHandlerCall(processor, ExceptionManager.EXCEP_INT, false);
         
-					if (log.DebugEnabled)
+					//if (log.DebugEnabled)
 					{
-						log.debug(string.Format("Calling exception handler for {0} at 0x{1:X8}, epc=0x{2:X8}, cause=0x{3:X}", MMIOHandlerInterruptMan.getInstance(processor).toStringInterruptTriggered(), ebase, processor.cp0.Epc, processor.cp0.Cause));
+						Console.WriteLine(string.Format("Calling exception handler for {0} at 0x{1:X8}, epc=0x{2:X8}, cause=0x{3:X}", MMIOHandlerInterruptMan.getInstance(processor).toStringInterruptTriggered(), ebase, processor.cp0.Epc, processor.cp0.Cause));
 					}
         
 					return ebase;

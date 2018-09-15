@@ -16,7 +16,7 @@ along with pspsharp.  If not, see <http://www.gnu.org/licenses/>.
  */
 namespace pspsharp.HLE.modules
 {
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 
 	using CryptoEngine = pspsharp.crypto.CryptoEngine;
@@ -26,7 +26,7 @@ namespace pspsharp.HLE.modules
 
 	public class scePauth : HLEModule
 	{
-		public static Logger log = Modules.getLogger("scePauth");
+		//public static Logger log = Modules.getLogger("scePauth");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0xF7AA47F6, version = 500) public int scePauth_F7AA47F6(pspsharp.HLE.TPointer inputAddr, int inputLength, @CanBeNull pspsharp.HLE.TPointer32 resultLengthAddr, pspsharp.HLE.TPointer keyAddr)
@@ -64,7 +64,7 @@ namespace pspsharp.HLE.modules
 
 					// Read the externally decrypted file.
 					SeekableRandomFile pauthPRXDec = new SeekableRandomFile(pauthDecFileName, "rw");
-					int pauthSize = (int) pauthPRXDec.length();
+					int pauthSize = (int) pauthPRXDec.Length();
 					sbyte[] pauthDec = new sbyte[pauthSize];
 					pauthPRXDec.read(pauthDec);
 					pauthPRXDec.Dispose();
@@ -99,7 +99,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException ioe)
 			{
-				log.error(ioe);
+				Console.WriteLine(ioe);
 			}
 
 			return 0;
@@ -141,7 +141,7 @@ namespace pspsharp.HLE.modules
 
 					// Read the externally decrypted file.
 					SeekableRandomFile pauthPRXDec = new SeekableRandomFile(pauthDecFileName, "rw");
-					int pauthSize = (int) pauthPRXDec.length();
+					int pauthSize = (int) pauthPRXDec.Length();
 					sbyte[] pauthDec = new sbyte[pauthSize];
 					pauthPRXDec.read(pauthDec);
 					pauthPRXDec.Dispose();
@@ -176,7 +176,7 @@ namespace pspsharp.HLE.modules
 			}
 			catch (IOException ioe)
 			{
-				log.error(ioe);
+				Console.WriteLine(ioe);
 			}
 
 			return 0;

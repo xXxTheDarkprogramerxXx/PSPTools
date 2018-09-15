@@ -19,13 +19,13 @@ namespace pspsharp.HLE.modules
 //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
 //	import static pspsharp.HLE.HLEModuleManager.HLESyscallNid;
 
-	using Logger = org.apache.log4j.Logger;
+	//using Logger = org.apache.log4j.Logger;
 
 	using Managers = pspsharp.HLE.kernel.Managers;
 
 	public class ThreadManForKernel : HLEModule
 	{
-		public static Logger log = Modules.getLogger("ThreadManForKernel");
+		//public static Logger log = Modules.getLogger("ThreadManForKernel");
 
 //JAVA TO C# CONVERTER TODO TASK: Most Java annotations will not have direct .NET equivalent attributes:
 //ORIGINAL LINE: @HLEUnimplemented @HLEFunction(nid = 0x04E72261, version = 150) public int sceKernelAllocateKTLS(int size, pspsharp.HLE.TPointer callback, int callbackArg)

@@ -24,7 +24,7 @@ namespace pspsharp.network.adhoc
 	/// </summary>
 	internal class AdhocBufferMessage
 	{
-		public int length;
+		public int Length;
 		public int offset;
 		public pspNetMacAddress macAddress = new pspNetMacAddress();
 		public int port;

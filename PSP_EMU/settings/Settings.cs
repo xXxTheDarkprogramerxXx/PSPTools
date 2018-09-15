@@ -75,17 +75,17 @@ namespace pspsharp.settings
 			}
 			catch (FileNotFoundException e)
 			{
-				Emulator.log.error("Settings file not found:", e);
+				Emulator.Console.WriteLine("Settings file not found:", e);
 			}
 			catch (IOException e)
 			{
-				Emulator.log.error("Problem loading settings:", e);
+				Emulator.Console.WriteLine("Problem loading settings:", e);
 			}
 			catch (System.NullReferenceException e)
 			{
 				// This except is thrown by java.util.Properties when the directory
 				// contains special characters or is too long.
-				Emulator.log.error("Could not initialize properly pspsharp, try to install pspsharp directly under C:\\pspsharp", e);
+				Emulator.Console.WriteLine("Could not initialize properly pspsharp, try to install pspsharp directly under C:\\pspsharp", e);
 			}
 			finally
 			{
@@ -159,11 +159,11 @@ namespace pspsharp.settings
 				}
 				catch (FileNotFoundException e)
 				{
-					Emulator.log.debug(string.Format("Patch file not found: {0}", e.ToString()));
+					Emulator.Console.WriteLine(string.Format("Patch file not found: {0}", e.ToString()));
 				}
 				catch (IOException e)
 				{
-					Emulator.log.error("Problem loading patch:", e);
+					Emulator.Console.WriteLine("Problem loading patch:", e);
 				}
 				finally
 				{
@@ -212,11 +212,11 @@ namespace pspsharp.settings
 			}
 			catch (FileNotFoundException e)
 			{
-				Emulator.log.error("Settings file not found:", e);
+				Emulator.Console.WriteLine("Settings file not found:", e);
 			}
 			catch (IOException e)
 			{
-				Emulator.log.error("Problem saving settings:", e);
+				Emulator.Console.WriteLine("Problem saving settings:", e);
 			}
 			finally
 			{

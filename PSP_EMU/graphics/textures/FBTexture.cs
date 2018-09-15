@@ -115,7 +115,7 @@ namespace pspsharp.graphics.textures
 
 		public override string ToString()
 		{
-			return string.Format("FBTexture[0x{0:X8}-0x{1:X8}, {2:D}x{3:D}, bufferWidth={4:D}, pixelFormat={5:D}({6})]", address, address + length, width, height, bufferWidth, pixelFormat, VideoEngine.getPsmName(pixelFormat));
+			return string.Format("FBTexture[0x{0:X8}-0x{1:X8}, {2:D}x{3:D}, bufferWidth={4:D}, pixelFormat={5:D}({6})]", address, address + Length, width, height, bufferWidth, pixelFormat, VideoEngine.getPsmName(pixelFormat));
 		}
 	}
 
