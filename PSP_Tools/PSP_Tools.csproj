@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PSP_Tools</RootNamespace>
     <AssemblyName>PSP_Tools</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSharpPlatform">
+      <HintPath>..\..\..\..\..\..\Source\Repos\cspspemu\Libraries\csharpplatform\CSharpPlatform\bin\Debug\CSharpPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="CSharpUtils">
+      <HintPath>..\..\..\..\..\..\Source\Repos\cspspemu\Libraries\CSharpUtils\CSharpUtils\CSharpUtils\bin\Debug\CSharpUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="CSPspEmu.Core.Types">
+      <HintPath>..\..\..\..\..\..\Source\Repos\cspspemu\Core\CSPspEmu.Core.Types\bin\Debug\CSPspEmu.Core.Types.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -46,7 +56,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio.cs" />
     <Compile Include="ClassWrapper.cs" />
+    <Compile Include="Impl\Alsa\Alsa.cs" />
+    <Compile Include="Impl\Alsa\AudioAlsaImpl.cs" />
+    <Compile Include="Impl\Null\AudioImplNull.cs" />
+    <Compile Include="Impl\Openal\AudioStream.cs" />
+    <Compile Include="Impl\Openal\PspAudioOpenalImpl.cs" />
+    <Compile Include="Impl\WaveOut\PspAudioWaveOutImpl.cs" />
+    <Compile Include="Impl\WaveOut\WaveLib\FifoStream.cs" />
+    <Compile Include="Impl\WaveOut\WaveLib\WaveIn.cs" />
+    <Compile Include="Impl\WaveOut\WaveLib\WaveNative.cs" />
+    <Compile Include="Impl\WaveOut\WaveLib\WaveOut.cs" />
+    <Compile Include="Impl\WaveOut\WaveLib\WaveStream.cs" />
     <Compile Include="ISO Creator\BER\CDCat\Export\ExportIso.cs" />
     <Compile Include="ISO Creator\BER\CDCat\Export\IExportPlugin.cs" />
     <Compile Include="ISO Creator\BER\CDCat\Export\TreeNode.cs" />
