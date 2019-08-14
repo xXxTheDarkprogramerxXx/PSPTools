@@ -18,3 +18,9 @@ C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools
 C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.csprojResolveAssemblyReference.cache
 C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.dll
 C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\obj\Debug\PSP_Tools.pdb
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\DiscUtils.Common.dll
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\DiscUtils.dll
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\DiscUtils.pdb
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\DiscUtils.xml
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\DiscUtils.Common.pdb
+C:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_Tools\bin\Debug\DiscUtils.Common.xml

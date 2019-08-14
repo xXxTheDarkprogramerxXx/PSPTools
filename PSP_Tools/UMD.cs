@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiscUtils.Iso9660;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -110,9 +111,36 @@ namespace PSP_Tools
                             throw new Exception("Folder path is not valid");
                         }
                         ValidateFolderStructure(FolderPath,FakeSign);
-                        iso_thread = new Thread(new ParameterizedThreadStart(iso_creator.Folder2Iso));
-                        iso_thread.Start(new IsoCreator.IsoCreator.IsoCreatorFolderArgs(FolderPath, SaveISOPath, PSPTitle));
-                        Status = ISOStatus.Busy;
+                        //iso_thread = new Thread(new ParameterizedThreadStart(iso_creator.Folder2Iso));
+                        //iso_thread.Start(new IsoCreator.IsoCreator.IsoCreatorFolderArgs(FolderPath, SaveISOPath, PSPTitle));
+                        //Status = ISOStatus.Busy;
+
+                        CDBuilder builder = new CDBuilder();
+                        builder.UseJoliet = true;
+                        builder.VolumeIdentifier = PSPTitle;
+                        builder.UseJoliet = false;
+                        //builder.UpdateIsolinuxBootTable = true;
+                        //builder.AddFile(@"Folder\Hello.txt", Encoding.ASCII.GetBytes("Hello World!"));
+                        
+                        builder.AddDirectory(FolderPath);
+                        string[] filePaths = Directory.GetFiles(FolderPath,"*.*",SearchOption.AllDirectories);
+                        //foreach (string file in Directory.EnumerateFiles(FolderPath, "*.*", SearchOption.AllDirectories))
+                        //{
+                        //    builder.AddFile(file, File.ReadAllBytes(file));
+                        //}
+                        for (int i = 0; i < filePaths.Length; i++)
+                        {
+                            if (!filePaths[i].Contains("PSP_GAME"))
+                            {
+                                builder.AddFile(new FileInfo(filePaths[i]).Name, File.ReadAllBytes(filePaths[i]));
+                            }
+                            else
+                            {
+                                builder.AddFile(filePaths[i].Substring(filePaths[i].IndexOf("PSP_GAME")), File.ReadAllBytes(filePaths[i]));
+                            }
+                        }
+                        //DirSearch(FolderPath);
+                        builder.Build(SaveISOPath);
                     }
                     else
                     {
@@ -126,13 +154,32 @@ namespace PSP_Tools
                 }
             }
 
+            static void DirSearch(string sDir)
+            {
+                try
+                {
+                    foreach (string d in Directory.GetDirectories(sDir))
+                    {
+                        foreach (string f in Directory.GetFiles(d))
+                        {
+                            Console.WriteLine(f);
+                        }
+                        DirSearch(d);
+                    }
+                }
+                catch (System.Exception excpt)
+                {
+                    Console.WriteLine(excpt.Message);
+                }
+            }
+
             /*
              * UCES-00044|7BD493FA3A73B67A|0001|G.............|
              * 55 43 45 53 2D 30 30 30 34 34 | 37 42 44 34 39 33 46 41 33 41 37 33 42 36 37 41 | 30 30 30 31 | 47 00 00 00 00 00 00 00 00 00 00 00 00 00 |
              */
-             /// <summary>
-             /// Class For UMD_DATA
-             /// </summary>
+            /// <summary>
+            /// Class For UMD_DATA
+            /// </summary>
             public class UMD_DATA
             {
                 

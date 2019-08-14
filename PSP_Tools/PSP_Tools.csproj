@@ -41,6 +41,14 @@
     <Reference Include="CSPspEmu.Core.Types">
       <HintPath>..\..\..\..\..\..\Source\Repos\cspspemu\Core\CSPspEmu.Core.Types\bin\Debug\CSPspEmu.Core.Types.dll</HintPath>
     </Reference>
+    <Reference Include="DiscUtils, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Discutils.0.11.0.2\lib\net40\DiscUtils.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DiscUtils.Common, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Discutils.0.11.0.2\lib\net40\DiscUtils.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
