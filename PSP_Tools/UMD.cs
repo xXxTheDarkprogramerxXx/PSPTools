@@ -141,6 +141,7 @@ namespace PSP_Tools
                         }
                         //DirSearch(FolderPath);
                         builder.Build(SaveISOPath);
+                        Status = ISOStatus.Completed;
                     }
                     else
                     {
