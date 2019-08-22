@@ -1,11 +1,13 @@
 ﻿using DiscUtils.Iso9660;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -8907,6 +8909,548 @@ namespace PSP_Tools
             // }
 
 
+            //
+
+
+            //
+
+
+            /*Build PBP File Powered By Leecherman*/
+
+            public class PSN
+            {
+
+                public class Utils
+                {
+                    public static System.Drawing.Image ResizeImage(System.Drawing.Image image, System.Drawing.Size size, bool preserveAspectRatio = false)
+                    {
+                        checked
+                        {
+                            int width2;
+                            int height2;
+                            if (preserveAspectRatio)
+                            {
+                                int width = image.Width;
+                                int height = image.Height;
+                                float num = (float)size.Width / (float)width;
+                                float num2 = (float)size.Height / (float)height;
+                                float num3 = (num2 < num) ? num2 : num;
+                                width2 = (int)Math.Round((double)(unchecked((float)width * num3)));
+                                height2 = (int)Math.Round((double)(unchecked((float)height * num3)));
+                            }
+                            else
+                            {
+                                width2 = size.Width;
+                                height2 = size.Height;
+                            }
+                            System.Drawing.Image image2 = new System.Drawing.Bitmap(width2, height2);
+                            using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image2))
+                            {
+                                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                                graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                                graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighQuality;
+                                graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                                graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+                                graphics.DrawImage(image, 0, 0, width2, height2);
+                            }
+                            return image2;
+                        }
+                    }
+
+                    public static bool CheckImageSize(string inputimg, System.Drawing.Size imgsize)
+                    {
+                        using (System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(inputimg))
+                        {
+                            if (bitmap.Width == imgsize.Width && bitmap.Height == imgsize.Height)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+
+                    public static string ResizeImagesFilename(string inputimgfile, string outputimgfile, System.Drawing.Size imgsize)
+                    {
+                        string result = inputimgfile;
+                        try
+                        {
+                            byte[] buffer = File.ReadAllBytes(inputimgfile);
+                            System.Drawing.Image image = Utils.ImageConverter.byteArrayToImage(ref buffer, System.Drawing.Imaging.ImageFormat.Png);
+                            if (image.Width != imgsize.Width | image.Height != imgsize.Height)
+                            {
+                                System.Drawing.Image image2 = image;
+                                System.Drawing.Size size = new System.Drawing.Size(imgsize.Width, imgsize.Height);
+                                System.Drawing.Image image3 = Utils.ResizeImage(image2, size, false);
+                                MemoryStream memoryStream = new MemoryStream();
+                                image3.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                                File.WriteAllBytes(outputimgfile, memoryStream.ToArray());
+                                result = outputimgfile;
+                            }
+                            else
+                            {
+                                MemoryStream memoryStream2 = new MemoryStream(buffer);
+                                byte[] array = new byte[4];
+                                memoryStream2.Read(array, 0, array.Length);
+                                if (array[0] != 137 && array[1] != 80 && array[2] != 78 && array[3] != 71)
+                                {
+                                    memoryStream2 = new MemoryStream();
+                                    image.Save(memoryStream2, System.Drawing.Imaging.ImageFormat.Png);
+                                    File.WriteAllBytes(outputimgfile, memoryStream2.ToArray());
+                                    result = outputimgfile;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        return result;
+                    }
+                    public class ImageConverter
+                    {
+                        // Token: 0x06000065 RID: 101 RVA: 0x00020658 File Offset: 0x0001E858
+                        public static byte[] imageToByteArray(ref System.Drawing.Image imageIn, System.Drawing.Imaging.ImageFormat fmt)
+                        {
+                            MemoryStream memoryStream = new MemoryStream();
+                            imageIn.Save(memoryStream, fmt);
+                            return memoryStream.ToArray();
+                        }
+
+                        // Token: 0x06000066 RID: 102 RVA: 0x0002067C File Offset: 0x0001E87C
+                        public static System.Drawing.Image byteArrayToImage(ref byte[] byteArrayIn, System.Drawing.Imaging.ImageFormat fmt)
+                        {
+                            MemoryStream stream = new MemoryStream(byteArrayIn);
+                            System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
+                            fmt = image.RawFormat;
+                            return image;
+                        }
+                    }
+                }
+
+                internal sealed class Datas
+                {
+                    // Token: 0x06000230 RID: 560 RVA: 0x00031E2C File Offset: 0x0003002C
+                    // Note: this type is marked as 'beforefieldinit'.
+                    static Datas()
+                    {
+                        checked
+                        {
+                            Datas.pbpDataBytes = new Array[Enum.GetNames(typeof(Datas.pbpData)).Length - 1 + 1];
+                            Datas.pbpDataSizes = new long[Enum.GetNames(typeof(Datas.pbpData)).Length - 1 + 1];
+                            Datas.pbpDataOffsets = new int[Enum.GetNames(typeof(Datas.pbpData)).Length - 1 + 1];
+                            Datas.pbpImages = new System.Drawing.Image[Enum.GetNames(typeof(Datas.pbpDataImage)).Length - 1 + 1];
+                            Datas.PbpDatasNames = new string[]
+                            {
+                    "PARAM.SFO",
+                    "ICON0.PNG",
+                    "ICON1.PMF",
+                    "PIC0.PNG",
+                    "PIC1.PNG",
+                    "SND0.AT3",
+                    "DATA.PSP",
+                    "DATA.PSAR"
+                            };
+                            Datas.GetSetFormType = Datas.FormType.PBPCreator;
+                        }
+                    }
+
+                    // Token: 0x04000121 RID: 289
+                    public static bool abortOperation = false;
+
+                    // Token: 0x04000122 RID: 290
+                    public static bool pbpModified = false;
+
+                    // Token: 0x04000123 RID: 291
+                    public static bool IsAnotherForm = false;
+
+                    // Token: 0x04000124 RID: 292
+                    public static Array[] pbpDataBytes;
+
+                    // Token: 0x04000125 RID: 293
+                    public static long[] pbpDataSizes;
+
+                    // Token: 0x04000126 RID: 294
+                    public static int[] pbpDataOffsets;
+
+                    // Token: 0x04000127 RID: 295
+                    public static System.Drawing.Image[] pbpImages;
+
+                    // Token: 0x04000128 RID: 296
+                    public static readonly string[] PbpDatasNames;
+
+                    // Token: 0x04000129 RID: 297
+                    public static Datas.FormType GetSetFormType;
+
+                    // Token: 0x0400012A RID: 298
+                    public static System.Drawing.Point GetSetMyLocation;
+
+                    // Token: 0x02000025 RID: 37
+                    [Flags]
+                    public enum pbpData
+                    {
+                        // Token: 0x0400012C RID: 300
+                        sfobytes = 0,
+                        // Token: 0x0400012D RID: 301
+                        icon0bytes = 1,
+                        // Token: 0x0400012E RID: 302
+                        icon1bytes = 2,
+                        // Token: 0x0400012F RID: 303
+                        pic0bytes = 3,
+                        // Token: 0x04000130 RID: 304
+                        pic1bytes = 4,
+                        // Token: 0x04000131 RID: 305
+                        at3bytes = 5,
+                        // Token: 0x04000132 RID: 306
+                        pspbytes = 6,
+                        // Token: 0x04000133 RID: 307
+                        psardata = 7
+                    }
+
+                    // Token: 0x02000026 RID: 38
+                    [Flags]
+                    public enum pbpDataImage
+                    {
+                        // Token: 0x04000135 RID: 309
+                        icon0 = 0,
+                        // Token: 0x04000136 RID: 310
+                        pic0 = 1,
+                        // Token: 0x04000137 RID: 311
+                        pic1 = 2,
+                        // Token: 0x04000138 RID: 312
+                        picmerged = 3
+                    }
+
+                    // Token: 0x02000027 RID: 39
+                    public enum FormType
+                    {
+                        // Token: 0x0400013A RID: 314
+                        PBPCreator,
+                        // Token: 0x0400013B RID: 315
+                        DATCreator,
+                        // Token: 0x0400013C RID: 316
+                        SFOCreator,
+                        // Token: 0x0400013D RID: 317
+                        SFOEditor
+                    }
+                }
+
+                // Token: 0x040000A1 RID: 161
+                public string pbpFile;
+
+                // Token: 0x040000A2 RID: 162
+                public long pbptotalSize;
+
+                // Token: 0x040000A3 RID: 163
+                public object datas;
+
+                // Token: 0x040000A4 RID: 164
+                public string[] pbpDataFiles;
+
+                // Token: 0x040000A5 RID: 165
+                public long[] pbpDataSizes;
+
+                // Token: 0x040000A6 RID: 166
+                public string tmp_image_icon0;
+
+                // Token: 0x040000A7 RID: 167
+                public string tmp_image_pic0;
+
+                // Token: 0x040000A8 RID: 168
+                public string tmp_image_pic1;
+
+                // Token: 0x040000A9 RID: 169
+                public bool ReturntoMain;
+
+                public PSN(string SfoLocation, string Icon0location,string ICON1_PMFLocation,string PIC0Location,string PIC1Location,string SND0_AT3, string DATA_PSP , string DATA_PSAR)
+                {
+                    this.datas = Enum.GetValues(typeof(pbpData));
+                    this.pbpDataFiles = new string[Enum.GetNames(typeof(pbpData)).Length - 1 + 1];
+                    this.pbpDataSizes = new long[Enum.GetNames(typeof(pbpData)).Length - 1 + 1];
+
+                    #region << SFO >>
+
+                    this.pbpDataFiles[0] = SfoLocation;
+                    this.pbpDataSizes[0] = this.GetSize(SfoLocation);
+
+                    #endregion << SFO >>
+
+                    #region << Icon0 >>
+
+                    this.pbpDataFiles[1] = Icon0location;
+                    string fileName = Icon0location;
+                    System.Drawing.Size imgsize = new System.Drawing.Size(144, 80);
+                    bool flag = !Utils.CheckImageSize(fileName, imgsize);
+                    string fileName2 = Icon0location;
+                    System.Drawing.Size imgsize2 = new System.Drawing.Size(80, 80);
+                    if (flag | !Utils.CheckImageSize(fileName2, imgsize2))
+                    {
+                        string[] array = this.pbpDataFiles;
+                        int num = 1;
+                        string fileName3 = Icon0location;
+                        string outputimgfile = this.tmp_image_pic0;
+                        System.Drawing.Size imgsizeicon0 = new System.Drawing.Size(144, 80);
+                        array[num] = Utils.ResizeImagesFilename(fileName3, outputimgfile, imgsizeicon0);
+                    }
+                    this.pbpDataSizes[1] = this.GetSize(Icon0location);
+
+
+                    #endregion << Icon0 >>
+
+                    #region << Icon1 PMF >>
+
+                    this.pbpDataFiles[2] = ICON1_PMFLocation;
+                    this.pbpDataSizes[2] = this.GetSize(ICON1_PMFLocation);
+
+                    #endregion << Icon 1 PMF >>
+
+                    #region << Pic0 >>
+
+                    string[] array2 = this.pbpDataFiles;
+                    int num2 = 3;
+                    string fileName4 = PIC0Location;
+                    string outputimgfile2 = this.tmp_image_pic0;
+                    System.Drawing.Size imgsize3 = new System.Drawing.Size(480, 272);
+                    array2[num2] = Utils.ResizeImagesFilename(fileName4, outputimgfile2, imgsize3);
+                    this.pbpDataSizes[3] = this.GetSize(PIC0Location);
+
+                    #endregion << Pic0 >>
+
+                    #region << PIC1 >>
+
+                    string[] array3 = this.pbpDataFiles;
+                    int num3 = 4;
+                    string fileName5 = PIC1Location;
+                    string outputimgfile3 = this.tmp_image_pic1;
+                    System.Drawing.Size imgsize4 = new System.Drawing.Size(480, 272);
+                    array3[num3] = Utils.ResizeImagesFilename(fileName5, outputimgfile3, imgsize4);
+                    this.pbpDataSizes[4] = this.GetSize(PIC1Location);
+
+                    #endregion << PIC1>>
+
+                    #region << SND0.AT3 >>
+
+                    this.pbpDataFiles[5] = SND0_AT3;
+                    this.pbpDataSizes[5] = this.GetSize(SND0_AT3);
+
+                    #endregion << SND0.AT3 >>
+
+                    #region << DATA_PSP >>
+
+                    this.pbpDataFiles[6] = DATA_PSP;
+                    this.pbpDataSizes[6] = this.GetSize(DATA_PSP);
+
+                    #endregion << DATA_PSP >>
+
+                    #region << DATA.PSAR >>
+
+                    this.pbpDataFiles[7] = DATA_PSAR;
+                    this.pbpDataSizes[7] = this.GetSize(DATA_PSAR);
+
+                    #endregion << DATA.PSAR >>
+                }
+                public long GetSize(string FilePath)
+                {
+                    if (File.Exists(FilePath))
+                    {
+                        return new FileInfo(FilePath).Length;
+                    }
+                    return 0L;
+                }
+
+                public void CreatePBPFile(string OutputPath)
+                {
+                    try
+                    {
+                        foreach (object obj in ((IEnumerable)this.datas))
+                        {
+                            object objectValue = RuntimeHelpers.GetObjectValue(obj);
+                            this.pbptotalSize += this.pbpDataSizes[Convert.ToInt32(objectValue)];
+                        }
+                    }
+                    finally
+                    {
+
+                    }
+
+                    //Delete file if already exisits in output path
+                    if (File.Exists(OutputPath))
+                    {
+                        File.Delete(OutputPath);
+                    }
+
+                    byte[] array = new byte[]
+                    {
+                        0,
+                        80,
+                        66,
+                        80,
+                        1,
+                        0,
+                        1,
+                        0,
+                        40,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    };
+
+                    using (FileStream fileStream = new FileStream(OutputPath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+                    {
+                        fileStream.Write(array, 0, array.Length);
+                        int num = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[0]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[0], fileStream, 1024L);
+                        }
+                        int num2 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[1]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[1], fileStream, 1024L);
+                        }
+                        int num3 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[2]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[2], fileStream, 1024L);
+                        }
+                        int num4 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[3]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[3], fileStream, 1024L);
+                        }
+                        int num5 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[4]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[4], fileStream, 1024L);
+                        }
+                        int num6 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[5]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[5], fileStream, 1024L);
+                        }
+                        int num7 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[6]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[6], fileStream, 1024L);
+                        }
+                        int num8 = (int)fileStream.Position;
+                        if (File.Exists(this.pbpDataFiles[7]))
+                        {
+                            this.ReadMergeFile(this.pbpDataFiles[7], fileStream, 4194304L);
+                        }
+                        fileStream.Position = 12L;
+                        int value = num2;
+                        byte[] bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Position = 16L;
+                        value = num3;
+                        bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Position = 20L;
+                        value = num4;
+                        bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Position = 24L;
+                        value = num5;
+                        bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Position = 28L;
+                        value = num6;
+                        bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Position = 32L;
+                        value = num7;
+                        bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                        fileStream.Position = 36L;
+                        value = num8;
+                        bytes = BitConverter.GetBytes(value);
+                        fileStream.Write(bytes, 0, bytes.Length);
+                    }
+                    this.ReportEvent("Creating PBP is Complete.", "");
+                }
+
+                private void ReportEvent(string str, string percent)
+                {
+                    Console.WriteLine(str + " " + percent);
+                }    
+
+                private void ReadMergeFile(string filePath, FileStream fw, long buffersize)
+                {
+                    checked
+                    {
+                        try
+                        {
+                            using (BinaryReader binaryReader = new BinaryReader(new StreamReader(filePath).BaseStream))
+                            {
+                                byte[] array = new byte[(int)buffersize + 1];
+                                int m_iBytes;
+                                do
+                                {
+                                    this.ReportEvent("Creating", "");
+                                    Array.Clear(array, 0, array.Length);
+                                    m_iBytes = binaryReader.Read(array, 0, array.Length);
+                                    fw.Write(array, 0, m_iBytes);   
+                                }
+                                while (m_iBytes > 0);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            this.ReportEvent("Error while Creating PBP Package!", "");
+                            throw new Exception("Error While Create PBP Package! \n" + ex.Message);
+                        }
+                    }
+                }
+
+                [Flags]
+                public enum pbpData
+                {
+                    // Token: 0x040000AB RID: 171
+                    sfobytes = 0,
+                    // Token: 0x040000AC RID: 172
+                    icon0bytes = 1,
+                    // Token: 0x040000AD RID: 173
+                    icon1bytes = 2,
+                    // Token: 0x040000AE RID: 174
+                    pic0bytes = 3,
+                    // Token: 0x040000AF RID: 175
+                    pic1bytes = 4,
+                    // Token: 0x040000B0 RID: 176
+                    at3bytes = 5,
+                    // Token: 0x040000B1 RID: 177
+                    pspbytes = 6,
+                    // Token: 0x040000B2 RID: 178
+                    psardata = 7
+                }
+
+            }
 
 
             #endregion << Uncomment for Kirk Engine and PSN Fake Signing WIP >>

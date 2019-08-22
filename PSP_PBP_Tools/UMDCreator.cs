@@ -67,5 +67,21 @@ namespace PSP_PBP_Tools
                 }
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string LocDatapsar = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\DATA.PSAR";
+            string locdatapsp = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\DATA.PSP";
+            string locicon0 = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\ICON0.PNG";
+            string locicon1pmf = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\ICON1.PMF";
+            string locparam = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\PARAM.SFO";
+            string locpic0 =@"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\PIC0.PNG";
+            string locpic1 = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\PIC1.PNG";
+            string locsnd0 = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\SND0.AT3";
+
+            PSP_Tools.UMD.Sign.PSN psn = new PSP_Tools.UMD.Sign.PSN(locparam, locicon0, locicon1pmf, locpic0, locpic1, locsnd0, locdatapsp, LocDatapsar);
+            psn.CreatePBPFile(@"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\test.pbp");
+            
+        }
     }
 }
