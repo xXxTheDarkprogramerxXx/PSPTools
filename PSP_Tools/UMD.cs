@@ -8917,8 +8917,671 @@ namespace PSP_Tools
 
             /*Build PBP File Powered By Leecherman*/
 
-            public class PSN
+            public unsafe class PSN
             {
+
+                public static PARAM_SFO sfo = new PARAM_SFO(@"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\PARAM.SFO");
+
+                #region << Structs >>
+                [Serializable]
+                public class NPUMDIMG_HEADER_BODY
+                {
+                    public ushort sector_size; // 0x0800
+                    public ushort unk_2; // 0xE000
+                    public uint unk_4;
+                    public uint unk_8;
+                    public uint unk_12;
+                    public uint unk_16;
+                    public uint lba_start;
+                    public uint unk_24;
+                    public uint nsectors;
+                    public uint unk_32;
+                    public uint lba_end;
+                    public uint unk_40;
+                    public uint block_entry_offset;
+                    public string disc_id = new string(new char[0x10]);
+                    public uint header_start_offset;
+                    public uint unk_68;
+                    public byte unk_72;
+                    public byte bbmac_param;
+                    public byte unk_74;
+                    public byte unk_75;
+                    public uint unk_76;
+                    public uint unk_80;
+                    public uint unk_84;
+                    public uint unk_88;
+                    public uint unk_92;
+                }
+                [Serializable]
+                public class NPUMDIMG_HEADER
+                {
+                    public byte[] magic = new byte[0x08]; // NPUMDIMG
+                    public uint np_flags;
+                    public uint block_basis;
+                    public byte[] content_id = new byte[0x30];
+                    public NPUMDIMG_HEADER_BODY body = new NPUMDIMG_HEADER_BODY();
+                    public byte[] header_key = new byte[0x10];
+                    public byte[] data_key = new byte[0x10];
+                    public byte[] header_hash = new byte[0x10];
+                    public byte[] padding = new byte[0x8];
+                    public byte[] ecdsa_sig = new byte[0x28];
+                }
+
+                internal static class DefineConstants
+                {
+                    public const int KIRK_OPERATION_SUCCESS = 0;
+                    public const int KIRK_NOT_ENABLED = 1;
+                    public const int KIRK_INVALID_MODE = 2;
+                    public const int KIRK_HEADER_HASH_INVALID = 3;
+                    public const int KIRK_DATA_HASH_INVALID = 4;
+                    public const int KIRK_SIG_CHECK_INVALID = 5;
+                    public const int KIRK_UNK_1 = 6;
+                    public const int KIRK_UNK_2 = 7;
+                    public const int KIRK_UNK_3 = 8;
+                    public const int KIRK_UNK_4 = 9;
+                    public const int KIRK_UNK_5 = 0xA;
+                    public const int KIRK_UNK_6 = 0xB;
+                    public const int KIRK_NOT_INITIALIZED = 0xC;
+                    public const int KIRK_INVALID_OPERATION = 0xD;
+                    public const int KIRK_INVALID_SEED_CODE = 0xE;
+                    public const int KIRK_INVALID_SIZE = 0xF;
+                    public const int KIRK_DATA_SIZE_ZERO = 0x10;
+                    public const int KIRK_CMD_DECRYPT_PRIVATE = 1;
+                    public const int KIRK_CMD_2 = 2;
+                    public const int KIRK_CMD_3 = 3;
+                    public const int KIRK_CMD_ENCRYPT_IV_0 = 4;
+                    public const int KIRK_CMD_ENCRYPT_IV_FUSE = 5;
+                    public const int KIRK_CMD_ENCRYPT_IV_USER = 6;
+                    public const int KIRK_CMD_DECRYPT_IV_0 = 7;
+                    public const int KIRK_CMD_DECRYPT_IV_FUSE = 8;
+                    public const int KIRK_CMD_DECRYPT_IV_USER = 9;
+                    public const int KIRK_CMD_PRIV_SIGN_CHECK = 10;
+                    public const int KIRK_CMD_SHA1_HASH = 11;
+                    public const int KIRK_CMD_ECDSA_GEN_KEYS = 12;
+                    public const int KIRK_CMD_ECDSA_MULTIPLY_POINT = 13;
+                    public const int KIRK_CMD_PRNG = 14;
+                    public const int KIRK_CMD_15 = 15;
+                    public const int KIRK_CMD_ECDSA_SIGN = 16;
+                    public const int KIRK_CMD_ECDSA_VERIFY = 17;
+                    public const int KIRK_MODE_CMD1 = 1;
+                    public const int KIRK_MODE_CMD2 = 2;
+                    public const int KIRK_MODE_CMD3 = 3;
+                    public const int KIRK_MODE_ENCRYPT_CBC = 4;
+                    public const int KIRK_MODE_DECRYPT_CBC = 5;
+                    public const int SUBCWR_NOT_16_ALGINED = 0x90A;
+                    public const int SUBCWR_HEADER_HASH_INVALID = 0x920;
+                    public const int SUBCWR_BUFFER_TOO_SMALL = 0x1000;
+                    public const int AES_KEY_LEN_128 = 128;
+                    public const int AES_KEY_LEN_192 = 192;
+                    public const int AES_KEY_LEN_256 = 256;
+                    public const int AES_BUFFER_SIZE = 16;
+                    public const int AES_MAXKEYBITS = 256;
+                    public const int AES_MAXROUNDS = 14;
+                    public const int AES_128 = 0;
+                    public const int _GLOBAL_H_ = 1;
+                    public const int FALSE = 0;
+                    public const int _SHA_H_ = 1;
+                    public const int _ENDIAN_H_ = 1;
+                    public const int SHS_DATASIZE = 64;
+                    public const int SHS_DIGESTSIZE = 20;
+                    public const int K1 = 0x5A827999; // Rounds  0-19
+                    public const int K2 = 0x6ED9EBA1; // Rounds 20-39
+                    public const uint K3 = 0x8F1BBCDC; // Rounds 40-59
+                    public const uint K4 = 0xCA62C1D6; // Rounds 60-79
+                    public const int h0init = 0x67452301;
+                    public const uint h1init = 0xEFCDAB89;
+                    public const uint h2init = 0x98BADCFE;
+                    public const int h3init = 0x10325476;
+                    public const uint h4init = 0xC3D2E1F0;
+                    public const int PT_LOAD = 1; // Loadable segment.
+                    public const int PF_X = 0x1; // Executable.
+                    public const int PF_W = 0x2; // Writable.
+                    public const int PF_R = 0x4; // Readable.
+                    public const int SECTOR_SIZE = 0x800;
+                    public const int ISO9660_FILEFLAGS_FILE = 1;
+                    public const int ISO9660_FILEFLAGS_DIR = 2;
+                    public const int MAX_RETRIES = 1;
+                    public const int MAX_DIR_LEVEL = 8;
+                    public const int CISO_IDX_BUFFER_SIZE = 0x200;
+                    public const int CISO_DEC_BUFFER_SIZE = 0x2000;
+                    public const string ISO_STANDARD_ID = "CD001";
+                    public const int RATIO_LIMIT = 90;
+                    public const int PSF_MAGIC = 0x46535000;
+                }
+
+                public class KIRK_CMD1_HEADER
+                {
+                    public byte[] AES_key = new byte[16];
+                    public byte[] CMAC_key = new byte[16];
+                    public byte[] CMAC_header_hash = new byte[16];
+                    public byte[] CMAC_data_hash = new byte[16];
+                    public byte[] unused = new byte[32];
+                    public uint mode;
+                    public byte ecdsa_hash;
+                    public byte[] unk3 = new byte[11];
+                    public uint data_size;
+                    public uint data_offset;
+                    public byte[] unk4 = new byte[8];
+                    public byte[] unk5 = new byte[16];
+                }
+
+                #endregion << Structs >>
+
+                public class header_keys
+                {
+                    public byte[] AES = new byte[16];
+                    public byte[] CMAC = new byte[16];
+                }
+
+                public static NPUMDIMG_HEADER forge_npumdimg(int iso_size, int iso_blocks, int block_basis, ref string discid, ref string content_id, int np_flags, ref byte version_key, ref byte[] header_key, ref byte[] data_key)
+                {
+                    // Build NPUMDIMG header.
+                    NPUMDIMG_HEADER np_header = new NPUMDIMG_HEADER();
+
+                    //just testing write to file see what it pops out 
+
+
+                    //c# style binarry writer is amazing !
+                    BinaryWriter br = new BinaryWriter(new FileStream(@"C:\\temp\temp.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite));
+
+
+
+                    // Set magic NPUMDIMG.
+                    np_header.magic[0] = 0x4E;
+                    np_header.magic[1] = 0x50;
+                    np_header.magic[2] = 0x55;
+                    np_header.magic[3] = 0x4D;
+                    np_header.magic[4] = 0x44;
+                    np_header.magic[5] = 0x49;
+                    np_header.magic[6] = 0x4D;
+                    np_header.magic[7] = 0x47;
+                    br.Write(np_header.magic);
+
+                    // Set flags and block basis.
+                    np_header.np_flags = (uint)np_flags;
+                    br.Write(np_header.np_flags);
+
+                    np_header.block_basis = (uint)block_basis;
+                    br.Write(np_header.block_basis);
+
+                    // Set content ID.
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(np_header.content_id, content_id, content_id.Length);
+                    np_header.content_id = Encoding.ASCII.GetBytes(content_id);
+                    br.Write(np_header.content_id);
+                    // Set inner body parameters.
+                    np_header.body.sector_size = 0x800;
+                    br.Write(np_header.body.sector_size);
+                    if (iso_size > 0x40000000)
+                    {
+                        np_header.body.unk_2 = 0xE001;
+                        br.Write(np_header.body.unk_2);
+                    }
+                    else
+                    {
+                        np_header.body.unk_2 = 0xE000;
+
+                        br.Write(np_header.body.unk_2);
+                    }
+
+                    np_header.body.unk_4 = 0x0;
+
+                    br.Write(np_header.body.unk_4);
+                    np_header.body.unk_8 = 0x1010;
+
+                    br.Write(np_header.body.unk_8);
+                    np_header.body.unk_12 = 0x0;
+
+                    br.Write(np_header.body.unk_12);
+                    np_header.body.unk_16 = 0x0;
+
+                    br.Write(np_header.body.unk_16);
+                    np_header.body.lba_start = 0x0;
+
+                    br.Write(np_header.body.lba_start);
+                    np_header.body.unk_24 = 0x0;
+
+                    br.Write(np_header.body.unk_24);
+
+                    if (((iso_blocks * block_basis) - 1) > 0x6C0BF)
+                    {
+                        np_header.body.nsectors = 0x6C0BF;
+
+                        br.Write(np_header.body.nsectors);
+                    }
+                    else
+                    {
+                        np_header.body.nsectors = (uint)((uint)iso_blocks * (uint)block_basis) - 1;
+
+                        br.Write(np_header.body.nsectors);
+                    }
+
+                    np_header.body.unk_32 = 0x0;
+
+                    br.Write(np_header.body.unk_32);
+                    np_header.body.lba_end = (uint)((uint)iso_blocks * (uint)block_basis) - 1;
+
+                    br.Write(np_header.body.lba_end);
+                    np_header.body.unk_40 = 0x01003FFE;
+
+                    br.Write(np_header.body.unk_40);
+                    np_header.body.block_entry_offset = 0x100;
+
+                    br.Write(np_header.body.block_entry_offset);
+
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(np_header.body.disc_id, content_id.Substring(7), 4);
+
+                    np_header.body.disc_id = content_id.Substring(7);
+
+                    np_header.body.disc_id = StringFunctions.ChangeCharacter(np_header.body.disc_id, 4, '-');
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(np_header.body.disc_id.Substring(5), content_id.Substring(11), 5);
+                    np_header.body.disc_id = discid;
+
+                    br.Write(np_header.body.disc_id);
+                    np_header.body.header_start_offset = 0x0;
+
+                    br.Write(np_header.body.header_start_offset);
+                    np_header.body.unk_68 = 0x0;
+
+                    br.Write(np_header.body.unk_68);
+                    np_header.body.unk_72 = 0x0;
+
+                    br.Write(np_header.body.unk_72);
+                    np_header.body.bbmac_param = 0x0;
+
+                    br.Write(np_header.body.bbmac_param);
+                    np_header.body.unk_74 = 0x0;
+
+                    br.Write(np_header.body.unk_74);
+                    np_header.body.unk_75 = 0x0;
+
+                    br.Write(np_header.body.unk_75);
+                    np_header.body.unk_76 = 0x0;
+
+                    br.Write(np_header.body.unk_76);
+                    np_header.body.unk_80 = 0x0;
+
+                    br.Write(np_header.body.unk_80);
+                    np_header.body.unk_84 = 0x0;
+
+                    br.Write(np_header.body.unk_84);
+                    np_header.body.unk_88 = 0x0;
+
+                    br.Write(np_header.body.unk_88);
+                    np_header.body.unk_92 = 0x0;
+
+                    br.Write(np_header.body.unk_92);
+
+                    // Set keys.
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(np_header.header_key, 0, 0x10);
+                    np_header.header_key = new byte[10];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(np_header.data_key, 0, 0x10);
+                    np_header.data_key = new byte[10];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(np_header.header_hash, 0, 0x10);
+                    np_header.header_hash = new byte[10];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(np_header.padding, 0, 0x8);
+                    np_header.padding = new byte[8];
+                    // Copy header and data keys.
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(np_header.header_key, header_key, 0x10);
+                    
+                    np_header.header_key = header_key;
+
+                    br.Write(np_header.header_key);
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(np_header.data_key, data_key, 0x10);
+                    np_header.data_key = data_key;
+
+                    br.Write(np_header.data_key);
+
+                    br.Close();
+                    Console.WriteLine("Header Forged");
+                    return np_header;
+                    // Generate random padding.
+                    //sceUtilsBufferCopyWithRange(ref np_header.padding, 0x8, 0, 0, DefineConstants.KIRK_CMD_PRNG);
+
+                    //// Prepare buffers to encrypt the NPUMDIMG body.
+                    //MAC_KEY mck = new MAC_KEY();
+                    //CIPHER_KEY bck = new CIPHER_KEY();
+
+                    //// Encrypt NPUMDIMG body.
+                    //sceDrmBBCipherInit(bck, 1, 2, ref np_header.header_key, ref version_key, 0);
+                    //sceDrmBBCipherUpdate(bck, ref (byte)(np_header) + 0x40, 0x60);
+                    //sceDrmBBCipherFinal(bck);
+
+                    //// Generate header hash.
+                    //sceDrmBBMacInit(mck, 3);
+                    //sceDrmBBMacUpdate(mck, ref (byte)np_header, 0xC0);
+                    //sceDrmBBMacFinal(mck, ref np_header.header_hash, ref version_key);
+                    //bbmac_build_final2(3, ref np_header.header_hash);
+
+                    //// Prepare the signature hash input buffer.
+                    //byte[] npumdimg_sha1_inbuf = new byte[0xD8 + 0x4];
+                    //byte[] npumdimg_sha1_outbuf = new byte[0x14];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(npumdimg_sha1_inbuf, 0, 0xD8 + 0x4);
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(npumdimg_sha1_outbuf, 0, 0x14);
+
+                    //// Set SHA1 data size.
+                    //npumdimg_sha1_inbuf[0] = 0xD8;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(npumdimg_sha1_inbuf + 0x4, (byte)np_header, 0xD8);
+
+                    //// Hash the input buffer.
+                    //if (sceUtilsBufferCopyWithRange(ref npumdimg_sha1_outbuf, 0x14, ref npumdimg_sha1_inbuf, 0xD8 + 0x4, DefineConstants.KIRK_CMD_SHA1_HASH) != 0)
+                    //{
+                    //    Console.Write("ERROR: Failed to generate SHA1 hash for NPUMDIMG header!\n");
+                    //    return null;
+                    //}
+
+                    //// Prepare ECDSA signature buffer.
+                    //byte[] npumdimg_sign_buf_in = new byte[0x34];
+                    //byte[] npumdimg_sign_buf_out = new byte[0x28];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(npumdimg_sign_buf_in, 0, 0x34);
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(npumdimg_sign_buf_out, 0, 0x28);
+
+                    //// Create ECDSA key pair.
+                    //byte[] npumdimg_keypair = new byte[0x3C];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(npumdimg_keypair, npumdimg_private_key, 0x14);
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(npumdimg_keypair + 0x14, npumdimg_public_key, 0x28);
+
+                    //// Encrypt NPUMDIMG private key.
+                    //byte[] npumdimg_private_key_enc = new byte[0x20];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(npumdimg_private_key_enc, 0, 0x20);
+                    //encrypt_kirk16_private(ref npumdimg_private_key_enc, ref npumdimg_keypair);
+
+                    //// Generate ECDSA signature.
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(npumdimg_sign_buf_in, npumdimg_private_key_enc, 0x20);
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(npumdimg_sign_buf_in + 0x20, npumdimg_sha1_outbuf, 0x14);
+                    //if (sceUtilsBufferCopyWithRange(ref npumdimg_sign_buf_out, 0x28, ref npumdimg_sign_buf_in, 0x34, DefineConstants.KIRK_CMD_ECDSA_SIGN) != 0)
+                    //{
+                    //    Console.Write("ERROR: Failed to generate ECDSA signature for NPUMDIMG header!\n");
+                    //    return null;
+                    //}
+
+                    //// Verify the generated ECDSA signature.
+                    //byte[] test_npumdimg_sign = new byte[0x64];
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(test_npumdimg_sign, npumdimg_public_key, 0x28);
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(test_npumdimg_sign + 0x28, npumdimg_sha1_outbuf, 0x14);
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(test_npumdimg_sign + 0x3C, npumdimg_sign_buf_out, 0x28);
+                    //if (sceUtilsBufferCopyWithRange(0, 0, ref test_npumdimg_sign, 0x64, DefineConstants.KIRK_CMD_ECDSA_VERIFY) != 0)
+                    //{
+                    //    Console.Write("ERROR: ECDSA signature for NPUMDIMG header is invalid!\n");
+                    //    return null;
+                    //}
+                    //else
+                    //{
+                    //    Console.Write("ECDSA signature for NPUMDIMG header is valid!\n");
+                    //}
+
+                    //// Store the signature.
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(np_header.ecdsa_sig, npumdimg_sign_buf_out, 0x28);
+
+                    return np_header;
+                }
+
+
+                //I need to take another course on cryptogrphy 
+                public static void Create_DATA_PSARC(long param_sfo_size, long icon0_size, long icon1_size, long pic0_size, long pic1_size, long snd0_size, long data_psp_size)
+                {
+
+                    //Build empty DATA.PSAR.
+                    Console.Write("Building DATA.PSAR...\n");
+                    int data_psar_size = 0x100;
+                    //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
+                    //ORIGINAL LINE: byte *data_psar_buf = (byte *) malloc(data_psar_size);
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'malloc' has no equivalent in C#:
+                    byte[] data_psar_buf = new byte[(data_psar_size)];
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //memset(data_psar_buf, 0, data_psar_size);
+                    UMD_Util.Memset(data_psar_buf, 0, data_psar_size);
+
+                    // Calculate header size.
+                    long header_size = icon0_size + icon1_size + pic0_size + pic1_size + snd0_size + param_sfo_size + data_psp_size;
+
+                    // Allocate PBP header.
+                    //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
+                    //ORIGINAL LINE: byte *pbp_header = malloc(header_size + 4096);
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'malloc' has no equivalent in C#:
+                    byte[] pbp_header = new byte[header_size + 4096];
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memset' has no equivalent in C#:
+                    //UMD_Util.Memset(pbp_header, 0, header_size + 4096);
+                    BinaryWriter br = new BinaryWriter(new FileStream(@"C:\\temp\temp.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite));
+                    // Write magic.
+                    //(uint)(pbp_header + 0) = 0x50425000;
+                    br.Write(0x50425000);
+                    //(uint)(pbp_header + 4) = 0x00010001;
+                    br.Write(0x00010001);
+                    // Set header offset.
+                    int header_offset = 0x28;
+
+                    // Write PARAM.SFO
+                    if (param_sfo_size != 0)
+                    {
+                        Console.Write("Writing PARAM.SFO...\n");
+                    }
+                    //(uint)(pbp_header + 0x08) = header_offset;
+                    br.Write(header_offset);
+                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, param_sfo_buf, param_sfo_size);
+                    // UMD_Util.Memset(pbp_header + header_offset)
+
+
+                    //now write the param.sfo 
+                    //br.Write()
+                    var utf8 = new UTF8Encoding(false);//encoding
+                    BinaryWriter writer = br;
+                    //so lets start writing the info
+                    writer.Write(PARAM_SFO.Header.Magic);//write magic "\0PSF" 
+                    writer.Write(PARAM_SFO.Header.version);//write version info this is mayjor and minor (01 01 00 00	1.01)
+                    PARAM_SFO.Header.KeyTableStart = 0x14 + PARAM_SFO.Header.IndexTableEntries * 0x10;/*we can write all this lovely info from the tables back*/
+                    writer.Write(PARAM_SFO.Header.KeyTableStart);
+
+                    PARAM_SFO.Header.DataTableStart = Convert.ToUInt32(PARAM_SFO.Header.KeyTableStart + sfo.Tables.Sum(i => i.Name.Length + 1));//needs to be Uint
+                    if (PARAM_SFO.Header.DataTableStart % 4 != 0)
+                        PARAM_SFO.Header.DataTableStart = (PARAM_SFO.Header.DataTableStart / 4 + 1) * 4;
+                    writer.Write(PARAM_SFO.Header.DataTableStart);
+                    PARAM_SFO.Header.IndexTableEntries = Convert.ToUInt32(sfo.Tables.Count);
+                    writer.Write(PARAM_SFO.Header.IndexTableEntries);
+
+                    int lastKeyOffset = Convert.ToInt32(PARAM_SFO.Header.KeyTableStart);
+                    int lastValueOffset = Convert.ToInt32(PARAM_SFO.Header.DataTableStart);
+                    for (var i = 0; i < sfo.Tables.Count; i++)
+                    {
+                        var entry = sfo.Tables[i];
+
+                        writer.BaseStream.Seek(0x14 + i * 0x10, SeekOrigin.Begin);
+                        writer.Write((ushort)(lastKeyOffset - PARAM_SFO.Header.KeyTableStart));
+
+
+                        writer.Write((ushort)entry.Indextable.param_data_fmt);
+
+                        writer.Write(entry.Indextable.param_data_len);
+                        writer.Write(entry.Indextable.param_data_max_len);
+                        writer.Write(lastValueOffset - PARAM_SFO.Header.DataTableStart);
+
+                        writer.BaseStream.Seek(lastKeyOffset, SeekOrigin.Begin);
+                        writer.Write(utf8.GetBytes(entry.Name));
+                        writer.Write((byte)0);
+                        lastKeyOffset = (int)writer.BaseStream.Position;
+
+                        writer.BaseStream.Seek(lastValueOffset, SeekOrigin.Begin);
+                        writer.Write(entry.ValueBuffer);
+                        lastValueOffset = (int)writer.BaseStream.Position;
+                    }
+
+                    //I'm doing this to just rewrite the first item (Some Cleanup will be needed)
+                    //Or maybe not as when I checked this gives a 1 - 1 match with how the Sony tool works
+                    //we need to rewrite that first item (PS4/PS3/PSV should be APP-VER)
+                    lastKeyOffset = Convert.ToInt32(PARAM_SFO.Header.KeyTableStart);
+                    lastValueOffset = Convert.ToInt32(PARAM_SFO.Header.DataTableStart);
+
+                    var tableentry = sfo.Tables[0];
+
+                    writer.BaseStream.Seek(lastKeyOffset, SeekOrigin.Begin);
+                    writer.Write(utf8.GetBytes(tableentry.Name));
+                    writer.Write((byte)0);
+                    lastKeyOffset = (int)writer.BaseStream.Position;
+                    br.Close();
+                    Console.WriteLine("Debuging WriterComplete");
+                    return;
+
+                    //header_offset += param_sfo_size;
+
+                    //// Write ICON0.PNG
+                    //if (icon0_size != 0)
+                    //{
+                    //    Console.Write("Writing ICON0.PNG...\n");
+                    //}
+                    //(uint)(pbp_header + 0x0C) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, icon0_buf, icon0_size);
+                    //header_offset += icon0_size;
+
+                    //// Write ICON1.PMF
+                    //if (icon1_size != 0)
+                    //{
+                    //    Console.Write("Writing ICON1.PNG...\n");
+                    //}
+                    //(uint)(pbp_header + 0x10) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, icon1_buf, icon1_size);
+                    //header_offset += icon1_size;
+
+                    //// Write PIC0.PNG
+                    //if (pic0_size != 0)
+                    //{
+                    //    Console.Write("Writing PIC0.PNG...\n");
+                    //}
+                    //(uint)(pbp_header + 0x14) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, pic0_buf, pic0_size);
+                    //header_offset += pic0_size;
+
+                    //// Write PIC1.PNG
+                    //if (pic1_size != 0)
+                    //{
+                    //    Console.Write("Writing PIC1.PNG...\n");
+                    //}
+                    //(uint)(pbp_header + 0x18) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, pic1_buf, pic1_size);
+                    //header_offset += pic1_size;
+
+                    //// Write SND0.AT3
+                    //if (snd0_size != 0)
+                    //{
+                    //    Console.Write("Writing SND0.AT3...\n");
+                    //}
+                    //(uint)(pbp_header + 0x1C) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, snd0_buf, snd0_size);
+                    //header_offset += snd0_size;
+
+                    //// Write DATA.PSP
+                    //Console.Write("Writing DATA.PSP...\n");
+                    //(uint)(pbp_header + 0x20) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, data_psp_buf, data_psp_size);
+                    //header_offset += data_psp_size;
+
+                    //// DATA.PSAR is 0x100 aligned.
+                    //header_offset = (header_offset + 15) & ~15;
+                    //while (header_offset % 0x100 != 0)
+                    //{
+                    //    header_offset += 0x10;
+                    //}
+
+                    //// Write DATA.PSAR
+                    //Console.Write("Writing DATA.PSAR...\n\n");
+                    //(uint)(pbp_header + 0x24) = header_offset;
+                    ////C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+                    //memcpy(pbp_header + header_offset, data_psar_buf, data_psar_size);
+                    //header_offset += data_psar_size;
+
+                }
+
+                public void Create_PSP_Signed(string ISOFile,string OutPutLocation,string cid)
+                {
+
+                    // Set version, header and data keys.
+                    int use_version_key = 0;
+                    byte[] version_key = new byte[0x10];
+                    byte[] header_key = new byte[0x10];
+                    byte[] data_key = new byte[0x10];
+
+                    // Get Content ID from input.
+                    string content_id = cid;
+
+                    var iso_size = new FileInfo(ISOFile).Length;
+
+                    // Initialize KIRK.
+                    Console.Write("Initializing KIRK engine...\n\n");
+                    CSPspEmu.Core.Crypto.Kirk kirk = new CSPspEmu.Core.Crypto.Kirk();
+                    kirk.kirk_init();
+                    
+                    byte pgd_buf = 0;
+                    int pgd_size = 0;
+
+                    //// Set keys' context.
+                    //MAC_KEY mkey = new MAC_KEY();
+                    //CIPHER_KEY ckey = new CIPHER_KEY();
+
+                    // Set flags and block size data.
+                    int np_flags = (use_version_key) != 0 ? 0x2 : (0x3 | (0x01000000));
+                    int block_basis = 0x10;
+                    int block_size = block_basis * 2048;
+                    long iso_blocks = (iso_size + block_size - 1) / block_size;
+                    // Generate random header key.
+                    //byte* ptr = null;
+                    //byte* zerobyte = null;
+
+                    //Marshal.Copy((IntPtr)ptr, header_key, 0, header_key.Length);
+                    //Marshal.Copy((IntPtr)zerobyte, new byte[1],0,1);
+                    byte[] temp = new byte[0x10];
+                    fixed (byte* headerptr = header_key) 
+                    fixed (byte* zeroptr = new byte[0]) 
+
+                    kirk.sceUtilsBufferCopyWithRange(headerptr, 0x10,zeroptr , 0,(int) CSPspEmu.Core.Crypto.Kirk.CommandEnum.PSP_KIRK_CMD_PRNG,ref temp);
+
+                    // Generate fixed key, if necessary.
+                    if (use_version_key == 0)
+                    {
+                       // kirk.sceNpDrmGetFixedKey(ref version_key, ref content_id, np_flags);
+                    }
+                }
+
+                //public static void Create_NPUMDIMG_Header()
+                //{
+                //    BinaryWriter br = new BinaryWriter(new FileStream(@"C:\\temp\temp.bin", FileMode.OpenOrCreate, FileAccess.ReadWrite));
+
+                //    NPUMDIMG_HEADER header = new NPUMDIMG_HEADER();
+
+                //    br.Write(header.magic);
+                //    br.Write(header.)
+
+                //}
+
+
+                
 
                 public class Utils
                 {
@@ -9276,6 +9939,8 @@ namespace PSP_Tools
                     {
                         File.Delete(OutputPath);
                     }
+
+                    //Create_DATA_PSARC(pbpDataSizes[0],pbpDataSizes[1],)
 
                     byte[] array = new byte[]
                     {
@@ -9916,6 +10581,212 @@ namespace PSP_Tools
 
 
             }
+        }
+    }
+
+    public class PSV
+    {
+
+        public static class Arrays
+        {
+            public static T[] InitializeWithDefaultInstances<T>(int length) where T : new()
+            {
+                T[] array = new T[length];
+                for (int i = 0; i < length; i++)
+                {
+                    array[i] = new T();
+                }
+                return array;
+            }
+
+            public static void DeleteArray<T>(T[] array) where T : System.IDisposable
+            {
+                foreach (T element in array)
+                {
+                    if (element != null)
+                        element.Dispose();
+                }
+            }
+        }
+        /// <summary>
+        /// Orginal Code By Yifanlu ported to C# for Silca
+        /// https://github.com/yifanlu/psvimgtools
+        /// </summary>
+        public class ImageTools
+        {
+            /** Access modes for st_mode in SceIoStat (confirm?). */
+            /// <summary>
+            ///  Access modes for st_mode in SceIoStat (confirm?). 
+            /// Enums need to be named in c#
+            /// </summary>
+            public enum AnonymousEnum
+            {
+                /** Format bits mask */
+                SCE_S_IFMT = 0xF000,
+                /** Symbolic link */
+                SCE_S_IFLNK = 0x4000,
+                /** Directory */
+                SCE_S_IFDIR = 0x1000,
+                /** Regular file */
+                SCE_S_IFREG = 0x2000,
+
+                /** Set UID */
+                SCE_S_ISUID = 0x0800,
+                /** Set GID */
+                SCE_S_ISGID = 0x0400,
+                /** Sticky */
+                SCE_S_ISVTX = 0x0200,
+
+                /** Others access rights mask */
+                SCE_S_IRWXO = 0x01C0,
+                /** Others read permission */
+                SCE_S_IROTH = 0x0100,
+                /** Others write permission */
+                SCE_S_IWOTH = 0x0080,
+                /** Others execute permission */
+                SCE_S_IXOTH = 0x0040,
+
+                /** Group access rights mask */
+                SCE_S_IRWXG = 0x0038,
+                /** Group read permission */
+                SCE_S_IRGRP = 0x0020,
+                /** Group write permission */
+                SCE_S_IWGRP = 0x0010,
+                /** Group execute permission */
+                SCE_S_IXGRP = 0x0008,
+
+                /** User access rights mask */
+                SCE_S_IRWXU = 0x0007,
+                /** User read permission */
+                SCE_S_IRUSR = 0x0004,
+                /** User write permission */
+                SCE_S_IWUSR = 0x0002,
+                /** User execute permission */
+                SCE_S_IXUSR = 0x0001,
+            }
+
+            /// <summary>
+            /// /** File modes, used for the st_attr parameter in SceIoStat (confirm?). */
+            /// </summary>
+            public enum AnonymousEnum2
+            {
+                /** Format mask */
+                SCE_SO_IFMT = 0x0038, // Format mask
+                                      /** Symlink */
+                SCE_SO_IFLNK = 0x0008, // Symbolic link
+                                       /** Directory */
+                SCE_SO_IFDIR = 0x0010, // Directory
+                                       /** Regular file */
+                SCE_SO_IFREG = 0x0020, // Regular file
+
+                /** Hidden read permission */
+                SCE_SO_IROTH = 0x0004, // read
+                                       /** Hidden write permission */
+                SCE_SO_IWOTH = 0x0002, // write
+                                       /** Hidden execute permission */
+                SCE_SO_IXOTH = 0x0001, // execute
+            }
+
+            public class SceDateTime
+            {
+                public ushort year = new ushort();
+                public ushort month = new ushort();
+                public ushort day = new ushort();
+                public ushort hour = new ushort();
+                public ushort minute = new ushort();
+                public ushort second = new ushort();
+                public uint microsecond = new uint();
+            }
+
+            /** Structure to hold the status information about a file */
+            public class SceIoStat
+            {
+                public uint sst_mode = new uint();
+                public uint sst_attr;
+                /** Size of the file in bytes. */
+                public UInt64 sst_size = new UInt64();
+                /** Creation time. */
+                public SceDateTime sst_ctime = new SceDateTime();
+                /** Access time. */
+                public SceDateTime sst_atime = new SceDateTime();
+                /** Modification time. */
+                public SceDateTime sst_mtime = new SceDateTime();
+                /** Device-specific data. */
+                public uint[] sst_private = Arrays.InitializeWithDefaultInstances<uint>(6);
+            }
+
+            public class PsvMd
+            {
+                public uint magic = new uint();
+                public uint type = new uint();
+                public UInt64 fw_version = new UInt64();
+                public byte[] psid = Arrays.InitializeWithDefaultInstances<byte>(16);
+                public string name = new string(new char[64]);
+                public UInt64 psvimg_size = new UInt64();
+                public UInt64 version = new UInt64(); // only support 2
+                public UInt64 total_size = new UInt64();
+                public byte[] iv = Arrays.InitializeWithDefaultInstances<byte>(16);
+                public UInt64 ux0_info = new UInt64();
+                public UInt64 ur0_info = new UInt64();
+                public UInt64 unused_98 = new UInt64();
+                public UInt64 unused_A0 = new UInt64();
+                public uint add_data = new uint();
+            }
+
+            /** This file (and backup) can only be restored with the same PSID */
+            public class PsvImgHeader
+            {
+                public UInt64 systime = new UInt64();
+                public UInt64 flags = new UInt64();
+                public SceIoStat stat = new SceIoStat();
+                public string path_parent = new string(new char[256]);
+                public uint unk_16C = new uint(); // set to 1
+                public string path_rel = new string(new char[256]);
+                public string unused = new string(new char[904]);
+                public string end = new string(new char[12]);
+            }
+            /** The file/directory will be _removed_ (not restored). */
+            public class PsvImgTailer
+            {
+                public UInt64 flags = new UInt64();
+                public string unused = new string(new char[1004]);
+                public string end = new string(new char[12]);
+            }
+
+            public class status_t
+            {
+                public uint found = new uint();
+                public uint at = new uint();
+            }
+
+            /*
+	         * PSP Software Development Kit - http://www.pspdev.org
+	         * -----------------------------------------------------------------------
+	         * Licensed under the BSD license, see LICENSE in PSPSDK root for details.
+	         *
+	         * font.c - Debug Font.
+	         *
+	         * Copyright (c) 2005 Marcus R. Brown <mrbrown@ocgnet.org>
+	         * Copyright (c) 2005 James Forshaw <tyranid@gmail.com>
+	         * Copyright (c) 2005 John Kelley <ps2dev@kelley.ca>
+	         *
+	         * $Id: font.c 540 2005-07-08 19:35:10Z warren $
+	         */
+
+            //public static byte[] psvDebugScreenFont = "\x00\x00\x00\x00\x00\x00\x00\x00\x3c\x42\xa5\x81\xa5\x99\x42\x3c" + "\x3c\x7e\xdb\xff\xff\xdb\x66\x3c\x6c\xfe\xfe\xfe\x7c\x38\x10\x00" + "\x10\x38\x7c\xfe\x7c\x38\x10\x00\x10\x38\x54\xfe\x54\x10\x38\x00" + "\x10\x38\x7c\xfe\xfe\x10\x38\x00\x00\x00\x00\x30\x30\x00\x00\x00" + "\xff\xff\xff\xe7\xe7\xff\xff\xff\x38\x44\x82\x82\x82\x44\x38\x00" + "\xc7\xbb\x7d\x7d\x7d\xbb\xc7\xff\x0f\x03\x05\x79\x88\x88\x88\x70" + "\x38\x44\x44\x44\x38\x10\x7c\x10\x30\x28\x24\x24\x28\x20\xe0\xc0" + "\x3c\x24\x3c\x24\x24\xe4\xdc\x18\x10\x54\x38\xee\x38\x54\x10\x00" + "\x10\x10\x10\x7c\x10\x10\x10\x10\x10\x10\x10\xff\x00\x00\x00\x00" + "\x00\x00\x00\xff\x10\x10\x10\x10\x10\x10\x10\xf0\x10\x10\x10\x10" + "\x10\x10\x10\x1f\x10\x10\x10\x10\x10\x10\x10\xff\x10\x10\x10\x10" + "\x10\x10\x10\x10\x10\x10\x10\x10\x00\x00\x00\xff\x00\x00\x00\x00" + "\x00\x00\x00\x1f\x10\x10\x10\x10\x00\x00\x00\xf0\x10\x10\x10\x10" + "\x10\x10\x10\x1f\x00\x00\x00\x00\x10\x10\x10\xf0\x00\x00\x00\x00" + "\x81\x42\x24\x18\x18\x24\x42\x81\x01\x02\x04\x08\x10\x20\x40\x80" + "\x80\x40\x20\x10\x08\x04\x02\x01\x00\x10\x10\xff\x10\x10\x00\x00" + "\x00\x00\x00\x00\x00\x00\x00\x00\x20\x20\x20\x20\x00\x00\x20\x00" + "\x50\x50\x50\x00\x00\x00\x00\x00\x50\x50\xf8\x50\xf8\x50\x50\x00" + "\x20\x78\xa0\x70\x28\xf0\x20\x00\xc0\xc8\x10\x20\x40\x98\x18\x00" + "\x40\xa0\x40\xa8\x90\x98\x60\x00\x10\x20\x40\x00\x00\x00\x00\x00" + "\x10\x20\x40\x40\x40\x20\x10\x00\x40\x20\x10\x10\x10\x20\x40\x00" + "\x20\xa8\x70\x20\x70\xa8\x20\x00\x00\x20\x20\xf8\x20\x20\x00\x00" + "\x00\x00\x00\x00\x00\x20\x20\x40\x00\x00\x00\x78\x00\x00\x00\x00" + "\x00\x00\x00\x00\x00\x60\x60\x00\x00\x00\x08\x10\x20\x40\x80\x00" + "\x70\x88\x98\xa8\xc8\x88\x70\x00\x20\x60\xa0\x20\x20\x20\xf8\x00" + "\x70\x88\x08\x10\x60\x80\xf8\x00\x70\x88\x08\x30\x08\x88\x70\x00" + "\x10\x30\x50\x90\xf8\x10\x10\x00\xf8\x80\xe0\x10\x08\x10\xe0\x00" + "\x30\x40\x80\xf0\x88\x88\x70\x00\xf8\x88\x10\x20\x20\x20\x20\x00" + "\x70\x88\x88\x70\x88\x88\x70\x00\x70\x88\x88\x78\x08\x10\x60\x00" + "\x00\x00\x20\x00\x00\x20\x00\x00\x00\x00\x20\x00\x00\x20\x20\x40" + "\x18\x30\x60\xc0\x60\x30\x18\x00\x00\x00\xf8\x00\xf8\x00\x00\x00" + "\xc0\x60\x30\x18\x30\x60\xc0\x00\x70\x88\x08\x10\x20\x00\x20\x00" + "\x70\x88\x08\x68\xa8\xa8\x70\x00\x20\x50\x88\x88\xf8\x88\x88\x00" + "\xf0\x48\x48\x70\x48\x48\xf0\x00\x30\x48\x80\x80\x80\x48\x30\x00" + "\xe0\x50\x48\x48\x48\x50\xe0\x00\xf8\x80\x80\xf0\x80\x80\xf8\x00" + "\xf8\x80\x80\xf0\x80\x80\x80\x00\x70\x88\x80\xb8\x88\x88\x70\x00" + "\x88\x88\x88\xf8\x88\x88\x88\x00\x70\x20\x20\x20\x20\x20\x70\x00" + "\x38\x10\x10\x10\x90\x90\x60\x00\x88\x90\xa0\xc0\xa0\x90\x88\x00" + "\x80\x80\x80\x80\x80\x80\xf8\x00\x88\xd8\xa8\xa8\x88\x88\x88\x00" + "\x88\xc8\xc8\xa8\x98\x98\x88\x00\x70\x88\x88\x88\x88\x88\x70\x00" + "\xf0\x88\x88\xf0\x80\x80\x80\x00\x70\x88\x88\x88\xa8\x90\x68\x00" + "\xf0\x88\x88\xf0\xa0\x90\x88\x00\x70\x88\x80\x70\x08\x88\x70\x00" + "\xf8\x20\x20\x20\x20\x20\x20\x00\x88\x88\x88\x88\x88\x88\x70\x00" + "\x88\x88\x88\x88\x50\x50\x20\x00\x88\x88\x88\xa8\xa8\xd8\x88\x00" + "\x88\x88\x50\x20\x50\x88\x88\x00\x88\x88\x88\x70\x20\x20\x20\x00" + "\xf8\x08\x10\x20\x40\x80\xf8\x00\x70\x40\x40\x40\x40\x40\x70\x00" + "\x00\x00\x80\x40\x20\x10\x08\x00\x70\x10\x10\x10\x10\x10\x70\x00" + "\x20\x50\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf8\x00" + "\x40\x20\x10\x00\x00\x00\x00\x00\x00\x00\x70\x08\x78\x88\x78\x00" + "\x80\x80\xb0\xc8\x88\xc8\xb0\x00\x00\x00\x70\x88\x80\x88\x70\x00" + "\x08\x08\x68\x98\x88\x98\x68\x00\x00\x00\x70\x88\xf8\x80\x70\x00" + "\x10\x28\x20\xf8\x20\x20\x20\x00\x00\x00\x68\x98\x98\x68\x08\x70" + "\x80\x80\xf0\x88\x88\x88\x88\x00\x20\x00\x60\x20\x20\x20\x70\x00" + "\x10\x00\x30\x10\x10\x10\x90\x60\x40\x40\x48\x50\x60\x50\x48\x00" + "\x60\x20\x20\x20\x20\x20\x70\x00\x00\x00\xd0\xa8\xa8\xa8\xa8\x00" + "\x00\x00\xb0\xc8\x88\x88\x88\x00\x00\x00\x70\x88\x88\x88\x70\x00" + "\x00\x00\xb0\xc8\xc8\xb0\x80\x80\x00\x00\x68\x98\x98\x68\x08\x08" + "\x00\x00\xb0\xc8\x80\x80\x80\x00\x00\x00\x78\x80\xf0\x08\xf0\x00" + "\x40\x40\xf0\x40\x40\x48\x30\x00\x00\x00\x90\x90\x90\x90\x68\x00" + "\x00\x00\x88\x88\x88\x50\x20\x00\x00\x00\x88\xa8\xa8\xa8\x50\x00" + "\x00\x00\x88\x50\x20\x50\x88\x00\x00\x00\x88\x88\x98\x68\x08\x70" + "\x00\x00\xf8\x10\x20\x40\xf8\x00\x18\x20\x20\x40\x20\x20\x18\x00" + "\x20\x20\x20\x00\x20\x20\x20\x00\xc0\x20\x20\x10\x20\x20\xc0\x00" + "\x40\xa8\x10\x00\x00\x00\x00\x00\x00\x00\x20\x50\xf8\x00\x00\x00" + "\x70\x88\x80\x80\x88\x70\x20\x60\x90\x00\x00\x90\x90\x90\x68\x00" + "\x10\x20\x70\x88\xf8\x80\x70\x00\x20\x50\x70\x08\x78\x88\x78\x00" + "\x48\x00\x70\x08\x78\x88\x78\x00\x20\x10\x70\x08\x78\x88\x78\x00" + "\x20\x00\x70\x08\x78\x88\x78\x00\x00\x70\x80\x80\x80\x70\x10\x60" + "\x20\x50\x70\x88\xf8\x80\x70\x00\x50\x00\x70\x88\xf8\x80\x70\x00" + "\x20\x10\x70\x88\xf8\x80\x70\x00\x50\x00\x00\x60\x20\x20\x70\x00" + "\x20\x50\x00\x60\x20\x20\x70\x00\x40\x20\x00\x60\x20\x20\x70\x00" + "\x50\x00\x20\x50\x88\xf8\x88\x00\x20\x00\x20\x50\x88\xf8\x88\x00" + "\x10\x20\xf8\x80\xf0\x80\xf8\x00\x00\x00\x6c\x12\x7e\x90\x6e\x00" + "\x3e\x50\x90\x9c\xf0\x90\x9e\x00\x60\x90\x00\x60\x90\x90\x60\x00" + "\x90\x00\x00\x60\x90\x90\x60\x00\x40\x20\x00\x60\x90\x90\x60\x00" + "\x40\xa0\x00\xa0\xa0\xa0\x50\x00\x40\x20\x00\xa0\xa0\xa0\x50\x00" + "\x90\x00\x90\x90\xb0\x50\x10\xe0\x50\x00\x70\x88\x88\x88\x70\x00" + "\x50\x00\x88\x88\x88\x88\x70\x00\x20\x20\x78\x80\x80\x78\x20\x20" + "\x18\x24\x20\xf8\x20\xe2\x5c\x00\x88\x50\x20\xf8\x20\xf8\x20\x00" + "\xc0\xa0\xa0\xc8\x9c\x88\x88\x8c\x18\x20\x20\xf8\x20\x20\x20\x40" + "\x10\x20\x70\x08\x78\x88\x78\x00\x10\x20\x00\x60\x20\x20\x70\x00" + "\x20\x40\x00\x60\x90\x90\x60\x00\x20\x40\x00\x90\x90\x90\x68\x00" + "\x50\xa0\x00\xa0\xd0\x90\x90\x00\x28\x50\x00\xc8\xa8\x98\x88\x00" + "\x00\x70\x08\x78\x88\x78\x00\xf8\x00\x60\x90\x90\x90\x60\x00\xf0" + "\x20\x00\x20\x40\x80\x88\x70\x00\x00\x00\x00\xf8\x80\x80\x00\x00" + "\x00\x00\x00\xf8\x08\x08\x00\x00\x84\x88\x90\xa8\x54\x84\x08\x1c" + "\x84\x88\x90\xa8\x58\xa8\x3c\x08\x20\x00\x00\x20\x20\x20\x20\x00" + "\x00\x00\x24\x48\x90\x48\x24\x00\x00\x00\x90\x48\x24\x48\x90\x00" + "\x28\x50\x20\x50\x88\xf8\x88\x00\x28\x50\x70\x08\x78\x88\x78\x00" + "\x28\x50\x00\x70\x20\x20\x70\x00\x28\x50\x00\x20\x20\x20\x70\x00" + "\x28\x50\x00\x70\x88\x88\x70\x00\x50\xa0\x00\x60\x90\x90\x60\x00" + "\x28\x50\x00\x88\x88\x88\x70\x00\x50\xa0\x00\xa0\xa0\xa0\x50\x00" + "\xfc\x48\x48\x48\xe8\x08\x50\x20\x00\x50\x00\x50\x50\x50\x10\x20" + "\xc0\x44\xc8\x54\xec\x54\x9e\x04\x10\xa8\x40\x00\x00\x00\x00\x00" + "\x00\x20\x50\x88\x50\x20\x00\x00\x88\x10\x20\x40\x80\x28\x00\x00" + "\x7c\xa8\xa8\x68\x28\x28\x28\x00\x38\x40\x30\x48\x48\x30\x08\x70" + "\x00\x00\x00\x00\x00\x00\xff\xff\xf0\xf0\xf0\xf0\x0f\x0f\x0f\x0f" + "\x00\x00\xff\xff\xff\xff\xff\xff\xff\xff\x00\x00\x00\x00\x00\x00" + "\x00\x00\x00\x3c\x3c\x00\x00\x00\xff\xff\xff\xff\xff\xff\x00\x00" + "\xc0\xc0\xc0\xc0\xc0\xc0\xc0\xc0\x0f\x0f\x0f\x0f\xf0\xf0\xf0\xf0" + "\xfc\xfc\xfc\xfc\xfc\xfc\xfc\xfc\x03\x03\x03\x03\x03\x03\x03\x03" + "\x3f\x3f\x3f\x3f\x3f\x3f\x3f\x3f\x11\x22\x44\x88\x11\x22\x44\x88" + "\x88\x44\x22\x11\x88\x44\x22\x11\xfe\x7c\x38\x10\x00\x00\x00\x00" + "\x00\x00\x00\x00\x10\x38\x7c\xfe\x80\xc0\xe0\xf0\xe0\xc0\x80\x00" + "\x01\x03\x07\x0f\x07\x03\x01\x00\xff\x7e\x3c\x18\x18\x3c\x7e\xff" + "\x81\xc3\xe7\xff\xff\xe7\xc3\x81\xf0\xf0\xf0\xf0\x00\x00\x00\x00" + "\x00\x00\x00\x00\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x00\x00\x00\x00" + "\x00\x00\x00\x00\xf0\xf0\xf0\xf0\x33\x33\xcc\xcc\x33\x33\xcc\xcc" + "\x00\x20\x20\x50\x50\x88\xf8\x00\x20\x20\x70\x20\x70\x20\x20\x00" + "\x00\x00\x00\x50\x88\xa8\x50\x00\xff\xff\xff\xff\xff\xff\xff\xff" + "\x00\x00\x00\x00\xff\xff\xff\xff\xf0\xf0\xf0\xf0\xf0\xf0\xf0\xf0" + "\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\xff\xff\xff\xff\x00\x00\x00\x00" + "\x00\x00\x68\x90\x90\x90\x68\x00\x30\x48\x48\x70\x48\x48\x70\xc0" + "\xf8\x88\x80\x80\x80\x80\x80\x00\xf8\x50\x50\x50\x50\x50\x98\x00" + "\xf8\x88\x40\x20\x40\x88\xf8\x00\x00\x00\x78\x90\x90\x90\x60\x00" + "\x00\x50\x50\x50\x50\x68\x80\x80\x00\x50\xa0\x20\x20\x20\x20\x00" + "\xf8\x20\x70\xa8\xa8\x70\x20\xf8\x20\x50\x88\xf8\x88\x50\x20\x00" + "\x70\x88\x88\x88\x50\x50\xd8\x00\x30\x40\x40\x20\x50\x50\x50\x20" + "\x00\x00\x00\x50\xa8\xa8\x50\x00\x08\x70\xa8\xa8\xa8\x70\x80\x00" + "\x38\x40\x80\xf8\x80\x40\x38\x00\x70\x88\x88\x88\x88\x88\x88\x00" + "\x00\xf8\x00\xf8\x00\xf8\x00\x00\x20\x20\xf8\x20\x20\x00\xf8\x00" + "\xc0\x30\x08\x30\xc0\x00\xf8\x00\x18\x60\x80\x60\x18\x00\xf8\x00" + "\x10\x28\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\xa0\x40" + "\x00\x20\x00\xf8\x00\x20\x00\x00\x00\x50\xa0\x00\x50\xa0\x00\x00" + "\x00\x18\x24\x24\x18\x00\x00\x00\x00\x30\x78\x78\x30\x00\x00\x00" + "\x00\x00\x00\x00\x30\x00\x00\x00\x3e\x20\x20\x20\xa0\x60\x20\x00" + "\xa0\x50\x50\x50\x00\x00\x00\x00\x40\xa0\x20\x40\xe0\x00\x00\x00" + "\x00\x38\x38\x38\x38\x38\x38\x00\x00\x00\x00\x00\x00\x00\x00";
+
+            /* Copyright (C) 2017 Yifan Lu
+	         *
+	         * This software may be modified and distributed under the terms
+	         * of the MIT license.  See the LICENSE file for details.
+	         */
+
+
+
+
+
+            //public static class 
+
         }
     }
 

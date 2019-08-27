@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -79,8 +80,11 @@ namespace PSP_PBP_Tools
             string locpic1 = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\PIC1.PNG";
             string locsnd0 = @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\SND0.AT3";
 
+            //PSP_Tools.UMD.Sign.PSN.Create_DATA_PSARC(new FileInfo(locparam).Length, new FileInfo(locicon0).Length, new FileInfo(locicon1pmf).Length, new FileInfo(locpic0).Length, new FileInfo(locpic1).Length, new FileInfo(locsnd0).Length, new FileInfo(locdatapsp).Length);
+
+
             PSP_Tools.UMD.Sign.PSN psn = new PSP_Tools.UMD.Sign.PSN(locparam, locicon0, locicon1pmf, locpic0, locpic1, locsnd0, locdatapsp, LocDatapsar);
-            psn.CreatePBPFile(@"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\test.pbp");
+            psn.Create_PSP_Signed(@"C:\Users\3deEchelon\Desktop\PSP\psy-mhf.iso", @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\test.pbp", "HW1633-ULES00318_00-HOMEBREWSSSSSSSS");
             
         }
     }

@@ -30,7 +30,7 @@ namespace PSP_PBP_Tools
             //Application.Run(new CSO_ISO_Reader());
 
             //to go to ISO UMD Tool
-            //Application.Run(new UMDCreator());
+            Application.Run(new UMDCreator());
         }
     }
 }

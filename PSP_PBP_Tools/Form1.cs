@@ -62,8 +62,11 @@ namespace PSP_PBP_Tools
                     {
                         pictureBox2.Image = ByteToImage(Pic1Png);
                     }
+                    byte[] sound = pbp.ReadFileFromPBP(PSP_Tools.Pbp.DataType.Snd0At3);
+                    //here you can play the sound somehow xD
 
 
+                    //var temp 
                     //pbp.WritePDPFiles(System.AppDomain.CurrentDomain.BaseDirectory);//this is so cool
                     /*
                     Data.psar = boot.bin ;)
@@ -74,6 +77,8 @@ namespace PSP_PBP_Tools
                     //lets extract the data while we are at it 
                     /*"psp.data",
                     "psar.data"*/
+
+
 
                     textBox1.Text = thedialog.FileName;
                 }
