@@ -32,27 +32,27 @@ namespace CSPspEmu.Core.Crypto
         /*
             KIRK wrapper functions.
         */
-        internal static uint kirk4(ref byte[] buf, int size, int type)
+        internal static uint kirk4(byte* buf, int* size, int* type)
         {
-            int retv;
-            uint[] header = buf;
+            //int retv;
+            //fixed (uint[] header = &buf);
 
-            header[0] = 4;
-            header[1] = 0;
-            header[2] = 0;
-            header[3] = (uint)type;
-            header[4] = (uint)size;
+            //header[0] = 4;
+            //header[1] = 0;
+            //header[2] = 0;
+            //header[3] = (uint)type;
+            //header[4] = (uint)size;
 
-            byte[] temp = new byte[10];
-            fixed (byte* Out = buf)
-            fixed (byte* In = buf)
+            //byte[] temp = new byte[10];
+            //byte* Out = buf;
+            //byte* In = buf;
 
-                retv = kirk.sceUtilsBufferCopyWithRange(Out, size + 0x14,In, size, 4,ref temp);
+            //    retv = kirk.sceUtilsBufferCopyWithRange(Out, size + 0x14,In, size, 4,ref temp);
 
-            if (retv != 0)
-            {
-                return 0x80510311;
-            }
+            //if (retv != 0)
+            //{
+            //    return 0x80510311;
+            //}
 
             return 0;
         }
@@ -569,94 +569,97 @@ namespace CSPspEmu.Core.Crypto
             return 0;
         }
 
-        public static uint sceDrmBBMacUpdate(Crypto.MAC_KEY mkey, byte* buf, int size)
+        public static uint sceDrmBBMacUpdate(Crypto.MAC_KEY mkey, byte buf, int size)
         {
             uint retv = 0;
-            int ksize;
-            int p;
-            int type;
-            //C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
-            //ORIGINAL LINE: byte *kbuf;
-            byte[] kbuf = new byte[kirk_buf.Length + 0x14];
+            //int ksize;
+            //int p;
+            //int type;
+            ////C++ TO C# CONVERTER TODO TASK: C# does not have an equivalent to pointers to value types:
+            ////ORIGINAL LINE: byte *kbuf;
+            //byte[] kbuf = new byte[kirk_buf.Length + 0x14];
 
-            if (mkey.pad_size > 16)
-            {
-                retv = 0x80510302;
-                goto _exit;
-            }
+            //if (mkey.pad_size > 16)
+            //{
+            //    retv = 0x80510302;
+            //    goto _exit;
+            //}
 
-            if (mkey.pad_size + size <= 16)
-            {
-                //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                PointerUtils.Memcpy(mkey.pad + mkey.pad_size, buf, size);
-                mkey.pad_size += size;
-                retv = 0;
-            }
-            else
-            {
+            //if (mkey.pad_size + size <= 16)
+            //{
+            //    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+            //    PointerUtils.Memcpy(mkey.pad + mkey.pad_size, buf, size);
+            //    mkey.pad_size += size;
+            //    retv = 0;
+            //}
+            //else
+            //{
 
 
-                //kbuf = kirk_buf + 0x14;
-                //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                PointerUtils.Memcpy(kbuf, mkey.pad, mkey.pad_size);
+            //    //kbuf = kirk_buf + 0x14;
+            //    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+            //    PointerUtils.Memcpy(kbuf, mkey.pad, mkey.pad_size);
 
-                p = mkey.pad_size;
+            //    p = mkey.pad_size;
 
-                mkey.pad_size += size;
-                mkey.pad_size &= 0x0f;
-                if (mkey.pad_size == 0)
-                {
-                    mkey.pad_size = 16;
-                }
+            //    mkey.pad_size += size;
+            //    mkey.pad_size &= 0x0f;
+            //    if (mkey.pad_size == 0)
+            //    {
+            //        mkey.pad_size = 16;
+            //    }
 
-                size -= mkey.pad_size;
-                //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                PointerUtils.Memcpy(mkey.pad, buf + size, mkey.pad_size);
+            //    size -= mkey.pad_size;
+            //    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+            //    PointerUtils.Memcpy(mkey.pad, buf + size, mkey.pad_size);
 
-                type = (mkey.type == 2) ? 0x3A : 0x38;
+            //    type = (mkey.type == 2) ? 0x3A : 0x38;
 
-                while (size != 0)
-                {
-                    ksize = (size + p >= 0x0800) ? 0x0800 : size + p;
-                    //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-                    PointerUtils.Memcpy(kbuf, buf, ksize - p);
-                    retv = encrypt_buf(kirk_buf, ksize, mkey.key, type);
+            //    while (size != 0)
+            //    {
+            //        ksize = (size + p >= 0x0800) ? 0x0800 : size + p;
+            //        //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
+            //        PointerUtils.Memcpy(kbuf, buf, ksize - p);
+            //        retv = encrypt_buf(kirk_buf, ksize, mkey.key, type);
 
-                    if (retv != 0)
-                    {
-                        goto _exit;
-                    }
+            //        if (retv != 0)
+            //        {
+            //            goto _exit;
+            //        }
 
-                    size -= (ksize - p);
-                    buf += ksize - p;
-                    p = 0;
-                }
-            }
+            //        size -= (ksize - p);
+            //        buf += ksize - p;
+            //        p = 0;
+            //    }
+            //}
 
-            _exit:
+            //_exit:
             return retv;
 
         }
 
-        internal static int encrypt_buf(byte[] buf, int size, byte[] key, int key_type)
+        internal static int encrypt_buf(byte* buf, int* size, byte* key, int* key_type)
         {
             int i;
-            int retv;
+            uint retv;
 
             for (i = 0; i < 16; i++)
             {
                 buf[0x14 + i] ^= key[i];
             }
 
-            retv = kirk4(ref buf, size, key_type);
+            byte[] arraylenght = new byte[0];
+           // arraylenght = buf;
+
+            retv = kirk4(buf, size, key_type);
 
             if (retv != 0)
             {
-                return retv;
+                return (int)retv;
             }
 
             //C++ TO C# CONVERTER TODO TASK: The memory management function 'memcpy' has no equivalent in C#:
-            memcpy(key, buf + size + 4, 16);
+            //PointerUtils.Memcpy(key, buf[buf + size + 4], 16);
 
             return 0;
         }
@@ -684,14 +687,14 @@ namespace CSPspEmu.Core.Crypto
                 return (uint)retv;
             }
 
-            retv = sceDrmBBMacUpdate(mkey, (byte)strbuf, 0x30);
+            //retv = sceDrmBBMacUpdate(mkey, (byte)strbuf, 0x30);
 
-            if (retv != 0)
-            {
-                return retv;
-            }
+            //if (retv != 0)
+            //{
+            //    return retv;
+            //}
 
-            retv = sceDrmBBMacFinal(mkey, ref key, npdrm_fixed_key);
+            //retv = sceDrmBBMacFinal(mkey, ref key, npdrm_fixed_key);
 
             if (retv != 0)
             {
@@ -709,8 +712,8 @@ namespace CSPspEmu.Core.Crypto
 
             type = (type - 1) * 16;
 
-            AES_set_key(akey, npdrm_enc_keys[type], 128);
-            AES_encrypt(akey, key, ref key);
+           // Crypto.AES_set_key(akey, npdrm_enc_keys[type], 128);
+         //   Crypto.AES_encrypt(akey, key, ref key);
 
             return 0;
         }

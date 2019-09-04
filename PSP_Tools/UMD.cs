@@ -120,6 +120,7 @@ namespace PSP_Tools
                         CDBuilder builder = new CDBuilder();
                         builder.UseJoliet = true;
                         builder.VolumeIdentifier = PSPTitle;
+                        
                         builder.UseJoliet = false;
                         //builder.UpdateIsolinuxBootTable = true;
                         //builder.AddFile(@"Folder\Hello.txt", Encoding.ASCII.GetBytes("Hello World!"));
