@@ -26,9 +26,10 @@ Added ISO Creation Tool with temp fake sign feuture for UMD's
 ==UPDATE 0.03==
 CISO Support thanks to Booster
 
-==In Development==
+==UPDATE 0.04==
+Kirk Engine Support thanks to CSPSPEMU
 
-CISO Support (Create and Decompression of CISO to ISO)(c# version)
+==In Development==
 
 UMD Signing (Sign a umd image)
 
