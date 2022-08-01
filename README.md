@@ -42,3 +42,5 @@ UMD Signing (Sign a umd image)
 @cfwprophet https://github.com/cfwprpht 
 
 @leecherman https://sites.google.com/site/theleecherman 
+
+@CSPSPEMU https://github.com/cspspemu/cspspemu by https://twitter.com/cballesterosvel
