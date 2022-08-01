@@ -121,27 +121,39 @@ namespace PSP_Tools
                         builder.UseJoliet = true;
                         builder.VolumeIdentifier = PSPTitle;
                         
-                        builder.UseJoliet = false;
+                        builder.UseJoliet = true;
+                        
                         //builder.UpdateIsolinuxBootTable = true;
                         //builder.AddFile(@"Folder\Hello.txt", Encoding.ASCII.GetBytes("Hello World!"));
 
-                        builder.AddDirectory(FolderPath);
+                        //string s = FolderPath.Substring(FolderPath.IndexOf("PSP_GAME"));
+
+                        //builder.AddDirectory(FolderPath);
                         string[] filePaths = Directory.GetFiles(FolderPath, "*.*", SearchOption.AllDirectories);
                         //foreach (string file in Directory.EnumerateFiles(FolderPath, "*.*", SearchOption.AllDirectories))
                         //{
                         //    builder.AddFile(file, File.ReadAllBytes(file));
                         //}
-                        for (int i = 0; i < filePaths.Length; i++)
-                        {
-                            if (!filePaths[i].Contains("PSP_GAME"))
+                      
+                            for (int i = 0; i < filePaths.Length; i++)
                             {
-                                builder.AddFile(new FileInfo(filePaths[i]).Name, File.ReadAllBytes(filePaths[i]));
+                            try
+                            {
+                                if (!filePaths[i].Contains("PSP_GAME"))
+                                {
+                                    builder.AddFile(new FileInfo(filePaths[i]).Name, new FileStream(filePaths[i],FileMode.Open));
+                                }
+                                else
+                                {
+                                    builder.AddFile(filePaths[i].Substring(filePaths[i].IndexOf("PSP_GAME")), new FileStream(filePaths[i], FileMode.Open));
+                                }
                             }
-                            else
+                            catch (Exception bex)
                             {
-                                builder.AddFile(filePaths[i].Substring(filePaths[i].IndexOf("PSP_GAME")), File.ReadAllBytes(filePaths[i]));
+
                             }
                         }
+                        
                         //DirSearch(FolderPath);
                         builder.Build(SaveISOPath);
                         Status = ISOStatus.Completed;
@@ -284,6 +296,21 @@ namespace PSP_Tools
                     }
                 }
 
+            }
+
+
+            public string ReadISO(string Path)
+            {
+                using (FileStream isoStream = File.Open(Path,FileMode.Open,FileAccess.Read))
+                {
+                    
+                    CDReader cd = new CDReader(isoStream, true);
+                    //var item = cd.ActiveVariant;
+                    return cd.VolumeLabel;
+                    //Stream fileStream = cd.OpenFile(@"Folder\Hello.txt", FileMode.Open);
+                    // Use fileStream...
+                }
+                //return "";
             }
         }
 
@@ -9536,8 +9563,8 @@ namespace PSP_Tools
 
                     // Initialize KIRK.
                     Console.Write("Initializing KIRK engine...\n\n");
-                    CSPspEmu.Core.Crypto.Kirk kirk = new CSPspEmu.Core.Crypto.Kirk();
-                    kirk.kirk_init();
+                    CSPspEmu.Core.Components.Crypto.Kirk kirk = new CSPspEmu.Core.Components.Crypto.Kirk();
+                    
                     
                     byte pgd_buf = 0;
                     int pgd_size = 0;
@@ -9561,7 +9588,7 @@ namespace PSP_Tools
                     fixed (byte* headerptr = header_key) 
                     fixed (byte* zeroptr = new byte[0]) 
 
-                    kirk.sceUtilsBufferCopyWithRange(headerptr, 0x10,zeroptr , 0,(int) CSPspEmu.Core.Crypto.Kirk.CommandEnum.PSP_KIRK_CMD_PRNG,ref temp);
+                    kirk.SceUtilsBufferCopyWithRange(headerptr, 0x10,zeroptr , 0, 0xE);
 
                     // Generate fixed key, if necessary.
                     if (use_version_key == 0)

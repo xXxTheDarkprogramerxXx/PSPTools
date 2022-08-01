@@ -18,7 +18,7 @@ namespace PSP_PBP_Tools
             Application.SetCompatibleTextRenderingDefault(false);
 
             ////to go to PBP Tools
-            Application.Run(new Form1());
+            //Application.Run(new Form1());
 
             ////to go to GIM tools
             //Application.Run(new GIM());
@@ -30,7 +30,10 @@ namespace PSP_PBP_Tools
             //Application.Run(new CSO_ISO_Reader());
 
             //to go to ISO UMD Tool
-            Application.Run(new UMDCreator());
+            //Application.Run(new UMDCreator());
+
+            //to go to elf tool
+            Application.Run(new Eboot_ELF());
         }
     }
 }

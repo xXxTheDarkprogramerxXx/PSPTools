@@ -70,12 +70,9 @@
     <Compile Include="Audio.cs" />
     <Compile Include="ClassWrapper.cs" />
     <Compile Include="Crypto\Crypto.cs" />
+    <Compile Include="Crypto\EncryptedPrx.cs" />
     <Compile Include="Crypto\Kirk.cs" />
-    <Compile Include="Crypto\Kirk.Impl.Ecdsa.cs" />
-    <Compile Include="Crypto\Kirk.Impl.Sha1.cs" />
-    <Compile Include="Crypto\Kirk.Keys.cs" />
-    <Compile Include="Crypto\Kirk.Tables.cs" />
-    <Compile Include="Crypto\Kirk.Utils.cs" />
+    <Compile Include="Crypto\StringExtensions.cs" />
     <Compile Include="Impl\Alsa\Alsa.cs" />
     <Compile Include="Impl\Alsa\AudioAlsaImpl.cs" />
     <Compile Include="Impl\Null\AudioImplNull.cs" />
@@ -120,7 +117,6 @@
     <Compile Include="UMD.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Crypto\Crypto.Tables.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

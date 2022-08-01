@@ -54,6 +54,12 @@
     <Compile Include="CSO ISO Reader.Designer.cs">
       <DependentUpon>CSO ISO Reader.cs</DependentUpon>
     </Compile>
+    <Compile Include="Eboot_ELF.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Eboot_ELF.Designer.cs">
+      <DependentUpon>Eboot_ELF.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +74,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSP Tools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PSP Tools.Designer.cs">
+      <DependentUpon>PSP Tools.cs</DependentUpon>
+    </Compile>
     <Compile Include="UMDCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,6 +94,9 @@
     </Compile>
     <EmbeddedResource Include="CSO ISO Reader.resx">
       <DependentUpon>CSO ISO Reader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Eboot_ELF.resx">
+      <DependentUpon>Eboot_ELF.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -99,6 +114,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="PSP Tools.resx">
+      <DependentUpon>PSP Tools.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UMDCreator.resx">
       <DependentUpon>UMDCreator.cs</DependentUpon>
     </EmbeddedResource>

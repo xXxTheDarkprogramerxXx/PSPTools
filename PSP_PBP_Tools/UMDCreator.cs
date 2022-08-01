@@ -16,6 +16,7 @@ namespace PSP_PBP_Tools
         public UMDCreator()
         {
             InitializeComponent();
+            
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -27,45 +28,13 @@ namespace PSP_PBP_Tools
                 folderPath = folderBrowserDialog1.SelectedPath;
 
                 //
-                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
-                saveFileDialog1.InitialDirectory = Application.StartupPath ;
 
-                saveFileDialog1.Title = "Save ISO File";
-
-                saveFileDialog1.CheckFileExists = false;
-
-                saveFileDialog1.CheckPathExists = true;
-
-                saveFileDialog1.DefaultExt = "iso";
-
-                saveFileDialog1.Filter = "ISO Files (*.ISO)|*.ISO|All files (*.*)|*.*";
-
-                saveFileDialog1.FilterIndex = 2;
-
-                saveFileDialog1.RestoreDirectory = true;
+                textBox1.Text = folderPath;
+                //PSP_Tools.UMD.ISO.PSPTitle = "Medievil";
 
 
 
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                {
-
-                    // textBox1.Text = saveFileDialog1.FileName;
-                    //PSP_Tools.UMD.ISO.PSPTitle = "Medievil";
-                    PSP_Tools.UMD.ISO isotol = new PSP_Tools.UMD.ISO();
-                    isotol.PSPTitle = "MedievilPSX";//set a spesific title fod the iso else it will be fetched from the PARAM.SFO
-                    isotol.CreateISO(folderPath, saveFileDialog1.FileName);
-                    while(isotol.Status == PSP_Tools.UMD.ISO.ISOStatus.Busy)
-                    {
-                        //sleep the thread
-                        System.Threading.Thread.Sleep(100);
-                    }
-                    if(isotol.Status == PSP_Tools.UMD.ISO.ISOStatus.Completed)
-                    {
-                        MessageBox.Show("Iso Completed");
-                    }
-
-                }
             }
         }
 
@@ -86,6 +55,62 @@ namespace PSP_PBP_Tools
             PSP_Tools.UMD.Sign.PSN psn = new PSP_Tools.UMD.Sign.PSN(locparam, locicon0, locicon1pmf, locpic0, locpic1, locsnd0, locdatapsp, LocDatapsar);
             psn.Create_PSP_Signed(@"C:\Users\3deEchelon\Desktop\PSP\psy-mhf.iso", @"C:\Users\3deEchelon\Desktop\PSP\PBP Creation Test\test.pbp", "HW1633-ULES00318_00-HOMEBREWSSSSSSSS");
             
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.InitialDirectory = Application.StartupPath;
+
+            saveFileDialog1.Title = "Save ISO File";
+
+            saveFileDialog1.CheckFileExists = false;
+
+            saveFileDialog1.CheckPathExists = true;
+
+            saveFileDialog1.DefaultExt = "iso";
+
+            saveFileDialog1.Filter = "ISO Files (*.ISO)|*.ISO|All files (*.*)|*.*";
+
+            saveFileDialog1.FilterIndex = 2;
+
+            saveFileDialog1.RestoreDirectory = true;
+
+
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                PSP_Tools.UMD.ISO isotol = new PSP_Tools.UMD.ISO();
+                isotol.PSPTitle = string.IsNullOrEmpty(txtTitle.Text) ? "MedievilPSX" : txtTitle.Text;//set a spesific title fod the iso else it will be fetched from the PARAM.SFO
+                isotol.CreateISO(textBox1.Text, saveFileDialog1.FileName);
+                while (isotol.Status == PSP_Tools.UMD.ISO.ISOStatus.Busy)
+                {
+                    //sleep the thread
+                    System.Threading.Thread.Sleep(100);
+                }
+                if (isotol.Status == PSP_Tools.UMD.ISO.ISOStatus.Completed)
+                {
+                    MessageBox.Show("Iso Completed");
+                }
+            }
+        }
+
+        private void UMDCreator_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                PSP_Tools.UMD.ISO umd = new PSP_Tools.UMD.ISO();
+                var read = umd.ReadISO(@"C:\Users\3de Echelon\AppData\Local\Temp\PSP-FPKG\psphd\data\USER_L0.IMG");
+
+                PSP_Tools.UMD.ISO isotol = new PSP_Tools.UMD.ISO();
+                isotol.PSPTitle = read;//set a spesific title fod the iso else it will be fetched from the PARAM.SFO
+                isotol.CreateISO(@"C:\Users\3de Echelon\AppData\Roaming\Ps4Tools\USER_L0", @"D:\Users\3deEchelon\Documents\Visual Studio 2015\Projects\PSP_PBP_Tools\PSPTools\PSP_PBP_Tools\bin\Debug\TEST.ISO");
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
     }
 }

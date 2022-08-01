@@ -10,7 +10,7 @@ namespace PSP_Tools
 {
      public class PS4
     {
-        static void LoadElf(string elf)
+        public static void LoadElf(string elf)
         {
             FileStream SourceStream = File.Open(elf, FileMode.OpenOrCreate);
 
